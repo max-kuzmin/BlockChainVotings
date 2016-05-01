@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using NetworkCommsDotNet.Tools;
 
 namespace BlockChainVotingsTracker
 {
@@ -13,43 +15,32 @@ namespace BlockChainVotingsTracker
     {
         public List<Peer> Peers { get; }
         public int Port { get; }
-        PeerComparer peerComparer;
+        
 
 
         public Tracker()
         {
             Port = 10101;
             this.Peers = new List<Peer>();
-            this.peerComparer = new PeerComparer;
+
+
+            SetupLogging();
 
             NetworkComms.AppendGlobalConnectionEstablishHandler(OnConnectPeer);
         }
 
         private void OnConnectPeer(Connection connection)
         {
-            var peer = new Peer(connection);
-            peer.OnRequestPeers += SendPeers;
+            var peer = new Peer(connection, Peers);
 
             Peers.Add(peer);
         }
 
-        private void SendPeers(object sender, RequestPeersEventArgs e)
-        {
-            Peers.Sort(peerComparer);
-
-            var peersToSend = Peers.Where(peer => peer.Status == PeerStatus.Connected);
-            peersToSend = peersToSend.Except(e.NotForSendingPeers);
-            peersToSend = peersToSend.Take(e.Count);
-
-            if (sender is Peer)
-            {
-                (sender as Peer).SendPeers(peersToSend.ToList());
-            }
-        }
 
         public void Start()
         {
             Connection.StartListening(ConnectionType.TCP, new IPEndPoint(IPAddress.Any, Port));
+            NetworkComms.Logger.Warn("Tracker started");
         }
 
         public void Stop()
@@ -59,6 +50,7 @@ namespace BlockChainVotingsTracker
             {
                 peer.Disconnect();
             }
+            NetworkComms.Logger.Warn("Tracker stopped");
 
         }
 
@@ -72,5 +64,17 @@ namespace BlockChainVotingsTracker
         }
 
 
+        private void SetupLogging()
+        {
+            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "log.txt");
+            NetworkComms.EnableLogging(logger);
+
+            NetworkComms.Logger.Warn("==================== Initialisation ====================");
+
+
+        }
+
+
     }
+
 }

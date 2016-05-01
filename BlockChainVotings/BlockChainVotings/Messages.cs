@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlockChainVotingsTracker
+namespace BlockChainVotings
 {
     public class Message
     {
@@ -17,7 +17,7 @@ namespace BlockChainVotingsTracker
     }
 
 
-    public class PeerHashMessage: Message
+    public class PeerHashMessage : Message
     {
         public string PeerHash { get; }
         public bool NeedResponse { get; }
@@ -27,7 +27,7 @@ namespace BlockChainVotingsTracker
             this.type = MessageType.PeerHash;
             this.PeerHash = peerHash;
             this.NeedResponse = needResponse;
-            
+
         }
     }
 

@@ -24,20 +24,20 @@ namespace BlockChainVotings
         {
             InitializeComponent();
 
-            //поиск пиров
-            PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
-            PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
-            PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
+            ////поиск пиров
+            //PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
+            //PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
+            //PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
 
-            //создать серв
-            NetworkComms.AppendGlobalIncomingPacketHandler<string>("Message", PrintIncomingMessage);
-            Connection.StartListening(ConnectionType.TCP, new IPEndPoint(IPAddress.Any, 10000));
+            ////создать серв
+            //NetworkComms.AppendGlobalIncomingPacketHandler<string>("Message", PrintIncomingMessage);
+            //Connection.StartListening(ConnectionType.TCP, new IPEndPoint(IPAddress.Any, 10000));
 
 
-            //создать соединение и отправить сообщение
-            ConnectionInfo connInfo = new ConnectionInfo("192.168.0.36", 10000);
-            Connection newTCPConn = TCPConnection.GetConnection(connInfo);
-            newTCPConn.SendObject<string>("Message", "it works");
+            ////создать соединение и отправить сообщение
+            //ConnectionInfo connInfo = new ConnectionInfo("192.168.0.36", 10000);
+            //Connection newTCPConn = TCPConnection.GetConnection(connInfo);
+            //newTCPConn.SendObject<string>("Message", "it works");
 
             
 
