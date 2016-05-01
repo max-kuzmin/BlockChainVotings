@@ -11,18 +11,17 @@ using NetworkCommsDotNet.Tools;
 
 namespace BlockChainVotingsTracker
 {
-    public class Tracker:IDisposable
+    public class Tracker
     {
         public List<Peer> Peers { get; }
         public int Port { get; }
-        
-
+        public TrackerStatus Status { get; set; }
 
         public Tracker()
         {
             Port = 10101;
             this.Peers = new List<Peer>();
-
+            this.Status = TrackerStatus.Stopped;
 
             SetupLogging();
 
@@ -39,29 +38,30 @@ namespace BlockChainVotingsTracker
 
         public void Start()
         {
-            Connection.StartListening(ConnectionType.TCP, new IPEndPoint(IPAddress.Any, Port));
-            NetworkComms.Logger.Warn("Tracker started");
+            if (Status == TrackerStatus.Stopped)
+            {
+                Connection.StartListening(ConnectionType.TCP, new IPEndPoint(IPAddress.Any, Port));
+                NetworkComms.Logger.Warn("Tracker started");
+                Status = TrackerStatus.Started;
+            }
         }
 
         public void Stop()
         {
-            Connection.StopListening();
-            foreach (Peer peer in Peers)
+            if (Status == TrackerStatus.Started)
             {
-                peer.Disconnect();
+                Connection.StopListening();
+                foreach (Peer peer in Peers)
+                {
+                    peer.Disconnect();
+                }
+                NetworkComms.Shutdown();
+                NetworkComms.Logger.Warn("Tracker stopped");
+                Status = TrackerStatus.Stopped;
             }
-            NetworkComms.Logger.Warn("Tracker stopped");
 
         }
 
-        public void Dispose()
-        {
-            foreach (Peer peer in Peers)
-            {
-                peer.Dispose();
-            }
-            NetworkComms.Shutdown();
-        }
 
 
         private void SetupLogging()

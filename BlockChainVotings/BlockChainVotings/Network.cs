@@ -9,6 +9,8 @@ namespace BlockChainVotings
 {
     public class Network
     {
-        static public EndPoint LocalAddress;
+        //static public EndPoint LocalAddress;
+        public List<Peer> Peers { get; }
+        public List<Tracker> Trackers { get; }
     }
 }

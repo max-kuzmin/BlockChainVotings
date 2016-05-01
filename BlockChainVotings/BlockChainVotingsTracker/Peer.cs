@@ -9,10 +9,10 @@ using NetworkCommsDotNet;
 
 namespace BlockChainVotingsTracker
 {
-    public class Peer: IDisposable
+    public class Peer
     {
         public EndPoint Address { get; }
-        public Connection Connection { get; }
+        public Connection Connection { get; set; }
         public string Hash { get; set; }
         public int SendToOthersCount { get; set; }
         public List<Peer> ConnectedPeers { get; }
@@ -49,7 +49,7 @@ namespace BlockChainVotingsTracker
                 Peer reciever = ConnectedPeers.First(peer => peer.Address == incomingObject.RecieverAddress);
                 if (reciever != null && reciever.ConnectedPeers.Contains(this))
                 {
-                    reciever.Connection.SendObject(MessageType.MessageToPeer.ToString(), incomingObject);
+                    reciever.Connection.SendObject(incomingObject.Type.ToString(), incomingObject);
                 }
             }
 
@@ -76,15 +76,16 @@ namespace BlockChainVotingsTracker
 
         private void OnRequestPeersMessage(PacketHeader packetHeader, Connection connection, RequestPeersMessage incomingObject)
         {
-            allPeers.Sort(peerComparer);
+            var peers = allPeers.ToList();
+            peers.Sort(peerComparer);
 
-            var peersToSend = allPeers.Where(peer => peer.Status == PeerStatus.Connected);
+            var peersToSend = peers.Where(peer => peer.Status == PeerStatus.Connected);
             peersToSend = peersToSend.Except(ConnectedPeers);
             peersToSend = peersToSend.Take(incomingObject.Count);
 
-            var peersHashes = peersToSend.Select(peer => peer.Address);
-            var message = new PeersMessage(peersHashes.ToList());
-            Connection.SendObject(MessageType.Peers.ToString(), message);
+            var peersAddresses = peersToSend.Select(peer => peer.Address);
+            var message = new PeersMessage(peersAddresses.ToList());
+            Connection.SendObject(message.Type.ToString(), message);
 
 
             foreach (var peer in peersToSend)
@@ -103,7 +104,7 @@ namespace BlockChainVotingsTracker
         {
             //отправить пусой хеш и ожидать его хеш
             var message = new PeerHashMessage(string.Empty, true);
-            Connection.SendObject(MessageType.PeerHash.ToString(), message);
+            Connection.SendObject(message.Type.ToString(), message);
         }
 
         public void Disconnect()
@@ -115,16 +116,15 @@ namespace BlockChainVotingsTracker
 
                 //отправить тому пиру сообщение об оключении
                 var message = new PeerDisconnectMessage(Hash);
-                peer.Connection.SendObject(MessageType.PeerDisconnect.ToString(), message);
+                peer.Connection.SendObject(message.Type.ToString(), message);
+
+                Connection.Dispose();
+                Connection = null;
 
                 Status = PeerStatus.Disconnected;
             }
         }
 
-        public void Dispose()
-        {
-            if (Connection != null) Connection.Dispose();
-        }
     }
 
 }
