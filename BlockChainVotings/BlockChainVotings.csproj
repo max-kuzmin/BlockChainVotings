@@ -62,7 +62,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MessageRecievedEventArgs.cs" />
+    <Compile Include="MessageEventArgs.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="Peer.cs" />

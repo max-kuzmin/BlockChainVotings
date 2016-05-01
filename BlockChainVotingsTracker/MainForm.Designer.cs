@@ -37,7 +37,7 @@
             // 
             this.buttonStartTracker.Location = new System.Drawing.Point(12, 12);
             this.buttonStartTracker.Name = "buttonStartTracker";
-            this.buttonStartTracker.Size = new System.Drawing.Size(75, 23);
+            this.buttonStartTracker.Size = new System.Drawing.Size(101, 32);
             this.buttonStartTracker.TabIndex = 0;
             this.buttonStartTracker.Text = "Start";
             this.buttonStartTracker.UseVisualStyleBackColor = true;
@@ -45,9 +45,9 @@
             // 
             // buttonStopTracker
             // 
-            this.buttonStopTracker.Location = new System.Drawing.Point(93, 12);
+            this.buttonStopTracker.Location = new System.Drawing.Point(119, 12);
             this.buttonStopTracker.Name = "buttonStopTracker";
-            this.buttonStopTracker.Size = new System.Drawing.Size(75, 23);
+            this.buttonStopTracker.Size = new System.Drawing.Size(101, 32);
             this.buttonStopTracker.TabIndex = 1;
             this.buttonStopTracker.Text = "Stop";
             this.buttonStopTracker.UseVisualStyleBackColor = true;
@@ -55,21 +55,26 @@
             // 
             // textBoxConsole
             // 
-            this.textBoxConsole.Location = new System.Drawing.Point(12, 42);
+            this.textBoxConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxConsole.Location = new System.Drawing.Point(12, 50);
             this.textBoxConsole.Multiline = true;
             this.textBoxConsole.Name = "textBoxConsole";
             this.textBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxConsole.Size = new System.Drawing.Size(668, 199);
+            this.textBoxConsole.Size = new System.Drawing.Size(758, 291);
             this.textBoxConsole.TabIndex = 2;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(692, 253);
+            this.ClientSize = new System.Drawing.Size(782, 353);
             this.Controls.Add(this.textBoxConsole);
             this.Controls.Add(this.buttonStopTracker);
             this.Controls.Add(this.buttonStartTracker);
+            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(800, 400);
             this.Name = "MainForm";
             this.Text = "BlockChainVotingsTracker";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);

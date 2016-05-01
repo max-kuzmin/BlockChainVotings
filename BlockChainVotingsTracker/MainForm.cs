@@ -34,7 +34,7 @@ namespace BlockChainVotingsTracker
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            tracker.Dispose();
+            tracker.Stop();
         }
 
         private void buttonStartTracker_Click(object sender, EventArgs e)

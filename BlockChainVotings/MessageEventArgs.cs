@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace BlockChainVotings
 {
-    public class MessageRecievedEventArgs
+    public class MessageEventArgs
     {
         public Message Message { get; set; }
-        public EndPoint Address { get; set; }
+        public string SenderHash { get; set; }
 
-        public MessageRecievedEventArgs(Message message, EndPoint address)
+        public MessageEventArgs(Message message, string senderHash)
         {
             this.Message = message;
-            this.Address = address;
+            this.SenderHash = senderHash;
         }
 
     }
+
 }

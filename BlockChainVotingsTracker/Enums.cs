@@ -27,4 +27,10 @@ namespace BlockChainVotingsTracker
         PeerDisconnect,
         PeerHash
     }
+
+    public enum TrackerStatus
+    {
+        Stopped,
+        Started
+    }
 }
