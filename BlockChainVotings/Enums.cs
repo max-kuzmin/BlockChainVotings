@@ -4,13 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlockChainVotingsTracker
+namespace BlockChainVotings
 {
     public enum PeerStatus
     {
         Disconnected,
         NoHashRecieved,
         Connected,
+    }
+
+    public enum ConnectionType
+    {
+        Direct,
+        WithTracker
     }
 
     public enum MessageType
