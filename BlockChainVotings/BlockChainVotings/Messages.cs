@@ -106,17 +106,21 @@ namespace BlockChainVotings
 
     public class TransactionsMessage : Message
     {
-        public TransactionsMessage()
+        public List<Transaction> Transactions { get; set; }
+        public TransactionsMessage(List<Transaction> transactions)
         {
             this.type = MessageType.Transactions;
+            this.Transactions = transactions;
         }
     }
 
     public class BlocksMessage : Message
     {
-        public BlocksMessage()
+        public List<Block> Blocks { get; set; }
+        public BlocksMessage(List<Block> blocks)
         {
             this.type = MessageType.Transactions;
+            this.Blocks = blocks;
         }
     }
 

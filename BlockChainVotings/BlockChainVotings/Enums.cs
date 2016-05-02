@@ -33,4 +33,10 @@ namespace BlockChainVotings
         PeerDisconnect,
         PeerHash
     }
+
+    public enum TrackerStatus
+    {
+        Disconnected,
+        Connected
+    }
 }

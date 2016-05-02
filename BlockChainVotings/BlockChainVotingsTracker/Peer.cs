@@ -69,6 +69,8 @@ namespace BlockChainVotingsTracker
                 {
                     peerToConnect.ConnectedPeers.Add(this);
                 }
+
+                peerToConnect.Connection.SendObject(incomingObject.Type.ToString(), incomingObject);
             }
 
 
@@ -116,13 +118,14 @@ namespace BlockChainVotingsTracker
 
                 //отправить тому пиру сообщение об оключении
                 var message = new PeerDisconnectMessage(Hash);
-                peer.Connection.SendObject(message.Type.ToString(), message);
-
-                Connection.Dispose();
-                Connection = null;
-
-                Status = PeerStatus.Disconnected;
+                var shell = new ToPeerMessage(Address, peer.Address, message);
+                peer.Connection.SendObject(shell.Type.ToString(), shell);
             }
+
+            Connection.Dispose();
+            Connection = null;
+
+            Status = PeerStatus.Disconnected;
         }
 
     }

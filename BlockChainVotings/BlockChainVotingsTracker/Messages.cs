@@ -65,27 +65,27 @@ namespace BlockChainVotingsTracker
     }
 
 
-    public class RequestBlocksMessage : Message
-    {
-        public List<string> Hashes { get; }
+    //public class RequestBlocksMessage : Message
+    //{
+    //    public List<string> Hashes { get; }
 
-        public RequestBlocksMessage(List<string> hashes)
-        {
-            this.type = MessageType.RequestBlocks;
-            this.Hashes = hashes;
-        }
-    }
+    //    public RequestBlocksMessage(List<string> hashes)
+    //    {
+    //        this.type = MessageType.RequestBlocks;
+    //        this.Hashes = hashes;
+    //    }
+    //}
 
-    public class RequestTransactionsMessage : Message
-    {
-        public List<string> Hashes { get; }
+    //public class RequestTransactionsMessage : Message
+    //{
+    //    public List<string> Hashes { get; }
 
-        public RequestTransactionsMessage(List<string> hashes)
-        {
-            this.type = MessageType.RequestTransactions;
-            this.Hashes = hashes;
-        }
-    }
+    //    public RequestTransactionsMessage(List<string> hashes)
+    //    {
+    //        this.type = MessageType.RequestTransactions;
+    //        this.Hashes = hashes;
+    //    }
+    //}
 
 
     public class ToPeerMessage : Message
@@ -104,21 +104,21 @@ namespace BlockChainVotingsTracker
     }
 
 
-    public class TransactionsMessage : Message
-    {
-        public TransactionsMessage()
-        {
-            this.type = MessageType.Transactions;
-        }
-    }
+    //public class TransactionsMessage : Message
+    //{
+    //    public TransactionsMessage()
+    //    {
+    //        this.type = MessageType.Transactions;
+    //    }
+    //}
 
-    public class BlocksMessage : Message
-    {
-        public BlocksMessage()
-        {
-            this.type = MessageType.Transactions;
-        }
-    }
+    //public class BlocksMessage : Message
+    //{
+    //    public BlocksMessage()
+    //    {
+    //        this.type = MessageType.Transactions;
+    //    }
+    //}
 
 
     public class ConnectToPeerWithTrackerMessage : Message

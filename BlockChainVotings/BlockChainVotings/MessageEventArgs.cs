@@ -11,11 +11,13 @@ namespace BlockChainVotings
     {
         public Message Message { get; set; }
         public string SenderHash { get; set; }
+        public EndPoint SenderAddress { get; set; }
 
-        public MessageEventArgs(Message message, string senderHash)
+        public MessageEventArgs(Message message, string senderHash, EndPoint senderAddress)
         {
             this.Message = message;
             this.SenderHash = senderHash;
+            this.SenderAddress = senderAddress;
         }
 
     }
