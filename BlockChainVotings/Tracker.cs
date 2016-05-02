@@ -1,4 +1,6 @@
-﻿using NetworkCommsDotNet.Connections;
+﻿using NetworkCommsDotNet;
+using NetworkCommsDotNet.Connections;
+using NetworkCommsDotNet.Connections.TCP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +12,26 @@ namespace BlockChainVotings
 {
     public class Tracker
     {
-        
+
         public EndPoint Address { get; }
         public Connection Connection { get; set; }
+
+        public int ErrorsCount;
+        List<Tracker> allTrackers;
+
+        TrackerStatus Status { get; set; }
 
         //события на приход сообщений для обработки в пире
         public event EventHandler<MessageEventArgs> OnDisconnectPeer;
         public event EventHandler<MessageEventArgs> OnPeerHashMessage;
         public event EventHandler<MessageEventArgs> OnRequestPeersMessage;
 
-        public event EventHandler<MessageEventArgs> OnPeersMessageFromPeer; //получение пиров от пира через трекер
-        public event EventHandler<MessageEventArgs> OnPeersMessageFromTracker; //получение пиров от трекера
+        //получение пиров от пира через трекер
+        public event EventHandler<MessageEventArgs> OnPeersMessageFromPeer;
+        //получение пиров от трекера
+        public event EventHandler<MessageEventArgs> OnPeersMessageFromTracker;
+        //запрос на подключение через трекер
+        public event EventHandler<MessageEventArgs> OnConnectToPeerWithTrackerMessage;
 
         //события на приход сообщений для обработки вне
         public event EventHandler<MessageEventArgs> OnRequestBlocksMessage;
@@ -28,24 +39,132 @@ namespace BlockChainVotings
         public event EventHandler<MessageEventArgs> OnBlocksMessage;
         public event EventHandler<MessageEventArgs> OnTransactionsMessage;
 
+
+        public Tracker(EndPoint address, List<Tracker> allTrackers)
+        {
+            this.Address = address;
+            this.Status = TrackerStatus.Disconnected;
+            this.allTrackers = allTrackers;
+        }
+
         public void SendMessageToPeer(Message message, Peer peer)
         {
-            if (Connection != null)
+            if (Connection != null && Status == TrackerStatus.Connected)
             {
                 var shellMessage = new ToPeerMessage(Connection.ConnectionInfo.LocalEndPoint, peer.Address, message);
                 Connection.SendObject(message.Type.ToString(), shellMessage);
             }
+            else Connect();
         }
 
         public void ConnectPeerToPeer(Peer peerToConnect)
         {
-            if (Connection != null)
+            if (Connection != null && Status == TrackerStatus.Connected)
             {
                 var message = new ConnectToPeerWithTrackerMessage(Connection.ConnectionInfo.LocalEndPoint, peerToConnect.Address);
                 Connection.SendObject(message.Type.ToString(), message);
             }
+            else Connect();
         }
 
+
+        public void Connect()
+        {
+            if (Status == TrackerStatus.Disconnected)
+            {
+                try
+                {
+                    ConnectionInfo connInfo = new ConnectionInfo(Address);
+                    Connection newTCPConn = TCPConnection.GetConnection(connInfo);
+                    newTCPConn.EstablishConnection();
+                    Status = TrackerStatus.Connected;
+                    Connection = newTCPConn;
+
+
+                    Connection.AppendIncomingPacketHandler<ToPeerMessage>(MessageType.MessageToPeer.ToString(), OnToPeerMessage);
+
+                    Connection.AppendIncomingPacketHandler<PeersMessage>(MessageType.Peers.ToString(),
+                        (p, c, m) => OnPeersMessageFromTracker(this, new MessageEventArgs(m, null, Address)));
+                }
+                catch (CommsException ex)
+                {
+                    ErrorsCount++;
+                    Status = TrackerStatus.Disconnected;
+
+                    if (ErrorsCount >= 3)
+                    {
+                        allTrackers.Remove(this);
+                    }
+                }
+            }
+        }
+
+        private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
+        {
+            if (incomingObject.RecieverAddress == Connection.ConnectionInfo.LocalEndPoint)
+            {
+                var eventArgs = new MessageEventArgs(incomingObject.Message, null, incomingObject.SenderAddress);
+
+                //при получении сообщения для пира, ивлекаем его из обертки и вызываем соотвествующее событие
+                if (incomingObject.Message is PeerDisconnectMessage)
+                {
+                    OnDisconnectPeer(this, eventArgs);
+                }
+                else if (incomingObject.Message is PeerHashMessage)
+                {
+                    OnPeerHashMessage(this, eventArgs);
+                }
+                else if (incomingObject.Message is RequestPeersMessage)
+                {
+                    OnRequestPeersMessage(this, eventArgs);
+                }
+                else if (incomingObject.Message is PeersMessage)
+                {
+                    OnPeersMessageFromPeer(this, eventArgs);
+                }
+                else if (incomingObject.Message is RequestBlocksMessage)
+                {
+                    OnRequestBlocksMessage(this, eventArgs);
+                }
+                else if (incomingObject.Message is RequestTransactionsMessage)
+                {
+                    OnRequestTransactionsMessage(this, eventArgs);
+                }
+                else if (incomingObject.Message is BlocksMessage)
+                {
+                    OnBlocksMessage(this, eventArgs);
+                }
+                else if (incomingObject.Message is TransactionsMessage)
+                {
+                    OnTransactionsMessage(this, eventArgs);
+                }
+                else if (incomingObject.Message is ConnectToPeerWithTrackerMessage)
+                {
+                    OnConnectToPeerWithTrackerMessage(this, eventArgs);
+                }
+            }
+        }
+
+        public void Disconnect()
+        {
+            if (Status == TrackerStatus.Connected)
+            {
+                if (Connection != null) Connection.Dispose();
+                Status = TrackerStatus.Disconnected;
+                Connection = null;
+            }
+        }
+
+
+        public void RequestPeersFromTracker(int count)
+        {
+            if (Status == TrackerStatus.Connected && Connection != null)
+            {
+                var message = new RequestPeersMessage(count);
+                Connection.SendObject(message.Type.ToString(), message);
+            }
+            else Connect();
+        }
     }
 
 }

@@ -67,22 +67,24 @@ namespace BlockChainVotings
 
                 //вызов внешних событий
                 Connection.AppendIncomingPacketHandler<RequestBlocksMessage>(MessageType.RequestBlocks.ToString(), 
-                    (p, c, m) => OnRequestBlocksMessage(this, new MessageEventArgs(m, Hash)));
+                    (p, c, m) => OnRequestBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
 
                 Connection.AppendIncomingPacketHandler<RequestTransactionsMessage>(MessageType.RequestTransactions.ToString(),
-                    (p, c, m) => OnRequestTransactionsMessage(this, new MessageEventArgs(m, Hash)));
+                    (p, c, m) => OnRequestTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
 
                 Connection.AppendIncomingPacketHandler<BlocksMessage>(MessageType.Blocks.ToString(),
-                    (p, c, m) => OnBlocksMessage(this, new MessageEventArgs(m, Hash)));
+                    (p, c, m) => OnBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
 
                 Connection.AppendIncomingPacketHandler<TransactionsMessage>(MessageType.Transactions.ToString(),
-                    (p, c, m) => OnTransactionsMessage(this, new MessageEventArgs(m, Hash)));
+                    (p, c, m) => OnTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
 
 
                 RequestPeerHash();
             }
             catch (CommsException ex)
             {
+                Connection = null;
+
                 //если трекер не задан, то ошибка
                 if (tracker == null)
                 {
@@ -133,7 +135,7 @@ namespace BlockChainVotings
                 var peers = allPeers.ToList();
                 peers.Sort(peerComparer);
 
-                var peersToSend = peers.Where(peer => peer.Status == PeerStatus.Connected);
+                var peersToSend = peers.Where(peer => peer.Status == PeerStatus.Connected && peer.Hash != Hash);
                 peersToSend = peersToSend.Take(message.Count);
                 var peersAddresses = peersToSend.Select(peer => peer.Address);
                 var messageToSend = new PeersMessage(peersAddresses.ToList());
@@ -180,7 +182,7 @@ namespace BlockChainVotings
             var peers = allPeers.ToList();
             peers.Sort(peerComparer);
 
-            var peersToSend = peers.Where(peer => peer.Status == PeerStatus.Connected);
+            var peersToSend = peers.Where(peer => peer.Status == PeerStatus.Connected && peer.Hash != Hash);
             peersToSend = peersToSend.Take(m.Count);
 
             var peersAddresses = peersToSend.Select(peer => peer.Address);
