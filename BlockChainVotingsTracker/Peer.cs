@@ -72,6 +72,12 @@ namespace BlockChainVotingsTracker
 
                 peerToConnect.Connection.SendObject(incomingObject.Type.ToString(), incomingObject);
             }
+            //если трекер не нашел пир адресат то отправляем отправителю дисконнект адресата
+            else
+            {
+                var message = new PeerDisconnectMessage(peerToConnect.Address);
+                Connection.SendObject(message.Type.ToString(), message);
+            }
 
 
         }
@@ -117,7 +123,7 @@ namespace BlockChainVotingsTracker
                 peer.ConnectedPeers.Remove(this);
 
                 //отправить тому пиру сообщение об оключении
-                var message = new PeerDisconnectMessage(Hash);
+                var message = new PeerDisconnectMessage(Address);
                 var shell = new ToPeerMessage(Address, peer.Address, message);
                 peer.Connection.SendObject(shell.Type.ToString(), shell);
             }
