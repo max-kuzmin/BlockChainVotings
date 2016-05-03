@@ -33,12 +33,12 @@ namespace BlockChainVotings
 
     public class PeerDisconnectMessage : Message
     {
-        public string PeerHash { get; }
+        public EndPoint PeerAddress { get; }
 
-        public PeerDisconnectMessage(string peerHash)
+        public PeerDisconnectMessage(EndPoint peerAddress)
         {
             this.type = MessageType.PeerDisconnect;
-            this.PeerHash = peerHash;
+            this.PeerAddress = peerAddress;
         }
     }
 

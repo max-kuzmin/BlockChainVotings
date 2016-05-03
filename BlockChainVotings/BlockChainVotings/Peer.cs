@@ -28,6 +28,7 @@ namespace BlockChainVotings
         public PeerStatus Status { get; set; }
         public ConnectionType ConnectionType { get; set; }
         public int ErrorsCount { get; set; }
+        public int PeersRequestsCount { get; set; }
 
         List<Peer> allPeers;
         static PeerComparer peerComparer = new PeerComparer();
@@ -40,80 +41,74 @@ namespace BlockChainVotings
             this.tracker = tracker;
             this.Status = PeerStatus.Disconnected;
 
-            Connect();
+            //Connect();
         }
 
-        public void Connect()
+        public void Connect(bool withTracker = false)
         {
             if (Connection != null) return;
-
-            //пытаемся подключиться напрямую
-            try {
-                ConnectionInfo connInfo = new ConnectionInfo(Address);
-                Connection newTCPConn = TCPConnection.GetConnection(connInfo);
-                newTCPConn.EstablishConnection();
-                ConnectionType = ConnectionType.Direct;
-                Status = PeerStatus.NoHashRecieved;
-                Connection = newTCPConn;
-
-                //обработчики приходящих сообщений внутри пира
-                Connection.AppendShutdownHandler((c) => DisconnectDirect());
-
-                Connection.AppendIncomingPacketHandler<PeerHashMessage>(MessageType.PeerHash.ToString(), 
-                    (p, c, m)  => OnPeerHashMessageDirect(m));
-
-                Connection.AppendIncomingPacketHandler<RequestPeersMessage>(MessageType.PeerHash.ToString(), 
-                    (p, c, m) => OnRequestPeersMessageDirect(m));
-
-                //вызов внешних событий
-                Connection.AppendIncomingPacketHandler<RequestBlocksMessage>(MessageType.RequestBlocks.ToString(), 
-                    (p, c, m) => OnRequestBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
-
-                Connection.AppendIncomingPacketHandler<RequestTransactionsMessage>(MessageType.RequestTransactions.ToString(),
-                    (p, c, m) => OnRequestTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
-
-                Connection.AppendIncomingPacketHandler<BlocksMessage>(MessageType.Blocks.ToString(),
-                    (p, c, m) => OnBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
-
-                Connection.AppendIncomingPacketHandler<TransactionsMessage>(MessageType.Transactions.ToString(),
-                    (p, c, m) => OnTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
-
-
-                RequestPeerHash();
-            }
-            catch (CommsException ex)
+            if (Status == PeerStatus.NoHashRecieved)
             {
-                Connection = null;
+                RequestPeerHash();
+                return;
+            }
 
-                //если трекер не задан, то ошибка
-                if (tracker == null)
+
+            //попытка подключения сразу через трекер (используется если поступил запрос от трекера)
+            if (withTracker)
+                ConnectWithTracker();
+            else
+            {
+                //пытаемся подключиться напрямую
+                try
                 {
-                    ErrorsCount++;
-                    Status = PeerStatus.Disconnected;
+
+                    ConnectionInfo connInfo = new ConnectionInfo(Address);
+                    Connection newTCPConn = TCPConnection.GetConnection(connInfo);
+                    newTCPConn.EstablishConnection();
+                    ConnectionType = ConnectionType.Direct;
+                    Status = PeerStatus.NoHashRecieved;
+                    Connection = newTCPConn;
+
+                    //обработчики приходящих сообщений внутри пира
+                    Connection.AppendShutdownHandler((c) => DisconnectDirect());
+
+                    Connection.AppendIncomingPacketHandler<PeerHashMessage>(MessageType.PeerHash.ToString(),
+                        (p, c, m) => OnPeerHashMessageDirect(m));
+
+                    Connection.AppendIncomingPacketHandler<RequestPeersMessage>(MessageType.PeerHash.ToString(),
+                        (p, c, m) => OnRequestPeersMessageDirect(m));
+
+                    //вызов внешних событий
+                    Connection.AppendIncomingPacketHandler<RequestBlocksMessage>(MessageType.RequestBlocks.ToString(),
+                        (p, c, m) => OnRequestBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
+
+                    Connection.AppendIncomingPacketHandler<RequestTransactionsMessage>(MessageType.RequestTransactions.ToString(),
+                        (p, c, m) => OnRequestTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
+
+                    Connection.AppendIncomingPacketHandler<BlocksMessage>(MessageType.Blocks.ToString(),
+                        (p, c, m) => OnBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
+
+                    Connection.AppendIncomingPacketHandler<TransactionsMessage>(MessageType.Transactions.ToString(),
+                        (p, c, m) => OnTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
+
+
+                    RequestPeerHash();
                 }
-                //пытаемся подключиься через трекер
-                else
+                catch (CommsException ex)
                 {
-                    try
-                    {
-                        tracker.ConnectPeerToPeer(this);
+                    Connection = null;
 
-                        ConnectionType = ConnectionType.WithTracker;
-                        Status = PeerStatus.NoHashRecieved;
-
-                        //подписка на сообщения с трекера
-                        tracker.OnDisconnectPeer += OnDisconnectPeerWithTracker;
-                        tracker.OnPeerHashMessage += OnPeerHashMessageWithTracker;
-                        tracker.OnRequestPeersMessage += OnRequestPeersMessageWithTracker;
-
-                        RequestPeerHash();
-
-                    }
-                    //если не удалось через трекер, то ошибка
-                    catch (CommsException ex2)
+                    //если трекер не задан, то ошибка
+                    if (tracker == null)
                     {
                         ErrorsCount++;
                         Status = PeerStatus.Disconnected;
+                    }
+                    //пытаемся подключиться через трекер
+                    else
+                    {
+                        ConnectWithTracker();
                     }
                 }
             }
@@ -123,6 +118,31 @@ namespace BlockChainVotings
             if (ErrorsCount>=3 && Status == PeerStatus.Disconnected)
             {
                 allPeers.Remove(this);
+            }
+        }
+
+        private void ConnectWithTracker()
+        {
+            try
+            {
+                tracker.ConnectPeerToPeer(this);
+
+                ConnectionType = ConnectionType.WithTracker;
+                Status = PeerStatus.NoHashRecieved;
+
+                //подписка на сообщения с трекера
+                tracker.OnDisconnectPeer += OnDisconnectPeerWithTracker;
+                tracker.OnPeerHashMessage += OnPeerHashMessageWithTracker;
+                tracker.OnRequestPeersMessage += OnRequestPeersMessageWithTracker;
+
+                RequestPeerHash();
+
+            }
+            //если не удалось через трекер, то ошибка
+            catch (CommsException ex2)
+            {
+                ErrorsCount++;
+                Status = PeerStatus.Disconnected;
             }
         }
 
@@ -170,7 +190,7 @@ namespace BlockChainVotings
         {
             var message = e.Message as PeerDisconnectMessage;
 
-            if (message.PeerHash == Hash)
+            if (message.PeerAddress == Address)
             {
                 Status = PeerStatus.Disconnected;
                 allPeers.Remove(this);
@@ -240,8 +260,8 @@ namespace BlockChainVotings
         {
             if (ConnectionType == ConnectionType.Direct && Connection != null)
             {
-                var message = new PeerDisconnectMessage(Hash);
-                Connection.SendObject(message.Type.ToString(), message);
+                //var message = new PeerDisconnectMessage(Hash);
+                //Connection.SendObject(message.Type.ToString(), message);
 
                 Status = PeerStatus.Disconnected;
                 Connection.Dispose();
@@ -268,7 +288,7 @@ namespace BlockChainVotings
         private void RequestPeerHash()
         {
 
-            if (Status == PeerStatus.Connected)
+            if (Status == PeerStatus.NoHashRecieved)
             {
                 var message = new PeerHashMessage(Hash, true);
                 if (ConnectionType == ConnectionType.Direct)

@@ -19,7 +19,8 @@ namespace BlockChainVotings
         public int ErrorsCount;
         List<Tracker> allTrackers;
 
-        TrackerStatus Status { get; set; }
+        public TrackerStatus Status { get; set; }
+        public int PeersRequestsCount { get; set; }
 
         //события на приход сообщений для обработки в пире
         public event EventHandler<MessageEventArgs> OnDisconnectPeer;
@@ -45,6 +46,8 @@ namespace BlockChainVotings
             this.Address = address;
             this.Status = TrackerStatus.Disconnected;
             this.allTrackers = allTrackers;
+
+            //Connect();
         }
 
         public void SendMessageToPeer(Message message, Peer peer)
