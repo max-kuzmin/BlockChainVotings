@@ -17,10 +17,20 @@ namespace BlockChainVotings
             this.textBox = textBox;
         }
 
+
+        string line = "";
+
         public override void Write(char value)
         {
             base.Write(value);
-            textBox.AppendText(value.ToString());
+
+            line += value;
+
+            if (value == '\n')
+            {
+                textBox.Invoke(new Action(() => textBox.AppendText(line)));
+                line = "";
+            }
         }
 
         public override Encoding Encoding

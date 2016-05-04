@@ -21,33 +21,36 @@ namespace BlockChainVotingsTracker
         {
             InitializeComponent();
 
-            ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
-            Console.SetOut(writer);
-
-            tracker = new Tracker();
-
-
-            if (Tracker.GetLocalEndPoint() == null)
-            {
-                MessageBox.Show("Для продолжения необходимо подключение к интернету");
-            }
 
         }
         
 
         private void buttonStopTracker_Click(object sender, EventArgs e)
         {
-            tracker.Stop();
+            Task.Run(() => tracker.Stop());
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            tracker.Stop();
+            Task.Run(() => tracker.Stop());
         }
 
         private void buttonStartTracker_Click(object sender, EventArgs e)
         {
-            tracker.Start();
+            Task.Run(() => tracker.Start());
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
+            Console.SetOut(writer);
+
+            if (Tracker.GetLocalEndPoint() == null)
+            {
+                MessageBox.Show("Для продолжения необходимо подключение к интернету");
+            }
+
+            tracker = new Tracker();
         }
     }
 

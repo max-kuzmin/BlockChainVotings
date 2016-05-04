@@ -78,6 +78,7 @@
             this.Name = "MainForm";
             this.Text = "BlockChainVotingsTracker";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

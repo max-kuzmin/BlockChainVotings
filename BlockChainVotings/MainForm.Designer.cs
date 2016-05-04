@@ -71,9 +71,10 @@
             this.textBoxConsole.Location = new System.Drawing.Point(12, 73);
             this.textBoxConsole.Multiline = true;
             this.textBoxConsole.Name = "textBoxConsole";
-            this.textBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxConsole.Size = new System.Drawing.Size(775, 259);
             this.textBoxConsole.TabIndex = 3;
+            this.textBoxConsole.WordWrap = false;
             // 
             // MainForm
             // 
@@ -86,6 +87,8 @@
             this.Controls.Add(this.textBoxTrackers);
             this.Name = "MainForm";
             this.Text = "VlockChainVotings";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
