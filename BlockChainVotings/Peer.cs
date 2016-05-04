@@ -44,6 +44,18 @@ namespace BlockChainVotings
             //Connect();
         }
 
+
+        public Peer(Connection connection, List<Peer> allPeers)
+        {
+            this.Connection = connection;
+            this.Address = connection.ConnectionInfo.RemoteEndPoint;
+            this.allPeers = allPeers;
+            this.tracker = null;
+            this.Status = PeerStatus.Disconnected;
+
+            //Connect();
+        }
+
         public void Connect(bool withTracker = false)
         {
             if (Connection != null) return;
@@ -65,7 +77,7 @@ namespace BlockChainVotings
 
                     ConnectionInfo connInfo = new ConnectionInfo(Address);
                     Connection newTCPConn = TCPConnection.GetConnection(connInfo);
-                    newTCPConn.EstablishConnection();
+                    //newTCPConn.EstablishConnection();
                     ConnectionType = ConnectionType.Direct;
                     Status = PeerStatus.NoHashRecieved;
                     Connection = newTCPConn;

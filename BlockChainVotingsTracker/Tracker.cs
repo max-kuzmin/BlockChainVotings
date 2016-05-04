@@ -8,18 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using NetworkCommsDotNet.Tools;
+using System.Net.Sockets;
+using System.Net.NetworkInformation;
 
 namespace BlockChainVotingsTracker
 {
     public class Tracker
     {
         public List<Peer> Peers { get; }
-        public int Port { get; }
+        static public int Port { get { return 10101; } }
         public TrackerStatus Status { get; set; }
 
         public Tracker()
         {
-            Port = 10101;
             this.Peers = new List<Peer>();
             this.Status = TrackerStatus.Stopped;
 
@@ -40,9 +41,10 @@ namespace BlockChainVotingsTracker
         {
             if (Status == TrackerStatus.Stopped)
             {
-                Connection.StartListening(ConnectionType.TCP, new IPEndPoint(IPAddress.Any, Port));
-                NetworkComms.Logger.Warn("Tracker started");
+                Connection.StartListening(ConnectionType.TCP, GetLocalEndPoint());
                 Status = TrackerStatus.Started;
+
+                NetworkComms.Logger.Warn("Tracker started");
             }
         }
 
@@ -55,6 +57,7 @@ namespace BlockChainVotingsTracker
                 {
                     peer.Disconnect();
                 }
+                Connection.StopListening();
                 NetworkComms.Shutdown();
                 NetworkComms.Logger.Warn("Tracker stopped");
                 Status = TrackerStatus.Stopped;
@@ -72,6 +75,15 @@ namespace BlockChainVotingsTracker
             NetworkComms.Logger.Warn("==================== Initialisation ====================");
 
 
+        }
+
+        static public EndPoint GetLocalEndPoint()
+        {
+            if (!NetworkInterface.GetIsNetworkAvailable()) return null;
+
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            EndPoint endPoint = new IPEndPoint(host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork), Port);
+            return endPoint;
         }
 
 

@@ -79,7 +79,7 @@ namespace BlockChainVotings
                 {
                     ConnectionInfo connInfo = new ConnectionInfo(Address);
                     Connection newTCPConn = TCPConnection.GetConnection(connInfo);
-                    newTCPConn.EstablishConnection();
+                    //newTCPConn.EstablishConnection();
                     Status = TrackerStatus.Connected;
                     Connection = newTCPConn;
 
