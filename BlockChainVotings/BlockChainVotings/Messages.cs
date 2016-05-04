@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,28 +8,34 @@ using System.Threading.Tasks;
 
 namespace BlockChainVotings
 {
+    [ProtoContract]
+    [ProtoInclude(100, typeof(PeerHashMessage))]
     public class Message
     {
-        public MessageType Type {
-            get { return type; }
-        }
+        [ProtoMember(1)]
+        public MessageType Type;
 
-        protected MessageType type;
+        public Message() { }
     }
 
 
+    [ProtoContract]
     public class PeerHashMessage : Message
     {
-        public string PeerHash { get; }
-        public bool NeedResponse { get; }
+        [ProtoMember(2)]
+        public string PeerHash;
+        [ProtoMember(3)]
+        public bool NeedResponse;
 
         public PeerHashMessage(string peerHash, bool needResponse)
         {
-            this.type = MessageType.PeerHash;
+            this.Type = MessageType.PeerHash;
             this.PeerHash = peerHash;
             this.NeedResponse = needResponse;
 
         }
+
+        public PeerHashMessage() { }
     }
 
     public class PeerDisconnectMessage : Message
@@ -37,7 +44,7 @@ namespace BlockChainVotings
 
         public PeerDisconnectMessage(EndPoint peerAddress)
         {
-            this.type = MessageType.PeerDisconnect;
+            this.Type = MessageType.PeerDisconnect;
             this.PeerAddress = peerAddress;
         }
     }
@@ -48,7 +55,7 @@ namespace BlockChainVotings
 
         public PeersMessage(List<EndPoint> peersAdresses)
         {
-            this.type = MessageType.Peers;
+            this.Type = MessageType.Peers;
             this.PeersAdresses = peersAdresses;
         }
     }
@@ -59,7 +66,7 @@ namespace BlockChainVotings
 
         public RequestPeersMessage(int count)
         {
-            this.type = MessageType.RequestPeers;
+            this.Type = MessageType.RequestPeers;
             this.Count = count;
         }
     }
@@ -71,7 +78,7 @@ namespace BlockChainVotings
 
         public RequestBlocksMessage(List<string> hashes)
         {
-            this.type = MessageType.RequestBlocks;
+            this.Type = MessageType.RequestBlocks;
             this.Hashes = hashes;
         }
     }
@@ -82,7 +89,7 @@ namespace BlockChainVotings
 
         public RequestTransactionsMessage(List<string> hashes)
         {
-            this.type = MessageType.RequestTransactions;
+            this.Type = MessageType.RequestTransactions;
             this.Hashes = hashes;
         }
     }
@@ -96,7 +103,7 @@ namespace BlockChainVotings
 
         public ToPeerMessage(EndPoint senderAddress, EndPoint recieverAddress, Message message)
         {
-            this.type = MessageType.MessageToPeer;
+            this.Type = MessageType.MessageToPeer;
             this.SenderAddress = senderAddress;
             this.RecieverAddress = recieverAddress;
             this.Message = message;
@@ -109,7 +116,7 @@ namespace BlockChainVotings
         public List<Transaction> Transactions { get; set; }
         public TransactionsMessage(List<Transaction> transactions)
         {
-            this.type = MessageType.Transactions;
+            this.Type = MessageType.Transactions;
             this.Transactions = transactions;
         }
     }
@@ -119,7 +126,7 @@ namespace BlockChainVotings
         public List<Block> Blocks { get; set; }
         public BlocksMessage(List<Block> blocks)
         {
-            this.type = MessageType.Transactions;
+            this.Type = MessageType.Transactions;
             this.Blocks = blocks;
         }
     }
@@ -132,7 +139,7 @@ namespace BlockChainVotings
 
         public ConnectToPeerWithTrackerMessage(EndPoint senderAddress, EndPoint recieverAddress)
         {
-            this.type = MessageType.ConnectToPeerWithTracker;
+            this.Type = MessageType.ConnectToPeerWithTracker;
             this.SenderAddress = senderAddress;
             this.RecieverAddress = recieverAddress;
         }

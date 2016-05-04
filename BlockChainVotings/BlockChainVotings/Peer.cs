@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using NetworkCommsDotNet;
 using System.Net;
 using NetworkCommsDotNet.Connections.TCP;
+using NetworkCommsDotNet.Connections.UDP;
+using System.Reflection;
 
 namespace BlockChainVotings
 {
@@ -26,7 +28,7 @@ namespace BlockChainVotings
         public string Hash { get; set; }
         public int SendToOthersCount { get; set; }
         public PeerStatus Status { get; set; }
-        public ConnectionType ConnectionType { get; set; }
+        public ConnectionMode ConnectionType { get; set; }
         public int ErrorsCount { get; set; }
         public int PeersRequestsCount { get; set; }
 
@@ -41,29 +43,19 @@ namespace BlockChainVotings
             this.tracker = tracker;
             this.Status = PeerStatus.Disconnected;
 
-            //Connect();
         }
 
 
-        public Peer(Connection connection, List<Peer> allPeers)
-        {
-            this.Connection = connection;
-            this.Address = connection.ConnectionInfo.RemoteEndPoint;
-            this.allPeers = allPeers;
-            this.tracker = null;
-            this.Status = PeerStatus.Disconnected;
-
-            //Connect();
-        }
 
         public void Connect(bool withTracker = false)
         {
-            if (Connection != null) return;
+
             if (Status == PeerStatus.NoHashRecieved)
             {
                 RequestPeerHash();
                 return;
             }
+            else if (Status == PeerStatus.Connected) return;
 
 
             //попытка подключения сразу через трекер (используется если поступил запрос от трекера)
@@ -74,18 +66,18 @@ namespace BlockChainVotings
                 //пытаемся подключиться напрямую
                 try
                 {
-
                     ConnectionInfo connInfo = new ConnectionInfo(Address);
-                    Connection newTCPConn = TCPConnection.GetConnection(connInfo);
-                    //newTCPConn.EstablishConnection();
-                    ConnectionType = ConnectionType.Direct;
+
+                    Connection newConn = UDPConnection.GetConnection(connInfo, UDPOptions.Handshake);
+
+                    ConnectionType = ConnectionMode.Direct;
                     Status = PeerStatus.NoHashRecieved;
-                    Connection = newTCPConn;
+                    Connection = newConn;
 
                     //обработчики приходящих сообщений внутри пира
                     Connection.AppendShutdownHandler((c) => DisconnectDirect());
 
-                    Connection.AppendIncomingPacketHandler<PeerHashMessage>(MessageType.PeerHash.ToString(),
+                    Connection.AppendIncomingPacketHandler<PeerHashMessage>("PeerHashMessage",
                         (p, c, m) => OnPeerHashMessageDirect(m));
 
                     Connection.AppendIncomingPacketHandler<RequestPeersMessage>(MessageType.PeerHash.ToString(),
@@ -139,7 +131,7 @@ namespace BlockChainVotings
             {
                 tracker.ConnectPeerToPeer(this);
 
-                ConnectionType = ConnectionType.WithTracker;
+                ConnectionType = ConnectionMode.WithTracker;
                 Status = PeerStatus.NoHashRecieved;
 
                 //подписка на сообщения с трекера
@@ -233,7 +225,7 @@ namespace BlockChainVotings
         {
             if (Status == PeerStatus.Connected)
             {
-                if (ConnectionType == ConnectionType.Direct)
+                if (ConnectionType == ConnectionMode.Direct)
                 {
                     Connection.SendObject(message.Type.ToString(), message);
                 }
@@ -253,7 +245,7 @@ namespace BlockChainVotings
             if (Status == PeerStatus.Connected)
             {
                 var message = new RequestPeersMessage(count);
-                if (ConnectionType == ConnectionType.Direct)
+                if (ConnectionType == ConnectionMode.Direct)
                 {
                     Connection.SendObject(message.Type.ToString(), message);
                 }
@@ -270,7 +262,7 @@ namespace BlockChainVotings
 
         public void DisconnectDirect()
         {
-            if (ConnectionType == ConnectionType.Direct && Connection != null)
+            if (ConnectionType == ConnectionMode.Direct && Connection != null)
             {
                 //var message = new PeerDisconnectMessage(Hash);
                 //Connection.SendObject(message.Type.ToString(), message);
@@ -284,15 +276,15 @@ namespace BlockChainVotings
 
         private void OnPeerHashMessageDirect(PeerHashMessage message)
         {
-            if (message.PeerHash != string.Empty)
+            if (message.PeerHash != string.Empty && message.PeerHash != null)
             {
                 Hash = message.PeerHash;
                 Status = PeerStatus.Connected;
 
                 if (message.NeedResponse == true)
                     {
-                    var messageToSend = new PeerHashMessage(Hash, false);
-                    Connection.SendObject(message.Type.ToString(), messageToSend);
+                    var messageToSend = new PeerHashMessage(Network.Hash, false);
+                    Connection.SendObject("PeerHashMessage", messageToSend); 
                 }
             }
         }
@@ -302,10 +294,11 @@ namespace BlockChainVotings
 
             if (Status == PeerStatus.NoHashRecieved)
             {
-                var message = new PeerHashMessage(Hash, true);
-                if (ConnectionType == ConnectionType.Direct)
+                var message = new PeerHashMessage(Network.Hash, true);
+                if (ConnectionType == ConnectionMode.Direct)
                 {
-                    Connection.SendObject(message.Type.ToString(), message);
+
+                    Connection.SendObject("PeerHashMessage", message);
                 }
                 else
                 {

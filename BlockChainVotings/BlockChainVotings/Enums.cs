@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProtoBuf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace BlockChainVotings
         Connected,
     }
 
-    public enum ConnectionType
+    public enum ConnectionMode
     {
         Direct,
         WithTracker

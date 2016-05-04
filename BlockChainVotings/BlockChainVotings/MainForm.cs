@@ -28,23 +28,6 @@ namespace BlockChainVotings
             InitializeComponent();
 
 
-            ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
-            Console.SetOut(writer);
-
-
-
-            if (Network.GetLocalEndPoint() == null)
-            {
-                MessageBox.Show("Для продолжения необходимо подключение к интернету");
-            }
-
-
-
-            net = new Network(textBoxTrackers.Lines);
-
-
-
-
             ////подписать-проверить файл
             //VirgilKeyPair pair = CryptoHelper.GenerateKeyPair();
             //string sign = CryptoHelper.Sign("hello world", pair.PrivateKey());
@@ -54,12 +37,30 @@ namespace BlockChainVotings
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            net.Connect();
+            Task.Run( ()=> net.Connect(textBoxTrackers.Lines) );
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            net.Disconnect();
+            Task.Run( () => net.Disconnect() );
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
+            Console.SetOut(writer);
+
+            if (Network.GetLocalEndPoint() == null)
+            {
+                MessageBox.Show("Для продолжения необходимо подключение к интернету");
+            }
+
+            net = new Network();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Task.Run(() => net.Disconnect());
         }
 
         ////хеш

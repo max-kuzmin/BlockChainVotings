@@ -52,7 +52,6 @@ namespace BlockChainVotingsTracker
         {
             if (Status == TrackerStatus.Started)
             {
-                Connection.StopListening();
                 foreach (Peer peer in Peers)
                 {
                     peer.Disconnect();
@@ -82,7 +81,8 @@ namespace BlockChainVotingsTracker
             if (!NetworkInterface.GetIsNetworkAvailable()) return null;
 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            EndPoint endPoint = new IPEndPoint(host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork), Port);
+            var address = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork).OrderByDescending(addr => addr.Address).First();
+            EndPoint endPoint = new IPEndPoint(address, Port);
             return endPoint;
         }
 
