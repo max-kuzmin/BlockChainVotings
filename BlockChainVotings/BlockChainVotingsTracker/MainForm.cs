@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,6 +25,13 @@ namespace BlockChainVotingsTracker
             Console.SetOut(writer);
 
             tracker = new Tracker();
+
+
+            if (Tracker.GetLocalEndPoint() == null)
+            {
+                MessageBox.Show("Для продолжения необходимо подключение к интернету");
+            }
+
         }
         
 

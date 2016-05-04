@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using NetworkCommsDotNet.Connections;
 using System.Timers;
+using NetworkCommsDotNet;
+using System.Net.Sockets;
+using System.Net.NetworkInformation;
 
 namespace BlockChainVotings
 {
@@ -14,6 +17,7 @@ namespace BlockChainVotings
     {
         public List<Peer> Peers { get; }
         public List<Tracker> Trackers { get; }
+        static public int Port { get { return 10101; } }
 
         int normalPeersCount = 10;
 
@@ -29,11 +33,12 @@ namespace BlockChainVotings
         public Network(string[] trackers)
         {
 
+            Trackers = new List<Tracker>();
+            Peers = new List<Peer>();
+
+            SetupLogging();
+
             FillTrackers(trackers);
-
-
-            PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
-            PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
 
 
             t = new Timer(10000);
@@ -41,11 +46,20 @@ namespace BlockChainVotings
             t.Elapsed += (s, e) => ConnectToPeers();
             t.Elapsed += (s, e) => ConnectToTrackers();
 
-            //только для дебага !!!!!!
-            ConnectToTrackers();
-            RequestPeers();
-            ConnectToPeers();
-            //t.Start();
+            NetworkComms.AppendGlobalConnectionEstablishHandler(OnConnectPeerDirect);
+
+        }
+
+
+
+
+        private void OnConnectPeerDirect(Connection connection)
+        {
+            if (connection.ConnectionInfo.ServerSide)
+            {
+                var peer = new Peer(connection, Peers);
+                Peers.Add(peer);
+            }
         }
 
 
@@ -56,10 +70,10 @@ namespace BlockChainVotings
                 var parts = line.Split(':');
 
                 IPAddress addr = new IPAddress(0);
-                int port = 0;
-                if (parts.Length == 2 && IPAddress.TryParse(parts[0], out addr) && int.TryParse(parts[1], out port))
+                /*int port = 0;*/
+                if (parts.Length >= 1 && IPAddress.TryParse(parts[0], out addr) /*&& int.TryParse(parts[1], out port)*/)
                 {
-                    EndPoint endPoint = new IPEndPoint(addr, port);
+                    EndPoint endPoint = new IPEndPoint(addr, Port);
 
                     Tracker tracker = new Tracker(endPoint, Trackers);
 
@@ -75,6 +89,8 @@ namespace BlockChainVotings
 
                     //коннект через трекер
                     tracker.OnConnectToPeerWithTrackerMessage += OnConnectToPeerWithTrackerMessage;
+
+                    Trackers.Add(tracker);
 
 
                 }
@@ -247,11 +263,52 @@ namespace BlockChainVotings
             }
 
             t.Stop();
+
+            Connection.StopListening();
+            NetworkComms.Shutdown();
+
+            NetworkComms.Logger.Warn("Client stopped");
         }
 
         public void Connect()
         {
-            t.Start();
+
+            if (GetLocalEndPoint() != null)
+            {
+                PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
+                PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, GetLocalEndPoint());
+            }
+
+            Connection.StartListening(NetworkCommsDotNet.Connections.ConnectionType.TCP, GetLocalEndPoint());
+
+
+            NetworkComms.Logger.Warn("Client started");
+
+            //только для дебага !!!!!!
+            ConnectToTrackers();
+            RequestPeers();
+            ConnectToPeers();
+            //t.Start();
+        }
+
+        private void SetupLogging()
+        {
+            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "log.txt");
+            NetworkComms.EnableLogging(logger);
+
+            NetworkComms.Logger.Warn("==================== Initialisation ====================");
+
+
+        }
+
+
+        static public EndPoint GetLocalEndPoint()
+        {
+            if (!NetworkInterface.GetIsNetworkAvailable()) return null;
+
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            EndPoint endPoint = new IPEndPoint(host.AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork), Port);
+            return endPoint;
         }
     }
 }

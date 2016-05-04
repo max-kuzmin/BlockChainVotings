@@ -20,11 +20,29 @@ namespace BlockChainVotings
 {
     public partial class MainForm : Form
     {
+
+        Network net;
+
         public MainForm()
         {
             InitializeComponent();
 
-            
+
+            ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
+            Console.SetOut(writer);
+
+
+
+            if (Network.GetLocalEndPoint() == null)
+            {
+                MessageBox.Show("Для продолжения необходимо подключение к интернету");
+            }
+
+
+
+            net = new Network(textBoxTrackers.Lines);
+
+
 
 
             ////подписать-проверить файл
@@ -32,6 +50,16 @@ namespace BlockChainVotings
             //string sign = CryptoHelper.Sign("hello world", pair.PrivateKey());
             //bool res = CryptoHelper.Verify("hello world", sign, pair.PublicKey());
             //MessageBox.Show(Convert.ToBase64String(pair.PublicKey()) + "\n\n\n" + Convert.ToBase64String(pair.PrivateKey()) + "\n\n\n" + sign + "\n\n\n" + res.ToString());
+        }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            net.Connect();
+        }
+
+        private void buttonStop_Click(object sender, EventArgs e)
+        {
+            net.Disconnect();
         }
 
         ////хеш
