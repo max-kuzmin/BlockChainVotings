@@ -24,13 +24,13 @@ namespace BlockChainVotings
 
 
         public EndPoint Address { get; }
-        public Connection Connection { get; set; }
-        public string Hash { get; set; }
-        public int SendToOthersCount { get; set; }
-        public PeerStatus Status { get; set; }
-        public ConnectionMode ConnectionType { get; set; }
-        public int ErrorsCount { get; set; }
-        public int PeersRequestsCount { get; set; }
+        public Connection Connection { get; private set; }
+        public string Hash { get; private set; }
+        public int SendToOthersCount { get; private set; }
+        public PeerStatus Status { get; private set; }
+        public ConnectionMode ConnectionType { get; private set; }
+        public int ErrorsCount { get; private set; }
+        public int PeersRequestsCount { get; private set; }
 
         List<Peer> allPeers;
         static PeerComparer peerComparer = new PeerComparer();
@@ -75,25 +75,27 @@ namespace BlockChainVotings
                     Connection = newConn;
 
                     //обработчики приходящих сообщений внутри пира
-                    Connection.AppendShutdownHandler((c) => DisconnectDirect());
+                    //Connection.AppendShutdownHandler((c) => DisconnectDirect(false));
+                    Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
+                        (p, c, m) => DisconnectDirect(false));
 
-                    Connection.AppendIncomingPacketHandler<PeerHashMessage>("PeerHashMessage",
+                    Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name,
                         (p, c, m) => OnPeerHashMessageDirect(m));
 
-                    Connection.AppendIncomingPacketHandler<RequestPeersMessage>(MessageType.PeerHash.ToString(),
+                    Connection.AppendIncomingPacketHandler<RequestPeersMessage>(typeof(RequestPeersMessage).Name,
                         (p, c, m) => OnRequestPeersMessageDirect(m));
-
+                    
                     //вызов внешних событий
-                    Connection.AppendIncomingPacketHandler<RequestBlocksMessage>(MessageType.RequestBlocks.ToString(),
+                    Connection.AppendIncomingPacketHandler<RequestBlocksMessage>(typeof(RequestBlocksMessage).Name,
                         (p, c, m) => OnRequestBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
 
-                    Connection.AppendIncomingPacketHandler<RequestTransactionsMessage>(MessageType.RequestTransactions.ToString(),
+                    Connection.AppendIncomingPacketHandler<RequestTransactionsMessage>(typeof(RequestTransactionsMessage).Name,
                         (p, c, m) => OnRequestTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
 
-                    Connection.AppendIncomingPacketHandler<BlocksMessage>(MessageType.Blocks.ToString(),
+                    Connection.AppendIncomingPacketHandler<BlocksMessage>(typeof(BlocksMessage).Name,
                         (p, c, m) => OnBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
 
-                    Connection.AppendIncomingPacketHandler<TransactionsMessage>(MessageType.Transactions.ToString(),
+                    Connection.AppendIncomingPacketHandler<TransactionsMessage>(typeof(TransactionsMessage).Name,
                         (p, c, m) => OnTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
 
 
@@ -201,6 +203,8 @@ namespace BlockChainVotings
             }
         }
 
+
+
         private void OnRequestPeersMessageDirect(RequestPeersMessage m)
         {
             var peers = allPeers.ToList();
@@ -211,7 +215,7 @@ namespace BlockChainVotings
 
             var peersAddresses = peersToSend.Select(peer => peer.Address);
             var message = new PeersMessage(peersAddresses.ToList());
-            Connection.SendObject(message.Type.ToString(), message);
+            Connection.SendObject(typeof(PeersMessage).Name, message);
 
 
             foreach (var peer in peersToSend)
@@ -227,7 +231,7 @@ namespace BlockChainVotings
             {
                 if (ConnectionType == ConnectionMode.Direct)
                 {
-                    Connection.SendObject(message.Type.ToString(), message);
+                    Connection.SendObject(message.GetType().Name, message);
                 }
                 else
                 {
@@ -247,7 +251,7 @@ namespace BlockChainVotings
                 var message = new RequestPeersMessage(count);
                 if (ConnectionType == ConnectionMode.Direct)
                 {
-                    Connection.SendObject(message.Type.ToString(), message);
+                    Connection.SendObject(message.GetType().Name, message);
                 }
                 else
                 {
@@ -260,12 +264,15 @@ namespace BlockChainVotings
             }
         }
 
-        public void DisconnectDirect()
+        public void DisconnectDirect(bool sendMessage = true)
         {
-            if (ConnectionType == ConnectionMode.Direct && Connection != null)
+            if (ConnectionType == ConnectionMode.Direct && Connection != null && Status != PeerStatus.Disconnected)
             {
-                //var message = new PeerDisconnectMessage(Hash);
-                //Connection.SendObject(message.Type.ToString(), message);
+                if (sendMessage)
+                {
+                    var message = new PeerDisconnectMessage(Connection.ConnectionInfo.LocalEndPoint);
+                    Connection.SendObject(message.GetType().Name, message);
+                }
 
                 Status = PeerStatus.Disconnected;
                 Connection.Dispose();
@@ -281,10 +288,12 @@ namespace BlockChainVotings
                 Hash = message.PeerHash;
                 Status = PeerStatus.Connected;
 
+
+                //возможно стоит отключить повторную отправку сообщения, чтобы они не дублировались
                 if (message.NeedResponse == true)
                     {
-                    var messageToSend = new PeerHashMessage(Network.Hash, false);
-                    Connection.SendObject("PeerHashMessage", messageToSend); 
+                    var messageToSend = new PeerHashMessage(CommonInfo.LocalHash, false);
+                    Connection.SendObject(messageToSend.GetType().Name, messageToSend); 
                 }
             }
         }
@@ -294,11 +303,11 @@ namespace BlockChainVotings
 
             if (Status == PeerStatus.NoHashRecieved)
             {
-                var message = new PeerHashMessage(Network.Hash, true);
+                var message = new PeerHashMessage(CommonInfo.LocalHash, true);
                 if (ConnectionType == ConnectionMode.Direct)
                 {
 
-                    Connection.SendObject("PeerHashMessage", message);
+                    Connection.SendObject(message.GetType().Name, message);
                 }
                 else
                 {

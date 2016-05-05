@@ -28,7 +28,8 @@ namespace BlockChainVotings
 
             if (value == '\n')
             {
-                textBox.Invoke(new Action(() => textBox.AppendText(line)));
+                if (!line.Contains("Trace]"))
+                    textBox.Invoke(new Action(() => textBox.AppendText(line)));
                 line = "";
             }
         }
