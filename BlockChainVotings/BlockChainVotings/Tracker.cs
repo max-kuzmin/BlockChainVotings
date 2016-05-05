@@ -14,13 +14,14 @@ namespace BlockChainVotings
     {
 
         public EndPoint Address { get; }
-        public Connection Connection { get; set; }
+        public Connection Connection { get; private set; }
 
-        public int ErrorsCount;
+        public int ErrorsCount { get; private set; }
         List<Tracker> allTrackers;
 
-        public TrackerStatus Status { get; set; }
-        public int PeersRequestsCount { get; set; }
+
+        public TrackerStatus Status { get; private set; }
+        public int PeersRequestsCount { get; private set; }
 
         //события на приход сообщений для обработки в пире
         public event EventHandler<MessageEventArgs> OnDisconnectPeer;
@@ -47,6 +48,7 @@ namespace BlockChainVotings
             this.Status = TrackerStatus.Disconnected;
             this.allTrackers = allTrackers;
 
+
             //Connect();
         }
 
@@ -55,7 +57,7 @@ namespace BlockChainVotings
             if (Connection != null && Status == TrackerStatus.Connected)
             {
                 var shellMessage = new ToPeerMessage(Connection.ConnectionInfo.LocalEndPoint, peer.Address, message);
-                Connection.SendObject(message.Type.ToString(), shellMessage);
+                Connection.SendObject(message.GetType().Name, shellMessage);
             }
             else Connect();
         }
@@ -65,7 +67,7 @@ namespace BlockChainVotings
             if (Connection != null && Status == TrackerStatus.Connected)
             {
                 var message = new ConnectToPeerWithTrackerMessage(Connection.ConnectionInfo.LocalEndPoint, peerToConnect.Address);
-                Connection.SendObject(message.Type.ToString(), message);
+                Connection.SendObject(message.GetType().Name, message);
             }
             else Connect();
         }
@@ -84,9 +86,9 @@ namespace BlockChainVotings
                     Connection = newTCPConn;
 
 
-                    Connection.AppendIncomingPacketHandler<ToPeerMessage>(MessageType.MessageToPeer.ToString(), OnToPeerMessage);
+                    Connection.AppendIncomingPacketHandler<ToPeerMessage>(typeof(ToPeerMessage).Name, OnToPeerMessage);
 
-                    Connection.AppendIncomingPacketHandler<PeersMessage>(MessageType.Peers.ToString(),
+                    Connection.AppendIncomingPacketHandler<PeersMessage>(typeof(PeersMessage).Name,
                         (p, c, m) => OnPeersMessageFromTracker(this, new MessageEventArgs(m, null, Address)));
                 }
                 catch (CommsException ex)
@@ -152,6 +154,10 @@ namespace BlockChainVotings
         {
             if (Status == TrackerStatus.Connected)
             {
+
+                var message = new PeerDisconnectMessage(Connection.ConnectionInfo.LocalEndPoint);
+                Connection.SendObject(message.GetType().Name, message);
+
                 if (Connection != null) Connection.Dispose();
                 Status = TrackerStatus.Disconnected;
                 Connection = null;
@@ -164,7 +170,7 @@ namespace BlockChainVotings
             if (Status == TrackerStatus.Connected && Connection != null)
             {
                 var message = new RequestPeersMessage(count);
-                Connection.SendObject(message.Type.ToString(), message);
+                Connection.SendObject(message.GetType().Name, message);
             }
             else Connect();
         }

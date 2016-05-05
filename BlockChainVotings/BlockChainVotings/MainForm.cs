@@ -50,7 +50,7 @@ namespace BlockChainVotings
             ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
             Console.SetOut(writer);
 
-            if (Network.GetLocalEndPoint() == null)
+            if (CommonInfo.GetLocalEndPoint() == null)
             {
                 MessageBox.Show("Для продолжения необходимо подключение к интернету");
             }

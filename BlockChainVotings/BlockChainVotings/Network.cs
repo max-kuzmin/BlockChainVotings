@@ -17,8 +17,6 @@ namespace BlockChainVotings
     {
         public List<Peer> Peers { get; }
         public List<Tracker> Trackers { get; }
-        static public int Port { get { return 10101; } }
-        static public string Hash = (new Random((int)(DateTime.Now.Ticks)).Next().ToString());
 
         int normalPeersCount = 10;
 
@@ -73,7 +71,7 @@ namespace BlockChainVotings
                 /*int port = 0;*/
                 if (parts.Length >= 1 && IPAddress.TryParse(parts[0], out addr) /*&& int.TryParse(parts[1], out port)*/)
                 {
-                    EndPoint endPoint = new IPEndPoint(addr, Port);
+                    EndPoint endPoint = new IPEndPoint(addr, CommonInfo.Port);
 
                     Tracker tracker = new Tracker(endPoint, Trackers);
 
@@ -178,14 +176,6 @@ namespace BlockChainVotings
             if (needPeersCount <= 0) return;
 
 
-            //сначала ищем пиры без трекера
-            try {
-                PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
-            }
-            catch (InvalidOperationException e) { }
-
-
-
             //пиры подключенные прямо (сортируем по кол-ву запросов)
             var connectedPeersDirect = Peers.Where(peer => peer.Status == PeerStatus.Connected && peer.ConnectionType == ConnectionMode.Direct)
                 .OrderBy(peer => peer.PeersRequestsCount);
@@ -251,6 +241,15 @@ namespace BlockChainVotings
 
         private void ConnectToPeers()
         {
+
+            //сначала ищем пиры без трекера
+            try
+            {
+                PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
+            }
+            catch (InvalidOperationException e) { }
+
+
             foreach (var peer in Peers)
             {
                 if (peer.Status != PeerStatus.Connected) peer.Connect();
@@ -259,13 +258,13 @@ namespace BlockChainVotings
 
         public void Disconnect()
         {
-            foreach (var peer in Peers)
+            while (Peers.Count>0)
             {
-                peer.DisconnectDirect();
+                Peers.First().DisconnectDirect();
             }
-            foreach (var tracker in Trackers)
+            while (Trackers.Count > 0)
             {
-                tracker.Disconnect();
+                Trackers.First().Disconnect();
             }
 
             t.Stop();
@@ -282,12 +281,12 @@ namespace BlockChainVotings
 
             FillTrackers(trackers);
 
-            if (GetLocalEndPoint() != null)
+            if (CommonInfo.GetLocalEndPoint() != null)
             {
                 PeerDiscovery.MinTargetLocalIPPort = 10001;
                 PeerDiscovery.MaxTargetLocalIPPort = 10001;
                 PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
-                PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, GetLocalEndPoint(true));
+                PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonInfo.GetLocalEndPoint(true));
             }
 
 
@@ -311,14 +310,5 @@ namespace BlockChainVotings
         }
 
 
-        static public EndPoint GetLocalEndPoint(bool forPeerDiscovery = false)
-        {
-            if (!NetworkInterface.GetIsNetworkAvailable()) return null;
-
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            var address = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork).OrderByDescending(addr => addr.Address).First();
-            EndPoint endPoint = forPeerDiscovery ? (new IPEndPoint(address, 10001)) : (new IPEndPoint(address, Port));
-            return endPoint;
-        }
     }
 }
