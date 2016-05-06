@@ -85,7 +85,7 @@ namespace BlockChainVotings
     [ProtoContract]
     public class PeersMessage : Message
     {
-        public List<EndPoint> PeersAdresses;
+        public List<EndPoint> PeersAdresses = new List<EndPoint>();
 
         public PeersMessage(List<EndPoint> peersAdresses)
         {
@@ -98,20 +98,17 @@ namespace BlockChainVotings
         public PeersMessage() { }
 
         [ProtoMember(2)]
-        int[] peersPorts;
+        List<int> peersPorts = new List<int>();
         [ProtoMember(3)]
-        long[] peersAddresses;
+        List<long> peersAddresses = new List<long>();
 
         [ProtoBeforeSerialization]
         private void Serialize()
         {
-            peersPorts = new int[PeersAdresses.Count];
-            peersAddresses = new long[PeersAdresses.Count];
-
             for (int i = 0; i < PeersAdresses.Count; i++)
             {
-                peersAddresses[i] = (PeersAdresses[i] as IPEndPoint).Address.Address;
-                peersPorts[i] = (PeersAdresses[i] as IPEndPoint).Port;
+                peersAddresses.Add((PeersAdresses[i] as IPEndPoint).Address.Address);
+                peersPorts.Add((PeersAdresses[i] as IPEndPoint).Port);
             }
 
         }
@@ -119,11 +116,9 @@ namespace BlockChainVotings
         [ProtoAfterDeserialization]
         private void Deserialize()
         {
-            PeersAdresses = new List<EndPoint>();
-            for (int i = 0; i < peersPorts.Length; i++)
+            for (int i = 0; i < peersPorts.Count; i++)
             {
                 PeersAdresses.Add(new IPEndPoint(peersAddresses[i], peersPorts[i]));
-
             }
         }
     }
@@ -148,7 +143,7 @@ namespace BlockChainVotings
     public class RequestBlocksMessage : Message
     {
         [ProtoMember(2)]
-        public List<string> Hashes;
+        public List<string> Hashes = new List<string>();
 
         public RequestBlocksMessage(List<string> hashes)
         {
@@ -164,7 +159,7 @@ namespace BlockChainVotings
     public class RequestTransactionsMessage : Message
     {
         [ProtoMember(2)]
-        public List<string> Hashes;
+        public List<string> Hashes = new List<string>();
 
         public RequestTransactionsMessage(List<string> hashes)
         {
@@ -227,7 +222,7 @@ namespace BlockChainVotings
 
     public class TransactionsMessage : Message
     {
-        public List<Transaction> Transactions { get; set; }
+        public List<Transaction> Transactions;
         public TransactionsMessage(List<Transaction> transactions)
         {
             this.Type = MessageType.Transactions;

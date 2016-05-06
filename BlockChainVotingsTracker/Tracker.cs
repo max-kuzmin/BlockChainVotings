@@ -10,6 +10,7 @@ using System.ComponentModel;
 using NetworkCommsDotNet.Tools;
 using System.Net.Sockets;
 using System.Net.NetworkInformation;
+using NetworkCommsDotNet.Connections.TCP;
 
 namespace BlockChainVotingsTracker
 {
@@ -41,7 +42,7 @@ namespace BlockChainVotingsTracker
         {
             if (Status == TrackerStatus.Stopped)
             {
-                Connection.StartListening(ConnectionType.TCP, GetLocalEndPoint());
+                TCPConnection.StartListening(GetLocalEndPoint() as IPEndPoint, false);
                 Status = TrackerStatus.Started;
 
                 NetworkComms.Logger.Warn("Tracker started");

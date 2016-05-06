@@ -63,6 +63,23 @@ namespace BlockChainVotings
             Task.Run(() => net.Disconnect());
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Task.Run(() => net.RequestPeers());
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var list = new List<string>();
+            list.Add("123526326");
+            Task.Run(() => net.SendMessageToPeer(new RequestBlocksMessage(list), new IPEndPoint(0x2a00a8c0, CommonInfo.Port)));
+
+            Task.Run(() => net.SendMessageToPeer(new RequestTransactionsMessage(list), new IPEndPoint(0x2a00a8c0, CommonInfo.Port)));
+
+            //Task.Run(() => net.SendMessageToPeer(new TransactionsMessage(new List<Transaction>()), new IPEndPoint(0x2a00a8c0, 10001)));
+            //Task.Run(() => net.SendMessageToPeer(new BlocksMessage(new List<Block>()), new IPEndPoint(0x2a00a8c0, 10001)));
+        }
+
         ////хеш
         //public string CalcSHA256(byte[] data)
         //{

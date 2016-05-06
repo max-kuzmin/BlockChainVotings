@@ -18,6 +18,8 @@ namespace BlockChainVotingsTracker
         public List<Peer> ConnectedPeers { get; }
         public PeerStatus Status { get; set; }
 
+        public int ErrorsCount { get; set; }
+
         List<Peer> allPeers;
         static PeerComparer peerComparer = new PeerComparer();
 
@@ -34,8 +36,8 @@ namespace BlockChainVotingsTracker
 
             //обработчики приходящих сообщений
             this.Connection.AppendShutdownHandler((c) => Disconnect());
-            //Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>("PeerDisconnectMessage",
-            //            (p, c, m) => Disconnect());
+            Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>("PeerDisconnectMessage",
+                        (p, c, m) => Disconnect());
             this.Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name, OnPeerHashMessage);
             this.Connection.AppendIncomingPacketHandler<RequestPeersMessage>(typeof(RequestPeersMessage).Name, OnRequestPeersMessage);
             this.Connection.AppendIncomingPacketHandler<ConnectToPeerWithTrackerMessage>(typeof(ConnectToPeerWithTrackerMessage).Name, OnConnectToPeerWithTrackerMessage);
@@ -51,11 +53,24 @@ namespace BlockChainVotingsTracker
                 Peer reciever = ConnectedPeers.First(peer => peer.Address == incomingObject.RecieverAddress);
                 if (reciever != null && reciever.ConnectedPeers.Contains(this))
                 {
-                    reciever.Connection.SendObject(incomingObject.GetType().Name, incomingObject);
+                    //if (reciever.Connection.ConnectionAlive())
+                        reciever.Connection.SendObject(incomingObject.GetType().Name, incomingObject);
+                    //else reciever.OnError();
                 }
             }
 
         }
+
+
+        //public void OnError()
+        //{
+        //    ErrorsCount++;
+        //    if (ErrorsCount>=3)
+        //    {
+        //        Disconnect();
+        //    }
+        //}
+
 
         private void OnConnectToPeerWithTrackerMessage(PacketHeader packetHeader, Connection connection, ConnectToPeerWithTrackerMessage incomingObject)
         {
@@ -72,13 +87,19 @@ namespace BlockChainVotingsTracker
                     peerToConnect.ConnectedPeers.Add(this);
                 }
 
-                peerToConnect.Connection.SendObject(incomingObject.GetType().Name, incomingObject);
+                //if (peerToConnect.Connection.ConnectionAlive())
+                    peerToConnect.Connection.SendObject(incomingObject.GetType().Name, incomingObject);
+                //else peerToConnect.OnError();
+
+                
             }
             //если трекер не нашел пир адресат то отправляем отправителю дисконнект адресата
             else
             {
                 var message = new PeerDisconnectMessage(peerToConnect.Address);
-                Connection.SendObject(message.GetType().Name, message);
+
+                    Connection.SendObject(message.GetType().Name, message);
+
             }
 
 
@@ -95,7 +116,8 @@ namespace BlockChainVotingsTracker
 
             var peersAddresses = peersToSend.Select(peer => peer.Address);
             var message = new PeersMessage(peersAddresses.ToList());
-            Connection.SendObject(message.Type.ToString(), message);
+
+                Connection.SendObject(message.Type.ToString(), message);
 
 
             foreach (var peer in peersToSend)
@@ -114,7 +136,10 @@ namespace BlockChainVotingsTracker
         {
             //отправить пусой хеш и ожидать его хеш
             var message = new PeerHashMessage(string.Empty, true);
-            Connection.SendObject(message.GetType().Name, message);
+
+            //if (Connection.ConnectionAlive())
+                Connection.SendObject(message.GetType().Name, message);
+            //else OnError();
         }
 
         public void Disconnect()
@@ -127,7 +152,7 @@ namespace BlockChainVotingsTracker
                 //отправить тому пиру сообщение об оключении
                 var message = new PeerDisconnectMessage(Address);
                 var shell = new ToPeerMessage(Address, peer.Address, message);
-                peer.Connection.SendObject(shell.GetType().Name, shell);
+                    Connection.SendObject(shell.GetType().Name, shell);
             }
 
             Connection.Dispose();

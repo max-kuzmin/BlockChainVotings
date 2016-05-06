@@ -21,6 +21,7 @@ namespace BlockChainVotings
         public event EventHandler<MessageEventArgs> OnRequestTransactionsMessage;
         public event EventHandler<MessageEventArgs> OnBlocksMessage;
         public event EventHandler<MessageEventArgs> OnTransactionsMessage;
+        public event EventHandler<MessageEventArgs> OnPeersMessage;
 
 
         public EndPoint Address { get; }
@@ -50,12 +51,13 @@ namespace BlockChainVotings
         public void Connect(bool withTracker = false)
         {
 
-            if (Status == PeerStatus.NoHashRecieved)
+            /*if (Status == PeerStatus.NoHashRecieved)
             {
                 RequestPeerHash();
                 return;
             }
-            else if (Status == PeerStatus.Connected) return;
+            else*/
+            if (Status == PeerStatus.Connected) return;
 
 
             //попытка подключения сразу через трекер (используется если поступил запрос от трекера)
@@ -67,15 +69,14 @@ namespace BlockChainVotings
                 try
                 {
                     ConnectionInfo connInfo = new ConnectionInfo(Address);
-
-                    Connection newConn = UDPConnection.GetConnection(connInfo, UDPOptions.Handshake);
+                    TCPConnection newTCPConn = TCPConnection.GetConnection(connInfo);
 
                     ConnectionType = ConnectionMode.Direct;
                     Status = PeerStatus.NoHashRecieved;
-                    Connection = newConn;
+                    Connection = newTCPConn;
 
                     //обработчики приходящих сообщений внутри пира
-                    //Connection.AppendShutdownHandler((c) => DisconnectDirect(false));
+                    Connection.AppendShutdownHandler((c) => DisconnectDirect(false));
                     Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
                         (p, c, m) => DisconnectDirect(false));
 
@@ -84,24 +85,43 @@ namespace BlockChainVotings
 
                     Connection.AppendIncomingPacketHandler<RequestPeersMessage>(typeof(RequestPeersMessage).Name,
                         (p, c, m) => OnRequestPeersMessageDirect(m));
-                    
+
+
                     //вызов внешних событий
                     Connection.AppendIncomingPacketHandler<RequestBlocksMessage>(typeof(RequestBlocksMessage).Name,
-                        (p, c, m) => OnRequestBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
+                        (p, c, m) => {
+                            if (OnRequestBlocksMessage != null)
+                                OnRequestBlocksMessage(this, new MessageEventArgs(m, Hash, Address));
+                        });
 
                     Connection.AppendIncomingPacketHandler<RequestTransactionsMessage>(typeof(RequestTransactionsMessage).Name,
-                        (p, c, m) => OnRequestTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
+                        (p, c, m) => {
+                            if (OnRequestTransactionsMessage != null)
+                                OnRequestTransactionsMessage(this, new MessageEventArgs(m, Hash, Address));
+                        });
 
                     Connection.AppendIncomingPacketHandler<BlocksMessage>(typeof(BlocksMessage).Name,
-                        (p, c, m) => OnBlocksMessage(this, new MessageEventArgs(m, Hash, Address)));
+                        (p, c, m) => {
+                            if (OnBlocksMessage != null)
+                                OnBlocksMessage(this, new MessageEventArgs(m, Hash, Address));
+                        });
 
                     Connection.AppendIncomingPacketHandler<TransactionsMessage>(typeof(TransactionsMessage).Name,
-                        (p, c, m) => OnTransactionsMessage(this, new MessageEventArgs(m, Hash, Address)));
+                        (p, c, m) => {
+                            if (OnTransactionsMessage != null)
+                                OnTransactionsMessage(this, new MessageEventArgs(m, Hash, Address));
+                        });
+
+                    Connection.AppendIncomingPacketHandler<PeersMessage>(typeof(PeersMessage).Name,
+                        (p, c, m) => {
+                            if (OnPeersMessage != null)
+                                OnPeersMessage(this, new MessageEventArgs(m, Hash, Address));
+                        });
 
 
                     RequestPeerHash();
                 }
-                catch (CommsException ex)
+                catch (Exception ex)
                 {
                     Connection = null;
 
@@ -127,28 +147,44 @@ namespace BlockChainVotings
             }
         }
 
+
         private void ConnectWithTracker()
         {
             try
             {
-                tracker.ConnectPeerToPeer(this);
-
-                ConnectionType = ConnectionMode.WithTracker;
-                Status = PeerStatus.NoHashRecieved;
+                //при удалении трекера из списка отключаем пир
+                tracker.OnTrackerError += RemoveTracker;
 
                 //подписка на сообщения с трекера
                 tracker.OnDisconnectPeer += OnDisconnectPeerWithTracker;
                 tracker.OnPeerHashMessage += OnPeerHashMessageWithTracker;
                 tracker.OnRequestPeersMessage += OnRequestPeersMessageWithTracker;
 
+
+                ConnectionType = ConnectionMode.WithTracker;
+                Status = PeerStatus.NoHashRecieved;
+
+                tracker.ConnectPeerToPeer(this);
+
                 RequestPeerHash();
 
             }
             //если не удалось через трекер, то ошибка
-            catch (CommsException ex2)
+            catch (Exception ex2)
             {
                 ErrorsCount++;
                 Status = PeerStatus.Disconnected;
+            }
+        }
+
+        private void RemoveTracker(object sender, EventArgs e)
+        {
+            tracker = null;
+
+            if (Status == PeerStatus.Connected && ConnectionType == ConnectionMode.WithTracker)
+            {
+                Status = PeerStatus.Disconnected;
+                ConnectionType = ConnectionMode.Direct;
             }
         }
 
@@ -231,7 +267,16 @@ namespace BlockChainVotings
             {
                 if (ConnectionType == ConnectionMode.Direct)
                 {
-                    Connection.SendObject(message.GetType().Name, message);
+                    //проверка на дисконнект
+                    //if (Connection.ConnectionAlive())
+                    //{
+                        Connection.SendObject(message.GetType().Name, message);
+                    //}
+                    //else
+                    //{
+                    //    Status = PeerStatus.Disconnected;
+                    //    Connect();
+                    //}
                 }
                 else
                 {
@@ -251,12 +296,22 @@ namespace BlockChainVotings
                 var message = new RequestPeersMessage(count);
                 if (ConnectionType == ConnectionMode.Direct)
                 {
-                    Connection.SendObject(message.GetType().Name, message);
+                    //проверка на дисконнект
+                    //if (Connection.ConnectionAlive())
+                    //{
+                        Connection.SendObject(message.GetType().Name, message);
+                    //}
+                    //else
+                    //{
+                    //    Status = PeerStatus.Disconnected;
+                    //    Connect();
+                    //}
                 }
                 else
                 {
                     tracker.SendMessageToPeer(message, this);
                 }
+                PeersRequestsCount++;
             }
             else
             {
@@ -306,8 +361,16 @@ namespace BlockChainVotings
                 var message = new PeerHashMessage(CommonInfo.LocalHash, true);
                 if (ConnectionType == ConnectionMode.Direct)
                 {
-
-                    Connection.SendObject(message.GetType().Name, message);
+                    //проверка на дисконнект
+                    //if (Connection.ConnectionAlive())
+                    //{
+                        Connection.SendObject(message.GetType().Name, message);
+                    //}
+                    //else
+                    //{
+                    //    Status = PeerStatus.Disconnected;
+                    //    Connect();
+                    //}
                 }
                 else
                 {
