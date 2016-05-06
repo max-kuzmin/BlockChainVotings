@@ -41,6 +41,9 @@ namespace BlockChainVotings
         public event EventHandler<MessageEventArgs> OnBlocksMessage;
         public event EventHandler<MessageEventArgs> OnTransactionsMessage;
 
+        //событие при ошибке трекера
+        public event EventHandler OnTrackerError;
+
 
         public Tracker(EndPoint address, List<Tracker> allTrackers)
         {
@@ -54,7 +57,7 @@ namespace BlockChainVotings
 
         public void SendMessageToPeer(Message message, Peer peer)
         {
-            if (Connection != null && Status == TrackerStatus.Connected)
+            if (Status == TrackerStatus.Connected /*&& Connection.ConnectionAlive()*/)
             {
                 var shellMessage = new ToPeerMessage(Connection.ConnectionInfo.LocalEndPoint, peer.Address, message);
                 Connection.SendObject(message.GetType().Name, shellMessage);
@@ -64,7 +67,7 @@ namespace BlockChainVotings
 
         public void ConnectPeerToPeer(Peer peerToConnect)
         {
-            if (Connection != null && Status == TrackerStatus.Connected)
+            if (Status == TrackerStatus.Connected /*&& Connection.ConnectionAlive()*/)
             {
                 var message = new ConnectToPeerWithTrackerMessage(Connection.ConnectionInfo.LocalEndPoint, peerToConnect.Address);
                 Connection.SendObject(message.GetType().Name, message);
@@ -81,7 +84,7 @@ namespace BlockChainVotings
                 {
                     ConnectionInfo connInfo = new ConnectionInfo(Address);
                     Connection newTCPConn = TCPConnection.GetConnection(connInfo);
-                    //newTCPConn.EstablishConnection();
+
                     Status = TrackerStatus.Connected;
                     Connection = newTCPConn;
 
@@ -89,9 +92,13 @@ namespace BlockChainVotings
                     Connection.AppendIncomingPacketHandler<ToPeerMessage>(typeof(ToPeerMessage).Name, OnToPeerMessage);
 
                     Connection.AppendIncomingPacketHandler<PeersMessage>(typeof(PeersMessage).Name,
-                        (p, c, m) => OnPeersMessageFromTracker(this, new MessageEventArgs(m, null, Address)));
+                        (p, c, m) =>
+                        {
+                            if (OnPeersMessageFromTracker != null)
+                                OnPeersMessageFromTracker(this, new MessageEventArgs(m, null, Address));
+                        });
                 }
-                catch (CommsException ex)
+                catch (Exception ex)
                 {
                     ErrorsCount++;
                     Status = TrackerStatus.Disconnected;
@@ -99,6 +106,8 @@ namespace BlockChainVotings
                     if (ErrorsCount >= 3)
                     {
                         allTrackers.Remove(this);
+
+                        OnTrackerError(this, new EventArgs());
                     }
                 }
             }
@@ -111,39 +120,39 @@ namespace BlockChainVotings
                 var eventArgs = new MessageEventArgs(incomingObject.Message, null, incomingObject.SenderAddress);
 
                 //при получении сообщения для пира, ивлекаем его из обертки и вызываем соотвествующее событие
-                if (incomingObject.Message is PeerDisconnectMessage)
+                if (incomingObject.Message is PeerDisconnectMessage && OnDisconnectPeer!=null)
                 {
                     OnDisconnectPeer(this, eventArgs);
                 }
-                else if (incomingObject.Message is PeerHashMessage)
+                else if (incomingObject.Message is PeerHashMessage && OnPeerHashMessage != null)
                 {
                     OnPeerHashMessage(this, eventArgs);
                 }
-                else if (incomingObject.Message is RequestPeersMessage)
+                else if (incomingObject.Message is RequestPeersMessage && OnRequestPeersMessage != null)
                 {
                     OnRequestPeersMessage(this, eventArgs);
                 }
-                else if (incomingObject.Message is PeersMessage)
+                else if (incomingObject.Message is PeersMessage && OnPeersMessageFromPeer != null)
                 {
                     OnPeersMessageFromPeer(this, eventArgs);
                 }
-                else if (incomingObject.Message is RequestBlocksMessage)
+                else if (incomingObject.Message is RequestBlocksMessage && OnRequestBlocksMessage != null)
                 {
                     OnRequestBlocksMessage(this, eventArgs);
                 }
-                else if (incomingObject.Message is RequestTransactionsMessage)
+                else if (incomingObject.Message is RequestTransactionsMessage && OnRequestTransactionsMessage != null)
                 {
                     OnRequestTransactionsMessage(this, eventArgs);
                 }
-                else if (incomingObject.Message is BlocksMessage)
+                else if (incomingObject.Message is BlocksMessage && OnBlocksMessage != null)
                 {
                     OnBlocksMessage(this, eventArgs);
                 }
-                else if (incomingObject.Message is TransactionsMessage)
+                else if (incomingObject.Message is TransactionsMessage && OnTransactionsMessage != null)
                 {
                     OnTransactionsMessage(this, eventArgs);
                 }
-                else if (incomingObject.Message is ConnectToPeerWithTrackerMessage)
+                else if (incomingObject.Message is ConnectToPeerWithTrackerMessage && OnConnectToPeerWithTrackerMessage != null)
                 {
                     OnConnectToPeerWithTrackerMessage(this, eventArgs);
                 }
@@ -167,7 +176,7 @@ namespace BlockChainVotings
 
         public void RequestPeersFromTracker(int count)
         {
-            if (Status == TrackerStatus.Connected && Connection != null)
+            if (Status == TrackerStatus.Connected /*&& Connection.ConnectionAlive()*/)
             {
                 var message = new RequestPeersMessage(count);
                 Connection.SendObject(message.GetType().Name, message);

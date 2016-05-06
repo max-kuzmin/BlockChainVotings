@@ -83,7 +83,7 @@ namespace BlockChainVotingsTracker
     [ProtoContract]
     public class PeersMessage : Message
     {
-        public List<EndPoint> PeersAdresses;
+        public List<EndPoint> PeersAdresses = new List<EndPoint>();
 
         public PeersMessage(List<EndPoint> peersAdresses)
         {
@@ -96,20 +96,17 @@ namespace BlockChainVotingsTracker
         public PeersMessage() { }
 
         [ProtoMember(2)]
-        int[] peersPorts;
+        List<int> peersPorts = new List<int>();
         [ProtoMember(3)]
-        long[] peersAddresses;
+        List<long> peersAddresses = new List<long>();
 
         [ProtoBeforeSerialization]
         private void Serialize()
         {
-            peersPorts = new int[PeersAdresses.Count];
-            peersAddresses = new long[PeersAdresses.Count];
-
             for (int i = 0; i < PeersAdresses.Count; i++)
             {
-                peersAddresses[i] = (PeersAdresses[i] as IPEndPoint).Address.Address;
-                peersPorts[i] = (PeersAdresses[i] as IPEndPoint).Port;
+                peersAddresses.Add((PeersAdresses[i] as IPEndPoint).Address.Address);
+                peersPorts.Add((PeersAdresses[i] as IPEndPoint).Port);
             }
 
         }
@@ -117,11 +114,9 @@ namespace BlockChainVotingsTracker
         [ProtoAfterDeserialization]
         private void Deserialize()
         {
-            PeersAdresses = new List<EndPoint>();
-            for (int i = 0; i < peersPorts.Length; i++)
+            for (int i = 0; i < peersPorts.Count; i++)
             {
                 PeersAdresses.Add(new IPEndPoint(peersAddresses[i], peersPorts[i]));
-
             }
         }
     }
@@ -142,29 +137,7 @@ namespace BlockChainVotingsTracker
         public RequestPeersMessage() { }
     }
 
-
-    //public class RequestBlocksMessage : Message
-    //{
-    //    public List<string> Hashes { get; }
-
-    //    public RequestBlocksMessage(List<string> hashes)
-    //    {
-    //        this.type = MessageType.RequestBlocks;
-    //        this.Hashes = hashes;
-    //    }
-    //}
-
-    //public class RequestTransactionsMessage : Message
-    //{
-    //    public List<string> Hashes { get; }
-
-    //    public RequestTransactionsMessage(List<string> hashes)
-    //    {
-    //        this.type = MessageType.RequestTransactions;
-    //        this.Hashes = hashes;
-    //    }
-    //}
-
+   
 
     [ProtoContract]
     public class ToPeerMessage : Message
@@ -215,22 +188,6 @@ namespace BlockChainVotingsTracker
     }
 
 
-    //public class TransactionsMessage : Message
-    //{
-    //    public TransactionsMessage()
-    //    {
-    //        this.type = MessageType.Transactions;
-    //    }
-    //}
-
-    //public class BlocksMessage : Message
-    //{
-    //    public BlocksMessage()
-    //    {
-    //        this.type = MessageType.Transactions;
-    //    }
-    //}
-
 
     [ProtoContract]
     public class ConnectToPeerWithTrackerMessage : Message
@@ -275,8 +232,6 @@ namespace BlockChainVotingsTracker
             RecieverAddress = new IPEndPoint(recieverAddress, recieverPort);
         }
     }
-
-
 
 
 }
