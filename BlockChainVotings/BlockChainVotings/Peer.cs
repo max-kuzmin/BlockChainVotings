@@ -61,7 +61,7 @@ namespace BlockChainVotings
 
 
             //попытка подключения сразу через трекер (используется если поступил запрос от трекера)
-            if (withTracker)
+            if (withTracker || true)
                 ConnectWithTracker();
             else
             {
@@ -76,7 +76,7 @@ namespace BlockChainVotings
                     Connection = newTCPConn;
 
                     //обработчики приходящих сообщений внутри пира
-                    Connection.AppendShutdownHandler((c) => DisconnectDirect(false));
+                    //Connection.AppendShutdownHandler((c) => DisconnectDirect(false));
                     Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
                         (p, c, m) => DisconnectDirect(false));
 
@@ -166,7 +166,7 @@ namespace BlockChainVotings
 
                 tracker.ConnectPeerToPeer(this);
 
-                RequestPeerHash();
+                //RequestPeerHash();
 
             }
             //если не удалось через трекер, то ошибка
@@ -232,7 +232,7 @@ namespace BlockChainVotings
         {
             var message = e.Message as PeerDisconnectMessage;
 
-            if (message.PeerAddress == Address)
+            if (message.PeerAddress.Equals(Address))
             {
                 Status = PeerStatus.Disconnected;
                 allPeers.Remove(this);
@@ -321,19 +321,41 @@ namespace BlockChainVotings
 
         public void DisconnectDirect(bool sendMessage = true)
         {
-            if (ConnectionType == ConnectionMode.Direct && Connection != null && Status != PeerStatus.Disconnected)
-            {
-                if (sendMessage)
-                {
-                    var message = new PeerDisconnectMessage(Connection.ConnectionInfo.LocalEndPoint);
-                    Connection.SendObject(message.GetType().Name, message);
-                }
+            allPeers.Remove(this);
 
-                Status = PeerStatus.Disconnected;
-                Connection.Dispose();
-                Connection = null;
-                allPeers.Remove(this);
+            if (ConnectionType == ConnectionMode.Direct)
+            {
+
+                if (Connection != null)
+                {
+                    if (sendMessage)
+                    {
+                        var message = new PeerDisconnectMessage(CommonInfo.GetLocalEndPoint());
+                        Connection.SendObject(message.GetType().Name, message);
+                    }
+
+                    Connection.Dispose();
+                    Connection = null;
+                }
+                
             }
+            //else
+            //{
+            //    if (sendMessage && tracker!=null && tracker.Connection != null)
+            //    {
+            //        var message = new PeerDisconnectMessage(CommonInfo.GetLocalEndPoint());
+            //        tracker.Connection.SendObject(message.GetType().Name, message);
+            //    }
+
+            //    if (Connection != null)
+            //    {
+            //        Connection.Dispose();
+            //        Connection = null;
+            //    }
+
+            //}
+
+            Status = PeerStatus.Disconnected;
         }
 
         private void OnPeerHashMessageDirect(PeerHashMessage message)

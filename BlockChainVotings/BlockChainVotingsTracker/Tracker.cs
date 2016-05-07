@@ -17,7 +17,7 @@ namespace BlockChainVotingsTracker
     public class Tracker
     {
         public List<Peer> Peers { get; }
-        static public int Port { get { return 10101; } }
+        static public int Port { get { return 10102; } }
         public TrackerStatus Status { get; set; }
 
         public Tracker()

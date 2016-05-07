@@ -54,7 +54,8 @@ namespace BlockChainVotings
         private void OnConnectPeerDirect(Connection connection)
         {
             if (connection.ConnectionInfo.ConnectionType == ConnectionType.TCP
-                && !(connection.ConnectionInfo.LocalEndPoint as IPEndPoint).Address.Equals((connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Address))
+                && !(connection.ConnectionInfo.LocalEndPoint as IPEndPoint).Address.Equals((connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Address)
+                && (connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Port == CommonInfo.PeerPort)
             {
                 AddPeer(connection.ConnectionInfo.RemoteEndPoint);
             }
@@ -71,7 +72,7 @@ namespace BlockChainVotings
                 /*int port = 0;*/
                 if (parts.Length >= 1 && IPAddress.TryParse(parts[0], out addr) /*&& int.TryParse(parts[1], out port)*/)
                 {
-                    EndPoint endPoint = new IPEndPoint(addr, CommonInfo.Port);
+                    EndPoint endPoint = new IPEndPoint(addr, CommonInfo.TrackerPort);
 
                     Tracker tracker = new Tracker(endPoint, Trackers);
 
@@ -166,7 +167,7 @@ namespace BlockChainVotings
             if (discoveredListenerEndPoints[ConnectionType.UDP].Any())
             {
                 var address = discoveredListenerEndPoints[ConnectionType.UDP].First();
-                (address as IPEndPoint).Port = CommonInfo.Port;
+                (address as IPEndPoint).Port = CommonInfo.PeerPort;
 
                 AddPeer(address);
             }
@@ -221,7 +222,7 @@ namespace BlockChainVotings
 
             //сначала ищем пиры без трекера
             try {
-                PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
+                //PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
             }
             catch (InvalidOperationException e) { }
 
@@ -311,9 +312,11 @@ namespace BlockChainVotings
 
             t.Stop();
 
-                PeerDiscovery.DisableDiscoverable();
-                Connection.StopListening();
-                NetworkComms.Shutdown();
+
+            PeerDiscovery.DisableDiscoverable();
+            Connection.StopListening();
+            NetworkComms.CloseAllConnections();
+            NetworkComms.Shutdown();
 
             NetworkComms.Logger.Warn("Client stopped");
         }
@@ -324,11 +327,12 @@ namespace BlockChainVotings
 
             if (CommonInfo.GetLocalEndPoint() != null)
             {
-                PeerDiscovery.MinTargetLocalIPPort = 10001;
-                PeerDiscovery.MaxTargetLocalIPPort = 10001;
+                PeerDiscovery.MinTargetLocalIPPort = CommonInfo.DiscoveryPort;
+                PeerDiscovery.MaxTargetLocalIPPort = CommonInfo.DiscoveryPort;
                 PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
                 PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonInfo.GetLocalEndPoint(true));
             }
+
 
             TCPConnection.StartListening(CommonInfo.GetLocalEndPoint() as IPEndPoint, false);
 

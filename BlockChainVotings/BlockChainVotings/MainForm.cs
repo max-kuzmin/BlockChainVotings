@@ -72,13 +72,14 @@ namespace BlockChainVotings
         {
             var list = new List<string>();
             list.Add("123526326");
-            Task.Run(() => net.SendMessageToPeer(new RequestBlocksMessage(list), new IPEndPoint(0x2a00a8c0, CommonInfo.Port)));
+            Task.Run(() => net.SendMessageToPeer(new RequestBlocksMessage(list), new IPEndPoint(0xC0A8004D, CommonInfo.PeerPort)));
 
-            Task.Run(() => net.SendMessageToPeer(new RequestTransactionsMessage(list), new IPEndPoint(0x2a00a8c0, CommonInfo.Port)));
+            Task.Run(() => net.SendMessageToPeer(new RequestTransactionsMessage(list), new IPEndPoint(0xC0A8004D, CommonInfo.PeerPort)));
 
             //Task.Run(() => net.SendMessageToPeer(new TransactionsMessage(new List<Transaction>()), new IPEndPoint(0x2a00a8c0, 10001)));
             //Task.Run(() => net.SendMessageToPeer(new BlocksMessage(new List<Block>()), new IPEndPoint(0x2a00a8c0, 10001)));
         }
+
 
         ////хеш
         //public string CalcSHA256(byte[] data)

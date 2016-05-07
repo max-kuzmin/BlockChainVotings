@@ -59,7 +59,7 @@ namespace BlockChainVotings
         {
             if (Status == TrackerStatus.Connected /*&& Connection.ConnectionAlive()*/)
             {
-                var shellMessage = new ToPeerMessage(Connection.ConnectionInfo.LocalEndPoint, peer.Address, message);
+                var shellMessage = new ToPeerMessage(CommonInfo.GetLocalEndPoint(), peer.Address, message);
                 Connection.SendObject(message.GetType().Name, shellMessage);
             }
             else Connect();
@@ -69,7 +69,7 @@ namespace BlockChainVotings
         {
             if (Status == TrackerStatus.Connected /*&& Connection.ConnectionAlive()*/)
             {
-                var message = new ConnectToPeerWithTrackerMessage(Connection.ConnectionInfo.LocalEndPoint, peerToConnect.Address);
+                var message = new ConnectToPeerWithTrackerMessage(CommonInfo.GetLocalEndPoint(), peerToConnect.Address);
                 Connection.SendObject(message.GetType().Name, message);
             }
             else Connect();
@@ -91,12 +91,22 @@ namespace BlockChainVotings
 
                     Connection.AppendIncomingPacketHandler<ToPeerMessage>(typeof(ToPeerMessage).Name, OnToPeerMessage);
 
+                    Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name, OnPeerHashMessageFromTracker);
+
                     Connection.AppendIncomingPacketHandler<PeersMessage>(typeof(PeersMessage).Name,
                         (p, c, m) =>
                         {
                             if (OnPeersMessageFromTracker != null)
                                 OnPeersMessageFromTracker(this, new MessageEventArgs(m, null, Address));
                         });
+
+                    Connection.AppendIncomingPacketHandler<ConnectToPeerWithTrackerMessage>(typeof(ConnectToPeerWithTrackerMessage).Name,
+                        (p, c, m) =>
+                        {
+                            if (OnConnectToPeerWithTrackerMessage != null)
+                                OnConnectToPeerWithTrackerMessage(this, new MessageEventArgs(m, null, Address));
+                        });
+
                 }
                 catch (Exception ex)
                 {
@@ -113,9 +123,17 @@ namespace BlockChainVotings
             }
         }
 
+        private void OnPeerHashMessageFromTracker(PacketHeader packetHeader, Connection connection, PeerHashMessage incomingObject)
+        {
+            var messageToSend = new PeerHashMessage(CommonInfo.LocalHash, false);
+            Connection.SendObject(messageToSend.GetType().Name, messageToSend);
+        }
+
+
+
         private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
         {
-            if (incomingObject.RecieverAddress == Connection.ConnectionInfo.LocalEndPoint)
+            if (incomingObject.RecieverAddress.Equals(CommonInfo.GetLocalEndPoint()))
             {
                 var eventArgs = new MessageEventArgs(incomingObject.Message, null, incomingObject.SenderAddress);
 
@@ -151,26 +169,29 @@ namespace BlockChainVotings
                 else if (incomingObject.Message is TransactionsMessage && OnTransactionsMessage != null)
                 {
                     OnTransactionsMessage(this, eventArgs);
-                }
-                else if (incomingObject.Message is ConnectToPeerWithTrackerMessage && OnConnectToPeerWithTrackerMessage != null)
-                {
-                    OnConnectToPeerWithTrackerMessage(this, eventArgs);
-                }
+                }              
             }
         }
 
         public void Disconnect()
         {
+            allTrackers.Remove(this);
+
             if (Status == TrackerStatus.Connected)
             {
 
-                var message = new PeerDisconnectMessage(Connection.ConnectionInfo.LocalEndPoint);
+                var message = new PeerDisconnectMessage(CommonInfo.GetLocalEndPoint());
                 Connection.SendObject(message.GetType().Name, message);
 
-                if (Connection != null) Connection.Dispose();
-                Status = TrackerStatus.Disconnected;
+            }
+
+            if (Connection != null)
+            {
+                Connection.Dispose();
                 Connection = null;
             }
+
+            Status = TrackerStatus.Disconnected;
         }
 
 

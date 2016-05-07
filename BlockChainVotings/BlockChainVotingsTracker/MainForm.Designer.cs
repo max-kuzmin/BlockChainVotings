@@ -64,6 +64,7 @@
             this.textBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxConsole.Size = new System.Drawing.Size(758, 291);
             this.textBoxConsole.TabIndex = 2;
+            this.textBoxConsole.WordWrap = false;
             // 
             // MainForm
             // 
