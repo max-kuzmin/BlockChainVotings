@@ -35,8 +35,8 @@ namespace BlockChainVotingsTracker
             this.Status = PeerStatus.NoHashRecieved;
 
             //обработчики приходящих сообщений
-            this.Connection.AppendShutdownHandler((c) => Disconnect());
-            Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>("PeerDisconnectMessage",
+            //this.Connection.AppendShutdownHandler((c) => Disconnect());
+            Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
                         (p, c, m) => Disconnect());
             this.Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name, OnPeerHashMessage);
             this.Connection.AppendIncomingPacketHandler<RequestPeersMessage>(typeof(RequestPeersMessage).Name, OnRequestPeersMessage);
@@ -50,7 +50,7 @@ namespace BlockChainVotingsTracker
         {
             if (Address == incomingObject.SenderAddress)
             {
-                Peer reciever = ConnectedPeers.First(peer => peer.Address == incomingObject.RecieverAddress);
+                Peer reciever = ConnectedPeers.FirstOrDefault(peer => peer.Address.Equals(incomingObject.RecieverAddress));
                 if (reciever != null && reciever.ConnectedPeers.Contains(this))
                 {
                     //if (reciever.Connection.ConnectionAlive())
@@ -74,7 +74,7 @@ namespace BlockChainVotingsTracker
 
         private void OnConnectToPeerWithTrackerMessage(PacketHeader packetHeader, Connection connection, ConnectToPeerWithTrackerMessage incomingObject)
         {
-            var peerToConnect = allPeers.First(peer => peer.Address == incomingObject.RecieverAddress);
+            var peerToConnect = allPeers.FirstOrDefault(peer => peer.Address.Equals(incomingObject.RecieverAddress));
 
             if (peerToConnect != null)
             {
@@ -85,13 +85,14 @@ namespace BlockChainVotingsTracker
                 if (!peerToConnect.ConnectedPeers.Contains(this))
                 {
                     peerToConnect.ConnectedPeers.Add(this);
+
+                    //if (peerToConnect.Connection.ConnectionAlive())
+                    peerToConnect.Connection.SendObject(incomingObject.GetType().Name, incomingObject);
+                    //else peerToConnect.OnError();
                 }
 
-                //if (peerToConnect.Connection.ConnectionAlive())
-                    peerToConnect.Connection.SendObject(incomingObject.GetType().Name, incomingObject);
-                //else peerToConnect.OnError();
 
-                
+
             }
             //если трекер не нашел пир адресат то отправляем отправителю дисконнект адресата
             else
@@ -117,7 +118,7 @@ namespace BlockChainVotingsTracker
             var peersAddresses = peersToSend.Select(peer => peer.Address);
             var message = new PeersMessage(peersAddresses.ToList());
 
-                Connection.SendObject(message.Type.ToString(), message);
+                Connection.SendObject(message.GetType().Name, message);
 
 
             foreach (var peer in peersToSend)
@@ -144,6 +145,9 @@ namespace BlockChainVotingsTracker
 
         public void Disconnect()
         {
+
+            allPeers.Remove(this);
+
             foreach (Peer peer in ConnectedPeers)
             {
                 //удалить это пир из списка того пира
@@ -152,11 +156,14 @@ namespace BlockChainVotingsTracker
                 //отправить тому пиру сообщение об оключении
                 var message = new PeerDisconnectMessage(Address);
                 var shell = new ToPeerMessage(Address, peer.Address, message);
-                    Connection.SendObject(shell.GetType().Name, shell);
+                peer.Connection.SendObject(shell.GetType().Name, shell);
             }
 
-            Connection.Dispose();
-            Connection = null;
+            if (Connection != null)
+            {
+                Connection.Dispose();
+                Connection = null;
+            }
 
             Status = PeerStatus.Disconnected;
         }
