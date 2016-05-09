@@ -16,7 +16,6 @@ namespace BlockChainVotings
         public MessageEventArgs(Message message, string senderHash, EndPoint senderAddress)
         {
             this.Message = message;
-            this.SenderHash = senderHash;
             this.SenderAddress = senderAddress;
         }
 

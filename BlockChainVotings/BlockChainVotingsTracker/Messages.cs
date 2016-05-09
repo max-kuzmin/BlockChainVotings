@@ -144,7 +144,7 @@ namespace BlockChainVotingsTracker
     {
         public EndPoint SenderAddress;
         public EndPoint RecieverAddress;
-        [ProtoMember(16)]
+        [ProtoMember(16, AsReference = true)]
         public Message Message;
 
         public ToPeerMessage(EndPoint senderAddress, EndPoint recieverAddress, Message message)

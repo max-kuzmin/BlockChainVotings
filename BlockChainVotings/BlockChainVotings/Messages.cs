@@ -176,7 +176,7 @@ namespace BlockChainVotings
     {
         public EndPoint SenderAddress;
         public EndPoint RecieverAddress;
-        [ProtoMember(6)]
+        [ProtoMember(16, AsReference = true)]
         public Message Message;
 
         public ToPeerMessage(EndPoint senderAddress, EndPoint recieverAddress, Message message)
@@ -191,14 +191,14 @@ namespace BlockChainVotings
         //
         public ToPeerMessage() { }
 
-        [ProtoMember(2)]
+        [ProtoMember(12)]
         long senderAddress;
-        [ProtoMember(3)]
+        [ProtoMember(13)]
         int senderPort;
 
-        [ProtoMember(4)]
+        [ProtoMember(14)]
         long recieverAddress;
-        [ProtoMember(5)]
+        [ProtoMember(15)]
         int recieverPort;
 
         [ProtoBeforeSerialization]

@@ -45,7 +45,7 @@ namespace BlockChainVotingsTracker
             ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
             Console.SetOut(writer);
 
-            if (Tracker.GetLocalEndPoint() == null)
+            if (CommonHelpers.GetLocalEndPoint(1) == null)
             {
                 MessageBox.Show("Для продолжения необходимо подключение к интернету");
             }
