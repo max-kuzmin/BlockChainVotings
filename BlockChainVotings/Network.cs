@@ -39,23 +39,30 @@ namespace BlockChainVotings
             SetupLogging();
 
 
-            t = new Timer(10000);
+            t = new Timer(CommonHelpers.CheckAliveInterval);
             t.Elapsed += (s, e) => RequestPeers();
             t.Elapsed += (s, e) => ConnectToPeers();
             t.Elapsed += (s, e) => ConnectToTrackers();
+            t.Elapsed += (s, e) => CheckPeers();
 
             NetworkComms.AppendGlobalConnectionEstablishHandler(OnConnectPeerDirect);
 
         }
 
-
-
+        private void CheckPeers()
+        {
+            var peersCopy = new List<Peer>(Peers);
+            foreach (var peer in peersCopy)
+            {
+                if (Peers.Count(p => p.Address.Equals(peer.Address))>1) Peers.Remove(peer);
+                peer.CheckConnection();
+            }
+        }
 
         private void OnConnectPeerDirect(Connection connection)
         {
             if (connection.ConnectionInfo.ConnectionType == ConnectionType.TCP
-                && !(connection.ConnectionInfo.LocalEndPoint as IPEndPoint).Address.Equals((connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Address)
-                && (connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Port == CommonInfo.PeerPort)
+                && (connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Port == CommonHelpers.PeerPort)
             {
                 AddPeer(connection.ConnectionInfo.RemoteEndPoint);
             }
@@ -72,7 +79,7 @@ namespace BlockChainVotings
                 /*int port = 0;*/
                 if (parts.Length >= 1 && IPAddress.TryParse(parts[0], out addr) /*&& int.TryParse(parts[1], out port)*/)
                 {
-                    EndPoint endPoint = new IPEndPoint(addr, CommonInfo.TrackerPort);
+                    EndPoint endPoint = new IPEndPoint(addr, CommonHelpers.TrackerPort);
 
                     Tracker tracker = new Tracker(endPoint, Trackers);
 
@@ -141,7 +148,8 @@ namespace BlockChainVotings
             //добавляем пир и если сообщение пришло от трекера, то указываем трекер
             foreach (var address in message.PeersAdresses)
             {
-                AddPeer(address, (sender is Tracker) ? (sender as Tracker) : null);
+                //if (!Peers.Any(peer => peer.Address.Equals(address)))
+                    AddPeer(address, (sender is Tracker) ? (sender as Tracker) : null);
             }
         }
 
@@ -156,7 +164,8 @@ namespace BlockChainVotings
 
         public void SendMessageToAllPeers(Message message)
         {
-            foreach (var peer in Peers)
+            var peersCopy = new List<Peer>(Peers);
+            foreach (var peer in peersCopy)
             {
                 peer.SendMessage(message);
             }
@@ -167,7 +176,7 @@ namespace BlockChainVotings
             if (discoveredListenerEndPoints[ConnectionType.UDP].Any())
             {
                 var address = discoveredListenerEndPoints[ConnectionType.UDP].First();
-                (address as IPEndPoint).Port = CommonInfo.PeerPort;
+                (address as IPEndPoint).Port = CommonHelpers.PeerPort;
 
                 AddPeer(address);
             }
@@ -175,7 +184,8 @@ namespace BlockChainVotings
 
         private void AddPeer(EndPoint address, Tracker tracker = null, bool withTracker = false)
         {
-            if (!Peers.Any(peer => (peer.Address as IPEndPoint).Address.Equals((address as IPEndPoint).Address)))
+            if (!(Peers.Any(peer => peer.Address.Equals(address)))
+                && !(address.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort))))
             {
                 var peer = new Peer(address, Peers, tracker);
                 Peers.Add(peer);
@@ -222,14 +232,14 @@ namespace BlockChainVotings
 
             //сначала ищем пиры без трекера
             try {
-                //PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
+                PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
             }
-            catch (InvalidOperationException e) { }
+            catch { }
 
 
 
             //пиры подключенные прямо (сортируем по кол-ву запросов)
-            var connectedPeersDirect = Peers.Where(peer => peer.Status == PeerStatus.Connected && peer.ConnectionType == ConnectionMode.Direct)
+            var connectedPeersDirect = Peers.Where(peer => peer.Status == PeerStatus.Connected && peer.ConnectionMode == ConnectionMode.Direct)
                 .OrderBy(peer => peer.PeersRequestsCount);
 
             //подключенные трекеры (сортируем по кол-ву запросов)
@@ -237,7 +247,7 @@ namespace BlockChainVotings
                 .OrderBy(tracker => tracker.PeersRequestsCount);
 
             //пиры подключенные через трекер (сортируем по кол-ву запросов)
-            var connectedPeersWithTracker = Peers.Where(peer => peer.Status == PeerStatus.Connected && peer.ConnectionType == ConnectionMode.WithTracker)
+            var connectedPeersWithTracker = Peers.Where(peer => peer.Status == PeerStatus.Connected && peer.ConnectionMode == ConnectionMode.WithTracker)
                 .OrderBy(peer => peer.PeersRequestsCount);
 
             //если есть подключенные пиры и трекеры
@@ -293,7 +303,8 @@ namespace BlockChainVotings
 
         private void ConnectToPeers()
         {
-            foreach (var peer in Peers)
+            var peersCopy = new List<Peer>(Peers);
+            foreach (var peer in peersCopy)
             {
                 if (peer.Status != PeerStatus.Connected) peer.Connect();
             }
@@ -325,16 +336,16 @@ namespace BlockChainVotings
         {
             ParseTrackers(trackers);
 
-            if (CommonInfo.GetLocalEndPoint() != null)
+            if (CommonHelpers.GetLocalEndPoint(1) != null)
             {
-                PeerDiscovery.MinTargetLocalIPPort = CommonInfo.DiscoveryPort;
-                PeerDiscovery.MaxTargetLocalIPPort = CommonInfo.DiscoveryPort;
+                PeerDiscovery.MinTargetLocalIPPort = CommonHelpers.DiscoveryPort;
+                PeerDiscovery.MaxTargetLocalIPPort = CommonHelpers.DiscoveryPort;
                 PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
-                PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonInfo.GetLocalEndPoint(true));
+                PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonHelpers.GetLocalEndPoint(CommonHelpers.DiscoveryPort));
             }
 
 
-            TCPConnection.StartListening(CommonInfo.GetLocalEndPoint() as IPEndPoint, false);
+            TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), false);
 
             NetworkComms.Logger.Warn("Client started");
 
@@ -342,7 +353,7 @@ namespace BlockChainVotings
             ConnectToTrackers();
             RequestPeers();
             ConnectToPeers();
-            //t.Start();
+            t.Start();
         }
 
         private void SetupLogging()

@@ -11,19 +11,23 @@ using NetworkCommsDotNet.Tools;
 using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using NetworkCommsDotNet.Connections.TCP;
+using System.Timers;
 
 namespace BlockChainVotingsTracker
 {
     public class Tracker
     {
         public List<Peer> Peers { get; }
-        static public int Port { get { return 10102; } }
         public TrackerStatus Status { get; set; }
+
+        Timer t;
 
         public Tracker()
         {
             this.Peers = new List<Peer>();
             this.Status = TrackerStatus.Stopped;
+
+            t = new Timer(CommonHelpers.CheckAliveInterval);
 
             SetupLogging();
 
@@ -32,9 +36,20 @@ namespace BlockChainVotingsTracker
 
         private void OnConnectPeer(Connection connection)
         {
-            var peer = new Peer(connection, Peers);
+            var existPeer = Peers.FirstOrDefault(p => p.Address.Equals(connection.ConnectionInfo.RemoteEndPoint));
 
-            Peers.Add(peer);
+            if (existPeer == null)
+            {
+                var peer = new Peer(connection, Peers);
+
+                t.Elapsed += (s, e) => peer.CheckConnection();
+
+                Peers.Add(peer);
+            }
+            else
+            {
+                existPeer.Connection = connection;
+            }
         }
 
 
@@ -42,10 +57,14 @@ namespace BlockChainVotingsTracker
         {
             if (Status == TrackerStatus.Stopped)
             {
-                TCPConnection.StartListening(GetLocalEndPoint() as IPEndPoint, false);
+                TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.TrackerPort), false);
                 Status = TrackerStatus.Started;
 
                 NetworkComms.Logger.Warn("Tracker started");
+
+                t.Start();
+
+
             }
         }
 
@@ -53,14 +72,18 @@ namespace BlockChainVotingsTracker
         {
             if (Status == TrackerStatus.Started)
             {
-                foreach (Peer peer in Peers)
+                t.Stop();
+
+                while (Peers.Count>0)
                 {
+                    var peer = Peers.First();
                     peer.Disconnect();
                 }
                 Connection.StopListening();
                 NetworkComms.Shutdown();
                 NetworkComms.Logger.Warn("Tracker stopped");
                 Status = TrackerStatus.Stopped;
+
             }
 
         }
@@ -76,17 +99,6 @@ namespace BlockChainVotingsTracker
 
 
         }
-
-        static public EndPoint GetLocalEndPoint()
-        {
-            if (!NetworkInterface.GetIsNetworkAvailable()) return null;
-
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            var address = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork).OrderByDescending(addr => addr.Address).First();
-            EndPoint endPoint = new IPEndPoint(address, Port);
-            return endPoint;
-        }
-
 
     }
 

@@ -50,27 +50,38 @@ namespace BlockChainVotings
             this.Address = address;
             this.Status = TrackerStatus.Disconnected;
             this.allTrackers = allTrackers;
-
-
-            //Connect();
         }
 
         public void SendMessageToPeer(Message message, Peer peer)
         {
-            if (Status == TrackerStatus.Connected /*&& Connection.ConnectionAlive()*/)
+            if (Status == TrackerStatus.Connected)
             {
-                var shellMessage = new ToPeerMessage(CommonInfo.GetLocalEndPoint(), peer.Address, message);
-                Connection.SendObject(message.GetType().Name, shellMessage);
+                var shellMessage = new ToPeerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), peer.Address, message);
+                try {
+                    Connection.SendObject(shellMessage.GetType().Name, shellMessage); }
+                catch
+                {
+                    Status = TrackerStatus.Disconnected;
+                    Connect();
+                }
             }
             else Connect();
         }
 
         public void ConnectPeerToPeer(Peer peerToConnect)
         {
-            if (Status == TrackerStatus.Connected /*&& Connection.ConnectionAlive()*/)
+            if (Status == TrackerStatus.Connected)
             {
-                var message = new ConnectToPeerWithTrackerMessage(CommonInfo.GetLocalEndPoint(), peerToConnect.Address);
-                Connection.SendObject(message.GetType().Name, message);
+                var message = new ConnectToPeerWithTrackerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), peerToConnect.Address);
+                try
+                {
+                    Connection.SendObject(message.GetType().Name, message);
+                }
+                catch
+                {
+                    Status = TrackerStatus.Disconnected;
+                    Connect();
+                }
             }
             else Connect();
         }
@@ -107,8 +118,15 @@ namespace BlockChainVotings
                                 OnConnectToPeerWithTrackerMessage(this, new MessageEventArgs(m, null, Address));
                         });
 
+                    Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
+                        (p, c, m) =>
+                        {
+                            if (OnDisconnectPeer != null)
+                                OnDisconnectPeer(this, new MessageEventArgs(m, null, Address));
+                        });
+
                 }
-                catch (Exception ex)
+                catch 
                 {
                     ErrorsCount++;
                     Status = TrackerStatus.Disconnected;
@@ -125,7 +143,7 @@ namespace BlockChainVotings
 
         private void OnPeerHashMessageFromTracker(PacketHeader packetHeader, Connection connection, PeerHashMessage incomingObject)
         {
-            var messageToSend = new PeerHashMessage(CommonInfo.LocalHash, false);
+            var messageToSend = new PeerHashMessage(CommonHelpers.LocalHash, false);
             Connection.SendObject(messageToSend.GetType().Name, messageToSend);
         }
 
@@ -133,16 +151,11 @@ namespace BlockChainVotings
 
         private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
         {
-            if (incomingObject.RecieverAddress.Equals(CommonInfo.GetLocalEndPoint()))
+            if (incomingObject.RecieverAddress.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort)))
             {
                 var eventArgs = new MessageEventArgs(incomingObject.Message, null, incomingObject.SenderAddress);
 
-                //при получении сообщения для пира, ивлекаем его из обертки и вызываем соотвествующее событие
-                if (incomingObject.Message is PeerDisconnectMessage && OnDisconnectPeer!=null)
-                {
-                    OnDisconnectPeer(this, eventArgs);
-                }
-                else if (incomingObject.Message is PeerHashMessage && OnPeerHashMessage != null)
+                if (incomingObject.Message is PeerHashMessage && OnPeerHashMessage != null)
                 {
                     OnPeerHashMessage(this, eventArgs);
                 }
@@ -180,8 +193,11 @@ namespace BlockChainVotings
             if (Status == TrackerStatus.Connected)
             {
 
-                var message = new PeerDisconnectMessage(CommonInfo.GetLocalEndPoint());
-                Connection.SendObject(message.GetType().Name, message);
+                var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort));
+                try {
+                    Connection.SendObject(message.GetType().Name, message);
+                }
+                catch { }
 
             }
 
@@ -197,10 +213,18 @@ namespace BlockChainVotings
 
         public void RequestPeersFromTracker(int count)
         {
-            if (Status == TrackerStatus.Connected /*&& Connection.ConnectionAlive()*/)
+            if (Status == TrackerStatus.Connected)
             {
                 var message = new RequestPeersMessage(count);
-                Connection.SendObject(message.GetType().Name, message);
+                try
+                { 
+                    Connection.SendObject(message.GetType().Name, message);
+                }
+                catch
+                {
+                    Status = TrackerStatus.Disconnected;
+                    Connect();
+                }
             }
             else Connect();
         }

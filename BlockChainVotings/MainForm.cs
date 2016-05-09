@@ -50,7 +50,7 @@ namespace BlockChainVotings
             ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
             Console.SetOut(writer);
 
-            if (CommonInfo.GetLocalEndPoint() == null)
+            if (CommonHelpers.GetLocalEndPoint(1) == null)
             {
                 MessageBox.Show("Для продолжения необходимо подключение к интернету");
             }
@@ -72,9 +72,9 @@ namespace BlockChainVotings
         {
             var list = new List<string>();
             list.Add("123526326");
-            Task.Run(() => net.SendMessageToPeer(new RequestBlocksMessage(list), new IPEndPoint(0xC0A8004D, CommonInfo.PeerPort)));
+            Task.Run(() => net.SendMessageToPeer(new RequestBlocksMessage(list), new IPEndPoint(0x4D00A8C0, CommonHelpers.PeerPort)));
 
-            Task.Run(() => net.SendMessageToPeer(new RequestTransactionsMessage(list), new IPEndPoint(0xC0A8004D, CommonInfo.PeerPort)));
+            //Task.Run(() => net.SendMessageToPeer(new RequestTransactionsMessage(list), new IPEndPoint(0xC0A8004D, CommonInfo.PeerPort)));
 
             //Task.Run(() => net.SendMessageToPeer(new TransactionsMessage(new List<Transaction>()), new IPEndPoint(0x2a00a8c0, 10001)));
             //Task.Run(() => net.SendMessageToPeer(new BlocksMessage(new List<Block>()), new IPEndPoint(0x2a00a8c0, 10001)));
