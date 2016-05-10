@@ -40,4 +40,14 @@ namespace BlockChainVotings
         Disconnected,
         Connected
     }
+
+    public enum TransactionType
+    {
+        None = 0,
+        CreateUser,
+        BlockUser,
+        Vote,
+        StartVoting,
+        ChangeRootUser
+    }
 }

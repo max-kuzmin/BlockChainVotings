@@ -13,8 +13,12 @@ namespace BlockChainVotingsTracker
     [ProtoInclude(101, typeof(PeerDisconnectMessage))]
     [ProtoInclude(102, typeof(PeersMessage))]
     [ProtoInclude(103, typeof(RequestPeersMessage))]
+    [ProtoInclude(104, typeof(RequestBlocksMessage))]
+    [ProtoInclude(105, typeof(RequestTransactionsMessage))]
     [ProtoInclude(106, typeof(ToPeerMessage))]
     [ProtoInclude(107, typeof(ConnectToPeerWithTrackerMessage))]
+    [ProtoInclude(108, typeof(BlocksMessage))]
+    [ProtoInclude(109, typeof(TransactionsMessage))]
     public class Message
     {
         [ProtoMember(1)]
@@ -137,7 +141,37 @@ namespace BlockChainVotingsTracker
         public RequestPeersMessage() { }
     }
 
-   
+    [ProtoContract]
+    public class RequestBlocksMessage : Message
+    {
+        [ProtoMember(2)]
+        public List<string> Hashes = new List<string>();
+
+        public RequestBlocksMessage(List<string> hashes)
+        {
+            this.Type = MessageType.RequestBlocks;
+            this.Hashes = hashes;
+        }
+
+        //
+        public RequestBlocksMessage() { }
+    }
+
+    [ProtoContract]
+    public class RequestTransactionsMessage : Message
+    {
+        [ProtoMember(2)]
+        public List<string> Hashes = new List<string>();
+
+        public RequestTransactionsMessage(List<string> hashes)
+        {
+            this.Type = MessageType.RequestTransactions;
+            this.Hashes = hashes;
+        }
+
+        //
+        public RequestTransactionsMessage() { }
+    }
 
     [ProtoContract]
     public class ToPeerMessage : Message
@@ -187,7 +221,31 @@ namespace BlockChainVotingsTracker
         }
     }
 
+    [ProtoContract]
+    public class TransactionsMessage : Message
+    {
+        [ProtoMember(2)]
+        public List<Transaction> Transactions;
 
+        public TransactionsMessage(List<Transaction> transactions)
+        {
+            this.Type = MessageType.Transactions;
+            this.Transactions = transactions;
+        }
+    }
+
+    [ProtoContract]
+    public class BlocksMessage : Message
+    {
+        [ProtoMember(2)]
+        public List<Block> Blocks { get; set; }
+
+        public BlocksMessage(List<Block> blocks)
+        {
+            this.Type = MessageType.Transactions;
+            this.Blocks = blocks;
+        }
+    }
 
     [ProtoContract]
     public class ConnectToPeerWithTrackerMessage : Message

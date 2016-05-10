@@ -26,13 +26,7 @@ namespace BlockChainVotings
         public MainForm()
         {
             InitializeComponent();
-
-
-            ////подписать-проверить файл
-            //VirgilKeyPair pair = CryptoHelper.GenerateKeyPair();
-            //string sign = CryptoHelper.Sign("hello world", pair.PrivateKey());
-            //bool res = CryptoHelper.Verify("hello world", sign, pair.PublicKey());
-            //MessageBox.Show(Convert.ToBase64String(pair.PublicKey()) + "\n\n\n" + Convert.ToBase64String(pair.PrivateKey()) + "\n\n\n" + sign + "\n\n\n" + res.ToString());
+ 
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -81,12 +75,7 @@ namespace BlockChainVotings
         }
 
 
-        ////хеш
-        //public string CalcSHA256(byte[] data)
-        //{
-        //    byte[] result = VirgilHash.Sha256().Hash(data);
-        //    return Convert.ToBase64String(result);
-        //}
+
 
     }
 }
