@@ -162,7 +162,7 @@ namespace BlockChainVotingsTracker
 
 
             foreach (var peer in peersToSend)
-            {
+            {9
                 peer.SendToOthersCount++;
             }
         }

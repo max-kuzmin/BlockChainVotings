@@ -56,7 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
-    <Compile Include="BlockChainUser.cs" />
+    <Compile Include="BlockChainVotings.cs" />
+    <Compile Include="VotingsUser.cs" />
+    <Compile Include="VotingsDB.cs" />
     <Compile Include="CommonHelpers.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="MainForm.cs">
