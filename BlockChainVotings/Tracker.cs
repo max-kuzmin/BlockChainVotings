@@ -143,7 +143,7 @@ namespace BlockChainVotings
 
         private void OnPeerHashMessageFromTracker(PacketHeader packetHeader, Connection connection, PeerHashMessage incomingObject)
         {
-            var messageToSend = new PeerHashMessage(CommonHelpers.LocalHash, false);
+            var messageToSend = new PeerHashMessage(BlockChainUser.PublicKey, false);
             Connection.SendObject(messageToSend.GetType().Name, messageToSend);
         }
 
