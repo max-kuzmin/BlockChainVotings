@@ -66,7 +66,7 @@ namespace BlockChainVotings
 
         public string CalcSignature()
         {
-            return CommonHelpers.SignData(Hash, BlockChainUser.PrivateKey);
+            return CommonHelpers.SignData(Hash, VotingsUser.PrivateKey);
         }
 
         public bool CheckSignature()

@@ -384,7 +384,7 @@ namespace BlockChainVotings
                 //возможно стоит отключить повторную отправку сообщения, чтобы они не дублировались
                 if (message.NeedResponse == true)
                     {
-                    var messageToSend = new PeerHashMessage(BlockChainUser.PublicKey, false);
+                    var messageToSend = new PeerHashMessage(VotingsUser.PublicKey, false);
                     Connection.SendObject(messageToSend.GetType().Name, messageToSend); 
                 }
             }
@@ -397,7 +397,7 @@ namespace BlockChainVotings
 
             if (Status == PeerStatus.NoHashRecieved)
             {
-                var message = new PeerHashMessage(BlockChainUser.PublicKey, true);
+                var message = new PeerHashMessage(VotingsUser.PublicKey, true);
                 if (ConnectionMode == ConnectionMode.Direct)
                 {
                     //проверка на дисконнект

@@ -65,7 +65,7 @@ namespace BlockChainVotings
 
         public string CalcSignature()
         {
-            return CommonHelpers.SignData(Hash, BlockChainUser.PrivateKey);
+            return CommonHelpers.SignData(Hash, VotingsUser.PrivateKey);
         }
 
         public bool CheckSignature()
@@ -79,6 +79,28 @@ namespace BlockChainVotings
                 return false;
             }
         }
+
+
+        static Transaction CreateUserTransacton()
+        {
+
+        }
+
+        static Transaction BanUserTransaction()
+        {
+
+        }
+
+        static Transaction VoteTransaction()
+        {
+
+        }
+
+        static Transaction StartVotingTransation()
+        {
+
+        }
+
 
 
         //

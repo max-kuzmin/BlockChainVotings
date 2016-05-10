@@ -45,7 +45,7 @@ namespace BlockChainVotings
     {
         None = 0,
         CreateUser,
-        BlockUser,
+        BanUser,
         Vote,
         StartVoting,
         ChangeRootUser
