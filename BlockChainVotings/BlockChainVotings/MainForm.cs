@@ -74,8 +74,5 @@ namespace BlockChainVotings
             //Task.Run(() => net.SendMessageToPeer(new BlocksMessage(new List<Block>()), new IPEndPoint(0x2a00a8c0, 10001)));
         }
 
-
-
-
     }
 }

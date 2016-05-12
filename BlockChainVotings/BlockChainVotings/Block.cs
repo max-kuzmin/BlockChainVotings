@@ -1,4 +1,5 @@
-﻿using ProtoBuf;
+﻿using Newtonsoft.Json.Linq;
+using ProtoBuf;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,16 @@ namespace BlockChainVotings
         public int Number { get; set; }
 
         [ProtoMember(23)]
-        public List<Transaction> Transactions { get; set; }
+        public string CreatorHash { get; set; }
+
+        [ProtoMember(24)]
+        public List<string> Transactions { get; set; }
 
         [PrimaryKey]
-        [ProtoMember(24)]
+        [ProtoMember(25)]
         public string Hash { get; set; }
 
-        [ProtoMember(25)]
+        [ProtoMember(26)]
         public string Signature { get; set; }
 
         public bool CheckHash()
@@ -49,16 +53,9 @@ namespace BlockChainVotings
 
             data += Date.Ticks + PreviousHash + Number;
 
-            Transactions.Sort((x, y) => 
-            {
-                if (x.Date > y.Date) return 1;
-                else if (x.Date < y.Date) return -1;
-                else return 0;
-            });
-
             foreach (var tr in Transactions)
             {
-                data += tr.Hash;
+                data += tr;
             }
 
             return CommonHelpers.CalcHash(data);
@@ -80,6 +77,33 @@ namespace BlockChainVotings
                 return false;
             }
         }
+
+
+
+        public Block(List<Transaction> transactions, Block previousBlock)
+        {
+            Date = CommonHelpers.GetTime();
+            PreviousHash = previousBlock.Hash;
+            Number = previousBlock.Number + 1;
+            CreatorHash = VotingsUser.PublicKey;
+
+
+            List<string> transactionsHashes = new List<string>();
+
+            foreach (var tr in transactions)
+            {
+                transactionsHashes.Add(tr.Hash);
+            }
+
+            Transactions = transactionsHashes;
+
+            Hash = CalcHash();
+            Signature = CalcSignature();
+
+
+        }
+
+        public Block() { }
 
 
 
