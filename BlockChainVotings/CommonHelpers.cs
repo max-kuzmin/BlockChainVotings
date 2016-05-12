@@ -1,6 +1,8 @@
 ﻿using NetworkCommsDotNet;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -68,6 +70,43 @@ namespace BlockChainVotings
         {
             var key = Convert.FromBase64String(publicKey);
             return CryptoHelper.Verify(data, signature, key);
+        }
+
+
+        static TimeSpan? dateDelta;
+
+        static public DateTime GetTime()
+        {
+            if (dateDelta==null)
+            {
+                dateDelta = GetInternetTime() - DateTime.Now;
+            }
+
+            return (DateTime)(DateTime.Now + dateDelta);
+        }
+
+        static DateTime GetInternetTime()
+        {
+            DateTime localDateTime = DateTime.Now;
+
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    var client = new TcpClient("time.nist.gov", 13);
+                    using (var streamReader = new StreamReader(client.GetStream()))
+                    {
+                        var response = streamReader.ReadToEnd();
+                        var utcDateTimeString = response.Substring(7, 17);
+                        localDateTime = DateTime.ParseExact(utcDateTimeString, "yy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+                        break;
+                    }
+                }
+                catch { }
+
+            }
+
+            return localDateTime;
         }
 
     }
