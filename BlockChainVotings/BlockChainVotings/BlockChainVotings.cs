@@ -93,9 +93,28 @@ namespace BlockChainVotings
             //по алгоритму
         }
 
-        bool CheckBlock(Block block)
+        public bool CheckBlock(Block block)
         {
-            
+            //проверка на существование транзакции с таким же хешем
+            if (db.GetBlock(block.Hash) != null) return false;
+
+            //проверка хеша и подписи
+            if (!(block.CheckHash() && block.CheckSignature())) return false;
+
+            var prevBlock = db.GetBlock(block.PreviousHash);
+
+            //проверка даты
+            if (!(block.Date >= prevBlock.Date && block.Date <= CommonHelpers.GetTime())) return false;
+
+            //проверка существования транзакций
+            foreach (var item in block.Transactions)
+            {
+                var tr = db.GetTransaction(item);
+                if (tr == null || tr.InBlock == true) return false;
+                if (tr.Date > block.Date) return false;
+            }
+
+            return true;
         }
 
 
