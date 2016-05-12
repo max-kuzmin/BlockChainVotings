@@ -46,6 +46,17 @@ namespace BlockChainVotings
             return elem.Result;
         }
 
+        public Block GetBlock(int number)
+        {
+            //if (dbAsync == null) ConnectToDBAsync();
+
+            var query = dbAsync.Table<Block>().Where(bl => bl.Number == number);
+            var elem = query.FirstOrDefaultAsync();
+            elem.Wait();
+
+            return elem.Result;
+        }
+
 
         public Block GetLastBlock()
         {
