@@ -17,7 +17,7 @@ namespace BlockChainVotingsTracker
 {
     public class Tracker
     {
-        public List<Peer> Peers { get; }
+        public List<Peer> Peers { get; private set; }
         public TrackerStatus Status { get; set; }
 
         Timer t;

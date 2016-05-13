@@ -16,8 +16,8 @@ namespace BlockChainVotings
 {
     public class Network
     {
-        public List<Peer> Peers { get; }
-        public List<Tracker> Trackers { get; }
+        public List<Peer> Peers { get; private set; }
+        public List<Tracker> Trackers { get; private set; }
 
         int normalPeersCount = 10;
 
@@ -295,7 +295,8 @@ namespace BlockChainVotings
 
         private void ConnectToTrackers()
         {
-            foreach (var tracker in Trackers)
+            var trackersCopy = new List<Tracker>(Trackers);
+            foreach (var tracker in trackersCopy)
             {
                 if (tracker.Status == TrackerStatus.Disconnected) tracker.Connect();
             }
