@@ -24,7 +24,7 @@ namespace BlockChainVotings
         public event EventHandler<MessageEventArgs> OnPeersMessage;
 
 
-        public EndPoint Address { get; }
+        public EndPoint Address { get; private set; }
         public Connection Connection { get; private set; }
         public string Hash { get; private set; }
         public int SendToOthersCount { get; private set; }

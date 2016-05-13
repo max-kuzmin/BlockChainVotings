@@ -11,11 +11,11 @@ namespace BlockChainVotingsTracker
 {
     public class Peer
     {
-        public EndPoint Address { get; }
+        public EndPoint Address { get; private set; }
         public Connection Connection { get; set; }
         public string Hash { get; set; }
         public int SendToOthersCount { get; set; }
-        public List<Peer> ConnectedPeers { get; }
+        public List<Peer> ConnectedPeers { get; private set; }
         public PeerStatus Status { get; set; }
 
         public int ErrorsCount { get; set; }

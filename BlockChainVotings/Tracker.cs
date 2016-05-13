@@ -13,7 +13,7 @@ namespace BlockChainVotings
     public class Tracker
     {
 
-        public EndPoint Address { get; }
+        public EndPoint Address { get; private set; }
         public Connection Connection { get; private set; }
 
         public int ErrorsCount { get; private set; }
