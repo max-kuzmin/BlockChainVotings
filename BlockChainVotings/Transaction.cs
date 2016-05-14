@@ -87,7 +87,7 @@ namespace BlockChainVotings
         }
 
 
-        public static Transaction CreateUserTransacton(string publicHash, string name, string id)
+        public static Transaction CreateUserTransacton(string publicHash, string name, string id, string previousHash)
         {
             var tr = new Transaction();
 
@@ -95,6 +95,7 @@ namespace BlockChainVotings
             tr.Date = CommonHelpers.GetTime();
             tr.SenderHash = VotingsUser.PublicKey;
             tr.RecieverHash = publicHash;
+            tr.PreviousHash = previousHash;
 
             JObject info = new JObject();
             info["name"] = name;
@@ -107,7 +108,7 @@ namespace BlockChainVotings
             return tr;
         }
 
-        public static Transaction BanUserTransaction(string cause, string publicHash)
+        public static Transaction BanUserTransaction(string cause, string publicHash, string previousHash)
         {
             var tr = new Transaction();
 
@@ -115,6 +116,7 @@ namespace BlockChainVotings
             tr.Date = CommonHelpers.GetTime();
             tr.SenderHash = VotingsUser.PublicKey;
             tr.RecieverHash = publicHash;
+            tr.PreviousHash = previousHash;
 
             JObject info = new JObject();
             info["cause"] = cause;
