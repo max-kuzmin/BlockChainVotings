@@ -133,6 +133,13 @@ namespace BlockChainVotings
         }
 
 
+        public void DeleteBlock(Block item)
+        {
+            //if (dbAsync == null) ConnectToDBAsync();
+
+            dbAsync.DeleteAsync(item);
+        }
+
         public void PutBlock(Block item)
         {
             //if (dbAsync == null) ConnectToDBAsync();

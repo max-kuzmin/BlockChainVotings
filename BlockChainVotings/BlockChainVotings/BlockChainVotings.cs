@@ -77,7 +77,19 @@ namespace BlockChainVotings
             foreach (var hash in message.Hashes)
             {
                 var tr = db.GetTransaction(hash);
-                if (tr != null) transactions.Add(tr);
+                if (tr != null)
+                    transactions.Add(tr);
+                else
+                {
+                    //если не нашли транзакцию, ищем по хешу пользователя
+                    //сначала отсылаем бан, чтобы запросившая транзакция правильно проверялась
+                    var userBan = db.GetUserBan(hash);
+                    if (userBan != null) transactions.Add(userBan);
+
+                    var userCreation = db.GetUserCreation(hash);
+                    if (userCreation != null) transactions.Add(userCreation);
+                }
+
             }
 
             if (transactions.Count > 0)
@@ -162,7 +174,7 @@ namespace BlockChainVotings
         {
 
             var prevBlock = db.GetBlock(block.PreviousHash);
-            //var creator = db.GetUserCreation(block.CreatorHash);
+            var creator = db.GetUserCreation(block.CreatorHash);
 
             bool needWait = true;
 
@@ -174,15 +186,13 @@ namespace BlockChainVotings
                 needWait = true;
             }
 
-            //не запрашиваем создателя, поскольку не знаем хеш транзакции
-            //он запросится сам, поскольку все аккаунты связаны в цепочку транзакций
 
-            ////проверка существования создателя блока
-            //if (creator == null)
-            //{
-            //    RequestTransaction(block.CreatorHash);
-            //    needWait = true;
-            //}
+            //проверка существования создателя блока
+            if (creator == null)
+            {
+                RequestTransaction(block.CreatorHash);
+                needWait = true;
+            }
 
             //проверка существования транзакций
             foreach (var itemHash in block.Transactions)
@@ -196,14 +206,18 @@ namespace BlockChainVotings
 
 
             //если блок не в списке ожидающих и запросили инфу, то отправляем ее в список ожидающих
-            if (needWait == true && !pendingBlocks.ContainsKey(block))
+            if (needWait == true)
             {
-                pendingBlocks.Add(block, CommonHelpers.GetTime());
+                if (!pendingBlocks.ContainsKey(block)) 
+                    pendingBlocks.Add(block, CommonHelpers.GetTime());
                 return false;
             }
 
 
             ////если все данные есть, начинаем проверку блока
+
+            //удаляем его из ожидающих
+            pendingBlocks.Remove(block);
 
             //проверка хеша и подписи
             if (!(block.CheckHash() && block.CheckSignature())) return false;
@@ -214,10 +228,10 @@ namespace BlockChainVotings
 
 
             //проверка создателя блока
-            var senderCreation = db.GetUserCreation(block.CreatorHash);
+            //var senderCreation = db.GetUserCreation(block.CreatorHash);
             var senderBan = db.GetUserBan(block.CreatorHash);
 
-            if (!(senderCreation.Date <= block.Date &&
+            if (!(creator.Date <= block.Date &&
                 (senderBan == null || senderBan.Date > block.Date)))
                 return false;
 
@@ -230,10 +244,33 @@ namespace BlockChainVotings
             }
 
 
-            ////если все хорошо, добавляем блок в базу, удаляем из ожидающих
-            db.PutBlock(block);
-            pendingBlocks.Remove(block);
 
+            //сравнение длины цепочки этого блока с длиной цепочки в базе
+            var blockCopyInDB = db.GetBlock(block.Number);
+            if (blockCopyInDB != null)
+            {
+                var lastBlockInChain = GetLastBlockFromPending(block);
+                var lastBlockInDB = db.GetLastBlock();
+
+                //если цепочка нового блока длинее или цепочки равны, но дата нового блока раньше
+                if ((lastBlockInChain.Number > lastBlockInDB.Number) ||
+                    (lastBlockInChain.Number == lastBlockInDB.Number && block.Date < blockCopyInDB.Date))
+                {
+                    //удаляем из базы все блоки начиная с этого
+                    for (int i = blockCopyInDB.Number; i < lastBlockInDB.Number; i++)
+                    {
+                        var blockToRemove = db.GetBlock(i);
+                        db.DeleteBlock(blockToRemove);
+                    }
+                }
+                else return false;
+
+            }
+
+
+
+            ////если все хорошо, добавляем блок в базу
+            db.PutBlock(block);
 
             //ищем в ожидающих блоках связанные с этим и проверяем их
             var pending = pendingBlocks.Keys.Where(bl => bl.PreviousHash == block.Hash);
@@ -245,6 +282,15 @@ namespace BlockChainVotings
             return true;
         }
 
+        //рекурсивный поиск последнего блока в цепочке ожидающих
+        private Block GetLastBlockFromPending(Block block)
+        {
+            var nextBlock = pendingBlocks.Keys.First(bl => bl.PreviousHash == block.Hash);
+
+            if (nextBlock == null) return block;
+            else return GetLastBlockFromPending(nextBlock);
+        }
+
 
         public bool CheckTransaction(Transaction transaction)
         {
@@ -252,21 +298,23 @@ namespace BlockChainVotings
             bool needWait = true;
 
 
-            //не запрашиваем получателя и создателя, поскольку не знаем хеши их транзакций
-            //они запросятся сами, поскольку связаны в цепочку транзакций
-            
-            //if (db.GetTransaction(transaction.SenderHash) == null)
-            //{
-            //    RequestTransaction(transaction.SenderHash);
-            //    needWait = false;
-            //}
+            //проверка существования транзакции создания пользователя
+            //если ее нет, то транзакция создания и бана пользователя запрашиваются
+            if (db.GetUserCreation(transaction.SenderHash) == null)
+            {
+                RequestTransaction(transaction.SenderHash);
+                needWait = false;
+            }
 
-            //if (db.GetTransaction(transaction.RecieverHash) == null)
-            //{
-            //    RequestTransaction(transaction.RecieverHash);
-            //    needWait = false;
-            //}
+            //проверяем получателя транзакции только для транзакций бана и посылки голоса
+            if ((transaction.Type != TransactionType.StartVoting || transaction.Type != TransactionType.CreateUser)
+                && (db.GetUserCreation(transaction.RecieverHash) == null))
+            {
+                RequestTransaction(transaction.RecieverHash);
+                needWait = false;
+            }
 
+            //проверка существования предыдущей транзакции
             if (db.GetTransaction(transaction.PreviousHash) == null)
             {
                 RequestTransaction(transaction.PreviousHash);
@@ -275,14 +323,18 @@ namespace BlockChainVotings
 
 
             //если транзакция не в списке ожидающих и запросили инфу, то отправляем ее в список ожидающих
-            if (needWait == true && !pendingTransactions.ContainsKey(transaction))
+            if (needWait == true)
             {
-                pendingTransactions.Add(transaction, CommonHelpers.GetTime());
+                if (!pendingTransactions.ContainsKey(transaction))
+                    pendingTransactions.Add(transaction, CommonHelpers.GetTime());
                 return false;
             }
 
 
             ////проверка транзакции
+
+            //удаляем из ожидающих
+            pendingTransactions.Remove(transaction);
 
             var checkPass = true;
 
@@ -305,9 +357,9 @@ namespace BlockChainVotings
             if (checkPass)
             {
 
-                //добавляем транзакцию в базу, удаляем из ожидающих
+                //добавляем транзакцию в базу
                 db.PutTransaction(transaction);
-                pendingTransactions.Remove(transaction);
+                
 
 
                 //ищем в ожидающих транзакции связанные с этой и проверяем их
@@ -334,18 +386,18 @@ namespace BlockChainVotings
 
             var senderCreation = db.GetUserCreation(transaction.SenderHash);
             var senderBan = db.GetUserBan(transaction.SenderHash);
-            //проверка создателя транзакции
-            if (senderCreation == null) return false;
-            //проверка его даты
+            ////проверка создателя транзакции
+            //if (senderCreation == null) return false;
+            //проверка даты создателя транзакции
             if (!(senderCreation.Date <= voting.Date &&
                 (senderBan == null || senderBan.Date > voting.Date)))
                 return false;
 
             var recieverCreation = db.GetUserCreation(transaction.RecieverHash);
             var recieverBan = db.GetUserBan(transaction.RecieverHash);
-            //проверка получателя транзакции
-            if (recieverCreation == null) return false;
-            //проверка его даты
+            ////проверка получателя транзакции
+            //if (recieverCreation == null) return false;
+            //проверка даты получателя транзакции
             if (!(recieverCreation.Date <= voting.Date &&
                 (recieverBan == null || recieverBan.Date > voting.Date)))
                 return false;
@@ -354,8 +406,11 @@ namespace BlockChainVotings
             //проверка существования копий транзакции
             if (existsVote != null)
             {
+                //если копия уже в блоке то выход
                 if (existsVote.InBlock) return false;
+                //если копия транзакции старее то выход
                 else if (existsVote.Date < transaction.Date) return false;
+                //иначе удаляем сущесвующую транзакцию из базы
                 else db.DeleteTransaction(existsVote);
             }
 
@@ -376,7 +431,10 @@ namespace BlockChainVotings
             if (transaction.SenderHash != VotingsUser.RootPublicKey) return false;
 
             //проверка на существование пользователя
-            if (db.GetTransaction(transaction.RecieverHash) != null) return false;
+            if (db.GetUserCreation(transaction.RecieverHash) != null) return false;
+
+            //проверка чтобы предыдущая транзакция не была новее
+            if (transaction.Date < db.GetTransaction(transaction.PreviousHash).Date) return false;
 
             try
             {
@@ -407,11 +465,17 @@ namespace BlockChainVotings
 
 
             var recieverCreation = db.GetUserCreation(transaction.RecieverHash);
-            //проверка на существование пользователя
-            if (recieverCreation == null || recieverCreation.Date > transaction.Date) return false;
+            //проверка на существование пользователя на заданную дату
+            if (recieverCreation.Date > transaction.Date) return false;
             if (db.GetUserBan(transaction.RecieverHash) != null) return false;
 
-            
+
+            var prevTransaction = db.GetTransaction(transaction.PreviousHash);
+
+            //предыдущая транзакция и транзакция создания пользователя - одно и то же
+            if (prevTransaction.Hash != recieverCreation.Hash) return false;
+            //проверка чтобы предыдущая транзакция не была новее
+            if (transaction.Date < prevTransaction.Date) return false;
 
 
             try
