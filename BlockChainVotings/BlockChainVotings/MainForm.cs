@@ -22,10 +22,13 @@ namespace BlockChainVotings
     {
 
         Network net;
+        BlockChainVotings blockChain;
 
         public MainForm()
         {
             InitializeComponent();
+
+            (new CreateUserForm(new BlockChainVotings())).Show();
  
         }
 

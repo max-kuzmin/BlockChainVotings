@@ -170,5 +170,11 @@ namespace BlockChainVotings
         }
 
 
+        public void Clear()
+        {
+            dbAsync.DropTableAsync<Transaction>().Wait();
+            dbAsync.DropTableAsync<Block>().Wait(); 
+            ConnectToDBAsync();
+        }
     }
 }

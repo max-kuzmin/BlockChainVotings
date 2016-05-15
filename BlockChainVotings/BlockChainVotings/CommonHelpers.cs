@@ -21,6 +21,10 @@ namespace BlockChainVotings
         static public int DiscoveryPort { get { return 10001; } }
         static public int CheckAliveInterval { get { return 60000; } }
 
+
+        static TimeSpan? dateDelta;
+        public static int TransactionsInBlock { get { return 10; } }
+
         static public IPEndPoint GetLocalEndPoint(int port)
         {
             if (!NetworkInterface.GetIsNetworkAvailable()) return null;
@@ -55,8 +59,20 @@ namespace BlockChainVotings
             var keys = new string[2];
             keys[0] = Convert.ToBase64String(pair.PublicKey());
             keys[1] = Convert.ToBase64String(pair.PrivateKey());
-
             return keys;
+        }
+
+
+        static public bool CheckKeys(string publicKey, string privateKey) 
+        {
+            try
+            {
+                return VirgilKeyPair.IsKeyPairMatch(Convert.FromBase64String(publicKey), Convert.FromBase64String(privateKey));
+            }
+            catch
+            {
+                return false;
+            }
         }
 
 
@@ -72,8 +88,6 @@ namespace BlockChainVotings
             return CryptoHelper.Verify(data, signature, key);
         }
 
-
-        static TimeSpan? dateDelta;
 
         static public DateTime GetTime()
         {

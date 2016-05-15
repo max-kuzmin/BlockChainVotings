@@ -27,6 +27,8 @@ namespace BlockChainVotings
             db = new VotingsDB();
             net = new Network();
 
+            t = new Timer(60 * 60 * 1000);
+
             pendingBlocks = new Dictionary<Block, DateTime>();
             pendingTransactions = new Dictionary<Transaction, DateTime>();
 
@@ -132,13 +134,6 @@ namespace BlockChainVotings
         }
 
 
-        public void CreateVote(string recieverHash, int votingNumber)
-        {
-            //создаем транзакцию
-            //отсылаем ее всем
-        }
-
-
         public void RequestBlock(string hash, EndPoint peerAddress = null)
         {
             var list = new List<string>();
@@ -163,12 +158,6 @@ namespace BlockChainVotings
             else
                 net.SendMessageToPeer(message, peerAddress);
         }
-
-        void MakeBlock()
-        {
-            //по алгоритму
-        }
-
 
         public bool CheckBlock(Block block)
         {
@@ -291,7 +280,6 @@ namespace BlockChainVotings
             else return GetLastBlockFromPending(nextBlock);
         }
 
-
         public bool CheckTransaction(Transaction transaction)
         {
 
@@ -359,8 +347,9 @@ namespace BlockChainVotings
 
                 //добавляем транзакцию в базу
                 db.PutTransaction(transaction);
-                
 
+                //проверяем нужно ли создавать новый блок
+                MakeBlock();
 
                 //ищем в ожидающих транзакции связанные с этой и проверяем их
                 var pending = pendingTransactions.Keys.Where(tr => tr.PreviousHash == transaction.Hash);
@@ -425,7 +414,7 @@ namespace BlockChainVotings
             if (!(transaction.CheckHash() && transaction.CheckSignature())) return false;
 
             //проверка даты транзакции
-            if (!(transaction.Date >= VotingsUser.RootUserDate && transaction.Date <= CommonHelpers.GetTime())) return false;
+            if (!(transaction.Date > VotingsUser.RootUserDate && transaction.Date <= CommonHelpers.GetTime())) return false;
 
             //проверка, что транзакцию создал корневой клиент
             if (transaction.SenderHash != VotingsUser.RootPublicKey) return false;
@@ -534,14 +523,80 @@ namespace BlockChainVotings
 
         }
 
-        void CheckDBRoot()
+        void CheckRoot()
         {
+            var root = Transaction.CreateUserTransacton(VotingsUser.RootPublicKey, "Root", "0", "0");
+            root.SenderHash = VotingsUser.RootPublicKey;
+            root.Date = VotingsUser.RootUserDate;
+            root.Hash = root.CalcHash();
+            root.Signature = VotingsUser.RootCreationSignature;
 
+            var rootInDB = db.GetUserCreation(VotingsUser.RootPublicKey);
+
+            //если транзакции нет в базе или она ошибочна, обнуляем базу и вносим транзакцию в нее
+            if (rootInDB == null ||
+                root.Hash != rootInDB.Hash || root.Info != rootInDB.Info || root.PreviousHash != rootInDB.PreviousHash ||
+                root.RecieverHash != rootInDB.RecieverHash || root.SenderHash != rootInDB.SenderHash || 
+                root.Signature != rootInDB.Signature || root.Type != rootInDB.Type || root.VotingNumber!=rootInDB.VotingNumber)
+            {
+                db.Clear();
+                db.PutTransaction(root);
+            }
+
+        }
+
+        void MakeBlock()
+        {
+            var transactions = db.GetFreeTransactions(CommonHelpers.TransactionsInBlock);
+
+            if (transactions.Count != CommonHelpers.TransactionsInBlock) return;
+
+            var lastBlock = db.GetLastBlock();
+
+            var newBlock = new Block(transactions, lastBlock);
+
+            //проверка блока и добавление его в базу
+            if (CheckBlock(newBlock))
+            {
+                //отправка блока всем клиентам
+                var list = new List<Block>();
+                list.Add(newBlock);
+                var message = new BlocksMessage(list);
+
+                net.SendMessageToAllPeers(message);
+            }
+
+
+        }
+
+        public void CreateVote(string recieverHash, int votingNumber)
+        {
+            //создаем транзакцию
+            //отсылаем ее всем
+            throw new NotImplementedException();
         }
 
         void ReadMyInfo(string hash)
         {
             //получаем из бд транзакцию с нашим хешем
+            throw new NotImplementedException();
+        }
+
+
+        public void CreateUser(string publicKey, string name, string id)
+        {
+            var user = Transaction.CreateUserTransacton(publicKey, name, id, db.GetLastBlock().Hash);
+
+            if (CheckTransaction(user))
+            {
+                var list = new List<Transaction>();
+                list.Add(user);
+                var message = new TransactionsMessage(list);
+
+                net.SendMessageToAllPeers(message);
+
+            }
+
         }
 
 
