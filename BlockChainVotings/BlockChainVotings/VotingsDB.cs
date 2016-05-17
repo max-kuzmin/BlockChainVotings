@@ -16,7 +16,7 @@ namespace BlockChainVotings
         SQLiteAsyncConnection dbAsync = null;
 
 
-        void ConnectToDBAsync()
+        public void ConnectToDBAsync()
         {
             string dbPath = Path.Combine(Environment.CurrentDirectory, "VotingsDB.db3");
             dbAsync = new SQLiteAsyncConnection(dbPath);
@@ -81,13 +81,36 @@ namespace BlockChainVotings
             return elem.Result;
         }
 
+        public Transaction GetLastVoting()
+        {
+            //if (dbAsync == null) ConnectToDBAsync();
+
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.StartVoting);
+            var elem = query.OrderByDescending(tr => tr.VotingNumber).FirstOrDefaultAsync();
+            elem.Wait();
+
+            return elem.Result;
+        }
+
 
         public Transaction GetUserCreation(string userHash)
         {
             //if (dbAsync == null) ConnectToDBAsync();
 
-            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.CreateUser && tr.Hash == userHash);
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.CreateUser && tr.RecieverHash == userHash);
             var elem = query.FirstOrDefaultAsync();
+            elem.Wait();
+
+            return elem.Result;
+        }
+
+
+        public Transaction GetLastUserCreation()
+        {
+            //if (dbAsync == null) ConnectToDBAsync();
+
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.CreateUser);
+            var elem = query.OrderByDescending(tr=>tr.Date).FirstOrDefaultAsync();
             elem.Wait();
 
             return elem.Result;
@@ -97,7 +120,7 @@ namespace BlockChainVotings
         {
             //if (dbAsync == null) ConnectToDBAsync();
 
-            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.BanUser && tr.Hash == userHash);
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.BanUser && tr.RecieverHash == userHash);
             var elem = query.FirstOrDefaultAsync();
             elem.Wait();
 
@@ -109,7 +132,7 @@ namespace BlockChainVotings
         {
             //if (dbAsync == null) ConnectToDBAsync();
 
-            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote && tr.Hash == userHash && tr.VotingNumber == votingNumber);
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote && tr.SenderHash == userHash && tr.VotingNumber == votingNumber);
             var elem = query.FirstOrDefaultAsync();
             elem.Wait();
 

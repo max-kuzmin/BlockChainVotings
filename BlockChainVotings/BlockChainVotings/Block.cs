@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using ProtoBuf;
 using SQLite;
 using System;
@@ -26,7 +27,19 @@ namespace BlockChainVotings
         public string CreatorHash { get; set; }
 
         [ProtoMember(24)]
+        [Ignore]
         public List<string> Transactions { get; set; }
+
+        public string TransactionsBlob {
+            get
+            {
+                return JsonConvert.SerializeObject(Transactions);
+            }
+            set
+            {
+                Transactions = JsonConvert.DeserializeObject<List<string>>(value);
+            }
+        }
 
         [PrimaryKey]
         [ProtoMember(25)]

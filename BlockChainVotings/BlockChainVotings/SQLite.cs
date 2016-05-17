@@ -19,9 +19,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-#if WINDOWS_PHONE && !USE_WP8_NATIVE_SQLITE
+//#if WINDOWS_PHONE && !USE_WP8_NATIVE_SQLITE
 #define USE_CSHARP_SQLITE
-#endif
+//#endif
 
 using System;
 using System.Diagnostics;
@@ -3262,7 +3262,7 @@ namespace SQLite
 
 		public static ExtendedResult ExtendedErrCode(Sqlite3DatabaseHandle db)
 		{
-			return (ExtendedResult)Sqlite3.sqlite3_extended_errcode(db);
+			return (ExtendedResult)Sqlite3.sqlite3_errcode(db);
 		}
 #endif
 

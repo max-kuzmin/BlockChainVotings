@@ -21,25 +21,28 @@ namespace BlockChainVotings
     public partial class MainForm : Form
     {
 
-        Network net;
+        //Network net;
         BlockChainVotings blockChain;
+        RegisterLoginForm regForm;
 
         public MainForm()
         {
             InitializeComponent();
 
             (new CreateUserForm(new BlockChainVotings())).Show();
- 
+            (new CreateVotingForm(new BlockChainVotings())).Show();
+            //(new RegisterLoginForm()).Show();
+
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            Task.Run( ()=> net.Connect(textBoxTrackers.Lines) );
+            Task.Run( ()=> blockChain.net.Connect(textBoxTrackers.Lines) );
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            Task.Run( () => net.Disconnect() );
+            Task.Run( () => blockChain.net.Disconnect() );
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -47,30 +50,53 @@ namespace BlockChainVotings
             ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
             Console.SetOut(writer);
 
-            if (CommonHelpers.GetLocalEndPoint(1) == null)
+            regForm = new RegisterLoginForm();
+            regForm.SuccssesLogin += RegForm_SuccssesLogin;
+            regForm.FormClosed += (s, a) =>
             {
-                MessageBox.Show("Для продолжения необходимо подключение к интернету");
-            }
+                Close();
+            };
 
-            net = new Network();
+            regForm.Show();
+
+            this.WindowState = FormWindowState.Minimized;
+            this.Enabled = false;
+
+            //net = new Network();
+        }
+
+        private void RegForm_SuccssesLogin(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.Enabled = true;
+            blockChain = new BlockChainVotings();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Task.Run(() => net.Disconnect());
+            Task.Run(() => blockChain.net.Disconnect());
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Task.Run(() => net.RequestPeers());
+            Task.Run(() => blockChain.net.RequestPeers());
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             var list = new List<string>();
             list.Add("123526326");
-            Task.Run(() => net.SendMessageToPeer(new RequestBlocksMessage(list), new IPEndPoint(0x4D00A8C0, CommonHelpers.PeerPort)));
+            Task.Run(() => blockChain.net.SendMessageToPeer(new RequestBlocksMessage(list), new IPEndPoint(0x4D00A8C0, CommonHelpers.PeerPort)));
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            blockChain.CheckRoot();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            blockChain.MakeBlock();
+        }
     }
 }

@@ -6,13 +6,14 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using Virgil.Crypto;
 
 namespace BlockChainVotings
 {
     public class BlockChainVotings
     {
         VotingsDB db;
-        Network net;
+        public Network net;
 
         Timer t;
         DateTime curTime;
@@ -26,6 +27,8 @@ namespace BlockChainVotings
         {
             db = new VotingsDB();
             net = new Network();
+
+            db.ConnectToDBAsync();
 
             t = new Timer(60 * 60 * 1000);
 
@@ -283,7 +286,7 @@ namespace BlockChainVotings
         public bool CheckTransaction(Transaction transaction)
         {
 
-            bool needWait = true;
+            bool needWait = false;
 
 
             //проверка существования транзакции создания пользователя
@@ -291,22 +294,22 @@ namespace BlockChainVotings
             if (db.GetUserCreation(transaction.SenderHash) == null)
             {
                 RequestTransaction(transaction.SenderHash);
-                needWait = false;
+                needWait = true;
             }
 
             //проверяем получателя транзакции только для транзакций бана и посылки голоса
-            if ((transaction.Type != TransactionType.StartVoting || transaction.Type != TransactionType.CreateUser)
+            if ((transaction.Type == TransactionType.BanUser || transaction.Type == TransactionType.Vote)
                 && (db.GetUserCreation(transaction.RecieverHash) == null))
             {
                 RequestTransaction(transaction.RecieverHash);
-                needWait = false;
+                needWait = true;
             }
 
             //проверка существования предыдущей транзакции
             if (db.GetTransaction(transaction.PreviousHash) == null)
             {
                 RequestTransaction(transaction.PreviousHash);
-                needWait = false;
+                needWait = true;
             }
 
 
@@ -324,25 +327,25 @@ namespace BlockChainVotings
             //удаляем из ожидающих
             pendingTransactions.Remove(transaction);
 
-            var checkPass = true;
+            var checkPassed = true;
 
             switch (transaction.Type)
             {
                 case TransactionType.CreateUser:
-                    checkPass = CheckCreateUserTransaction(transaction); break;
+                    checkPassed = CheckCreateUserTransaction(transaction); break;
                 case TransactionType.BanUser:
-                    checkPass = CheckBanUserTransaction(transaction); break;
+                    checkPassed = CheckBanUserTransaction(transaction); break;
                 case TransactionType.Vote:
-                    checkPass = CheckVoteTransaction(transaction); break;
+                    checkPassed = CheckVoteTransaction(transaction); break;
                 case TransactionType.StartVoting:
-                    checkPass = CheckStartVotingTransaction(transaction); break;
+                    checkPassed = CheckStartVotingTransaction(transaction); break;
                 default:
-                    checkPass = false; break;
+                    checkPassed = false; break;
             }
 
 
             ////если транзакция проверена успешно
-            if (checkPass)
+            if (checkPassed)
             {
 
                 //добавляем транзакцию в базу
@@ -523,33 +526,60 @@ namespace BlockChainVotings
 
         }
 
-        void CheckRoot()
+        public void CheckRoot()
         {
+
             var root = Transaction.CreateUserTransacton(VotingsUser.RootPublicKey, "Root", "0", "0");
             root.SenderHash = VotingsUser.RootPublicKey;
             root.Date = VotingsUser.RootUserDate;
             root.Hash = root.CalcHash();
             root.Signature = VotingsUser.RootCreationSignature;
+            root.InBlock = true;
+
+            var voting = Transaction.StartVotingTransation(new List<string>(), "0", 0, "0");
+            voting.SenderHash = VotingsUser.RootPublicKey;
+            voting.Date = VotingsUser.RootUserDate;
+            voting.Hash = voting.CalcHash();
+            voting.Signature = VotingsUser.FirstVotingSignature;
+            voting.InBlock = true;
+
+            var transactions = new List<Transaction>();
+            transactions.Add(root);
+            transactions.Add(voting);
+
+            var block = new Block();
+            block.CreatorHash = VotingsUser.RootPublicKey;
+            block.Date = VotingsUser.RootUserDate;
+            block.Number = 0;
+            block.PreviousHash = "0";
+            block.Transactions = transactions.Select(tr => tr.Hash).ToList();
+            block.Hash = block.CalcHash();
+            block.Signature = VotingsUser.FirstBlockSignature;
+
 
             var rootInDB = db.GetUserCreation(VotingsUser.RootPublicKey);
+            var votingInDB = db.GetVoting(0);
+            var blockInDB = db.GetBlock(0);
 
             //если транзакции нет в базе или она ошибочна, обнуляем базу и вносим транзакцию в нее
-            if (rootInDB == null ||
-                root.Hash != rootInDB.Hash || root.Info != rootInDB.Info || root.PreviousHash != rootInDB.PreviousHash ||
+            if (rootInDB == null || votingInDB==null || blockInDB == null
+                /*root.Hash != rootInDB.Hash || root.Info != rootInDB.Info || root.PreviousHash != rootInDB.PreviousHash ||
                 root.RecieverHash != rootInDB.RecieverHash || root.SenderHash != rootInDB.SenderHash || 
-                root.Signature != rootInDB.Signature || root.Type != rootInDB.Type || root.VotingNumber!=rootInDB.VotingNumber)
+                root.Signature != rootInDB.Signature || root.Type != rootInDB.Type || root.VotingNumber!=rootInDB.VotingNumber*/)
             {
                 db.Clear();
                 db.PutTransaction(root);
+                db.PutTransaction(voting);
+                db.PutBlock(block);
             }
 
         }
 
-        void MakeBlock()
+        public void MakeBlock()
         {
             var transactions = db.GetFreeTransactions(CommonHelpers.TransactionsInBlock);
 
-            if (transactions.Count != CommonHelpers.TransactionsInBlock) return;
+            if (transactions.Count < CommonHelpers.TransactionsInBlock) return;
 
             var lastBlock = db.GetLastBlock();
 
@@ -582,10 +612,26 @@ namespace BlockChainVotings
             throw new NotImplementedException();
         }
 
+        public void CreateVoting(List<string> candidates, string votingName)
+        {
+            var prevVoting = db.GetLastVoting();
+            var voting = Transaction.StartVotingTransation(candidates, votingName, prevVoting.VotingNumber + 1, prevVoting.Hash);
+
+            if (CheckTransaction(voting))
+            {
+                var list = new List<Transaction>();
+                list.Add(voting);
+                var message = new TransactionsMessage(list);
+
+                net.SendMessageToAllPeers(message);
+
+            }
+        }
+
 
         public void CreateUser(string publicKey, string name, string id)
         {
-            var user = Transaction.CreateUserTransacton(publicKey, name, id, db.GetLastBlock().Hash);
+            var user = Transaction.CreateUserTransacton(publicKey, name, id, db.GetLastUserCreation().Hash);
 
             if (CheckTransaction(user))
             {

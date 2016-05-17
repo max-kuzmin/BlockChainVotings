@@ -20,11 +20,8 @@ namespace BlockChainVotingsTracker
         public MainForm()
         {
             InitializeComponent();
-
-
         }
         
-
         private void buttonStopTracker_Click(object sender, EventArgs e)
         {
             Task.Run(() => tracker.Stop());
@@ -44,11 +41,6 @@ namespace BlockChainVotingsTracker
         {
             ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
             Console.SetOut(writer);
-
-            if (CommonHelpers.GetLocalEndPoint(1) == null)
-            {
-                MessageBox.Show("Для продолжения необходимо подключение к интернету");
-            }
 
             tracker = new Tracker();
         }
