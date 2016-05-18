@@ -172,7 +172,7 @@ namespace BlockChainVotings
 
 
             //проверка существования предыдущего блока
-            if (prevBlock == null)
+            if (prevBlock == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.PreviousHash))
             {
                 RequestBlock(block.PreviousHash);
                 needWait = true;
@@ -216,15 +216,15 @@ namespace BlockChainVotings
 
 
             //проверка даты
-            if (!(block.Date >= prevBlock.Date && block.Date <= CommonHelpers.GetTime())) return false;
+            if (!(block.Date0 >= prevBlock.Date0 && block.Date0 <= CommonHelpers.GetTime())) return false;
 
 
             //проверка создателя блока
             //var senderCreation = db.GetUserCreation(block.CreatorHash);
             var senderBan = db.GetUserBan(block.CreatorHash);
 
-            if (!(creator.Date <= block.Date &&
-                (senderBan == null || senderBan.Date > block.Date)))
+            if (!(creator.Date0 <= block.Date0 &&
+                (senderBan == null || senderBan.Date0 > block.Date0)))
                 return false;
 
 
@@ -232,7 +232,7 @@ namespace BlockChainVotings
             foreach (var itemHash in block.Transactions)
             {
                 var tr = db.GetTransaction(itemHash);
-                if (tr.InBlock == true || tr.Date > block.Date) return false;
+                if (tr.InBlock == true || tr.Date0 > block.Date0) return false;
             }
 
 
@@ -246,7 +246,7 @@ namespace BlockChainVotings
 
                 //если цепочка нового блока длинее или цепочки равны, но дата нового блока раньше
                 if ((lastBlockInChain.Number > lastBlockInDB.Number) ||
-                    (lastBlockInChain.Number == lastBlockInDB.Number && block.Date < blockCopyInDB.Date))
+                    (lastBlockInChain.Number == lastBlockInDB.Number && block.Date0 < blockCopyInDB.Date0))
                 {
                     //удаляем из базы все блоки начиная с этого
                     for (int i = blockCopyInDB.Number; i < lastBlockInDB.Number; i++)
@@ -306,7 +306,7 @@ namespace BlockChainVotings
             }
 
             //проверка существования предыдущей транзакции
-            if (db.GetTransaction(transaction.PreviousHash) == null)
+            if (db.GetTransaction(transaction.PreviousHash) == null && !pendingTransactions.Keys.Any(tr => tr.Hash == transaction.PreviousHash))
             {
                 RequestTransaction(transaction.PreviousHash);
                 needWait = true;
@@ -355,7 +355,7 @@ namespace BlockChainVotings
                 MakeBlock();
 
                 //ищем в ожидающих транзакции связанные с этой и проверяем их
-                var pending = pendingTransactions.Keys.Where(tr => tr.PreviousHash == transaction.Hash);
+                var pending = pendingTransactions.Keys.Where(tr => tr.PreviousHash == transaction.Hash).ToList();
                 foreach (var item in pending)
                 {
                     CheckTransaction(item);
@@ -374,15 +374,15 @@ namespace BlockChainVotings
             if (!(transaction.CheckHash() && transaction.CheckSignature())) return false;
 
             //проверка даты транзакции
-            if (!(transaction.Date >= voting.Date && transaction.Date <= CommonHelpers.GetTime())) return false;
+            if (!(transaction.Date0 >= voting.Date0 && transaction.Date0 <= CommonHelpers.GetTime())) return false;
 
             var senderCreation = db.GetUserCreation(transaction.SenderHash);
             var senderBan = db.GetUserBan(transaction.SenderHash);
             ////проверка создателя транзакции
             //if (senderCreation == null) return false;
             //проверка даты создателя транзакции
-            if (!(senderCreation.Date <= voting.Date &&
-                (senderBan == null || senderBan.Date > voting.Date)))
+            if (!(senderCreation.Date0 <= voting.Date0 &&
+                (senderBan == null || senderBan.Date0 > voting.Date0)))
                 return false;
 
             var recieverCreation = db.GetUserCreation(transaction.RecieverHash);
@@ -390,8 +390,8 @@ namespace BlockChainVotings
             ////проверка получателя транзакции
             //if (recieverCreation == null) return false;
             //проверка даты получателя транзакции
-            if (!(recieverCreation.Date <= voting.Date &&
-                (recieverBan == null || recieverBan.Date > voting.Date)))
+            if (!(recieverCreation.Date0 <= voting.Date0 &&
+                (recieverBan == null || recieverBan.Date0 > voting.Date0)))
                 return false;
 
             var existsVote = db.GetUserVote(transaction.SenderHash, transaction.VotingNumber);
@@ -401,7 +401,7 @@ namespace BlockChainVotings
                 //если копия уже в блоке то выход
                 if (existsVote.InBlock) return false;
                 //если копия транзакции старее то выход
-                else if (existsVote.Date < transaction.Date) return false;
+                else if (existsVote.Date0 < transaction.Date0) return false;
                 //иначе удаляем сущесвующую транзакцию из базы
                 else db.DeleteTransaction(existsVote);
             }
@@ -417,7 +417,7 @@ namespace BlockChainVotings
             if (!(transaction.CheckHash() && transaction.CheckSignature())) return false;
 
             //проверка даты транзакции
-            if (!(transaction.Date > VotingsUser.RootUserDate && transaction.Date <= CommonHelpers.GetTime())) return false;
+            if (!(transaction.Date0 > VotingsUser.RootUserDate && transaction.Date0 <= CommonHelpers.GetTime())) return false;
 
             //проверка, что транзакцию создал корневой клиент
             if (transaction.SenderHash != VotingsUser.RootPublicKey) return false;
@@ -426,7 +426,7 @@ namespace BlockChainVotings
             if (db.GetUserCreation(transaction.RecieverHash) != null) return false;
 
             //проверка чтобы предыдущая транзакция не была новее
-            if (transaction.Date < db.GetTransaction(transaction.PreviousHash).Date) return false;
+            if (transaction.Date0 < db.GetTransaction(transaction.PreviousHash).Date0) return false;
 
             try
             {
@@ -450,7 +450,7 @@ namespace BlockChainVotings
             if (!(transaction.CheckHash() && transaction.CheckSignature())) return false;
 
             //проверка даты транзакции
-            if (!(transaction.Date >= VotingsUser.RootUserDate && transaction.Date <= CommonHelpers.GetTime())) return false;
+            if (!(transaction.Date0 >= VotingsUser.RootUserDate && transaction.Date0 <= CommonHelpers.GetTime())) return false;
 
             //проверка, что транзакцию создал корневой клиент
             if (transaction.SenderHash != VotingsUser.RootPublicKey) return false;
@@ -458,7 +458,7 @@ namespace BlockChainVotings
 
             var recieverCreation = db.GetUserCreation(transaction.RecieverHash);
             //проверка на существование пользователя на заданную дату
-            if (recieverCreation.Date > transaction.Date) return false;
+            if (recieverCreation.Date0 > transaction.Date0) return false;
             if (db.GetUserBan(transaction.RecieverHash) != null) return false;
 
 
@@ -467,7 +467,7 @@ namespace BlockChainVotings
             //предыдущая транзакция и транзакция создания пользователя - одно и то же
             if (prevTransaction.Hash != recieverCreation.Hash) return false;
             //проверка чтобы предыдущая транзакция не была новее
-            if (transaction.Date < prevTransaction.Date) return false;
+            if (transaction.Date0 < prevTransaction.Date0) return false;
 
 
             try
@@ -496,7 +496,7 @@ namespace BlockChainVotings
             if (transaction.VotingNumber != (prevVoting.VotingNumber - 1)) return false;
 
             //проверка даты транзакции
-            if (!(transaction.Date >= prevVoting.Date && transaction.Date <= CommonHelpers.GetTime())) return false;
+            if (!(transaction.Date0 >= prevVoting.Date0 && transaction.Date0 <= CommonHelpers.GetTime())) return false;
 
             //проверка, что транзакцию создал корневой клиент
             if (transaction.SenderHash != VotingsUser.RootPublicKey) return false;
@@ -531,14 +531,14 @@ namespace BlockChainVotings
 
             var root = Transaction.CreateUserTransacton(VotingsUser.RootPublicKey, "Root", "0", "0");
             root.SenderHash = VotingsUser.RootPublicKey;
-            root.Date = VotingsUser.RootUserDate;
+            root.Date0 = VotingsUser.RootUserDate;
             root.Hash = root.CalcHash();
             root.Signature = VotingsUser.RootCreationSignature;
             root.InBlock = true;
 
             var voting = Transaction.StartVotingTransation(new List<string>(), "0", 0, "0");
             voting.SenderHash = VotingsUser.RootPublicKey;
-            voting.Date = VotingsUser.RootUserDate;
+            voting.Date0 = VotingsUser.RootUserDate;
             voting.Hash = voting.CalcHash();
             voting.Signature = VotingsUser.FirstVotingSignature;
             voting.InBlock = true;
@@ -549,7 +549,7 @@ namespace BlockChainVotings
 
             var block = new Block();
             block.CreatorHash = VotingsUser.RootPublicKey;
-            block.Date = VotingsUser.RootUserDate;
+            block.Date0 = VotingsUser.RootUserDate;
             block.Number = 0;
             block.PreviousHash = "0";
             block.Transactions = transactions.Select(tr => tr.Hash).ToList();

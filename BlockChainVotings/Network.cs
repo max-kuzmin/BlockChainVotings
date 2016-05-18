@@ -32,6 +32,7 @@ namespace BlockChainVotings
 
         public Network()
         {
+            NetworkComms.DisableLogging();
 
             Trackers = new List<Tracker>();
             Peers = new List<Peer>();

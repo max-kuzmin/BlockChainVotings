@@ -14,8 +14,15 @@ namespace BlockChainVotings
     [Table("Transaction")]
     public class Transaction
     {
+        [Ignore]
+        public DateTime Date0
+        {
+            get { return new DateTime(Date); }
+            set { Date = value.Ticks; }
+        }
+
         [ProtoMember(30)]
-        public DateTime Date { get; set; }
+        public long Date { get; set; }
 
         [ProtoMember(31)]
         public string PreviousHash { get; set; }
@@ -43,6 +50,8 @@ namespace BlockChainVotings
         public string Signature { get; set; }
 
 
+
+
         //поле для нахождения несвязаных в блоки транзакций
         public bool InBlock { get; set; }
 
@@ -59,11 +68,13 @@ namespace BlockChainVotings
             }
         }
 
+        public Transaction() { }
+
         public string CalcHash()
         {
             string data = "";
 
-            data += Date.Ticks + PreviousHash + (int)Type;
+            data += Date0.Ticks + PreviousHash + (int)Type;
             data += SenderHash + RecieverHash + VotingNumber + Info;
 
             return CommonHelpers.CalcHash(data);
@@ -76,7 +87,7 @@ namespace BlockChainVotings
 
         public bool CheckSignature()
         {
-            if (CalcSignature() == Signature)
+            if (CommonHelpers.VerifyData(Hash, Signature, SenderHash))
             {
                 return true;
             }
@@ -92,7 +103,7 @@ namespace BlockChainVotings
             var tr = new Transaction();
 
             tr.Type = TransactionType.CreateUser;
-            tr.Date = CommonHelpers.GetTime();
+            tr.Date0 = CommonHelpers.GetTime();
             tr.SenderHash = VotingsUser.PublicKey;
             tr.RecieverHash = publicHash;
             tr.PreviousHash = previousHash;
@@ -113,7 +124,7 @@ namespace BlockChainVotings
             var tr = new Transaction();
 
             tr.Type = TransactionType.BanUser;
-            tr.Date = CommonHelpers.GetTime();
+            tr.Date0 = CommonHelpers.GetTime();
             tr.SenderHash = VotingsUser.PublicKey;
             tr.RecieverHash = publicHash;
             tr.PreviousHash = previousHash;
@@ -133,7 +144,7 @@ namespace BlockChainVotings
             var tr = new Transaction();
 
             tr.Type = TransactionType.Vote;
-            tr.Date = CommonHelpers.GetTime();
+            tr.Date0 = CommonHelpers.GetTime();
             tr.SenderHash = VotingsUser.PublicKey;
             tr.RecieverHash = candidateHash;
 
@@ -150,7 +161,7 @@ namespace BlockChainVotings
             var tr = new Transaction();
 
             tr.Type = TransactionType.StartVoting;
-            tr.Date = CommonHelpers.GetTime();
+            tr.Date0 = CommonHelpers.GetTime();
             tr.SenderHash = VotingsUser.PublicKey;
 
             JObject info = new JObject();
@@ -178,20 +189,18 @@ namespace BlockChainVotings
         }
 
 
+        ////
 
-        //
-        long dateTicks;
+        //[ProtoBeforeSerialization]
+        //private void Serialize()
+        //{
+        //    Date = Date0.Ticks;
+        //}
 
-        [ProtoBeforeSerialization]
-        private void Serialize()
-        {
-            dateTicks = Date.Ticks;
-        }
-
-        [ProtoAfterDeserialization]
-        private void Deserialize()
-        {
-            Date = new DateTime(dateTicks);
-        }
+        //[ProtoAfterDeserialization]
+        //private void Deserialize()
+        //{
+        //    Date0 = new DateTime(Date);
+        //}
     }
 }

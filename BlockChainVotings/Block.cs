@@ -14,8 +14,13 @@ namespace BlockChainVotings
     [ProtoContract]
     public class Block
     {
+        [Ignore]
+        public DateTime Date0 {
+            get { return new DateTime(Date); }
+            set { Date = value.Ticks; } }
+
         [ProtoMember(20)]
-        public DateTime Date { get; set; }
+        public long Date { get; set; }
 
         [ProtoMember(21)]
         public string PreviousHash { get; set; }
@@ -60,11 +65,13 @@ namespace BlockChainVotings
             }
         }
 
+        public Block() { }
+
         public string CalcHash()
         {
             string data = "";
 
-            data += Date.Ticks + PreviousHash + Number;
+            data += Date0.Ticks + PreviousHash + Number;
 
             foreach (var tr in Transactions)
             {
@@ -95,7 +102,7 @@ namespace BlockChainVotings
 
         public Block(List<Transaction> transactions, Block previousBlock)
         {
-            Date = CommonHelpers.GetTime();
+            Date0 = CommonHelpers.GetTime();
             PreviousHash = previousBlock.Hash;
             Number = previousBlock.Number + 1;
             CreatorHash = VotingsUser.PublicKey;
@@ -116,24 +123,20 @@ namespace BlockChainVotings
 
         }
 
-        public Block() { }
 
+        ////
 
+        //[ProtoBeforeSerialization]
+        //private void Serialize()
+        //{
+        //    Date = Date0.Ticks;
+        //}
 
-        //
-        long dateTicks;
-
-        [ProtoBeforeSerialization]
-        private void Serialize()
-        {
-            dateTicks = Date.Ticks;
-        }
-
-        [ProtoAfterDeserialization]
-        private void Deserialize()
-        {
-            Date = new DateTime(dateTicks);
-        }
+        //[ProtoAfterDeserialization]
+        //private void Deserialize()
+        //{
+        //    Date0 = new DateTime(Date);
+        //}
 
     }
 }

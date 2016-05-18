@@ -28,11 +28,6 @@ namespace BlockChainVotings
         public MainForm()
         {
             InitializeComponent();
-
-            (new CreateUserForm(new BlockChainVotings())).Show();
-            (new CreateVotingForm(new BlockChainVotings())).Show();
-            //(new RegisterLoginForm()).Show();
-
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -62,14 +57,16 @@ namespace BlockChainVotings
             this.WindowState = FormWindowState.Minimized;
             this.Enabled = false;
 
-            //net = new Network();
+            blockChain = new BlockChainVotings();
+            (new CreateUserForm(blockChain)).Show();
+            (new CreateVotingForm(blockChain)).Show();
+            //(new RegisterLoginForm()).Show();
         }
 
         private void RegForm_SuccssesLogin(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
             this.Enabled = true;
-            blockChain = new BlockChainVotings();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

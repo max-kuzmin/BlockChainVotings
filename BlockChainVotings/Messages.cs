@@ -232,6 +232,8 @@ namespace BlockChainVotings
             this.Type = MessageType.Transactions;
             this.Transactions = transactions;
         }
+
+        public TransactionsMessage() { }
     }
 
     [ProtoContract]
@@ -245,6 +247,8 @@ namespace BlockChainVotings
             this.Type = MessageType.Transactions;
             this.Blocks = blocks;
         }
+
+        public BlocksMessage() { }
     }
 
     [ProtoContract]
