@@ -62,7 +62,7 @@ namespace BlockChainVotings
         {
             //if (dbAsync == null) ConnectToDBAsync();
 
-            var query = dbAsync.Table<Block>().OrderBy(block => block.Date);
+            var query = dbAsync.Table<Block>().OrderBy(block => block.Date0);
             var elem = query.FirstOrDefaultAsync();
             elem.Wait();
 

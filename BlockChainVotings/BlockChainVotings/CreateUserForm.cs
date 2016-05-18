@@ -68,7 +68,7 @@ namespace BlockChainVotings
             {
                 blockChain.CreateUser(textBoxPublicKey.Text, textBoxName.Text, textBoxID.Text);
 
-                textBoxPrivateKey.Text = "";
+                textBoxPublicKey.Text = "";
                 textBoxName.Text = "";
                 textBoxPrivateKey.Text = "";
                 textBoxID.Text = "";
