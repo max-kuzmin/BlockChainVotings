@@ -88,7 +88,7 @@ namespace BlockChainVotings
 
         public bool CheckSignature()
         {
-            if (CalcSignature() == Signature)
+            if (CommonHelpers.VerifyData(Hash, Signature, CreatorHash))
             {
                 return true;
             }

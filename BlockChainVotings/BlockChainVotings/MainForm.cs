@@ -32,18 +32,20 @@ namespace BlockChainVotings
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            Task.Run( ()=> blockChain.net.Connect(textBoxTrackers.Lines) );
+            Task.Run( ()=> blockChain.Start(textBoxTrackers.Lines) );
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            Task.Run( () => blockChain.net.Disconnect() );
+            Task.Run(() => blockChain.Stop() );
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             ConsoleToTextBoxWriter writer = new ConsoleToTextBoxWriter(textBoxConsole);
             Console.SetOut(writer);
+
+            Task.Run(() => CommonHelpers.GetTime());
 
             regForm = new RegisterLoginForm();
             regForm.SuccssesLogin += RegForm_SuccssesLogin;
@@ -71,19 +73,19 @@ namespace BlockChainVotings
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Task.Run(() => blockChain.net.Disconnect());
+            Task.Run(() => blockChain.Stop());
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Task.Run(() => blockChain.net.RequestPeers());
+            //Task.Run(() => blockChain.net.RequestPeers());
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            var list = new List<string>();
-            list.Add("123526326");
-            Task.Run(() => blockChain.net.SendMessageToPeer(new RequestBlocksMessage(list), new IPEndPoint(0x4D00A8C0, CommonHelpers.PeerPort)));
+            //var list = new List<string>();
+            //list.Add("123526326");
+            //Task.Run(() => blockChain.net.SendMessageToPeer(new RequestBlocksMessage(list), new IPEndPoint(0x4D00A8C0, CommonHelpers.PeerPort)));
         }
 
         private void button3_Click(object sender, EventArgs e)

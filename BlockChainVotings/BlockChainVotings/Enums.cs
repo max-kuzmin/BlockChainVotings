@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 
 namespace BlockChainVotings
 {
+
+    public enum TransactionStatus
+    {
+        Free,
+        InBlock,
+        InPendingBlock
+    }
+
+
     public enum PeerStatus
     {
         Disconnected,

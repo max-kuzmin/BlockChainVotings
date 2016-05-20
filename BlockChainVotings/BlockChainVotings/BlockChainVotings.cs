@@ -13,14 +13,15 @@ namespace BlockChainVotings
     public class BlockChainVotings
     {
         VotingsDB db;
-        public Network net;
+        Network net;
 
         Timer t;
-        DateTime curTime;
 
         //блоки и транзакции, для проверки которых требуются дополнительные загрузки
         Dictionary<Block, DateTime> pendingBlocks;
         Dictionary<Transaction, DateTime> pendingTransactions;
+
+
 
 
         public BlockChainVotings()
@@ -41,6 +42,33 @@ namespace BlockChainVotings
             net.OnTransactionsMessage += OnTransactionsMessage;
 
             t.Elapsed += DeleteOldPendingItems;
+        }
+
+
+
+        public void Start(string[] trackers)
+        {
+            CheckRoot();
+
+            net.Connect(trackers);
+
+            Task.Run(() =>
+            {
+                System.Threading.Thread.Sleep(CommonHelpers.WaitAfterStartInterval);
+                RequestLastBlock();
+                RequestLastFreeTransactions();
+                
+            });
+
+
+            
+
+
+        }
+
+        public void Stop()
+        {
+            net.Disconnect();
         }
 
         private void DeleteOldPendingItems(object sender, ElapsedEventArgs e)
@@ -69,6 +97,10 @@ namespace BlockChainVotings
 
             foreach (var transaction in message.Transactions)
             {
+                //если транзакция была в блоке, помечаем ее как транзакцию из непроверенного блока
+                if (transaction.Status == TransactionStatus.InBlock)
+                    transaction.Status = TransactionStatus.InPendingBlock;
+
                 //проверка на существование транзакции с таким же хешем
                 if (db.GetTransaction(transaction.Hash) == null && !pendingTransactions.Keys.Any(tr => tr.Hash == transaction.Hash))
                     CheckTransaction(transaction);
@@ -83,7 +115,9 @@ namespace BlockChainVotings
             {
                 var tr = db.GetTransaction(hash);
                 if (tr != null)
+                {
                     transactions.Add(tr);
+                }
                 else
                 {
                     //если не нашли транзакцию, ищем по хешу пользователя
@@ -96,6 +130,14 @@ namespace BlockChainVotings
                 }
 
             }
+
+
+            if (message.Date > 0)
+            {
+                transactions.AddRange(db.GetFreeTransactionsFromDate(message.Date0, CommonHelpers.TransactionsInBlock));
+            }
+
+
 
             if (transactions.Count > 0)
             {
@@ -115,7 +157,7 @@ namespace BlockChainVotings
             }
 
             //если пришел пустой запрос, отсылаем последний блок
-            if (blocks.Count == 0)
+            if (message.Hashes.Count == 0)
             {
                 blocks.Add(db.GetLastBlock());
             }
@@ -132,7 +174,9 @@ namespace BlockChainVotings
             {
                 //проверка на существование блока с таким же хешем
                 if (db.GetBlock(block.Hash) == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.Hash))
+                {
                     CheckBlock(block);
+                }
             }
         }
 
@@ -149,6 +193,13 @@ namespace BlockChainVotings
                 net.SendMessageToPeer(message, peerAddress);
         }
 
+
+
+        void RequestLastBlock()
+        {
+            var message = new RequestBlocksMessage(new List<string>());
+            net.SendMessageToAllPeers(message);
+        }
 
         public void RequestTransaction(string hash, EndPoint peerAddress = null)
         {
@@ -168,13 +219,15 @@ namespace BlockChainVotings
             var prevBlock = db.GetBlock(block.PreviousHash);
             var creator = db.GetUserCreation(block.CreatorHash);
 
-            bool needWait = true;
+            bool needWait = false;
 
 
             //проверка существования предыдущего блока
-            if (prevBlock == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.PreviousHash))
+            if (prevBlock == null)
             {
-                RequestBlock(block.PreviousHash);
+                //если ее нет и в ожидающих - запрашиваем от пиров
+                if (!pendingBlocks.Keys.Any(bl => bl.Hash == block.PreviousHash))
+                    RequestBlock(block.PreviousHash);
                 needWait = true;
             }
 
@@ -182,7 +235,8 @@ namespace BlockChainVotings
             //проверка существования создателя блока
             if (creator == null)
             {
-                RequestTransaction(block.CreatorHash);
+                if (!pendingTransactions.Keys.Any(tr => tr.RecieverHash == block.CreatorHash))
+                    RequestTransaction(block.CreatorHash);
                 needWait = true;
             }
 
@@ -191,7 +245,8 @@ namespace BlockChainVotings
             {
                 if (db.GetTransaction(itemHash) == null)
                 {
-                    RequestTransaction(itemHash);
+                    if (!pendingTransactions.Keys.Any(tr => tr.Hash == itemHash))
+                        RequestTransaction(itemHash);
                     needWait = true;
                 }
             }
@@ -211,6 +266,13 @@ namespace BlockChainVotings
             //удаляем его из ожидающих
             pendingBlocks.Remove(block);
 
+            ////помечаем транзакции как свободные, чтобы если проверка блока не удастся, на их основе можно было создат ьсвой блок
+            //foreach (var itemHash in block.Transactions)
+            //{
+            //    var tr = db.GetTransaction(itemHash);
+            //    db.MarkTransaction(tr, TransactionStatus.Free);
+            //}
+
             //проверка хеша и подписи
             if (!(block.CheckHash() && block.CheckSignature())) return false;
 
@@ -226,14 +288,6 @@ namespace BlockChainVotings
             if (!(creator.Date0 <= block.Date0 &&
                 (senderBan == null || senderBan.Date0 > block.Date0)))
                 return false;
-
-
-            //проверка транзакций
-            foreach (var itemHash in block.Transactions)
-            {
-                var tr = db.GetTransaction(itemHash);
-                if (tr.InBlock == true || tr.Date0 > block.Date0) return false;
-            }
 
 
 
@@ -253,10 +307,30 @@ namespace BlockChainVotings
                     {
                         var blockToRemove = db.GetBlock(i);
                         db.DeleteBlock(blockToRemove);
-                    }
-                }
-                else return false;
 
+                        //удаляем транзакции из этого блока
+                        foreach (var item in blockToRemove.Transactions)
+                        {
+                            db.DeleteTransaction(db.GetTransaction(item));
+                        }
+                    }
+
+                    //добавляем блок обратно в ожидающие
+                    pendingBlocks.Add(block, CommonHelpers.GetTime());
+                    //запускаем проверку последнего ожидаещего блока из цепочки (он снова загрузит нужные транзакции)
+                    CheckBlock(lastBlockInChain);
+                }
+
+                return false;
+
+            }
+
+
+            //проверка транзакций
+            foreach (var itemHash in block.Transactions)
+            {
+                var tr = db.GetTransaction(itemHash);
+                if (tr.Status == TransactionStatus.InBlock || tr.Date0 > block.Date0) return false;
             }
 
 
@@ -264,12 +338,20 @@ namespace BlockChainVotings
             ////если все хорошо, добавляем блок в базу
             db.PutBlock(block);
 
+            //помечаем транзакции, что они в блоке
+            foreach (var itemHash in block.Transactions)
+            {
+                var tr = db.GetTransaction(itemHash);
+                db.MarkTransaction(tr, TransactionStatus.InBlock);
+            }
+
             //ищем в ожидающих блоках связанные с этим и проверяем их
-            var pending = pendingBlocks.Keys.Where(bl => bl.PreviousHash == block.Hash);
+            var pending = pendingBlocks.Keys.Where(bl => bl.PreviousHash == block.Hash).ToList();
             foreach (var item in pending)
             {
                 CheckBlock(item);
             }
+
 
             return true;
         }
@@ -277,7 +359,7 @@ namespace BlockChainVotings
         //рекурсивный поиск последнего блока в цепочке ожидающих
         private Block GetLastBlockFromPending(Block block)
         {
-            var nextBlock = pendingBlocks.Keys.First(bl => bl.PreviousHash == block.Hash);
+            var nextBlock = pendingBlocks.Keys.FirstOrDefault(bl => bl.PreviousHash == block.Hash);
 
             if (nextBlock == null) return block;
             else return GetLastBlockFromPending(nextBlock);
@@ -293,7 +375,9 @@ namespace BlockChainVotings
             //если ее нет, то транзакция создания и бана пользователя запрашиваются
             if (db.GetUserCreation(transaction.SenderHash) == null)
             {
-                RequestTransaction(transaction.SenderHash);
+                //если ее нет и в ожидающих - запрашиваем от пиров
+                if (!pendingTransactions.Keys.Any(tr => tr.RecieverHash == transaction.PreviousHash))
+                    RequestTransaction(transaction.SenderHash);
                 needWait = true;
             }
 
@@ -301,14 +385,16 @@ namespace BlockChainVotings
             if ((transaction.Type == TransactionType.BanUser || transaction.Type == TransactionType.Vote)
                 && (db.GetUserCreation(transaction.RecieverHash) == null))
             {
-                RequestTransaction(transaction.RecieverHash);
+                if (!pendingTransactions.Keys.Any(tr => tr.RecieverHash == transaction.RecieverHash))
+                    RequestTransaction(transaction.RecieverHash);
                 needWait = true;
             }
 
             //проверка существования предыдущей транзакции
-            if (db.GetTransaction(transaction.PreviousHash) == null && !pendingTransactions.Keys.Any(tr => tr.Hash == transaction.PreviousHash))
+            if (db.GetTransaction(transaction.PreviousHash) == null)
             {
-                RequestTransaction(transaction.PreviousHash);
+                if (!pendingTransactions.Keys.Any(tr => tr.Hash == transaction.PreviousHash))
+                    RequestTransaction(transaction.PreviousHash);
                 needWait = true;
             }
 
@@ -355,10 +441,27 @@ namespace BlockChainVotings
                 MakeBlock();
 
                 //ищем в ожидающих транзакции связанные с этой и проверяем их
-                var pending = pendingTransactions.Keys.Where(tr => tr.PreviousHash == transaction.Hash).ToList();
+                var pending = pendingTransactions.Keys.Where(tr =>
+                {
+                    return tr.PreviousHash == transaction.Hash || 
+                    tr.SenderHash == transaction.RecieverHash || 
+                    tr.RecieverHash == transaction.RecieverHash;
+                }).ToList();
                 foreach (var item in pending)
                 {
                     CheckTransaction(item);
+                }
+
+
+                //ищем в ожидающих блоках связанные с этим и проверяем их
+                var pending2 = pendingBlocks.Keys.Where(bl =>
+                {
+                    return bl.TransactionsBlob.Contains(transaction.Hash) 
+                    || bl.CreatorHash == transaction.RecieverHash;
+                }).ToList();
+                foreach (var item in pending2)
+                {
+                    CheckBlock(item);
                 }
 
                 return true;
@@ -399,7 +502,7 @@ namespace BlockChainVotings
             if (existsVote != null)
             {
                 //если копия уже в блоке то выход
-                if (existsVote.InBlock) return false;
+                if (existsVote.Status == TransactionStatus.InBlock) return false;
                 //если копия транзакции старее то выход
                 else if (existsVote.Date0 < transaction.Date0) return false;
                 //иначе удаляем сущесвующую транзакцию из базы
@@ -484,6 +587,17 @@ namespace BlockChainVotings
 
         }
 
+
+
+        void RequestLastFreeTransactions()
+        {
+            var date = db.GetLastTransaction().Date0;
+            var message = new RequestTransactionsMessage(date);
+            net.SendMessageToAllPeers(message);
+
+        }
+
+
         bool CheckStartVotingTransaction(Transaction transaction)
         {
 
@@ -493,7 +607,7 @@ namespace BlockChainVotings
             var prevVoting = db.GetTransaction(transaction.PreviousHash);
 
             //проверка номера голосования
-            if (transaction.VotingNumber != (prevVoting.VotingNumber - 1)) return false;
+            if (transaction.VotingNumber != (prevVoting.VotingNumber + 1)) return false;
 
             //проверка даты транзакции
             if (!(transaction.Date0 >= prevVoting.Date0 && transaction.Date0 <= CommonHelpers.GetTime())) return false;
@@ -534,14 +648,14 @@ namespace BlockChainVotings
             root.Date0 = VotingsUser.RootUserDate;
             root.Hash = root.CalcHash();
             root.Signature = VotingsUser.RootCreationSignature;
-            root.InBlock = true;
+            root.Status = TransactionStatus.InBlock;
 
             var voting = Transaction.StartVotingTransation(new List<string>(), "0", 0, "0");
             voting.SenderHash = VotingsUser.RootPublicKey;
             voting.Date0 = VotingsUser.RootUserDate;
             voting.Hash = voting.CalcHash();
             voting.Signature = VotingsUser.FirstVotingSignature;
-            voting.InBlock = true;
+            voting.Status = TransactionStatus.InBlock;
 
             var transactions = new List<Transaction>();
             transactions.Add(root);
@@ -577,12 +691,19 @@ namespace BlockChainVotings
 
         public void MakeBlock()
         {
+
             var transactions = db.GetFreeTransactions(CommonHelpers.TransactionsInBlock);
 
             if (transactions.Count < CommonHelpers.TransactionsInBlock) return;
 
-            var lastBlock = db.GetLastBlock();
+            //помечаем их как ожидающие, поскольку сейчас создадим блок
+            foreach (var item in transactions)
+            {
+                db.MarkTransaction(item, TransactionStatus.InPendingBlock);
+            }
 
+
+            var lastBlock = db.GetLastBlock();
             var newBlock = new Block(transactions, lastBlock);
 
             //проверка блока и добавление его в базу
@@ -645,6 +766,12 @@ namespace BlockChainVotings
 
         }
 
+
+
+        public List<Transaction> SearchUsers(string nameIdHash)
+        {
+            return db.SearchUsers(nameIdHash);
+        }
 
 
     }
