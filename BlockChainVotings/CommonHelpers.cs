@@ -19,8 +19,8 @@ namespace BlockChainVotings
         static public int PeerPort { get { return 10101; } }
         static public int TrackerPort { get { return 10102; } }
         static public int DiscoveryPort { get { return 10001; } }
-        static public int CheckAliveInterval { get { return 60000; } }
-
+        static public int CheckAliveInterval { get { return 60000*5; } }
+        static public int WaitAfterStartInterval { get { return 10000; } }
 
         static TimeSpan? dateDelta;
         public static int TransactionsInBlock { get { return 10; } }
@@ -93,35 +93,31 @@ namespace BlockChainVotings
         {
             if (dateDelta==null)
             {
-                dateDelta = GetInternetTime() - DateTime.Now;
+                DateTime time = DateTime.Now;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    try
+                    {
+                        var client = new TcpClient("time.nist.gov", 13);
+                        using (var streamReader = new StreamReader(client.GetStream()))
+                        {
+                            var response = streamReader.ReadToEnd();
+                            var utcDateTimeString = response.Substring(7, 17);
+                            time = DateTime.ParseExact(utcDateTimeString, "yy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+                            break;
+                        }
+                    }
+                    catch { }
+
+                }
+
+                dateDelta = time - DateTime.Now;
             }
 
             return (DateTime)(DateTime.Now + dateDelta);
         }
 
-        static DateTime GetInternetTime()
-        {
-            DateTime localDateTime = DateTime.Now;
-
-            for (int i = 0; i < 3; i++)
-            {
-                try
-                {
-                    var client = new TcpClient("time.nist.gov", 13);
-                    using (var streamReader = new StreamReader(client.GetStream()))
-                    {
-                        var response = streamReader.ReadToEnd();
-                        var utcDateTimeString = response.Substring(7, 17);
-                        localDateTime = DateTime.ParseExact(utcDateTimeString, "yy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
-                        break;
-                    }
-                }
-                catch { }
-
-            }
-
-            return localDateTime;
-        }
 
     }
 }

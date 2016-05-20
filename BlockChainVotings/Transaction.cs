@@ -51,9 +51,9 @@ namespace BlockChainVotings
 
 
 
-
         //поле для нахождения несвязаных в блоки транзакций
-        public bool InBlock { get; set; }
+        [ProtoMember(39)]
+        public TransactionStatus Status { get; set; }
 
 
         public bool CheckHash()
@@ -163,6 +163,7 @@ namespace BlockChainVotings
             tr.Type = TransactionType.StartVoting;
             tr.Date0 = CommonHelpers.GetTime();
             tr.SenderHash = VotingsUser.PublicKey;
+            tr.VotingNumber = votingNumber;
 
             JObject info = new JObject();
             JArray candidates = new JArray(candidatesHashes.ToArray());
@@ -200,7 +201,8 @@ namespace BlockChainVotings
         //[ProtoAfterDeserialization]
         //private void Deserialize()
         //{
-        //    Date0 = new DateTime(Date);
+        //    //Date0 = new DateTime(Date);
+        //    InBlock = false;
         //}
     }
 }

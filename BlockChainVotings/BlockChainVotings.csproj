@@ -41,6 +41,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>true</Prefer32Bit>
+    <NoWarn>CS0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -125,6 +126,12 @@
     <Compile Include="RegisterLoginForm.Designer.cs">
       <DependentUpon>RegisterLoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SendVoteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendVoteForm.Designer.cs">
+      <DependentUpon>SendVoteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="VotingsUser.cs" />
     <Compile Include="VotingsDB.cs" />
     <Compile Include="CommonHelpers.cs" />
@@ -169,6 +176,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SendVoteForm.resx">
+      <DependentUpon>SendVoteForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
