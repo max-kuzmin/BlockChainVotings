@@ -720,23 +720,27 @@ namespace BlockChainVotings
 
         }
 
-        public void CreateVote(string recieverHash, int votingNumber)
+        public void CreateVote(string candidateHash, string votingHash)
         {
-            //создаем транзакцию
-            //отсылаем ее всем
-            throw new NotImplementedException();
+            var voting = db.GetTransaction(votingHash);
+            var vote = Transaction.VoteTransaction(candidateHash, voting.Hash);
+
+            if (CheckTransaction(vote))
+            {
+                var list = new List<Transaction>();
+                list.Add(vote);
+                var message = new TransactionsMessage(list);
+
+                net.SendMessageToAllPeers(message);
+
+            }
         }
 
-        void ReadMyInfo(string hash)
-        {
-            //получаем из бд транзакцию с нашим хешем
-            throw new NotImplementedException();
-        }
 
-        public void CreateVoting(List<string> candidates, string votingName)
+        public void CreateVoting(List<string> candidatesHashes, string votingName)
         {
             var prevVoting = db.GetLastVoting();
-            var voting = Transaction.StartVotingTransation(candidates, votingName, prevVoting.VotingNumber + 1, prevVoting.Hash);
+            var voting = Transaction.StartVotingTransation(candidatesHashes, votingName, prevVoting.VotingNumber + 1, prevVoting.Hash);
 
             if (CheckTransaction(voting))
             {
@@ -771,6 +775,33 @@ namespace BlockChainVotings
         public List<Transaction> SearchUsers(string nameIdHash)
         {
             return db.SearchUsers(nameIdHash);
+        }
+
+        public List<Transaction> GetOpenedVotings()
+        {
+            return db.GetUserOpenedVotings();
+        }
+
+
+        public List<Transaction> GetCandidates(Transaction voting)
+        {
+            //var voting = db.GetTransaction(votingHash);
+            //if (voting == null) return null;
+
+            List<Transaction> list = new List<Transaction>();
+
+            var info = JObject.Parse(voting.Info)["candidates"];
+
+            foreach (string hash in info)
+            {
+                var user = db.GetUserCreation(hash);
+                if (user != null)
+                    list.Add(user);
+                else
+                    return null;
+            }
+
+            return list;
         }
 
 

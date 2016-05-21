@@ -173,7 +173,7 @@ namespace BlockChainVotings
 
         public List<Transaction> GetUserClosedVotings()
         {
-            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.StartVoting);
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.StartVoting && tr.VotingNumber != 0);
             var elem = query.ToListAsync();
             elem.Wait();
 
@@ -182,7 +182,8 @@ namespace BlockChainVotings
             foreach (var item in elem.Result)
             {
                 //находим голос пользователя для этого голосования
-                var elem2 = dbAsync.Table<Transaction>().Where(tr => tr.PreviousHash == item.Hash && tr.SenderHash == VotingsUser.PublicKey).FirstOrDefaultAsync();
+                var elem2 = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote && 
+                    tr.PreviousHash == item.Hash && tr.SenderHash == VotingsUser.PublicKey).FirstOrDefaultAsync();
                 elem2.Wait();
 
                 //если голос есть, добавляем голосование в список
@@ -199,7 +200,7 @@ namespace BlockChainVotings
         public List<Transaction> GetUserOpenedVotings()
         {
 
-            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.StartVoting);
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.StartVoting && tr.VotingNumber != 0);
             var elem = query.ToListAsync();
             elem.Wait();
 
@@ -208,7 +209,8 @@ namespace BlockChainVotings
             foreach (var item in elem.Result)
             {
                 //находим голос пользователя для этого голосования
-                var elem2 = dbAsync.Table<Transaction>().Where(tr => tr.PreviousHash == item.Hash && tr.SenderHash == VotingsUser.PublicKey).FirstOrDefaultAsync();
+                var elem2 = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote && 
+                    tr.PreviousHash == item.Hash && tr.SenderHash == VotingsUser.PublicKey).FirstOrDefaultAsync();
                 elem2.Wait();
 
                 //если голоса нет, добавляем голосование в список
