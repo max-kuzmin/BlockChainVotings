@@ -55,10 +55,18 @@ namespace BlockChainVotings
 
         static public string[] GetPublicPrivateKeys()
         {
-            VirgilKeyPair pair = CryptoHelper.GenerateKeyPair();
+            VirgilKeyPair pair = VirgilKeyPair.Generate(VirgilKeyPair.Type.EC_SECP256K1);
             var keys = new string[2];
-            keys[0] = Convert.ToBase64String(pair.PublicKey());
-            keys[1] = Convert.ToBase64String(pair.PrivateKey());
+            
+            keys[0] = Encoding.UTF8.GetString(pair.PublicKey())
+                .Replace("-----BEGIN PUBLIC KEY-----", "")
+                .Replace("-----END PUBLIC KEY-----", "")
+                .Replace("\n", "");
+            keys[1] = Encoding.UTF8.GetString(pair.PrivateKey())
+                .Replace("-----BEGIN EC PRIVATE KEY-----", "")
+                .Replace("-----END EC PRIVATE KEY-----", "")
+                .Replace("\n", "");
+
             return keys;
         }
 

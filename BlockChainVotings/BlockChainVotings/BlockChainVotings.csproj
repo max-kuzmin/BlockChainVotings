@@ -106,6 +106,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BanUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BanUserForm.Designer.cs">
+      <DependentUpon>BanUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Block.cs" />
     <Compile Include="BlockChainVotings.cs" />
     <Compile Include="CreateUserForm.cs">
@@ -131,6 +137,12 @@
     </Compile>
     <Compile Include="SendVoteForm.Designer.cs">
       <DependentUpon>SendVoteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VotingsStatisticForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VotingsStatisticForm.Designer.cs">
+      <DependentUpon>VotingsStatisticForm.cs</DependentUpon>
     </Compile>
     <Compile Include="VotingsUser.cs" />
     <Compile Include="VotingsDB.cs" />
@@ -178,6 +190,9 @@
     </Compile>
     <EmbeddedResource Include="SendVoteForm.resx">
       <DependentUpon>SendVoteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VotingsStatisticForm.resx">
+      <DependentUpon>VotingsStatisticForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />

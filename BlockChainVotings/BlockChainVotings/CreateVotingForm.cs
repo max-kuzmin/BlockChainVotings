@@ -47,7 +47,7 @@ namespace BlockChainVotings
                 }
 
 
-                blockChain.CreateVoting(candidates, textBoxVotingName.Name);
+                blockChain.CreateVoting(candidates, textBoxVotingName.Text);
 
                 textBoxVotingName.Text = "";
                 textBoxSearchUser.Text = "";
@@ -73,7 +73,7 @@ namespace BlockChainVotings
                     var jsonInfo = JObject.Parse(user.Info);
 
                     string[] str = new string[3];
-                    str[0] = user.Hash;
+                    str[0] = user.RecieverHash;
                     str[1] = jsonInfo["name"].Value<string>();
                     str[2] = jsonInfo["id"].Value<string>();
 
@@ -87,8 +87,6 @@ namespace BlockChainVotings
 
         private void buttonAddUser_Click(object sender, EventArgs e)
         {
-            CheckCandidatesList();
-
             foreach (ListViewItem item in listViewSearchUsers.SelectedItems)
             {
                 bool contains = false;
@@ -102,16 +100,18 @@ namespace BlockChainVotings
                 if (!contains)
                     listViewCandidates.Items.Add((ListViewItem)item.Clone());
             }
+
+            CheckCandidatesList();
         }
 
         private void buttonRemoveUser_Click(object sender, EventArgs e)
         {
-            CheckCandidatesList();
-
             foreach (ListViewItem item in listViewCandidates.SelectedItems)
             {
                 listViewCandidates.Items.Remove(item);
             }
+
+            CheckCandidatesList();
         }
 
 
