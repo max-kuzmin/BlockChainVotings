@@ -15,10 +15,12 @@ using System.Windows.Forms;
 using Virgil.Crypto;
 using Virgil.Crypto.Foundation;
 using System.Net;
+using MaterialSkin;
+using MaterialSkin.Controls;
 
 namespace BlockChainVotings
 {
-    public partial class MainForm : Form
+    public partial class MainForm : MaterialForm
     {
 
         //Network net;
@@ -28,6 +30,13 @@ namespace BlockChainVotings
         public MainForm()
         {
             InitializeComponent();
+
+
+            MaterialSkinManager.Instance.Theme = new LightTheme();
+
+            MaterialSkinManager.Instance.AddFormToManage(this);
+            //MaterialSkinManager.Instance.ColorScheme = new ColorScheme(Primary.Red600, Primary.Red900, Primary.Red300, Accent.Blue400, TextShade.WHITE); 
+
         }
 
         private void buttonStart_Click(object sender, EventArgs e)

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,7 +13,7 @@ using Virgil.Crypto;
 
 namespace BlockChainVotings
 {
-    public partial class RegisterLoginForm : Form
+    public partial class RegisterLoginForm : MaterialForm
     {
 
         public event EventHandler SuccssesLogin;
@@ -19,7 +21,9 @@ namespace BlockChainVotings
         public RegisterLoginForm()
         {
             InitializeComponent();
-       
+
+            MaterialSkinManager.Instance.AddFormToManage(this);
+
             if (VotingsUser.CheckUserExists())
             {
                 VotingsUser.GetKeysFromConfig();

@@ -53,7 +53,7 @@
             this.columnHeader7});
             this.listViewCandidates.FullRowSelect = true;
             this.listViewCandidates.HideSelection = false;
-            this.listViewCandidates.Location = new System.Drawing.Point(69, 114);
+            this.listViewCandidates.Location = new System.Drawing.Point(77, 192);
             this.listViewCandidates.MultiSelect = false;
             this.listViewCandidates.Name = "listViewCandidates";
             this.listViewCandidates.Size = new System.Drawing.Size(413, 97);
@@ -80,7 +80,7 @@
             // labelCandidates
             // 
             this.labelCandidates.AutoSize = true;
-            this.labelCandidates.Location = new System.Drawing.Point(66, 94);
+            this.labelCandidates.Location = new System.Drawing.Point(74, 172);
             this.labelCandidates.Name = "labelCandidates";
             this.labelCandidates.Size = new System.Drawing.Size(79, 17);
             this.labelCandidates.TabIndex = 14;
@@ -90,7 +90,7 @@
             // 
             this.comboBoxVoting.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxVoting.FormattingEnabled = true;
-            this.comboBoxVoting.Location = new System.Drawing.Point(69, 43);
+            this.comboBoxVoting.Location = new System.Drawing.Point(77, 121);
             this.comboBoxVoting.Name = "comboBoxVoting";
             this.comboBoxVoting.Size = new System.Drawing.Size(413, 24);
             this.comboBoxVoting.TabIndex = 13;
@@ -99,7 +99,7 @@
             // labelChooseVoting
             // 
             this.labelChooseVoting.AutoSize = true;
-            this.labelChooseVoting.Location = new System.Drawing.Point(66, 23);
+            this.labelChooseVoting.Location = new System.Drawing.Point(74, 101);
             this.labelChooseVoting.Name = "labelChooseVoting";
             this.labelChooseVoting.Size = new System.Drawing.Size(98, 17);
             this.labelChooseVoting.TabIndex = 12;
@@ -120,7 +120,7 @@
             this.panel1.Controls.Add(this.labelCandidateInfo);
             this.panel1.Controls.Add(this.labelVotingName);
             this.panel1.Controls.Add(this.labelVotingInfo);
-            this.panel1.Location = new System.Drawing.Point(69, 242);
+            this.panel1.Location = new System.Drawing.Point(77, 320);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(413, 173);
             this.panel1.TabIndex = 16;
@@ -158,7 +158,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(566, 593);
+            this.ClientSize = new System.Drawing.Size(569, 794);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.listViewCandidates);
             this.Controls.Add(this.labelCandidates);

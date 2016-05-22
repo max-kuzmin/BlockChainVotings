@@ -48,7 +48,7 @@
             // labelChooseVoting
             // 
             this.labelChooseVoting.AutoSize = true;
-            this.labelChooseVoting.Location = new System.Drawing.Point(102, 25);
+            this.labelChooseVoting.Location = new System.Drawing.Point(104, 87);
             this.labelChooseVoting.Name = "labelChooseVoting";
             this.labelChooseVoting.Size = new System.Drawing.Size(98, 17);
             this.labelChooseVoting.TabIndex = 0;
@@ -58,7 +58,7 @@
             // 
             this.comboBoxVoting.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxVoting.FormattingEnabled = true;
-            this.comboBoxVoting.Location = new System.Drawing.Point(105, 45);
+            this.comboBoxVoting.Location = new System.Drawing.Point(107, 107);
             this.comboBoxVoting.Name = "comboBoxVoting";
             this.comboBoxVoting.Size = new System.Drawing.Size(413, 24);
             this.comboBoxVoting.TabIndex = 1;
@@ -66,7 +66,7 @@
             // 
             // buttonVote
             // 
-            this.buttonVote.Location = new System.Drawing.Point(264, 470);
+            this.buttonVote.Location = new System.Drawing.Point(266, 532);
             this.buttonVote.Name = "buttonVote";
             this.buttonVote.Size = new System.Drawing.Size(75, 23);
             this.buttonVote.TabIndex = 3;
@@ -77,7 +77,7 @@
             // labelCandidate
             // 
             this.labelCandidate.AutoSize = true;
-            this.labelCandidate.Location = new System.Drawing.Point(102, 96);
+            this.labelCandidate.Location = new System.Drawing.Point(104, 158);
             this.labelCandidate.Name = "labelCandidate";
             this.labelCandidate.Size = new System.Drawing.Size(122, 17);
             this.labelCandidate.TabIndex = 4;
@@ -90,7 +90,7 @@
             this.panel1.Controls.Add(this.checkBoxAgree);
             this.panel1.Controls.Add(this.labelVotingName);
             this.panel1.Controls.Add(this.labelVotingInfo);
-            this.panel1.Location = new System.Drawing.Point(105, 235);
+            this.panel1.Location = new System.Drawing.Point(107, 297);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(413, 215);
             this.panel1.TabIndex = 5;
@@ -152,7 +152,7 @@
             this.columnHeader4});
             this.listViewCandidates.FullRowSelect = true;
             this.listViewCandidates.HideSelection = false;
-            this.listViewCandidates.Location = new System.Drawing.Point(105, 116);
+            this.listViewCandidates.Location = new System.Drawing.Point(107, 178);
             this.listViewCandidates.MultiSelect = false;
             this.listViewCandidates.Name = "listViewCandidates";
             this.listViewCandidates.Size = new System.Drawing.Size(413, 97);
@@ -177,7 +177,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(618, 529);
+            this.ClientSize = new System.Drawing.Size(618, 602);
             this.Controls.Add(this.listViewCandidates);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelCandidate);

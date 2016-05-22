@@ -35,16 +35,17 @@
             this.textBoxPrivateKeyRegister = new System.Windows.Forms.TextBox();
             this.textBoxPublicKeyRegister = new System.Windows.Forms.TextBox();
             this.labelPasswordRegister = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPageRegister = new System.Windows.Forms.TabPage();
+            this.labelPasswordRegister2 = new System.Windows.Forms.Label();
+            this.textBoxPasswordRegister2 = new System.Windows.Forms.TextBox();
             this.tabPageLogin = new System.Windows.Forms.TabPage();
             this.textBoxPublicKeyLogin = new System.Windows.Forms.TextBox();
             this.labelPassLogin = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.textBoxPassLogin = new System.Windows.Forms.TextBox();
             this.labelPublicKeyLogin = new System.Windows.Forms.Label();
-            this.labelPasswordRegister2 = new System.Windows.Forms.Label();
-            this.textBoxPasswordRegister2 = new System.Windows.Forms.TextBox();
+            this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.tabControl1.SuspendLayout();
             this.tabPageRegister.SuspendLayout();
             this.tabPageLogin.SuspendLayout();
@@ -53,7 +54,7 @@
             // buttonRegister
             // 
             this.buttonRegister.Location = new System.Drawing.Point(253, 196);
-            this.buttonRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRegister.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRegister.Name = "buttonRegister";
             this.buttonRegister.Size = new System.Drawing.Size(100, 28);
             this.buttonRegister.TabIndex = 0;
@@ -64,7 +65,7 @@
             // textBoxPasswordRegister
             // 
             this.textBoxPasswordRegister.Location = new System.Drawing.Point(177, 103);
-            this.textBoxPasswordRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPasswordRegister.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPasswordRegister.Name = "textBoxPasswordRegister";
             this.textBoxPasswordRegister.Size = new System.Drawing.Size(283, 22);
             this.textBoxPasswordRegister.TabIndex = 3;
@@ -94,7 +95,7 @@
             // textBoxPrivateKeyRegister
             // 
             this.textBoxPrivateKeyRegister.Location = new System.Drawing.Point(177, 68);
-            this.textBoxPrivateKeyRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPrivateKeyRegister.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPrivateKeyRegister.Name = "textBoxPrivateKeyRegister";
             this.textBoxPrivateKeyRegister.Size = new System.Drawing.Size(283, 22);
             this.textBoxPrivateKeyRegister.TabIndex = 5;
@@ -105,7 +106,7 @@
             this.textBoxPublicKeyRegister.BackColor = System.Drawing.SystemColors.Window;
             this.textBoxPublicKeyRegister.ForeColor = System.Drawing.SystemColors.WindowText;
             this.textBoxPublicKeyRegister.Location = new System.Drawing.Point(177, 36);
-            this.textBoxPublicKeyRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPublicKeyRegister.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPublicKeyRegister.Name = "textBoxPublicKeyRegister";
             this.textBoxPublicKeyRegister.Size = new System.Drawing.Size(283, 22);
             this.textBoxPublicKeyRegister.TabIndex = 4;
@@ -125,8 +126,10 @@
             // 
             this.tabControl1.Controls.Add(this.tabPageRegister);
             this.tabControl1.Controls.Add(this.tabPageLogin);
-            this.tabControl1.Location = new System.Drawing.Point(16, 15);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Depth = 0;
+            this.tabControl1.Location = new System.Drawing.Point(19, 120);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControl1.MouseState = MaterialSkin.MouseState.HOVER;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(669, 348);
@@ -144,13 +147,32 @@
             this.tabPageRegister.Controls.Add(this.labelPublicKeyRegister);
             this.tabPageRegister.Controls.Add(this.textBoxPrivateKeyRegister);
             this.tabPageRegister.Location = new System.Drawing.Point(4, 25);
-            this.tabPageRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageRegister.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageRegister.Name = "tabPageRegister";
-            this.tabPageRegister.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageRegister.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageRegister.Size = new System.Drawing.Size(661, 319);
             this.tabPageRegister.TabIndex = 0;
             this.tabPageRegister.Text = "Register";
             this.tabPageRegister.UseVisualStyleBackColor = true;
+            // 
+            // labelPasswordRegister2
+            // 
+            this.labelPasswordRegister2.AutoSize = true;
+            this.labelPasswordRegister2.Location = new System.Drawing.Point(76, 149);
+            this.labelPasswordRegister2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelPasswordRegister2.Name = "labelPasswordRegister2";
+            this.labelPasswordRegister2.Size = new System.Drawing.Size(77, 17);
+            this.labelPasswordRegister2.TabIndex = 10;
+            this.labelPasswordRegister2.Text = "Password2";
+            // 
+            // textBoxPasswordRegister2
+            // 
+            this.textBoxPasswordRegister2.Location = new System.Drawing.Point(177, 145);
+            this.textBoxPasswordRegister2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPasswordRegister2.Name = "textBoxPasswordRegister2";
+            this.textBoxPasswordRegister2.Size = new System.Drawing.Size(283, 22);
+            this.textBoxPasswordRegister2.TabIndex = 9;
+            this.textBoxPasswordRegister2.TextChanged += new System.EventHandler(this.textBoxPasswordRegister_TextChanged);
             // 
             // tabPageLogin
             // 
@@ -160,9 +182,9 @@
             this.tabPageLogin.Controls.Add(this.textBoxPassLogin);
             this.tabPageLogin.Controls.Add(this.labelPublicKeyLogin);
             this.tabPageLogin.Location = new System.Drawing.Point(4, 25);
-            this.tabPageLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageLogin.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageLogin.Name = "tabPageLogin";
-            this.tabPageLogin.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageLogin.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageLogin.Size = new System.Drawing.Size(661, 319);
             this.tabPageLogin.TabIndex = 1;
             this.tabPageLogin.Text = "Login";
@@ -220,32 +242,26 @@
             this.labelPublicKeyLogin.TabIndex = 12;
             this.labelPublicKeyLogin.Text = "PublicKey";
             // 
-            // labelPasswordRegister2
+            // materialTabSelector1
             // 
-            this.labelPasswordRegister2.AutoSize = true;
-            this.labelPasswordRegister2.Location = new System.Drawing.Point(76, 149);
-            this.labelPasswordRegister2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelPasswordRegister2.Name = "labelPasswordRegister2";
-            this.labelPasswordRegister2.Size = new System.Drawing.Size(77, 17);
-            this.labelPasswordRegister2.TabIndex = 10;
-            this.labelPasswordRegister2.Text = "Password2";
-            // 
-            // textBoxPasswordRegister2
-            // 
-            this.textBoxPasswordRegister2.Location = new System.Drawing.Point(177, 145);
-            this.textBoxPasswordRegister2.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxPasswordRegister2.Name = "textBoxPasswordRegister2";
-            this.textBoxPasswordRegister2.Size = new System.Drawing.Size(283, 22);
-            this.textBoxPasswordRegister2.TabIndex = 9;
-            this.textBoxPasswordRegister2.TextChanged += new System.EventHandler(this.textBoxPasswordRegister_TextChanged);
+            this.materialTabSelector1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.materialTabSelector1.BaseTabControl = this.tabControl1;
+            this.materialTabSelector1.Depth = 0;
+            this.materialTabSelector1.Location = new System.Drawing.Point(-17, 62);
+            this.materialTabSelector1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialTabSelector1.Name = "materialTabSelector1";
+            this.materialTabSelector1.Size = new System.Drawing.Size(727, 35);
+            this.materialTabSelector1.TabIndex = 11;
+            this.materialTabSelector1.Text = "materialTabSelector1";
             // 
             // RegisterLoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(701, 378);
+            this.ClientSize = new System.Drawing.Size(701, 506);
+            this.Controls.Add(this.materialTabSelector1);
             this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "RegisterLoginForm";
             this.Text = "RegisterLoginForm";
             this.tabControl1.ResumeLayout(false);
@@ -266,7 +282,7 @@
         private System.Windows.Forms.TextBox textBoxPrivateKeyRegister;
         private System.Windows.Forms.TextBox textBoxPublicKeyRegister;
         private System.Windows.Forms.Label labelPasswordRegister;
-        private System.Windows.Forms.TabControl tabControl1;
+        private MaterialSkin.Controls.MaterialTabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageRegister;
         private System.Windows.Forms.TabPage tabPageLogin;
         private System.Windows.Forms.TextBox textBoxPublicKeyLogin;
@@ -276,5 +292,6 @@
         private System.Windows.Forms.Label labelPublicKeyLogin;
         private System.Windows.Forms.Label labelPasswordRegister2;
         private System.Windows.Forms.TextBox textBoxPasswordRegister2;
+        private MaterialSkin.Controls.MaterialTabSelector materialTabSelector1;
     }
 }

@@ -48,7 +48,7 @@
             // 
             // buttonCreateVoting
             // 
-            this.buttonCreateVoting.Location = new System.Drawing.Point(228, 302);
+            this.buttonCreateVoting.Location = new System.Drawing.Point(224, 365);
             this.buttonCreateVoting.Name = "buttonCreateVoting";
             this.buttonCreateVoting.Size = new System.Drawing.Size(138, 31);
             this.buttonCreateVoting.TabIndex = 0;
@@ -59,7 +59,7 @@
             // labelVotingName
             // 
             this.labelVotingName.AutoSize = true;
-            this.labelVotingName.Location = new System.Drawing.Point(45, 39);
+            this.labelVotingName.Location = new System.Drawing.Point(41, 102);
             this.labelVotingName.Name = "labelVotingName";
             this.labelVotingName.Size = new System.Drawing.Size(85, 17);
             this.labelVotingName.TabIndex = 1;
@@ -67,7 +67,7 @@
             // 
             // textBoxVotingName
             // 
-            this.textBoxVotingName.Location = new System.Drawing.Point(136, 36);
+            this.textBoxVotingName.Location = new System.Drawing.Point(132, 99);
             this.textBoxVotingName.Name = "textBoxVotingName";
             this.textBoxVotingName.Size = new System.Drawing.Size(413, 22);
             this.textBoxVotingName.TabIndex = 2;
@@ -75,7 +75,7 @@
             // 
             // textBoxSearchUser
             // 
-            this.textBoxSearchUser.Location = new System.Drawing.Point(48, 105);
+            this.textBoxSearchUser.Location = new System.Drawing.Point(44, 168);
             this.textBoxSearchUser.Name = "textBoxSearchUser";
             this.textBoxSearchUser.Size = new System.Drawing.Size(218, 22);
             this.textBoxSearchUser.TabIndex = 4;
@@ -84,7 +84,7 @@
             // labelSearchUser
             // 
             this.labelSearchUser.AutoSize = true;
-            this.labelSearchUser.Location = new System.Drawing.Point(45, 85);
+            this.labelSearchUser.Location = new System.Drawing.Point(41, 148);
             this.labelSearchUser.Name = "labelSearchUser";
             this.labelSearchUser.Size = new System.Drawing.Size(83, 17);
             this.labelSearchUser.TabIndex = 5;
@@ -92,7 +92,7 @@
             // 
             // buttonAddUser
             // 
-            this.buttonAddUser.Location = new System.Drawing.Point(278, 176);
+            this.buttonAddUser.Location = new System.Drawing.Point(274, 239);
             this.buttonAddUser.Name = "buttonAddUser";
             this.buttonAddUser.Size = new System.Drawing.Size(34, 23);
             this.buttonAddUser.TabIndex = 7;
@@ -102,7 +102,7 @@
             // 
             // buttonRemoveUser
             // 
-            this.buttonRemoveUser.Location = new System.Drawing.Point(278, 205);
+            this.buttonRemoveUser.Location = new System.Drawing.Point(274, 268);
             this.buttonRemoveUser.Name = "buttonRemoveUser";
             this.buttonRemoveUser.Size = new System.Drawing.Size(34, 23);
             this.buttonRemoveUser.TabIndex = 8;
@@ -113,7 +113,7 @@
             // labelCandidates
             // 
             this.labelCandidates.AutoSize = true;
-            this.labelCandidates.Location = new System.Drawing.Point(328, 134);
+            this.labelCandidates.Location = new System.Drawing.Point(324, 197);
             this.labelCandidates.Name = "labelCandidates";
             this.labelCandidates.Size = new System.Drawing.Size(79, 17);
             this.labelCandidates.TabIndex = 9;
@@ -125,7 +125,7 @@
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6});
-            this.listViewSearchUsers.Location = new System.Drawing.Point(48, 157);
+            this.listViewSearchUsers.Location = new System.Drawing.Point(44, 220);
             this.listViewSearchUsers.Name = "listViewSearchUsers";
             this.listViewSearchUsers.Size = new System.Drawing.Size(218, 97);
             this.listViewSearchUsers.TabIndex = 10;
@@ -150,7 +150,7 @@
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-            this.listViewCandidates.Location = new System.Drawing.Point(331, 157);
+            this.listViewCandidates.Location = new System.Drawing.Point(327, 220);
             this.listViewCandidates.Name = "listViewCandidates";
             this.listViewCandidates.Size = new System.Drawing.Size(218, 97);
             this.listViewCandidates.TabIndex = 11;
@@ -173,7 +173,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(591, 359);
+            this.ClientSize = new System.Drawing.Size(591, 446);
             this.Controls.Add(this.listViewCandidates);
             this.Controls.Add(this.listViewSearchUsers);
             this.Controls.Add(this.labelCandidates);

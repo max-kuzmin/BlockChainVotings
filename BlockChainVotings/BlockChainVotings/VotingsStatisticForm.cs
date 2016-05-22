@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +13,7 @@ using System.Windows.Forms;
 
 namespace BlockChainVotings
 {
-    public partial class VotingsStatisticForm : Form
+    public partial class VotingsStatisticForm : MaterialForm
     {
         BlockChainVotings blockChain;
 
@@ -19,7 +21,16 @@ namespace BlockChainVotings
         {
             InitializeComponent();
             this.blockChain = blockChain;
+
+            MaterialSkinManager.Instance.AddFormToManage(this);
+            
         }
+
+        private void ListViewCandidates_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
 
         private void comboBoxVoting_SelectedIndexChanged(object sender, EventArgs e)
         {

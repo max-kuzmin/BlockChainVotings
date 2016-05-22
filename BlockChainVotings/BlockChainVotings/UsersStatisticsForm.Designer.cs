@@ -39,6 +39,7 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labelUserVotings = new System.Windows.Forms.Label();
             this.labelId = new System.Windows.Forms.Label();
             this.labelIdVal = new System.Windows.Forms.Label();
@@ -55,7 +56,6 @@
             this.labelNumVotesVal = new System.Windows.Forms.Label();
             this.labelNumVotes = new System.Windows.Forms.Label();
             this.labelUserInfo = new System.Windows.Forms.Label();
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // listViewSearchUsers
@@ -64,7 +64,7 @@
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6});
-            this.listViewSearchUsers.Location = new System.Drawing.Point(61, 99);
+            this.listViewSearchUsers.Location = new System.Drawing.Point(61, 167);
             this.listViewSearchUsers.Name = "listViewSearchUsers";
             this.listViewSearchUsers.Size = new System.Drawing.Size(398, 97);
             this.listViewSearchUsers.TabIndex = 13;
@@ -87,7 +87,7 @@
             // labelSearchUsers
             // 
             this.labelSearchUsers.AutoSize = true;
-            this.labelSearchUsers.Location = new System.Drawing.Point(58, 27);
+            this.labelSearchUsers.Location = new System.Drawing.Point(58, 95);
             this.labelSearchUsers.Name = "labelSearchUsers";
             this.labelSearchUsers.Size = new System.Drawing.Size(90, 17);
             this.labelSearchUsers.TabIndex = 12;
@@ -95,7 +95,7 @@
             // 
             // textBoxSearchUsers
             // 
-            this.textBoxSearchUsers.Location = new System.Drawing.Point(61, 47);
+            this.textBoxSearchUsers.Location = new System.Drawing.Point(61, 115);
             this.textBoxSearchUsers.Name = "textBoxSearchUsers";
             this.textBoxSearchUsers.Size = new System.Drawing.Size(398, 22);
             this.textBoxSearchUsers.TabIndex = 11;
@@ -109,7 +109,7 @@
             this.columnHeader3,
             this.columnHeader7,
             this.columnHeader8});
-            this.listViewVotings.Location = new System.Drawing.Point(61, 274);
+            this.listViewVotings.Location = new System.Drawing.Point(61, 342);
             this.listViewVotings.Name = "listViewVotings";
             this.listViewVotings.Size = new System.Drawing.Size(448, 147);
             this.listViewVotings.TabIndex = 14;
@@ -136,10 +136,14 @@
             this.columnHeader7.Text = "Candidate Hash";
             this.columnHeader7.Width = 62;
             // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "Date";
+            // 
             // labelUserVotings
             // 
             this.labelUserVotings.AutoSize = true;
-            this.labelUserVotings.Location = new System.Drawing.Point(58, 238);
+            this.labelUserVotings.Location = new System.Drawing.Point(58, 306);
             this.labelUserVotings.Name = "labelUserVotings";
             this.labelUserVotings.Size = new System.Drawing.Size(85, 17);
             this.labelUserVotings.TabIndex = 15;
@@ -148,7 +152,7 @@
             // labelId
             // 
             this.labelId.AutoSize = true;
-            this.labelId.Location = new System.Drawing.Point(579, 73);
+            this.labelId.Location = new System.Drawing.Point(579, 141);
             this.labelId.Name = "labelId";
             this.labelId.Size = new System.Drawing.Size(21, 17);
             this.labelId.TabIndex = 16;
@@ -157,7 +161,7 @@
             // labelIdVal
             // 
             this.labelIdVal.AutoSize = true;
-            this.labelIdVal.Location = new System.Drawing.Point(707, 73);
+            this.labelIdVal.Location = new System.Drawing.Point(707, 141);
             this.labelIdVal.Name = "labelIdVal";
             this.labelIdVal.Size = new System.Drawing.Size(20, 17);
             this.labelIdVal.TabIndex = 17;
@@ -166,7 +170,7 @@
             // labelName
             // 
             this.labelName.AutoSize = true;
-            this.labelName.Location = new System.Drawing.Point(579, 112);
+            this.labelName.Location = new System.Drawing.Point(579, 180);
             this.labelName.Name = "labelName";
             this.labelName.Size = new System.Drawing.Size(45, 17);
             this.labelName.TabIndex = 18;
@@ -175,7 +179,7 @@
             // labelNameVal
             // 
             this.labelNameVal.AutoSize = true;
-            this.labelNameVal.Location = new System.Drawing.Point(707, 112);
+            this.labelNameVal.Location = new System.Drawing.Point(707, 180);
             this.labelNameVal.Name = "labelNameVal";
             this.labelNameVal.Size = new System.Drawing.Size(20, 17);
             this.labelNameVal.TabIndex = 19;
@@ -184,7 +188,7 @@
             // labelDate
             // 
             this.labelDate.AutoSize = true;
-            this.labelDate.Location = new System.Drawing.Point(579, 193);
+            this.labelDate.Location = new System.Drawing.Point(579, 261);
             this.labelDate.Name = "labelDate";
             this.labelDate.Size = new System.Drawing.Size(116, 17);
             this.labelDate.TabIndex = 20;
@@ -193,7 +197,7 @@
             // labelDateVal
             // 
             this.labelDateVal.AutoSize = true;
-            this.labelDateVal.Location = new System.Drawing.Point(707, 193);
+            this.labelDateVal.Location = new System.Drawing.Point(707, 261);
             this.labelDateVal.Name = "labelDateVal";
             this.labelDateVal.Size = new System.Drawing.Size(20, 17);
             this.labelDateVal.TabIndex = 21;
@@ -202,7 +206,7 @@
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(579, 235);
+            this.labelStatus.Location = new System.Drawing.Point(579, 303);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(48, 17);
             this.labelStatus.TabIndex = 22;
@@ -211,7 +215,7 @@
             // labelStatusVal
             // 
             this.labelStatusVal.AutoSize = true;
-            this.labelStatusVal.Location = new System.Drawing.Point(707, 235);
+            this.labelStatusVal.Location = new System.Drawing.Point(707, 303);
             this.labelStatusVal.Name = "labelStatusVal";
             this.labelStatusVal.Size = new System.Drawing.Size(20, 17);
             this.labelStatusVal.TabIndex = 23;
@@ -220,7 +224,7 @@
             // labelActivity
             // 
             this.labelActivity.AutoSize = true;
-            this.labelActivity.Location = new System.Drawing.Point(579, 278);
+            this.labelActivity.Location = new System.Drawing.Point(579, 346);
             this.labelActivity.Name = "labelActivity";
             this.labelActivity.Size = new System.Drawing.Size(82, 17);
             this.labelActivity.TabIndex = 24;
@@ -229,7 +233,7 @@
             // labelActivityVal
             // 
             this.labelActivityVal.AutoSize = true;
-            this.labelActivityVal.Location = new System.Drawing.Point(707, 278);
+            this.labelActivityVal.Location = new System.Drawing.Point(707, 346);
             this.labelActivityVal.Name = "labelActivityVal";
             this.labelActivityVal.Size = new System.Drawing.Size(20, 17);
             this.labelActivityVal.TabIndex = 25;
@@ -238,7 +242,7 @@
             // labelHash
             // 
             this.labelHash.AutoSize = true;
-            this.labelHash.Location = new System.Drawing.Point(579, 151);
+            this.labelHash.Location = new System.Drawing.Point(579, 219);
             this.labelHash.Name = "labelHash";
             this.labelHash.Size = new System.Drawing.Size(41, 17);
             this.labelHash.TabIndex = 26;
@@ -247,7 +251,7 @@
             // labelHashVal
             // 
             this.labelHashVal.AutoSize = true;
-            this.labelHashVal.Location = new System.Drawing.Point(707, 151);
+            this.labelHashVal.Location = new System.Drawing.Point(707, 219);
             this.labelHashVal.Name = "labelHashVal";
             this.labelHashVal.Size = new System.Drawing.Size(20, 17);
             this.labelHashVal.TabIndex = 27;
@@ -256,7 +260,7 @@
             // labelNumVotesVal
             // 
             this.labelNumVotesVal.AutoSize = true;
-            this.labelNumVotesVal.Location = new System.Drawing.Point(707, 322);
+            this.labelNumVotesVal.Location = new System.Drawing.Point(707, 390);
             this.labelNumVotesVal.Name = "labelNumVotesVal";
             this.labelNumVotesVal.Size = new System.Drawing.Size(20, 17);
             this.labelNumVotesVal.TabIndex = 29;
@@ -265,7 +269,7 @@
             // labelNumVotes
             // 
             this.labelNumVotes.AutoSize = true;
-            this.labelNumVotes.Location = new System.Drawing.Point(579, 322);
+            this.labelNumVotes.Location = new System.Drawing.Point(579, 390);
             this.labelNumVotes.Name = "labelNumVotes";
             this.labelNumVotes.Size = new System.Drawing.Size(96, 17);
             this.labelNumVotes.TabIndex = 28;
@@ -274,21 +278,17 @@
             // labelUserInfo
             // 
             this.labelUserInfo.AutoSize = true;
-            this.labelUserInfo.Location = new System.Drawing.Point(621, 27);
+            this.labelUserInfo.Location = new System.Drawing.Point(621, 95);
             this.labelUserInfo.Name = "labelUserInfo";
             this.labelUserInfo.Size = new System.Drawing.Size(65, 17);
             this.labelUserInfo.TabIndex = 30;
             this.labelUserInfo.Text = "User Info";
             // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "Date";
-            // 
             // UsersStatisticsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(967, 462);
+            this.ClientSize = new System.Drawing.Size(967, 578);
             this.Controls.Add(this.labelUserInfo);
             this.Controls.Add(this.labelNumVotesVal);
             this.Controls.Add(this.labelNumVotes);

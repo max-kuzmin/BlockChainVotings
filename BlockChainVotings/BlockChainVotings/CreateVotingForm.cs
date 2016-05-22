@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +13,7 @@ using System.Windows.Forms;
 
 namespace BlockChainVotings
 {
-    public partial class CreateVotingForm : Form
+    public partial class CreateVotingForm : MaterialForm
     {
         BlockChainVotings blockChain;
 
@@ -19,6 +21,8 @@ namespace BlockChainVotings
         {
             InitializeComponent();
             this.blockChain = blockChain;
+
+            MaterialSkinManager.Instance.AddFormToManage(this);
         }
 
         private void textBoxVotingName_TextChanged(object sender, EventArgs e)

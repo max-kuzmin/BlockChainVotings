@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +13,7 @@ using System.Windows.Forms;
 
 namespace BlockChainVotings
 {
-    public partial class BanUserForm : Form
+    public partial class BanUserForm : MaterialForm
     {
         BlockChainVotings blockChain;
 
@@ -20,6 +22,8 @@ namespace BlockChainVotings
             InitializeComponent();
             this.blockChain = blockChain;
             buttonBan.Enabled = false;
+
+            MaterialSkinManager.Instance.AddFormToManage(this);
         }
 
         private void textBoxSearchUser_TextChanged(object sender, EventArgs e)

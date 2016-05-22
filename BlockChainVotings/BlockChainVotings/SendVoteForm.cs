@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +13,7 @@ using System.Windows.Forms;
 
 namespace BlockChainVotings
 {
-    public partial class SendVoteForm : Form
+    public partial class SendVoteForm : MaterialForm
     {
 
         BlockChainVotings blockchain;
@@ -20,6 +22,8 @@ namespace BlockChainVotings
         {
             this.blockchain = blockchain;
             InitializeComponent();
+
+            MaterialSkinManager.Instance.AddFormToManage(this);
         }
 
         private void SendVoteForm_Load(object sender, EventArgs e)

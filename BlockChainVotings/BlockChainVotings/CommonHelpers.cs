@@ -1,4 +1,5 @@
-﻿using NetworkCommsDotNet;
+﻿using MaterialSkin;
+using NetworkCommsDotNet;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -24,6 +25,7 @@ namespace BlockChainVotings
 
         static TimeSpan? dateDelta;
         public static int TransactionsInBlock { get { return 10; } }
+
 
         static public IPEndPoint GetLocalEndPoint(int port)
         {
