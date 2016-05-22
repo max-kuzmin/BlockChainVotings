@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using Newtonsoft.Json.Linq;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -165,31 +166,82 @@ namespace BlockChainVotings
 
 
 
-
-        
-
-
-
-
-        public List<Transaction> GetUserClosedVotings()
+        public List<Transaction> GetVotings()
         {
             var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.StartVoting && tr.VotingNumber != 0);
             var elem = query.ToListAsync();
             elem.Wait();
 
-            var result = new List<Transaction>();
+            return elem.Result;
+        }
+
+
+        public Dictionary<Transaction, int> GetCandidatesResults(Transaction voting)
+        {
+            var candidates = GetCandidates(voting);
+
+            if (candidates == null) return null;
+
+            var dict = new Dictionary<Transaction, int>();
+
+            foreach (var item in candidates)
+            {
+                var query = dbAsync.Table<Transaction>().Where(tr => tr.PreviousHash == voting.Hash 
+                && tr.RecieverHash == item.RecieverHash && tr.Type == TransactionType.Vote);
+                var votes = query.CountAsync();
+                votes.Wait();
+
+                dict.Add(item, votes.Result);
+            }
+
+
+            dict.OrderByDescending(tr => tr.Value);
+
+            return dict;
+
+        }
+
+
+        public List<Transaction> GetCandidates(Transaction voting)
+        {
+
+            List<Transaction> list = new List<Transaction>();
+
+            var info = JObject.Parse(voting.Info)["candidates"];
+
+            foreach (string hash in info)
+            {
+                var user = GetUserCreation(hash);
+                if (user != null)
+                    list.Add(user);
+                else
+                    return null;
+            }
+
+            return list;
+        }
+
+
+        public Dictionary<Transaction, Transaction> GetUserVotesAndVotings(string userHash)
+        {
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.StartVoting && tr.VotingNumber != 0);
+            var elem = query.ToListAsync();
+            elem.Wait();
+
+            var result = new Dictionary<Transaction, Transaction>();
 
             foreach (var item in elem.Result)
             {
                 //находим голос пользователя для этого голосования
-                var elem2 = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote && 
-                    tr.PreviousHash == item.Hash && tr.SenderHash == VotingsUser.PublicKey).FirstOrDefaultAsync();
+                var elem2 = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote &&
+                    tr.PreviousHash == item.Hash && tr.SenderHash == userHash).FirstOrDefaultAsync();
                 elem2.Wait();
 
                 //если голос есть, добавляем голосование в список
-                if (elem2.Result!=null)
+                if (elem2.Result != null)
                 {
-                    result.Add(item);
+
+                    result.Add(item, elem2.Result);
                 }
             }
 
@@ -223,9 +275,9 @@ namespace BlockChainVotings
             return result;
         }
 
-        public List<Transaction> GetUserVotes()
+        public List<Transaction> GetUserVotes(string userHash)
         {
-            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote && tr.SenderHash == VotingsUser.PublicKey);
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote && tr.SenderHash == userHash);
             var elem = query.ToListAsync();
             elem.Wait();
 

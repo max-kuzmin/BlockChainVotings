@@ -39,9 +39,9 @@
             this.labelVotingName = new System.Windows.Forms.Label();
             this.labelVotingInfo = new System.Windows.Forms.Label();
             this.listViewCandidates = new System.Windows.Forms.ListView();
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,9 +98,9 @@
             // labelCandidateName
             // 
             this.labelCandidateName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelCandidateName.Location = new System.Drawing.Point(6, 127);
+            this.labelCandidateName.Location = new System.Drawing.Point(6, 119);
             this.labelCandidateName.Name = "labelCandidateName";
-            this.labelCandidateName.Size = new System.Drawing.Size(404, 23);
+            this.labelCandidateName.Size = new System.Drawing.Size(404, 55);
             this.labelCandidateName.TabIndex = 4;
             this.labelCandidateName.Text = "...";
             this.labelCandidateName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -161,17 +161,17 @@
             this.listViewCandidates.View = System.Windows.Forms.View.Details;
             this.listViewCandidates.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewCandidates_ItemSelectionChanged);
             // 
-            // columnHeader4
+            // columnHeader6
             // 
-            this.columnHeader4.Text = "Hash";
+            this.columnHeader6.Text = "ID";
             // 
             // columnHeader5
             // 
             this.columnHeader5.Text = "Name";
             // 
-            // columnHeader6
+            // columnHeader4
             // 
-            this.columnHeader6.Text = "ID";
+            this.columnHeader4.Text = "Hash";
             // 
             // SendVoteForm
             // 

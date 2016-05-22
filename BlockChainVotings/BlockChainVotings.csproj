@@ -85,6 +85,10 @@
       <HintPath>..\packages\Community.CsharpSqlite.SQLiteClient.3.7.7.3\lib\net45\Community.CsharpSqlite.SQLiteClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NetworkCommsDotNetComplete">
       <HintPath>..\packages\NetworkCommsDotNet_v3.0.3_ALv2\NetworkCommsDotNetComplete.dll</HintPath>
     </Reference>
@@ -114,6 +118,7 @@
     </Compile>
     <Compile Include="Block.cs" />
     <Compile Include="BlockChainVotings.cs" />
+    <Compile Include="ComboBoxItem.cs" />
     <Compile Include="CreateUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,6 +142,12 @@
     </Compile>
     <Compile Include="SendVoteForm.Designer.cs">
       <DependentUpon>SendVoteForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UsersStatisticsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UsersStatisticsForm.Designer.cs">
+      <DependentUpon>UsersStatisticsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="VotingsStatisticForm.cs">
       <SubType>Form</SubType>
@@ -166,6 +177,9 @@
     <Compile Include="TextBoxWriter.cs" />
     <Compile Include="Tracker.cs" />
     <Compile Include="Transaction.cs" />
+    <EmbeddedResource Include="BanUserForm.resx">
+      <DependentUpon>BanUserForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CreateUserForm.resx">
       <DependentUpon>CreateUserForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -190,6 +204,9 @@
     </Compile>
     <EmbeddedResource Include="SendVoteForm.resx">
       <DependentUpon>SendVoteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UsersStatisticsForm.resx">
+      <DependentUpon>UsersStatisticsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VotingsStatisticForm.resx">
       <DependentUpon>VotingsStatisticForm.cs</DependentUpon>
