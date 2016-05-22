@@ -40,7 +40,7 @@
             // 
             // textBoxTrackers
             // 
-            this.textBoxTrackers.Location = new System.Drawing.Point(12, 12);
+            this.textBoxTrackers.Location = new System.Drawing.Point(12, 85);
             this.textBoxTrackers.Multiline = true;
             this.textBoxTrackers.Name = "textBoxTrackers";
             this.textBoxTrackers.Size = new System.Drawing.Size(161, 55);
@@ -49,7 +49,7 @@
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(179, 12);
+            this.buttonStart.Location = new System.Drawing.Point(179, 85);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(140, 38);
             this.buttonStart.TabIndex = 1;
@@ -59,7 +59,7 @@
             // 
             // buttonStop
             // 
-            this.buttonStop.Location = new System.Drawing.Point(325, 12);
+            this.buttonStop.Location = new System.Drawing.Point(325, 85);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(140, 38);
             this.buttonStop.TabIndex = 2;
@@ -72,17 +72,17 @@
             this.textBoxConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxConsole.Location = new System.Drawing.Point(12, 73);
+            this.textBoxConsole.Location = new System.Drawing.Point(12, 146);
             this.textBoxConsole.Multiline = true;
             this.textBoxConsole.Name = "textBoxConsole";
             this.textBoxConsole.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxConsole.Size = new System.Drawing.Size(775, 259);
+            this.textBoxConsole.Size = new System.Drawing.Size(775, 308);
             this.textBoxConsole.TabIndex = 3;
             this.textBoxConsole.WordWrap = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(720, 12);
+            this.button1.Location = new System.Drawing.Point(720, 85);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(67, 23);
             this.button1.TabIndex = 4;
@@ -92,7 +92,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(602, 12);
+            this.button2.Location = new System.Drawing.Point(602, 85);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(102, 23);
             this.button2.TabIndex = 5;
@@ -102,7 +102,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(486, 0);
+            this.button3.Location = new System.Drawing.Point(486, 73);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(110, 23);
             this.button3.TabIndex = 6;
@@ -112,7 +112,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(486, 29);
+            this.button4.Location = new System.Drawing.Point(486, 102);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(110, 23);
             this.button4.TabIndex = 7;
@@ -124,7 +124,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(799, 344);
+            this.ClientSize = new System.Drawing.Size(799, 466);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);

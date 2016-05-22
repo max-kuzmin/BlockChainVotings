@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +13,7 @@ using System.Windows.Forms;
 
 namespace BlockChainVotings
 {
-    public partial class UsersStatisticsForm : Form
+    public partial class UsersStatisticsForm : MaterialForm
     {
         BlockChainVotings blockChain;
         bool me;
@@ -22,6 +24,8 @@ namespace BlockChainVotings
             this.blockChain = blockChain;
             this.me = me;
 
+            MaterialSkinManager.Instance.AddFormToManage(this);
+
             if (me)
             {
                 textBoxSearchUsers.Text = VotingsUser.PublicKey;
@@ -29,6 +33,7 @@ namespace BlockChainVotings
                 listViewSearchUsers.Items[0].Selected = true;
                 listViewSearchUsers_ItemSelectionChanged(this, new ListViewItemSelectionChangedEventArgs(listViewSearchUsers.Items[0], 0, true));
             }
+
         }
 
         private void textBoxSearchUser_TextChanged(object sender, EventArgs e)

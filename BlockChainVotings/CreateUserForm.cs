@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,7 +12,7 @@ using System.Windows.Forms;
 
 namespace BlockChainVotings
 {
-    public partial class CreateUserForm : Form
+    public partial class CreateUserForm : MaterialForm
     {
         BlockChainVotings blockChain;
 
@@ -18,6 +20,8 @@ namespace BlockChainVotings
         {
             InitializeComponent();
             this.blockChain = blockChain;
+
+            MaterialSkinManager.Instance.AddFormToManage(this);
         }
 
         private void buttonGenerate_Click(object sender, EventArgs e)
