@@ -32,7 +32,7 @@ namespace BlockChainVotings
             foreach (var item in list)
             {
                 var info = JObject.Parse(item.Info);
-                string line = item.VotingNumber + ". " + info["name"] + " (hash: " + item.Hash + ")";
+                string line = item.VotingNumber + ". " + info["name"] + " (" + item.Date0.ToShortDateString() + ", hash: " + item.Hash + ")";
 
                 comboBoxVoting.Items.Add(new ComboBoxItem(line, item));
             }
@@ -48,7 +48,7 @@ namespace BlockChainVotings
             if (comboBoxVoting.SelectedItem != null)
             {
                 tr = ((comboBoxVoting.SelectedItem as ComboBoxItem).Value as Transaction);
-                labelVotingName.Text = "№" + tr.VotingNumber + " " + JObject.Parse(tr.Info)["name"];
+                labelVotingName.Text = "№" + tr.VotingNumber + " " + JObject.Parse(tr.Info)["name"] + " (" + tr.Date0.ToShortDateString() + ")"; ;
             }
             else
             {
@@ -61,7 +61,9 @@ namespace BlockChainVotings
 
             if (list == null)
             {
-                MessageBox.Show("Для данного голосования загружены не все кандидаты.\nНеобходимо подождать синхронизации БД.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("Для данного голосования загружены не все кандидаты.\nНеобходимо подождать синхронизации БД.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                labelCandidateName.Text = "Для голосования загружены не все кандидаты.Необходимо подождать синхронизации БД.";
+                return;
             }
             else
             {
@@ -114,22 +116,4 @@ namespace BlockChainVotings
         }
     }
 
-
-
-    public class ComboBoxItem
-    {
-        public string Text { get; set; }
-        public object Value { get; set; }
-
-        public ComboBoxItem(string text, object value)
-        {
-            this.Value = value;
-            this.Text = text;
-        }
-
-        public override string ToString()
-        {
-            return Text;
-        }
-    }
 }

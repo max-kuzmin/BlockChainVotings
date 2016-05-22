@@ -771,6 +771,25 @@ namespace BlockChainVotings
         }
 
 
+        public void BanUser(string publicKey, string cause)
+        {
+            var prevTransaction = db.GetUserCreation(publicKey);
+
+            var userBan = Transaction.BanUserTransaction(cause, publicKey, prevTransaction.Hash);
+
+            if (CheckTransaction(userBan))
+            {
+                var list = new List<Transaction>();
+                list.Add(userBan);
+                var message = new TransactionsMessage(list);
+
+                net.SendMessageToAllPeers(message);
+
+            }
+
+        }
+
+
 
         public List<Transaction> SearchUsers(string nameIdHash)
         {
@@ -782,26 +801,37 @@ namespace BlockChainVotings
             return db.GetUserOpenedVotings();
         }
 
+        public List<Transaction> GetVotings()
+        {
+            return db.GetVotings();
+        }
+
 
         public List<Transaction> GetCandidates(Transaction voting)
         {
-            //var voting = db.GetTransaction(votingHash);
-            //if (voting == null) return null;
+            return db.GetCandidates(voting);
+        }
 
-            List<Transaction> list = new List<Transaction>();
 
-            var info = JObject.Parse(voting.Info)["candidates"];
+        public Dictionary<Transaction, int> GetCandidatesResults(Transaction voting)
+        {
+            return db.GetCandidatesResults(voting);
+        }
 
-            foreach (string hash in info)
-            {
-                var user = db.GetUserCreation(hash);
-                if (user != null)
-                    list.Add(user);
-                else
-                    return null;
-            }
+        public Dictionary<Transaction, Transaction> GetUserVotesAndVotings(string userHash)
+        {
+            return db.GetUserVotesAndVotings(userHash);
+        }
 
-            return list;
+
+        public Transaction GetUserBan(string userHash)
+        {
+            return db.GetUserBan(userHash);
+        }
+
+        public Transaction GetUserCreation(string userHash)
+        {
+            return db.GetUserCreation(userHash);
         }
 
 

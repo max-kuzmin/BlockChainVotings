@@ -63,6 +63,9 @@ namespace BlockChainVotings
             (new CreateUserForm(blockChain)).Show();
             (new CreateVotingForm(blockChain)).Show();
             (new SendVoteForm(blockChain)).Show();
+            (new BanUserForm(blockChain)).Show();
+            (new UsersStatisticsForm(blockChain, true)).Show();
+            (new VotingsStatisticForm(blockChain)).Show();
         }
 
         private void RegForm_SuccssesLogin(object sender, EventArgs e)

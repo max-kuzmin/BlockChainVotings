@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,92 @@ namespace BlockChainVotings
 {
     public partial class VotingsStatisticForm : Form
     {
-        public VotingsStatisticForm()
+        BlockChainVotings blockChain;
+
+        public VotingsStatisticForm(BlockChainVotings blockChain)
         {
             InitializeComponent();
+            this.blockChain = blockChain;
+        }
+
+        private void comboBoxVoting_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listViewCandidates.Items.Clear();
+            Transaction tr;
+
+            labelVotingName.Text = "...";
+            labelCandidateName.Text = "...";
+
+            if (comboBoxVoting.SelectedItem != null)
+            {
+                tr = ((comboBoxVoting.SelectedItem as ComboBoxItem).Value as Transaction);
+                labelVotingName.Text = "№" + tr.VotingNumber + " " + JObject.Parse(tr.Info)["name"] + " (" + tr.Date0.ToShortDateString() + ")";
+            }
+            else return;
+
+
+            var list = blockChain.GetCandidatesResults(tr);
+
+            if (list == null)
+            {
+                //MessageBox.Show("Для данного голосования загружены не все кандидаты.\nНеобходимо подождать синхронизации БД.", 
+                //    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                labelCandidateName.Text = "Для голосования загружены не все кандидаты. Необходимо подождать синхронизации БД.";
+                return;
+            }
+            else
+            {
+                int sum = 0;
+
+                foreach (var user in list)
+                {
+                    var jsonInfo = JObject.Parse(user.Key.Info);
+
+                    string[] str = new string[4];
+
+                    str[3] = user.Value.ToString();
+                    str[2] = user.Key.RecieverHash;
+                    str[1] = jsonInfo["name"].Value<string>();
+                    str[0] = jsonInfo["id"].Value<string>();
+
+                    ListViewItem item = new ListViewItem(str);
+
+                    listViewCandidates.Items.Add(item);
+
+                    sum += user.Value;
+                }
+
+                if (list.First().Value > list.Skip(1).First().Value)
+                {
+                    labelCandidateName.Text = listViewCandidates.Items[0].SubItems[1].Text + " (ID ";
+                    labelCandidateName.Text += listViewCandidates.Items[0].SubItems[0].Text + ")";
+                }
+
+                string[] strSum = new string[4];
+
+                strSum[3] = sum.ToString();
+                strSum[2] = "Всего";
+                ListViewItem item2 = new ListViewItem(strSum);
+                item2.Font = new Font(FontFamily.GenericSansSerif, 8, FontStyle.Bold);
+                listViewCandidates.Items.Add(item2);
+
+            }
+        }
+
+        private void VotingsStatisticForm_Load(object sender, EventArgs e)
+        {
+            comboBoxVoting.Items.Clear();
+            comboBoxVoting.Text = "";
+
+            var list = blockChain.GetVotings();
+
+            foreach (var item in list)
+            {
+                var info = JObject.Parse(item.Info);
+                string line = item.VotingNumber + ". " + info["name"] + " (" + item.Date0.ToShortDateString() + ", hash: " + item.Hash + ")";
+
+                comboBoxVoting.Items.Add(new ComboBoxItem(line, item));
+            }
         }
     }
 }
