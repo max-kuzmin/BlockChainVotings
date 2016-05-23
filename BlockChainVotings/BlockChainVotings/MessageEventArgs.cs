@@ -21,4 +21,16 @@ namespace BlockChainVotings
 
     }
 
+
+    public class IntEventArgs
+    {
+        public int Data {get; set;}
+
+        public IntEventArgs(int data)
+        {
+            this.Data = data;
+        }
+
+    }
+
 }

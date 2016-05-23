@@ -43,6 +43,33 @@ namespace BlockChainVotings
             return elem.Result;
         }
 
+
+
+        public int BlocksCount()
+        {
+            var query = dbAsync.Table<Block>().CountAsync();
+            query.Wait();
+            return query.Result;
+        }
+
+
+        public int TransactionsCount()
+        {
+            var query = dbAsync.Table<Transaction>().CountAsync();
+            query.Wait();
+            return query.Result;
+        }
+
+
+        public int UsersCount()
+        {
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.CreateUser);
+            var elem = query.CountAsync();
+            elem.Wait();
+
+            return elem.Result;
+        }
+
         public Block GetBlock(int number)
         {
             var query = dbAsync.Table<Block>().Where(bl => bl.Number == number);

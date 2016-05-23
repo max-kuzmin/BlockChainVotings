@@ -28,34 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listViewSearchUsers = new System.Windows.Forms.ListView();
+            this.listViewSearchUsers = new MaterialSkin.Controls.MaterialListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.labelSearchUsers = new System.Windows.Forms.Label();
-            this.textBoxSearchUsers = new System.Windows.Forms.TextBox();
-            this.listViewVotings = new System.Windows.Forms.ListView();
+            this.labelSearchUsers = new MaterialSkin.Controls.MaterialLabel();
+            this.textBoxSearchUsers = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.listViewVotings = new MaterialSkin.Controls.MaterialListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.labelUserVotings = new System.Windows.Forms.Label();
-            this.labelId = new System.Windows.Forms.Label();
-            this.labelIdVal = new System.Windows.Forms.Label();
-            this.labelName = new System.Windows.Forms.Label();
-            this.labelNameVal = new System.Windows.Forms.Label();
-            this.labelDate = new System.Windows.Forms.Label();
-            this.labelDateVal = new System.Windows.Forms.Label();
-            this.labelStatus = new System.Windows.Forms.Label();
-            this.labelStatusVal = new System.Windows.Forms.Label();
-            this.labelActivity = new System.Windows.Forms.Label();
-            this.labelActivityVal = new System.Windows.Forms.Label();
-            this.labelHash = new System.Windows.Forms.Label();
-            this.labelHashVal = new System.Windows.Forms.Label();
-            this.labelNumVotesVal = new System.Windows.Forms.Label();
-            this.labelNumVotes = new System.Windows.Forms.Label();
-            this.labelUserInfo = new System.Windows.Forms.Label();
+            this.labelUserVotings = new MaterialSkin.Controls.MaterialLabel();
+            this.labelId = new MaterialSkin.Controls.MaterialLabel();
+            this.labelIdVal = new MaterialSkin.Controls.MaterialLabel();
+            this.labelName = new MaterialSkin.Controls.MaterialLabel();
+            this.labelNameVal = new MaterialSkin.Controls.MaterialLabel();
+            this.labelDate = new MaterialSkin.Controls.MaterialLabel();
+            this.labelDateVal = new MaterialSkin.Controls.MaterialLabel();
+            this.labelStatus = new MaterialSkin.Controls.MaterialLabel();
+            this.labelStatusVal = new MaterialSkin.Controls.MaterialLabel();
+            this.labelActivity = new MaterialSkin.Controls.MaterialLabel();
+            this.labelActivityVal = new MaterialSkin.Controls.MaterialLabel();
+            this.labelHash = new MaterialSkin.Controls.MaterialLabel();
+            this.labelHashVal = new MaterialSkin.Controls.MaterialLabel();
+            this.labelNumVotesVal = new MaterialSkin.Controls.MaterialLabel();
+            this.labelNumVotes = new MaterialSkin.Controls.MaterialLabel();
+            this.labelUserInfo = new MaterialSkin.Controls.MaterialLabel();
             this.SuspendLayout();
             // 
             // listViewSearchUsers
@@ -318,33 +318,33 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView listViewSearchUsers;
+        private MaterialSkin.Controls.MaterialListView listViewSearchUsers;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.Label labelSearchUsers;
-        private System.Windows.Forms.TextBox textBoxSearchUsers;
-        private System.Windows.Forms.ListView listViewVotings;
+        private MaterialSkin.Controls.MaterialLabel labelSearchUsers;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxSearchUsers;
+        private MaterialSkin.Controls.MaterialListView listViewVotings;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.Label labelUserVotings;
-        private System.Windows.Forms.Label labelId;
-        private System.Windows.Forms.Label labelIdVal;
-        private System.Windows.Forms.Label labelName;
-        private System.Windows.Forms.Label labelNameVal;
-        private System.Windows.Forms.Label labelDate;
-        private System.Windows.Forms.Label labelDateVal;
-        private System.Windows.Forms.Label labelStatus;
-        private System.Windows.Forms.Label labelStatusVal;
-        private System.Windows.Forms.Label labelActivity;
-        private System.Windows.Forms.Label labelActivityVal;
-        private System.Windows.Forms.Label labelHash;
-        private System.Windows.Forms.Label labelHashVal;
-        private System.Windows.Forms.Label labelNumVotesVal;
-        private System.Windows.Forms.Label labelNumVotes;
-        private System.Windows.Forms.Label labelUserInfo;
+        private MaterialSkin.Controls.MaterialLabel labelUserVotings;
+        private MaterialSkin.Controls.MaterialLabel labelId;
+        private MaterialSkin.Controls.MaterialLabel labelIdVal;
+        private MaterialSkin.Controls.MaterialLabel labelName;
+        private MaterialSkin.Controls.MaterialLabel labelNameVal;
+        private MaterialSkin.Controls.MaterialLabel labelDate;
+        private MaterialSkin.Controls.MaterialLabel labelDateVal;
+        private MaterialSkin.Controls.MaterialLabel labelStatus;
+        private MaterialSkin.Controls.MaterialLabel labelStatusVal;
+        private MaterialSkin.Controls.MaterialLabel labelActivity;
+        private MaterialSkin.Controls.MaterialLabel labelActivityVal;
+        private MaterialSkin.Controls.MaterialLabel labelHash;
+        private MaterialSkin.Controls.MaterialLabel labelHashVal;
+        private MaterialSkin.Controls.MaterialLabel labelNumVotesVal;
+        private MaterialSkin.Controls.MaterialLabel labelNumVotes;
+        private MaterialSkin.Controls.MaterialLabel labelUserInfo;
         private System.Windows.Forms.ColumnHeader columnHeader8;
     }
 }

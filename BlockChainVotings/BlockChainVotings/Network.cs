@@ -19,6 +19,7 @@ namespace BlockChainVotings
         public List<Peer> Peers { get; private set; }
         public List<Tracker> Trackers { get; private set; }
 
+
         int normalPeersCount = 10;
 
         Timer t;
@@ -32,12 +33,10 @@ namespace BlockChainVotings
 
         public Network()
         {
-            NetworkComms.DisableLogging();
+            
 
             Trackers = new List<Tracker>();
             Peers = new List<Peer>();
-
-            SetupLogging();
 
 
             t = new Timer(CommonHelpers.CheckAliveInterval);
@@ -331,7 +330,7 @@ namespace BlockChainVotings
             NetworkComms.CloseAllConnections();
             NetworkComms.Shutdown();
 
-            NetworkComms.Logger.Warn("Client stopped");
+            NetworkComms.Logger.Warn("===== Client stopped =====");
         }
 
         public void Connect(string[] trackers)
@@ -349,7 +348,7 @@ namespace BlockChainVotings
 
             TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), false);
 
-            NetworkComms.Logger.Warn("Client started");
+            NetworkComms.Logger.Warn("===== Client started =====");
 
             //только для дебага !!!!!!
             ConnectToTrackers();
@@ -358,15 +357,8 @@ namespace BlockChainVotings
             t.Start();
         }
 
-        private void SetupLogging()
-        {
-            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "log.txt");
-            NetworkComms.EnableLogging(logger);
-
-            NetworkComms.Logger.Warn("==================== Initialisation ====================");
 
 
-        }
 
 
     }

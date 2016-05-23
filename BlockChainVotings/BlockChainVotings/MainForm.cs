@@ -32,11 +32,15 @@ namespace BlockChainVotings
             InitializeComponent();
 
 
-            MaterialSkinManager.Instance.Theme = new LightTheme();
+            //MaterialSkinManager.Instance.Theme = new DarkTheme();
 
             MaterialSkinManager.Instance.AddFormToManage(this);
-            //MaterialSkinManager.Instance.ColorScheme = new ColorScheme(Primary.Red600, Primary.Red900, Primary.Red300, Accent.Blue400, TextShade.WHITE); 
 
+            //MaterialSkinManager.Instance.ROBOTO_REGULAR_10 = new Font("Arial", 10);
+            //MaterialSkinManager.Instance.ROBOTO_MEDIUM_9 = new Font("Arial", 9);
+            //MaterialSkinManager.Instance.ROBOTO_MEDIUM_10 = new Font("Arial", 10);
+            //MaterialSkinManager.Instance.ROBOTO_MEDIUM_11 = new Font("Arial", 11);
+            //MaterialSkinManager.Instance.ColorScheme = new ColorScheme(Primary.Red600, Primary.Red900, Primary.Red300, Accent.Red100, TextShade.WHITE); 
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -73,7 +77,7 @@ namespace BlockChainVotings
             (new CreateVotingForm(blockChain)).Show();
             (new SendVoteForm(blockChain)).Show();
             (new BanUserForm(blockChain)).Show();
-            (new UsersStatisticsForm(blockChain, true)).Show();
+            (new UsersStatisticsForm(blockChain, false)).Show();
             (new VotingsStatisticForm(blockChain)).Show();
         }
 

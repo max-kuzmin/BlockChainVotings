@@ -24,6 +24,7 @@ namespace BlockChainVotings
             buttonBan.Enabled = false;
 
             MaterialSkinManager.Instance.AddFormToManage(this);
+
         }
 
         private void textBoxSearchUser_TextChanged(object sender, EventArgs e)

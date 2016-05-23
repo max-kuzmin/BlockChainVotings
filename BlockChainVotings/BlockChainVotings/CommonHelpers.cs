@@ -27,6 +27,10 @@ namespace BlockChainVotings
         public static int TransactionsInBlock { get { return 10; } }
 
 
+        static public event EventHandler<IntEventArgs> PeersCountChanged;
+
+
+
         static public IPEndPoint GetLocalEndPoint(int port)
         {
             if (!NetworkInterface.GetIsNetworkAvailable()) return null;
@@ -42,6 +46,8 @@ namespace BlockChainVotings
             NetworkComms.Logger.Warn("Peers: connected - " + peers.Count(p => p.Status == PeerStatus.Connected) +
                 ", noHashRecieved - " + peers.Count(p => p.Status == PeerStatus.NoHashRecieved) +
                 ", disconnected - " + peers.Count(p => p.Status == PeerStatus.Disconnected));
+
+            PeersCountChanged(null, new IntEventArgs(peers.Count(p => p.Status == PeerStatus.Connected)));
         }
 
 

@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonRegister = new System.Windows.Forms.Button();
-            this.textBoxPasswordRegister = new System.Windows.Forms.TextBox();
-            this.labelPrivateKeyRegister = new System.Windows.Forms.Label();
-            this.labelPublicKeyRegister = new System.Windows.Forms.Label();
-            this.textBoxPrivateKeyRegister = new System.Windows.Forms.TextBox();
-            this.textBoxPublicKeyRegister = new System.Windows.Forms.TextBox();
-            this.labelPasswordRegister = new System.Windows.Forms.Label();
+            this.buttonRegister = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.textBoxPasswordRegister = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.labelPrivateKeyRegister = new MaterialSkin.Controls.MaterialLabel();
+            this.labelPublicKeyRegister = new MaterialSkin.Controls.MaterialLabel();
+            this.textBoxPrivateKeyRegister = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.textBoxPublicKeyRegister = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.labelPasswordRegister = new MaterialSkin.Controls.MaterialLabel();
             this.tabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPageRegister = new System.Windows.Forms.TabPage();
-            this.labelPasswordRegister2 = new System.Windows.Forms.Label();
-            this.textBoxPasswordRegister2 = new System.Windows.Forms.TextBox();
+            this.labelPasswordRegister2 = new MaterialSkin.Controls.MaterialLabel();
+            this.textBoxPasswordRegister2 = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.tabPageLogin = new System.Windows.Forms.TabPage();
-            this.textBoxPublicKeyLogin = new System.Windows.Forms.TextBox();
-            this.labelPassLogin = new System.Windows.Forms.Label();
-            this.buttonLogin = new System.Windows.Forms.Button();
-            this.textBoxPassLogin = new System.Windows.Forms.TextBox();
-            this.labelPublicKeyLogin = new System.Windows.Forms.Label();
+            this.textBoxPublicKeyLogin = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.labelPassLogin = new MaterialSkin.Controls.MaterialLabel();
+            this.buttonLogin = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.textBoxPassLogin = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.labelPublicKeyLogin = new MaterialSkin.Controls.MaterialLabel();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.tabControl1.SuspendLayout();
             this.tabPageRegister.SuspendLayout();
@@ -53,8 +53,10 @@
             // 
             // buttonRegister
             // 
+            this.buttonRegister.Depth = 0;
             this.buttonRegister.Location = new System.Drawing.Point(253, 196);
             this.buttonRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonRegister.Name = "buttonRegister";
             this.buttonRegister.Size = new System.Drawing.Size(100, 28);
             this.buttonRegister.TabIndex = 0;
@@ -64,11 +66,21 @@
             // 
             // textBoxPasswordRegister
             // 
+            this.textBoxPasswordRegister.Depth = 0;
+            this.textBoxPasswordRegister.Hint = "";
             this.textBoxPasswordRegister.Location = new System.Drawing.Point(177, 103);
             this.textBoxPasswordRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPasswordRegister.MaxLength = 32767;
+            this.textBoxPasswordRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPasswordRegister.Name = "textBoxPasswordRegister";
-            this.textBoxPasswordRegister.Size = new System.Drawing.Size(283, 22);
+            this.textBoxPasswordRegister.PasswordChar = '\0';
+            this.textBoxPasswordRegister.SelectedText = "";
+            this.textBoxPasswordRegister.SelectionLength = 0;
+            this.textBoxPasswordRegister.SelectionStart = 0;
+            this.textBoxPasswordRegister.Size = new System.Drawing.Size(283, 28);
             this.textBoxPasswordRegister.TabIndex = 3;
+            this.textBoxPasswordRegister.TabStop = false;
+            this.textBoxPasswordRegister.UseSystemPasswordChar = false;
             this.textBoxPasswordRegister.TextChanged += new System.EventHandler(this.textBoxPasswordRegister_TextChanged);
             // 
             // labelPrivateKeyRegister
@@ -94,22 +106,42 @@
             // 
             // textBoxPrivateKeyRegister
             // 
+            this.textBoxPrivateKeyRegister.Depth = 0;
+            this.textBoxPrivateKeyRegister.Hint = "";
             this.textBoxPrivateKeyRegister.Location = new System.Drawing.Point(177, 68);
             this.textBoxPrivateKeyRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPrivateKeyRegister.MaxLength = 32767;
+            this.textBoxPrivateKeyRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPrivateKeyRegister.Name = "textBoxPrivateKeyRegister";
-            this.textBoxPrivateKeyRegister.Size = new System.Drawing.Size(283, 22);
+            this.textBoxPrivateKeyRegister.PasswordChar = '\0';
+            this.textBoxPrivateKeyRegister.SelectedText = "";
+            this.textBoxPrivateKeyRegister.SelectionLength = 0;
+            this.textBoxPrivateKeyRegister.SelectionStart = 0;
+            this.textBoxPrivateKeyRegister.Size = new System.Drawing.Size(283, 28);
             this.textBoxPrivateKeyRegister.TabIndex = 5;
+            this.textBoxPrivateKeyRegister.TabStop = false;
+            this.textBoxPrivateKeyRegister.UseSystemPasswordChar = false;
             this.textBoxPrivateKeyRegister.TextChanged += new System.EventHandler(this.textBoxPublicKeyRegister_TextChanged);
             // 
             // textBoxPublicKeyRegister
             // 
             this.textBoxPublicKeyRegister.BackColor = System.Drawing.SystemColors.Window;
+            this.textBoxPublicKeyRegister.Depth = 0;
             this.textBoxPublicKeyRegister.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxPublicKeyRegister.Hint = "";
             this.textBoxPublicKeyRegister.Location = new System.Drawing.Point(177, 36);
             this.textBoxPublicKeyRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPublicKeyRegister.MaxLength = 32767;
+            this.textBoxPublicKeyRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPublicKeyRegister.Name = "textBoxPublicKeyRegister";
-            this.textBoxPublicKeyRegister.Size = new System.Drawing.Size(283, 22);
+            this.textBoxPublicKeyRegister.PasswordChar = '\0';
+            this.textBoxPublicKeyRegister.SelectedText = "";
+            this.textBoxPublicKeyRegister.SelectionLength = 0;
+            this.textBoxPublicKeyRegister.SelectionStart = 0;
+            this.textBoxPublicKeyRegister.Size = new System.Drawing.Size(283, 28);
             this.textBoxPublicKeyRegister.TabIndex = 4;
+            this.textBoxPublicKeyRegister.TabStop = false;
+            this.textBoxPublicKeyRegister.UseSystemPasswordChar = false;
             this.textBoxPublicKeyRegister.TextChanged += new System.EventHandler(this.textBoxPublicKeyRegister_TextChanged);
             // 
             // labelPasswordRegister
@@ -137,6 +169,7 @@
             // 
             // tabPageRegister
             // 
+            this.tabPageRegister.BackColor = System.Drawing.Color.White;
             this.tabPageRegister.Controls.Add(this.labelPasswordRegister2);
             this.tabPageRegister.Controls.Add(this.textBoxPasswordRegister2);
             this.tabPageRegister.Controls.Add(this.textBoxPublicKeyRegister);
@@ -153,7 +186,6 @@
             this.tabPageRegister.Size = new System.Drawing.Size(661, 319);
             this.tabPageRegister.TabIndex = 0;
             this.tabPageRegister.Text = "Register";
-            this.tabPageRegister.UseVisualStyleBackColor = true;
             // 
             // labelPasswordRegister2
             // 
@@ -167,15 +199,26 @@
             // 
             // textBoxPasswordRegister2
             // 
+            this.textBoxPasswordRegister2.Depth = 0;
+            this.textBoxPasswordRegister2.Hint = "";
             this.textBoxPasswordRegister2.Location = new System.Drawing.Point(177, 145);
             this.textBoxPasswordRegister2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPasswordRegister2.MaxLength = 32767;
+            this.textBoxPasswordRegister2.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPasswordRegister2.Name = "textBoxPasswordRegister2";
-            this.textBoxPasswordRegister2.Size = new System.Drawing.Size(283, 22);
+            this.textBoxPasswordRegister2.PasswordChar = '\0';
+            this.textBoxPasswordRegister2.SelectedText = "";
+            this.textBoxPasswordRegister2.SelectionLength = 0;
+            this.textBoxPasswordRegister2.SelectionStart = 0;
+            this.textBoxPasswordRegister2.Size = new System.Drawing.Size(283, 28);
             this.textBoxPasswordRegister2.TabIndex = 9;
+            this.textBoxPasswordRegister2.TabStop = false;
+            this.textBoxPasswordRegister2.UseSystemPasswordChar = false;
             this.textBoxPasswordRegister2.TextChanged += new System.EventHandler(this.textBoxPasswordRegister_TextChanged);
             // 
             // tabPageLogin
             // 
+            this.tabPageLogin.BackColor = System.Drawing.Color.White;
             this.tabPageLogin.Controls.Add(this.textBoxPublicKeyLogin);
             this.tabPageLogin.Controls.Add(this.labelPassLogin);
             this.tabPageLogin.Controls.Add(this.buttonLogin);
@@ -188,18 +231,27 @@
             this.tabPageLogin.Size = new System.Drawing.Size(661, 319);
             this.tabPageLogin.TabIndex = 1;
             this.tabPageLogin.Text = "Login";
-            this.tabPageLogin.UseVisualStyleBackColor = true;
             // 
             // textBoxPublicKeyLogin
             // 
             this.textBoxPublicKeyLogin.BackColor = System.Drawing.SystemColors.Window;
+            this.textBoxPublicKeyLogin.Depth = 0;
             this.textBoxPublicKeyLogin.Enabled = false;
             this.textBoxPublicKeyLogin.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.textBoxPublicKeyLogin.Hint = "";
             this.textBoxPublicKeyLogin.Location = new System.Drawing.Point(222, 67);
             this.textBoxPublicKeyLogin.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPublicKeyLogin.MaxLength = 32767;
+            this.textBoxPublicKeyLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPublicKeyLogin.Name = "textBoxPublicKeyLogin";
-            this.textBoxPublicKeyLogin.Size = new System.Drawing.Size(283, 22);
+            this.textBoxPublicKeyLogin.PasswordChar = '\0';
+            this.textBoxPublicKeyLogin.SelectedText = "";
+            this.textBoxPublicKeyLogin.SelectionLength = 0;
+            this.textBoxPublicKeyLogin.SelectionStart = 0;
+            this.textBoxPublicKeyLogin.Size = new System.Drawing.Size(283, 28);
             this.textBoxPublicKeyLogin.TabIndex = 11;
+            this.textBoxPublicKeyLogin.TabStop = false;
+            this.textBoxPublicKeyLogin.UseSystemPasswordChar = false;
             // 
             // labelPassLogin
             // 
@@ -213,8 +265,10 @@
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(281, 155);
+            this.buttonLogin.Depth = 0;
+            this.buttonLogin.Location = new System.Drawing.Point(254, 172);
             this.buttonLogin.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(100, 28);
             this.buttonLogin.TabIndex = 9;
@@ -224,11 +278,21 @@
             // 
             // textBoxPassLogin
             // 
+            this.textBoxPassLogin.Depth = 0;
+            this.textBoxPassLogin.Hint = "";
             this.textBoxPassLogin.Location = new System.Drawing.Point(222, 116);
             this.textBoxPassLogin.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPassLogin.MaxLength = 32767;
+            this.textBoxPassLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPassLogin.Name = "textBoxPassLogin";
-            this.textBoxPassLogin.Size = new System.Drawing.Size(283, 22);
+            this.textBoxPassLogin.PasswordChar = '\0';
+            this.textBoxPassLogin.SelectedText = "";
+            this.textBoxPassLogin.SelectionLength = 0;
+            this.textBoxPassLogin.SelectionStart = 0;
+            this.textBoxPassLogin.Size = new System.Drawing.Size(283, 28);
             this.textBoxPassLogin.TabIndex = 10;
+            this.textBoxPassLogin.TabStop = false;
+            this.textBoxPassLogin.UseSystemPasswordChar = false;
             this.textBoxPassLogin.TextChanged += new System.EventHandler(this.textBoxPassLogin_TextChanged);
             // 
             // labelPublicKeyLogin
@@ -274,24 +338,23 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button buttonRegister;
-        private System.Windows.Forms.TextBox textBoxPasswordRegister;
-        private System.Windows.Forms.Label labelPrivateKeyRegister;
-        private System.Windows.Forms.Label labelPublicKeyRegister;
-        private System.Windows.Forms.TextBox textBoxPrivateKeyRegister;
-        private System.Windows.Forms.TextBox textBoxPublicKeyRegister;
-        private System.Windows.Forms.Label labelPasswordRegister;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxPasswordRegister;
+        private MaterialSkin.Controls.MaterialLabel labelPrivateKeyRegister;
+        private MaterialSkin.Controls.MaterialLabel labelPublicKeyRegister;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxPrivateKeyRegister;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxPublicKeyRegister;
+        private MaterialSkin.Controls.MaterialLabel labelPasswordRegister;
         private MaterialSkin.Controls.MaterialTabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageRegister;
         private System.Windows.Forms.TabPage tabPageLogin;
-        private System.Windows.Forms.TextBox textBoxPublicKeyLogin;
-        private System.Windows.Forms.Label labelPassLogin;
-        private System.Windows.Forms.Button buttonLogin;
-        private System.Windows.Forms.TextBox textBoxPassLogin;
-        private System.Windows.Forms.Label labelPublicKeyLogin;
-        private System.Windows.Forms.Label labelPasswordRegister2;
-        private System.Windows.Forms.TextBox textBoxPasswordRegister2;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxPublicKeyLogin;
+        private MaterialSkin.Controls.MaterialLabel labelPassLogin;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxPassLogin;
+        private MaterialSkin.Controls.MaterialLabel labelPublicKeyLogin;
+        private MaterialSkin.Controls.MaterialLabel labelPasswordRegister2;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxPasswordRegister2;
         private MaterialSkin.Controls.MaterialTabSelector materialTabSelector1;
+        private MaterialSkin.Controls.MaterialRaisedButton buttonRegister;
+        private MaterialSkin.Controls.MaterialRaisedButton buttonLogin;
     }
 }
