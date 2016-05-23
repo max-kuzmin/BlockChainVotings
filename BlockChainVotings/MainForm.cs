@@ -31,7 +31,6 @@ namespace BlockChainVotings
         {
             InitializeComponent();
 
-
             //MaterialSkinManager.Instance.Theme = new DarkTheme();
 
             MaterialSkinManager.Instance.AddFormToManage(this);
@@ -112,6 +111,11 @@ namespace BlockChainVotings
         private void button4_Click(object sender, EventArgs e)
         {
             blockChain.MakeBlock();
+        }
+
+        private void materialRaisedButton1_Click(object sender, EventArgs e)
+        {
+            CommonHelpers.ChangeTheme();
         }
     }
 }

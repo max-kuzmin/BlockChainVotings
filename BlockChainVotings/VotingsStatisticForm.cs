@@ -23,7 +23,18 @@ namespace BlockChainVotings
             this.blockChain = blockChain;
 
             MaterialSkinManager.Instance.AddFormToManage(this);
-            
+
+
+            this.Text = Properties.Resources.votingsStatistics;
+            labelChooseVoting.Text = Properties.Resources.chooseVoting;
+            labelCandidates.Text = Properties.Resources.candidates;
+            labelVotingInfo.Text = Properties.Resources.inVoting;
+            labelCandidateInfo.Text = Properties.Resources.wons;
+            columnHeaderHash.Text = Properties.Resources.userID;
+            columnHeaderName.Text = Properties.Resources.userName;
+            columnHeaderID.Text = Properties.Resources.userHash;
+            columnHeaderVotes.Text = Properties.Resources.votesCount;
+
         }
 
         private void ListViewCandidates_DrawItem(object sender, DrawListViewItemEventArgs e)

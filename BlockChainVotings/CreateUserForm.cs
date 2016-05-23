@@ -22,6 +22,15 @@ namespace BlockChainVotings
             this.blockChain = blockChain;
 
             MaterialSkinManager.Instance.AddFormToManage(this);
+
+
+            this.Text = Properties.Resources.createUser;
+            labelName.Text = Properties.Resources.userName;
+            labelPrivateKey.Text = Properties.Resources.privateKey;
+            labelPublicKey.Text = Properties.Resources.userHash;
+            labelID.Text = Properties.Resources.userID;
+            buttonCreateUser.Text = Properties.Resources.create;
+            buttonGenerate.Text = Properties.Resources.generateKeys;
         }
 
         private void buttonGenerate_Click(object sender, EventArgs e)

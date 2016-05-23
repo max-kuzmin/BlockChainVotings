@@ -26,6 +26,30 @@ namespace BlockChainVotings
 
             MaterialSkinManager.Instance.AddFormToManage(this);
 
+
+            this.Text = Properties.Resources.usersStatistics;
+            labelActivity.Text = Properties.Resources.lastActivity;
+            labelDate.Text = Properties.Resources.regDate;
+            labelHash.Text = Properties.Resources.userHash;
+            labelId.Text = Properties.Resources.userID;
+            labelName.Text = Properties.Resources.userName;
+            labelNumVotes.Text = Properties.Resources.votingsCount;
+            labelSearchUsers.Text = Properties.Resources.searchUser;
+            labelStatus.Text = Properties.Resources.userStatus;
+            labelUserInfo.Text = Properties.Resources.userInfo;
+            labelUserVotings.Text = Properties.Resources.userVotings;
+
+            columnHeaderId.Text = Properties.Resources.userID;
+            columnHeaderCandidateHash.Text = Properties.Resources.candidateHash;
+            columnHeaderDate.Text = Properties.Resources.voteDate;
+            columnHeaderVotingName.Text = Properties.Resources.votingName;
+            columnHeaderVotingHash.Text = Properties.Resources.votingHash;
+            columnHeaderCandidateName.Text = Properties.Resources.candidateName;
+            columnHeaderHash.Text = Properties.Resources.userHash;
+            columnHeaderName.Text = Properties.Resources.userName;
+
+
+
             if (me)
             {
                 textBoxSearchUsers.Text = VotingsUser.PublicKey;

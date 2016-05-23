@@ -24,6 +24,18 @@ namespace BlockChainVotings
             InitializeComponent();
 
             MaterialSkinManager.Instance.AddFormToManage(this);
+
+
+            this.Text = Properties.Resources.sendVote;
+            labelCandidateInfo.Text = Properties.Resources.iVoteFor;
+            labelChooseVoting.Text = Properties.Resources.chooseVoting;
+            labelVotingInfo.Text = Properties.Resources.takePatrInVoting;
+            checkBoxAgree.Text = Properties.Resources.agree;
+            buttonVote.Text = Properties.Resources.vote;
+            columnHeaderCandidateID.Text = Properties.Resources.userID;
+            columnHeaderCandidateName.Text = Properties.Resources.userName;
+            columnHeaderCandidateHash.Text = Properties.Resources.userHash;
+            labelCandidate.Text = Properties.Resources.chooseCandidate;
         }
 
         private void SendVoteForm_Load(object sender, EventArgs e)
