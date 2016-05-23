@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBoxPublicKey = new System.Windows.Forms.TextBox();
-            this.textBoxPrivateKey = new System.Windows.Forms.TextBox();
-            this.labelPublicKey = new System.Windows.Forms.Label();
-            this.labelPrivateKey = new System.Windows.Forms.Label();
-            this.buttonGenerate = new System.Windows.Forms.Button();
-            this.buttonCreateUser = new System.Windows.Forms.Button();
-            this.textBoxName = new System.Windows.Forms.TextBox();
-            this.textBoxID = new System.Windows.Forms.TextBox();
-            this.labelName = new System.Windows.Forms.Label();
-            this.labelID = new System.Windows.Forms.Label();
+            this.textBoxPublicKey = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.textBoxPrivateKey = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.labelPublicKey = new MaterialSkin.Controls.MaterialLabel();
+            this.labelPrivateKey = new MaterialSkin.Controls.MaterialLabel();
+            this.buttonGenerate = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.buttonCreateUser = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.textBoxName = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.textBoxID = new MaterialSkin.Controls.MaterialSingleLineTextField();
+            this.labelName = new MaterialSkin.Controls.MaterialLabel();
+            this.labelID = new MaterialSkin.Controls.MaterialLabel();
             this.SuspendLayout();
             // 
             // textBoxPublicKey
@@ -166,15 +166,15 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBoxPublicKey;
-        private System.Windows.Forms.TextBox textBoxPrivateKey;
-        private System.Windows.Forms.Label labelPublicKey;
-        private System.Windows.Forms.Label labelPrivateKey;
-        private System.Windows.Forms.Button buttonGenerate;
-        private System.Windows.Forms.Button buttonCreateUser;
-        private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.TextBox textBoxID;
-        private System.Windows.Forms.Label labelName;
-        private System.Windows.Forms.Label labelID;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxPublicKey;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxPrivateKey;
+        private MaterialSkin.Controls.MaterialLabel labelPublicKey;
+        private MaterialSkin.Controls.MaterialLabel labelPrivateKey;
+        private MaterialSkin.Controls.MaterialRaisedButton buttonGenerate;
+        private MaterialSkin.Controls.MaterialRaisedButton buttonCreateUser;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxName;
+        private MaterialSkin.Controls.MaterialSingleLineTextField textBoxID;
+        private MaterialSkin.Controls.MaterialLabel labelName;
+        private MaterialSkin.Controls.MaterialLabel labelID;
     }
 }

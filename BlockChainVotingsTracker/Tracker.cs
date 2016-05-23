@@ -60,7 +60,7 @@ namespace BlockChainVotingsTracker
                 TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.TrackerPort), false);
                 Status = TrackerStatus.Started;
 
-                NetworkComms.Logger.Warn("Tracker started");
+                NetworkComms.Logger.Warn("===== Tracker started =====");
 
                 t.Start();
 
@@ -81,7 +81,7 @@ namespace BlockChainVotingsTracker
                 }
                 Connection.StopListening();
                 NetworkComms.Shutdown();
-                NetworkComms.Logger.Warn("Tracker stopped");
+                NetworkComms.Logger.Warn("===== Tracker stopped =====");
                 Status = TrackerStatus.Stopped;
 
             }
@@ -95,7 +95,7 @@ namespace BlockChainVotingsTracker
             LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "log.txt");
             NetworkComms.EnableLogging(logger);
 
-            NetworkComms.Logger.Warn("==================== Initialisation ====================");
+            //NetworkComms.Logger.Warn("==================== Initialisation ====================");
 
 
         }

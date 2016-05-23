@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.textBoxTrackers = new System.Windows.Forms.TextBox();
-            this.buttonStart = new System.Windows.Forms.Button();
-            this.buttonStop = new System.Windows.Forms.Button();
+            this.buttonStart = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.buttonStop = new MaterialSkin.Controls.MaterialRaisedButton();
             this.textBoxConsole = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.button1 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.button2 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.button3 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.button4 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.SuspendLayout();
             // 
             // textBoxTrackers
@@ -145,13 +145,13 @@
         #endregion
 
         private System.Windows.Forms.TextBox textBoxTrackers;
-        private System.Windows.Forms.Button buttonStart;
-        private System.Windows.Forms.Button buttonStop;
+        private MaterialSkin.Controls.MaterialRaisedButton buttonStart;
+        private MaterialSkin.Controls.MaterialRaisedButton buttonStop;
         private System.Windows.Forms.TextBox textBoxConsole;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private MaterialSkin.Controls.MaterialRaisedButton button1;
+        private MaterialSkin.Controls.MaterialRaisedButton button2;
+        private MaterialSkin.Controls.MaterialRaisedButton button3;
+        private MaterialSkin.Controls.MaterialRaisedButton button4;
     }
 }
 

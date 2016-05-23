@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using NetworkCommsDotNet;
+using NetworkCommsDotNet.Tools;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +23,22 @@ namespace BlockChainVotings
         Dictionary<Block, DateTime> pendingBlocks;
         Dictionary<Transaction, DateTime> pendingTransactions;
 
+        public event EventHandler<IntEventArgs> NewVoting;
+        public event EventHandler<IntEventArgs> NewTransaction;
+        public event EventHandler<IntEventArgs> NewUser;
+        public event EventHandler<IntEventArgs> NewBlock;
 
+        public event EventHandler<IntEventArgs> PeersCountChanged;
 
 
         public BlockChainVotings()
         {
+
+            NetworkComms.DisableLogging();
+            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "log.txt");
+            NetworkComms.EnableLogging(logger);
+
+
             db = new VotingsDB();
             net = new Network();
 
@@ -103,7 +116,13 @@ namespace BlockChainVotings
 
                 //проверка на существование транзакции с таким же хешем
                 if (db.GetTransaction(transaction.Hash) == null && !pendingTransactions.Keys.Any(tr => tr.Hash == transaction.Hash))
-                    CheckTransaction(transaction);
+                {
+                    if (CheckTransaction(transaction))
+                    {
+                        //если внесли транзакцию в базу, отсылаем ее остальным пирам
+                        net.SendMessageToAllPeers(message);
+                    }
+                }
             }
         }
 
@@ -175,7 +194,12 @@ namespace BlockChainVotings
                 //проверка на существование блока с таким же хешем
                 if (db.GetBlock(block.Hash) == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.Hash))
                 {
-                    CheckBlock(block);
+                    if (CheckBlock(block))
+                    {
+                        //если внесли блок в базу, отсылаем его остальным пирам
+                        net.SendMessageToAllPeers(message);
+                    }
+
                 }
             }
         }
@@ -338,6 +362,10 @@ namespace BlockChainVotings
             ////если все хорошо, добавляем блок в базу
             db.PutBlock(block);
 
+            NetworkComms.Logger.Warn("Added block " + block.Hash);
+
+            NewBlock(this, new IntEventArgs(db.BlocksCount()));
+
             //помечаем транзакции, что они в блоке
             foreach (var itemHash in block.Transactions)
             {
@@ -436,6 +464,16 @@ namespace BlockChainVotings
 
                 //добавляем транзакцию в базу
                 db.PutTransaction(transaction);
+
+                NetworkComms.Logger.Warn("Added transaction " + transaction.Type.ToString() + " " + transaction.Hash);
+
+                NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+
+                //если добавили новую транзакцию голосования, то вызываем событие
+                if (transaction.Type == TransactionType.StartVoting)
+                    NewVoting(this, new IntEventArgs(transaction.VotingNumber));
+                else if (transaction.Type == TransactionType.CreateUser)
+                    NewUser(this, new IntEventArgs(db.UsersCount()));
 
                 //проверяем нужно ли создавать новый блок
                 MakeBlock();
@@ -686,6 +724,9 @@ namespace BlockChainVotings
                 db.PutTransaction(voting);
                 db.PutBlock(block);
             }
+
+
+            NetworkComms.Logger.Warn("DB Root checked");
 
         }
 
