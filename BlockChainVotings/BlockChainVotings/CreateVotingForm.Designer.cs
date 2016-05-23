@@ -37,13 +37,13 @@
             this.buttonRemoveUser = new MaterialSkin.Controls.MaterialRaisedButton();
             this.labelCandidates = new MaterialSkin.Controls.MaterialLabel();
             this.listViewSearchUsers = new MaterialSkin.Controls.MaterialListView();
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderUserHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderUserName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderUserID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.listViewCandidates = new MaterialSkin.Controls.MaterialListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCandidateHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCandidateName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderCandidateID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // buttonCreateVoting
@@ -161,9 +161,9 @@
             // 
             this.listViewSearchUsers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewSearchUsers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader6});
+            this.columnHeaderUserHash,
+            this.columnHeaderUserName,
+            this.columnHeaderUserID});
             this.listViewSearchUsers.Depth = 0;
             this.listViewSearchUsers.FullRowSelect = true;
             this.listViewSearchUsers.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -177,25 +177,25 @@
             this.listViewSearchUsers.UseCompatibleStateImageBehavior = false;
             this.listViewSearchUsers.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeader4
+            // columnHeaderUserHash
             // 
-            this.columnHeader4.Text = "Hash";
+            this.columnHeaderUserHash.Text = "Hash";
             // 
-            // columnHeader5
+            // columnHeaderUserName
             // 
-            this.columnHeader5.Text = "Name";
+            this.columnHeaderUserName.Text = "Name";
             // 
-            // columnHeader6
+            // columnHeaderUserID
             // 
-            this.columnHeader6.Text = "ID";
+            this.columnHeaderUserID.Text = "ID";
             // 
             // listViewCandidates
             // 
             this.listViewCandidates.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewCandidates.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3});
+            this.columnHeaderCandidateHash,
+            this.columnHeaderCandidateName,
+            this.columnHeaderCandidateID});
             this.listViewCandidates.Depth = 0;
             this.listViewCandidates.FullRowSelect = true;
             this.listViewCandidates.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -209,17 +209,17 @@
             this.listViewCandidates.UseCompatibleStateImageBehavior = false;
             this.listViewCandidates.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeader1
+            // columnHeaderCandidateHash
             // 
-            this.columnHeader1.Text = "Hash";
+            this.columnHeaderCandidateHash.Text = "Hash";
             // 
-            // columnHeader2
+            // columnHeaderCandidateName
             // 
-            this.columnHeader2.Text = "Name";
+            this.columnHeaderCandidateName.Text = "Name";
             // 
-            // columnHeader3
+            // columnHeaderCandidateID
             // 
-            this.columnHeader3.Text = "ID";
+            this.columnHeaderCandidateID.Text = "ID";
             // 
             // CreateVotingForm
             // 
@@ -256,11 +256,11 @@
         private MaterialSkin.Controls.MaterialLabel labelCandidates;
         private MaterialSkin.Controls.MaterialListView listViewSearchUsers;
         private MaterialSkin.Controls.MaterialListView listViewCandidates;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeaderCandidateHash;
+        private System.Windows.Forms.ColumnHeader columnHeaderCandidateName;
+        private System.Windows.Forms.ColumnHeader columnHeaderCandidateID;
+        private System.Windows.Forms.ColumnHeader columnHeaderUserHash;
+        private System.Windows.Forms.ColumnHeader columnHeaderUserName;
+        private System.Windows.Forms.ColumnHeader columnHeaderUserID;
     }
 }

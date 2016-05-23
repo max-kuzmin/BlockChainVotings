@@ -135,5 +135,30 @@ namespace BlockChainVotings
         }
 
 
+
+        static public void ChangeTheme()
+        {
+            colorSchemeIndex++;
+            if (colorSchemeIndex > 3) colorSchemeIndex = 0;
+
+            switch (colorSchemeIndex)
+            {
+                case 0:
+                    MaterialSkinManager.Instance.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+                    break;
+                case 1:
+                    MaterialSkinManager.Instance.ColorScheme = new ColorScheme(Primary.Indigo500, Primary.Indigo700, Primary.Indigo100, Accent.Pink200, TextShade.WHITE);
+                    break;
+                case 2:
+                    MaterialSkinManager.Instance.ColorScheme = new ColorScheme(Primary.Green600, Primary.Green700, Primary.Green200, Accent.Red100, TextShade.WHITE);
+                    break;
+                case 3:
+                    MaterialSkinManager.Instance.ColorScheme = new ColorScheme(Primary.Red600, Primary.Red900, Primary.Red300, Accent.Red100, TextShade.WHITE);
+                    break;
+            }
+        }
+
+        static private int colorSchemeIndex;
+
     }
 }

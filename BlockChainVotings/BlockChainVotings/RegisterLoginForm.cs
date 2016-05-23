@@ -31,6 +31,19 @@ namespace BlockChainVotings
                 tabControl1.SelectTab("tabPageLogin");
                 textBoxPublicKeyLogin.Text = VotingsUser.PublicKey;
 
+
+                this.Text = Properties.Resources.loginIntoNet;
+                labelPassLogin.Text = Properties.Resources.pass;
+                labelPasswordRegister.Text = Properties.Resources.pass;
+                labelPasswordRegister2.Text = Properties.Resources.passRepeat;
+                labelPrivateKeyRegister.Text = Properties.Resources.privateKey;
+                labelPublicKeyLogin.Text = Properties.Resources.userHash;
+                labelPublicKeyRegister.Text = Properties.Resources.userHash;
+                buttonLogin.Text = Properties.Resources.toLogin;
+                buttonRegister.Text = Properties.Resources.register;
+                tabPageLogin.Text = Properties.Resources.login;
+                tabPageRegister.Text = Properties.Resources.registration;
+
             }
             else
             {
@@ -111,5 +124,8 @@ namespace BlockChainVotings
                 }
             }
         }
+
+
+
     }
 }

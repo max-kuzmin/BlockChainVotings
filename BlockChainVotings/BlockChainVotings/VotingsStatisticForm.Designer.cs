@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.listViewCandidates = new MaterialSkin.Controls.MaterialListView();
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderVotes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labelCandidates = new MaterialSkin.Controls.MaterialLabel();
             this.comboBoxVoting = new MaterialSkin.Controls.MaterialListBox();
             this.labelChooseVoting = new MaterialSkin.Controls.MaterialLabel();
@@ -44,42 +44,43 @@
             // 
             // listViewCandidates
             // 
-            this.listViewCandidates.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listViewCandidates.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewCandidates.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader6,
-            this.columnHeader5,
-            this.columnHeader4,
-            this.columnHeader7});
+            this.columnHeaderID,
+            this.columnHeaderName,
+            this.columnHeaderHash,
+            this.columnHeaderVotes});
             this.listViewCandidates.Depth = 0;
+            this.listViewCandidates.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.listViewCandidates.FullRowSelect = true;
             this.listViewCandidates.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewCandidates.HideSelection = false;
-            this.listViewCandidates.Location = new System.Drawing.Point(603, 121);
+            this.listViewCandidates.Location = new System.Drawing.Point(604, 139);
             this.listViewCandidates.MouseLocation = new System.Drawing.Point(-1, -1);
             this.listViewCandidates.MouseState = MaterialSkin.MouseState.OUT;
             this.listViewCandidates.MultiSelect = false;
             this.listViewCandidates.Name = "listViewCandidates";
             this.listViewCandidates.OwnerDraw = true;
-            this.listViewCandidates.Size = new System.Drawing.Size(413, 97);
+            this.listViewCandidates.Size = new System.Drawing.Size(412, 159);
             this.listViewCandidates.TabIndex = 15;
             this.listViewCandidates.UseCompatibleStateImageBehavior = false;
             this.listViewCandidates.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeader6
+            // columnHeaderID
             // 
-            this.columnHeader6.Text = "ID";
+            this.columnHeaderID.Text = "ID";
             // 
-            // columnHeader5
+            // columnHeaderName
             // 
-            this.columnHeader5.Text = "Name";
+            this.columnHeaderName.Text = "Name";
             // 
-            // columnHeader4
+            // columnHeaderHash
             // 
-            this.columnHeader4.Text = "Hash";
+            this.columnHeaderHash.Text = "Hash";
             // 
-            // columnHeader7
+            // columnHeaderVotes
             // 
-            this.columnHeader7.Text = "Votes";
+            this.columnHeaderVotes.Text = "Votes";
             // 
             // labelCandidates
             // 
@@ -97,7 +98,7 @@
             // comboBoxVoting
             // 
             this.comboBoxVoting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.comboBoxVoting.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.comboBoxVoting.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.comboBoxVoting.Depth = 0;
             this.comboBoxVoting.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.comboBoxVoting.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -133,7 +134,7 @@
             this.labelVotingInfo.Name = "labelVotingInfo";
             this.labelVotingInfo.Size = new System.Drawing.Size(407, 27);
             this.labelVotingInfo.TabIndex = 0;
-            this.labelVotingInfo.Text = "В голосовании";
+            this.labelVotingInfo.Text = "In voting";
             this.labelVotingInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelCandidateName
@@ -159,7 +160,7 @@
             this.labelCandidateInfo.Name = "labelCandidateInfo";
             this.labelCandidateInfo.Size = new System.Drawing.Size(404, 23);
             this.labelCandidateInfo.TabIndex = 3;
-            this.labelCandidateInfo.Text = "Побеждает";
+            this.labelCandidateInfo.Text = "Wons";
             this.labelCandidateInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelVotingName
@@ -199,9 +200,9 @@
         #endregion
 
         private MaterialSkin.Controls.MaterialListView listViewCandidates;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeaderID;
+        private System.Windows.Forms.ColumnHeader columnHeaderName;
+        private System.Windows.Forms.ColumnHeader columnHeaderHash;
         private MaterialSkin.Controls.MaterialLabel labelCandidates;
         private MaterialSkin.Controls.MaterialListBox comboBoxVoting;
         private MaterialSkin.Controls.MaterialLabel labelChooseVoting;
@@ -209,6 +210,6 @@
         private MaterialSkin.Controls.MaterialLabel labelCandidateName;
         private MaterialSkin.Controls.MaterialLabel labelCandidateInfo;
         private MaterialSkin.Controls.MaterialLabel labelVotingName;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeaderVotes;
     }
 }

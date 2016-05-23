@@ -36,6 +36,7 @@
             this.button2 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.button3 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.button4 = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.materialRaisedButton1 = new MaterialSkin.Controls.MaterialRaisedButton();
             this.SuspendLayout();
             // 
             // textBoxTrackers
@@ -49,7 +50,9 @@
             // 
             // buttonStart
             // 
+            this.buttonStart.Depth = 0;
             this.buttonStart.Location = new System.Drawing.Point(179, 85);
+            this.buttonStart.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(140, 38);
             this.buttonStart.TabIndex = 1;
@@ -59,7 +62,9 @@
             // 
             // buttonStop
             // 
+            this.buttonStop.Depth = 0;
             this.buttonStop.Location = new System.Drawing.Point(325, 85);
+            this.buttonStop.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(140, 38);
             this.buttonStop.TabIndex = 2;
@@ -82,7 +87,9 @@
             // 
             // button1
             // 
+            this.button1.Depth = 0;
             this.button1.Location = new System.Drawing.Point(720, 85);
+            this.button1.MouseState = MaterialSkin.MouseState.HOVER;
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(67, 23);
             this.button1.TabIndex = 4;
@@ -92,7 +99,9 @@
             // 
             // button2
             // 
+            this.button2.Depth = 0;
             this.button2.Location = new System.Drawing.Point(602, 85);
+            this.button2.MouseState = MaterialSkin.MouseState.HOVER;
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(102, 23);
             this.button2.TabIndex = 5;
@@ -102,7 +111,9 @@
             // 
             // button3
             // 
+            this.button3.Depth = 0;
             this.button3.Location = new System.Drawing.Point(486, 73);
+            this.button3.MouseState = MaterialSkin.MouseState.HOVER;
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(110, 23);
             this.button3.TabIndex = 6;
@@ -112,7 +123,9 @@
             // 
             // button4
             // 
+            this.button4.Depth = 0;
             this.button4.Location = new System.Drawing.Point(486, 102);
+            this.button4.MouseState = MaterialSkin.MouseState.HOVER;
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(110, 23);
             this.button4.TabIndex = 7;
@@ -120,11 +133,25 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // materialRaisedButton1
+            // 
+            this.materialRaisedButton1.Depth = 0;
+            this.materialRaisedButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.materialRaisedButton1.Location = new System.Drawing.Point(688, 0);
+            this.materialRaisedButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButton1.Name = "materialRaisedButton1";
+            this.materialRaisedButton1.Size = new System.Drawing.Size(26, 24);
+            this.materialRaisedButton1.TabIndex = 13;
+            this.materialRaisedButton1.Text = "c";
+            this.materialRaisedButton1.UseVisualStyleBackColor = true;
+            this.materialRaisedButton1.Click += new System.EventHandler(this.materialRaisedButton1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(799, 466);
+            this.Controls.Add(this.materialRaisedButton1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -152,6 +179,7 @@
         private MaterialSkin.Controls.MaterialRaisedButton button2;
         private MaterialSkin.Controls.MaterialRaisedButton button3;
         private MaterialSkin.Controls.MaterialRaisedButton button4;
+        private MaterialSkin.Controls.MaterialRaisedButton materialRaisedButton1;
     }
 }
 

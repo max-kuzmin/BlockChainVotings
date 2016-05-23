@@ -23,6 +23,20 @@ namespace BlockChainVotings
             this.blockChain = blockChain;
 
             MaterialSkinManager.Instance.AddFormToManage(this);
+
+            this.Text = Properties.Resources.createVoting;
+            labelCandidates.Text = Properties.Resources.candidates;
+            labelSearchUser.Text = Properties.Resources.searchUser;
+            labelVotingName.Text = Properties.Resources.votingName;
+            buttonCreateVoting.Text = Properties.Resources.create;
+            buttonRemoveUser.Text = Properties.Resources.arrowLeft;
+            buttonAddUser.Text = Properties.Resources.arrowRight;
+            columnHeaderCandidateHash.Text = Properties.Resources.userHash;
+            columnHeaderCandidateName.Text = Properties.Resources.userName;
+            columnHeaderCandidateID.Text = Properties.Resources.userID;
+            columnHeaderUserHash.Text = Properties.Resources.userHash;
+            columnHeaderUserName.Text = Properties.Resources.userName;
+            columnHeaderUserID.Text = Properties.Resources.userID;
         }
 
         private void textBoxVotingName_TextChanged(object sender, EventArgs e)

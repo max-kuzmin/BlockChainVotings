@@ -25,6 +25,18 @@ namespace BlockChainVotings
 
             MaterialSkinManager.Instance.AddFormToManage(this);
 
+            this.Text = Properties.Resources.banUser;
+            labelCause.Text = Properties.Resources.cause;
+            labelSearchUser.Text = Properties.Resources.searchUser;
+            columnHeaderHash.Text = Properties.Resources.userHash;
+            columnHeaderName.Text = Properties.Resources.userName;
+            columnHeaderId.Text = Properties.Resources.userID;
+            buttonBan.Text = Properties.Resources.ban;
+            toolStripMenuItem1.Text = Properties.Resources.copyHash;
+
+
+            textBoxCause.BackColor = Color.MistyRose;
+
         }
 
         private void textBoxSearchUser_TextChanged(object sender, EventArgs e)
@@ -78,6 +90,14 @@ namespace BlockChainVotings
                 buttonBan.Enabled = true;
             else
                 buttonBan.Enabled = false;
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (listViewSearchUsers.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(listViewSearchUsers.SelectedItems[0].SubItems[0].Text);
+            }
         }
     }
 }
