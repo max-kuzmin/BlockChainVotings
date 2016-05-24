@@ -35,6 +35,9 @@ namespace BlockChainVotings
             columnHeaderID.Text = Properties.Resources.userHash;
             columnHeaderVotes.Text = Properties.Resources.votesCount;
 
+            toolStripMenuItem1.Text = Properties.Resources.copyHash;
+            toolStripMenuItem2.Text = Properties.Resources.copyHash;
+
         }
 
         private void ListViewCandidates_DrawItem(object sender, DrawListViewItemEventArgs e)
@@ -46,26 +49,28 @@ namespace BlockChainVotings
         private void comboBoxVoting_SelectedIndexChanged(object sender, EventArgs e)
         {
             listViewCandidates.Items.Clear();
-            Transaction tr;
+            Transaction tr = null;
+            Dictionary<Transaction, int> list = null;
 
             labelVotingName.Text = "...";
             labelCandidateName.Text = "...";
 
+            labelCandidateName.BackColor = Color.White;
+
             if (comboBoxVoting.SelectedItem != null)
             {
                 tr = ((comboBoxVoting.SelectedItem as ComboBoxItem).Value as Transaction);
-                labelVotingName.Text = "№" + tr.VotingNumber + " " + JObject.Parse(tr.Info)["name"] + " (" + tr.Date0.ToShortDateString() + ")";
+                labelVotingName.Text = "№" + tr.VotingNumber + " " + JObject.Parse(tr.Info)["name"] + "\n" + Properties.Resources.from + " " + tr.Date0.ToShortDateString() + ",\n" + tr.Hash;
             }
             else return;
 
-
-            var list = blockChain.GetCandidatesResults(tr);
+            if (tr!=null)
+                list = blockChain.GetCandidatesResults(tr);
 
             if (list == null)
             {
-                //MessageBox.Show("Для данного голосования загружены не все кандидаты.\nНеобходимо подождать синхронизации БД.", 
-                //    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                labelCandidateName.Text = "Для голосования загружены не все кандидаты. Необходимо подождать синхронизации БД.";
+                labelCandidateName.Text = Properties.Resources.waitDB;
+                labelCandidateName.BackColor = Color.MistyRose;
                 return;
             }
             else
@@ -78,10 +83,11 @@ namespace BlockChainVotings
 
                     string[] str = new string[4];
 
-                    str[3] = user.Value.ToString();
-                    str[2] = user.Key.RecieverHash;
+                    str[0] = user.Key.RecieverHash;
                     str[1] = jsonInfo["name"].Value<string>();
-                    str[0] = jsonInfo["id"].Value<string>();
+                    str[2] = jsonInfo["id"].Value<string>();
+                    str[3] = user.Value.ToString();
+
 
                     ListViewItem item = new ListViewItem(str);
 
@@ -90,20 +96,26 @@ namespace BlockChainVotings
                     sum += user.Value;
                 }
 
-                if (list.First().Value > list.Skip(1).First().Value)
-                {
-                    labelCandidateName.Text = listViewCandidates.Items[0].SubItems[1].Text + " (ID ";
-                    labelCandidateName.Text += listViewCandidates.Items[0].SubItems[0].Text + ")";
-                }
-
+               
                 string[] strSum = new string[4];
 
                 strSum[3] = sum.ToString();
-                strSum[2] = "Всего";
+                strSum[2] = Properties.Resources.total;
                 ListViewItem item2 = new ListViewItem(strSum);
                 item2.Font = new Font(FontFamily.GenericSansSerif, 8, FontStyle.Bold);
                 listViewCandidates.Items.Add(item2);
 
+            }
+
+
+            if (int.Parse(listViewCandidates.Items[0].SubItems[3].Text) > int.Parse(listViewCandidates.Items[1].SubItems[3].Text))
+            {
+                labelCandidateName.Text = listViewCandidates.Items[0].SubItems[1].Text + ",\n" + Properties.Resources.userID + " ";
+                labelCandidateName.Text += listViewCandidates.Items[0].SubItems[2].Text + ",\n" + listViewCandidates.Items[0].SubItems[3].Text;
+            }
+            else
+            {
+                labelCandidateName.Text = "-";
             }
         }
 
@@ -120,6 +132,30 @@ namespace BlockChainVotings
                 string line = item.VotingNumber + ". " + info["name"] + " (" + item.Date0.ToShortDateString() + ", hash: " + item.Hash + ")";
 
                 comboBoxVoting.Items.Add(new ComboBoxItem(line, item));
+            }
+        }
+
+        private void VotingsStatisticForm_Shown(object sender, EventArgs e)
+        {
+            labelCandidateInfo.Font = new Font("Arial", 12);
+            labelVotingInfo.Font = new Font("Arial", 12);
+            labelVotingName.Font = new Font("Arial", 12, FontStyle.Bold);
+            labelCandidateName.Font = new Font("Arial", 12, FontStyle.Bold);
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (comboBoxVoting.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(((comboBoxVoting.SelectedItems[0] as ComboBoxItem).Value as Transaction).Hash);
+            }
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (listViewCandidates.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(listViewCandidates.SelectedItems[0].SubItems[0].Text);
             }
         }
     }

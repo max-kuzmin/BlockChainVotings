@@ -29,14 +29,19 @@ namespace BlockChainVotings
             labelSearchUser.Text = Properties.Resources.searchUser;
             labelVotingName.Text = Properties.Resources.votingName;
             buttonCreateVoting.Text = Properties.Resources.create;
-            buttonRemoveUser.Text = Properties.Resources.arrowLeft;
-            buttonAddUser.Text = Properties.Resources.arrowRight;
+            buttonRemoveUser.Text = Properties.Resources.arrowUp;
+            buttonAddUser.Text = Properties.Resources.arrowDown;
             columnHeaderCandidateHash.Text = Properties.Resources.userHash;
             columnHeaderCandidateName.Text = Properties.Resources.userName;
             columnHeaderCandidateID.Text = Properties.Resources.userID;
             columnHeaderUserHash.Text = Properties.Resources.userHash;
             columnHeaderUserName.Text = Properties.Resources.userName;
             columnHeaderUserID.Text = Properties.Resources.userID;
+
+            toolStripMenuItem1.Text = Properties.Resources.copyHash;
+            toolStripMenuItem2.Text = Properties.Resources.copyHash;
+
+
         }
 
         private void textBoxVotingName_TextChanged(object sender, EventArgs e)
@@ -139,16 +144,41 @@ namespace BlockChainVotings
             if (listViewCandidates.Items.Count < 2)
             {
                 listViewCandidates.BackColor = Color.MistyRose;
+                foreach (ListViewItem item in listViewCandidates.Items)
+                {
+                    item.BackColor = Color.MistyRose;
+                }
             }
             else
             {
                 listViewCandidates.BackColor = Color.Honeydew;
+
+                foreach (ListViewItem item in listViewCandidates.Items)
+                {
+                    item.BackColor = Color.Honeydew;
+                }
             }
         }
 
         private void CreateVotingForm_Load(object sender, EventArgs e)
         {
             CheckCandidatesList();
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (listViewSearchUsers.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(listViewSearchUsers.SelectedItems[0].SubItems[0].Text);
+            }
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (listViewCandidates.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(listViewCandidates.SelectedItems[0].SubItems[0].Text);
+            }
         }
     }
 }

@@ -61,8 +61,8 @@
             this.listViewSearchUsers.MultiSelect = false;
             this.listViewSearchUsers.Name = "listViewSearchUsers";
             this.listViewSearchUsers.OwnerDraw = true;
-            this.listViewSearchUsers.Size = new System.Drawing.Size(558, 190);
-            this.listViewSearchUsers.TabIndex = 13;
+            this.listViewSearchUsers.Size = new System.Drawing.Size(560, 190);
+            this.listViewSearchUsers.TabIndex = 1;
             this.listViewSearchUsers.UseCompatibleStateImageBehavior = false;
             this.listViewSearchUsers.View = System.Windows.Forms.View.Details;
             this.listViewSearchUsers.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewSearchUsers_ItemSelectionChanged);
@@ -125,7 +125,7 @@
             this.textBoxSearchUser.SelectedText = "";
             this.textBoxSearchUser.SelectionLength = 0;
             this.textBoxSearchUser.SelectionStart = 0;
-            this.textBoxSearchUser.Size = new System.Drawing.Size(559, 25);
+            this.textBoxSearchUser.Size = new System.Drawing.Size(560, 25);
             this.textBoxSearchUser.TabIndex = 11;
             this.textBoxSearchUser.TabStop = false;
             this.textBoxSearchUser.UseSystemPasswordChar = false;
@@ -134,11 +134,11 @@
             // buttonBan
             // 
             this.buttonBan.Depth = 0;
-            this.buttonBan.Location = new System.Drawing.Point(78, 507);
+            this.buttonBan.Location = new System.Drawing.Point(256, 500);
             this.buttonBan.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonBan.Name = "buttonBan";
-            this.buttonBan.Size = new System.Drawing.Size(184, 31);
-            this.buttonBan.TabIndex = 14;
+            this.buttonBan.Size = new System.Drawing.Size(184, 35);
+            this.buttonBan.TabIndex = 3;
             this.buttonBan.Text = "Ban";
             this.buttonBan.UseVisualStyleBackColor = true;
             this.buttonBan.Click += new System.EventHandler(this.buttonBan_Click);
@@ -168,8 +168,8 @@
             this.textBoxCause.SelectedText = "";
             this.textBoxCause.SelectionLength = 0;
             this.textBoxCause.SelectionStart = 0;
-            this.textBoxCause.Size = new System.Drawing.Size(559, 25);
-            this.textBoxCause.TabIndex = 15;
+            this.textBoxCause.Size = new System.Drawing.Size(560, 25);
+            this.textBoxCause.TabIndex = 2;
             this.textBoxCause.TabStop = false;
             this.textBoxCause.UseSystemPasswordChar = false;
             this.textBoxCause.TextChanged += new System.EventHandler(this.textBoxCause_TextChanged);
@@ -186,9 +186,9 @@
             this.Controls.Add(this.labelSearchUser);
             this.Controls.Add(this.textBoxSearchUser);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(717, 565);
-            this.MinimumSize = new System.Drawing.Size(717, 565);
             this.Name = "BanUserForm";
+            this.Sizable = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "BanUserForm";
             this.materialContextMenuStripUser.ResumeLayout(false);
             this.ResumeLayout(false);

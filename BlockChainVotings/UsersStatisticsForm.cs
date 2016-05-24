@@ -49,6 +49,10 @@ namespace BlockChainVotings
             columnHeaderName.Text = Properties.Resources.userName;
 
 
+            toolStripMenuItemUser.Text = Properties.Resources.copyCandidate;
+            toolStripMenuItem2.Text = Properties.Resources.copyHash;
+            toolStripMenuItemVoting.Text = Properties.Resources.copyVoting;
+
 
             if (me)
             {
@@ -103,9 +107,9 @@ namespace BlockChainVotings
                     var jsonInfoCandidate = JObject.Parse(candidate.Info);
 
                     string[] str = new string[5];
-                    str[0] = "№ " + voting.Key.VotingNumber + " " + jsonInfoVoting["name"];
+                    str[0] = "№" + voting.Key.VotingNumber + " " + jsonInfoVoting["name"];
                     str[1] = voting.Key.Hash;
-                    str[2] = jsonInfoCandidate["name"] + " (ID " + jsonInfoCandidate["id"] + ")";
+                    str[2] = jsonInfoCandidate["name"] +"" /*+ ","+ Properties.Resources.userID + " " + jsonInfoCandidate["id"]*/;
                     str[3] = candidate.RecieverHash;
                     str[4] = voting.Value.Date0.ToString();
 
@@ -127,9 +131,9 @@ namespace BlockChainVotings
                 labelActivityVal.Text = lastVote == null ? "-" : lastVote.Date0.ToString();
 
                 if (ban == null)
-                    labelStatusVal.Text = "Active";
+                    labelStatusVal.Text = Properties.Resources.active;
                 else
-                    labelStatusVal.Text = "Banned at " + ban.Date0.ToString() + ". Reason: " + JObject.Parse(ban.Info)["cause"].Value<string>();
+                    labelStatusVal.Text = Properties.Resources.banned + " " + ban.Date0.ToString() + ". " + Properties.Resources.reason+": " + JObject.Parse(ban.Info)["cause"].Value<string>();
             }
 
         }
@@ -145,6 +149,35 @@ namespace BlockChainVotings
             labelHashVal.Text = "...";
             labelActivityVal.Text = "...";
             labelStatusVal.Text = "...";
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (listViewSearchUsers.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(listViewSearchUsers.SelectedItems[0].SubItems[0].Text);
+            }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (listViewVotings.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(listViewVotings.SelectedItems[0].SubItems[3].Text);
+            }
+        }
+
+        private void UsersStatisticsForm_Shown(object sender, EventArgs e)
+        {
+            labelUserInfo.Font = new Font("Arial", 10, FontStyle.Bold);
+        }
+
+        private void toolStripMenuItemVoting_Click(object sender, EventArgs e)
+        {
+            if (listViewVotings.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(listViewVotings.SelectedItems[0].SubItems[1].Text);
+            }
         }
     }
 }

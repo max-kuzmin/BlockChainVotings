@@ -36,6 +36,9 @@ namespace BlockChainVotings
             columnHeaderCandidateName.Text = Properties.Resources.userName;
             columnHeaderCandidateHash.Text = Properties.Resources.userHash;
             labelCandidate.Text = Properties.Resources.chooseCandidate;
+
+            toolStripMenuItem1.Text = Properties.Resources.copyHash;
+            toolStripMenuItem2.Text = Properties.Resources.copyHash;
         }
 
         private void SendVoteForm_Load(object sender, EventArgs e)
@@ -48,7 +51,7 @@ namespace BlockChainVotings
             foreach (var item in list)
             {
                 var info = JObject.Parse(item.Info);
-                string line = item.VotingNumber + ". " + info["name"] + " (" + item.Date0.ToShortDateString() + ", hash: " + item.Hash + ")";
+                string line = "№" + item.VotingNumber + " " + info["name"] + " " + Properties.Resources.from + " " + item.Date0.ToShortDateString();
 
                 comboBoxVoting.Items.Add(new ComboBoxItem(line, item));
             }
@@ -61,24 +64,25 @@ namespace BlockChainVotings
             listViewCandidates.Items.Clear();
             Transaction tr;
 
+            labelVotingName.Text = "...";
+            labelCandidateName.Text = "...";
+
             if (comboBoxVoting.SelectedItem != null)
             {
                 tr = ((comboBoxVoting.SelectedItem as ComboBoxItem).Value as Transaction);
-                labelVotingName.Text = "№" + tr.VotingNumber + " " + JObject.Parse(tr.Info)["name"] + " (" + tr.Date0.ToShortDateString() + ")"; ;
+                labelVotingName.Text = "№" + tr.VotingNumber + " " + JObject.Parse(tr.Info)["name"] + "\n" + Properties.Resources.from + " " + tr.Date0.ToShortDateString() + ",\n" + tr.Hash;
             }
-            else
-            {
-                labelVotingName.Text = "...";
-                return;
-            }
+            else return;
 
 
             var list = blockchain.GetCandidates(tr);
 
+            labelCandidateName.BackColor = Color.White;
+
             if (list == null)
             {
-                //MessageBox.Show("Для данного голосования загружены не все кандидаты.\nНеобходимо подождать синхронизации БД.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                labelCandidateName.Text = "Для голосования загружены не все кандидаты.Необходимо подождать синхронизации БД.";
+                labelCandidateName.Text = Properties.Resources.waitDB; 
+                labelCandidateName.BackColor = Color.MistyRose;
                 return;
             }
             else
@@ -88,9 +92,9 @@ namespace BlockChainVotings
                     var jsonInfo = JObject.Parse(user.Info);
 
                     string[] str = new string[3];
-                    str[2] = user.RecieverHash;
+                    str[0] = user.RecieverHash;
                     str[1] = jsonInfo["name"].Value<string>();
-                    str[0] = jsonInfo["id"].Value<string>();
+                    str[2] = jsonInfo["id"].Value<string>();
 
                     ListViewItem item = new ListViewItem(str);
 
@@ -104,8 +108,8 @@ namespace BlockChainVotings
             if (listViewCandidates.SelectedItems.Count == 1)
             {
 
-                labelCandidateName.Text = listViewCandidates.SelectedItems[0].SubItems[1].Text+ " (ID ";
-                labelCandidateName.Text += listViewCandidates.SelectedItems[0].SubItems[0].Text + ")";
+                labelCandidateName.Text = listViewCandidates.SelectedItems[0].SubItems[1].Text + ",\n" + Properties.Resources.userID +" ";
+                labelCandidateName.Text += listViewCandidates.SelectedItems[0].SubItems[2].Text + ",\n" + listViewCandidates.SelectedItems[0].SubItems[0].Text;
 
             }
 
@@ -129,6 +133,30 @@ namespace BlockChainVotings
             checkBoxAgree.Checked = false;
 
             SendVoteForm_Load(this, new EventArgs());
+        }
+
+        private void SendVoteForm_Shown(object sender, EventArgs e)
+        {
+            labelCandidateInfo.Font = new Font("Arial", 12);
+            labelVotingInfo.Font = new Font("Arial", 12); 
+            labelVotingName.Font = new Font("Arial", 12, FontStyle.Bold);
+            labelCandidateName.Font = new Font("Arial", 12, FontStyle.Bold);
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (comboBoxVoting.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(((comboBoxVoting.SelectedItems[0] as ComboBoxItem).Value as Transaction).Hash);
+            }
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (listViewCandidates.SelectedItems.Count == 1)
+            {
+                Clipboard.SetText(listViewCandidates.SelectedItems[0].SubItems[0].Text);
+            }
         }
     }
 

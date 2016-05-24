@@ -120,11 +120,11 @@
   <data name="agree" xml:space="preserve">
     <value>Подтверждаю</value>
   </data>
-  <data name="arrowLeft" xml:space="preserve">
-    <value>←</value>
+  <data name="arrowUp" xml:space="preserve">
+    <value>↑</value>
   </data>
-  <data name="arrowRight" xml:space="preserve">
-    <value>→</value>
+  <data name="arrowDown" xml:space="preserve">
+    <value>↓</value>
   </data>
   <data name="ban" xml:space="preserve">
     <value>Заблокировать</value>
@@ -169,10 +169,10 @@
     <value>В голосовании</value>
   </data>
   <data name="iVoteFor" xml:space="preserve">
-    <value>И проголосовать за кандидата</value>
+    <value>и проголосовать за кандидата</value>
   </data>
   <data name="lastActivity" xml:space="preserve">
-    <value>Последняя активность</value>
+    <value>Посл. активность</value>
   </data>
   <data name="login" xml:space="preserve">
     <value>Вход</value>
@@ -190,7 +190,7 @@
     <value>Секретный ключ</value>
   </data>
   <data name="regDate" xml:space="preserve">
-    <value>Дата регистрации</value>
+    <value>Дата регистр.</value>
   </data>
   <data name="register" xml:space="preserve">
     <value>Зарегистрироваться</value>
@@ -247,12 +247,36 @@
     <value>Название</value>
   </data>
   <data name="votingsCount" xml:space="preserve">
-    <value>Количество голосований</value>
+    <value>Кол-во голосований</value>
   </data>
   <data name="votingsStatistics" xml:space="preserve">
     <value>Статистика по голосованиям</value>
   </data>
   <data name="wons" xml:space="preserve">
-    <value>Одерживает победу</value>
+    <value>одерживает победу кандидат</value>
+  </data>
+  <data name="from" xml:space="preserve">
+    <value>от</value>
+  </data>
+  <data name="waitDB" xml:space="preserve">
+    <value>Для голосования загружены не все кандидаты. Дождитесь синхронизации базы данных.</value>
+  </data>
+  <data name="total" xml:space="preserve">
+    <value>Всего</value>
+  </data>
+  <data name="active" xml:space="preserve">
+    <value>Активный</value>
+  </data>
+  <data name="banned" xml:space="preserve">
+    <value>Заблокирован</value>
+  </data>
+  <data name="copyCandidate" xml:space="preserve">
+    <value>Копировать хеш кандидата</value>
+  </data>
+  <data name="copyVoting" xml:space="preserve">
+    <value>Копировать хеш голосования</value>
+  </data>
+  <data name="reason" xml:space="preserve">
+    <value>Причина</value>
   </data>
 </root>
