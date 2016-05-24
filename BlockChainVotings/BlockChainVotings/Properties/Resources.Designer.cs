@@ -61,6 +61,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Активный.
+        /// </summary>
+        internal static string active {
+            get {
+                return ResourceManager.GetString("active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Подтверждаю.
         /// </summary>
         internal static string agree {
@@ -70,20 +79,20 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на ←.
+        ///   Ищет локализованную строку, похожую на ↓.
         /// </summary>
-        internal static string arrowLeft {
+        internal static string arrowDown {
             get {
-                return ResourceManager.GetString("arrowLeft", resourceCulture);
+                return ResourceManager.GetString("arrowDown", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на →.
+        ///   Ищет локализованную строку, похожую на ↑.
         /// </summary>
-        internal static string arrowRight {
+        internal static string arrowUp {
             get {
-                return ResourceManager.GetString("arrowRight", resourceCulture);
+                return ResourceManager.GetString("arrowUp", resourceCulture);
             }
         }
         
@@ -93,6 +102,15 @@ namespace BlockChainVotings.Properties {
         internal static string ban {
             get {
                 return ResourceManager.GetString("ban", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Заблокирован.
+        /// </summary>
+        internal static string banned {
+            get {
+                return ResourceManager.GetString("banned", resourceCulture);
             }
         }
         
@@ -160,11 +178,29 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Копировать хеш кандидата.
+        /// </summary>
+        internal static string copyCandidate {
+            get {
+                return ResourceManager.GetString("copyCandidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Копировать хеш.
         /// </summary>
         internal static string copyHash {
             get {
                 return ResourceManager.GetString("copyHash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Копировать хеш голосования.
+        /// </summary>
+        internal static string copyVoting {
+            get {
+                return ResourceManager.GetString("copyVoting", resourceCulture);
             }
         }
         
@@ -196,6 +232,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на от.
+        /// </summary>
+        internal static string from {
+            get {
+                return ResourceManager.GetString("from", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Генерировать ключи.
         /// </summary>
         internal static string generateKeys {
@@ -214,7 +259,7 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на И проголосовать за кандидата.
+        ///   Ищет локализованную строку, похожую на и проголосовать за кандидата.
         /// </summary>
         internal static string iVoteFor {
             get {
@@ -223,7 +268,7 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Последняя активность.
+        ///   Ищет локализованную строку, похожую на Посл. активность.
         /// </summary>
         internal static string lastActivity {
             get {
@@ -277,7 +322,16 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Дата регистрации.
+        ///   Ищет локализованную строку, похожую на Причина.
+        /// </summary>
+        internal static string reason {
+            get {
+                return ResourceManager.GetString("reason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Дата регистр..
         /// </summary>
         internal static string regDate {
             get {
@@ -336,6 +390,15 @@ namespace BlockChainVotings.Properties {
         internal static string toLogin {
             get {
                 return ResourceManager.GetString("toLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Всего.
+        /// </summary>
+        internal static string total {
+            get {
+                return ResourceManager.GetString("total", resourceCulture);
             }
         }
         
@@ -448,7 +511,7 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Количество голосований.
+        ///   Ищет локализованную строку, похожую на Кол-во голосований.
         /// </summary>
         internal static string votingsCount {
             get {
@@ -466,7 +529,16 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Одерживает победу.
+        ///   Ищет локализованную строку, похожую на Для голосования загружены не все кандидаты. Дождитесь синхронизации базы данных..
+        /// </summary>
+        internal static string waitDB {
+            get {
+                return ResourceManager.GetString("waitDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на одерживает победу кандидат.
         /// </summary>
         internal static string wons {
             get {

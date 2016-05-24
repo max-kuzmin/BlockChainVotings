@@ -35,8 +35,6 @@ namespace BlockChainVotings
             toolStripMenuItem1.Text = Properties.Resources.copyHash;
 
 
-            textBoxCause.BackColor = Color.MistyRose;
-
         }
 
         private void textBoxSearchUser_TextChanged(object sender, EventArgs e)

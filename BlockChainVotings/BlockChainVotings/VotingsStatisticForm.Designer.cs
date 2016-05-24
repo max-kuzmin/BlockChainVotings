@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.listViewCandidates = new MaterialSkin.Controls.MaterialListView();
-            this.columnHeaderID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderVotes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.labelCandidates = new MaterialSkin.Controls.MaterialLabel();
             this.comboBoxVoting = new MaterialSkin.Controls.MaterialListBox();
@@ -40,47 +40,58 @@
             this.labelCandidateName = new MaterialSkin.Controls.MaterialLabel();
             this.labelCandidateInfo = new MaterialSkin.Controls.MaterialLabel();
             this.labelVotingName = new MaterialSkin.Controls.MaterialLabel();
+            this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
+            this.materialContextMenuStripCandidate = new MaterialSkin.Controls.MaterialContextMenuStrip();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.materialContextMenuStripVoting = new MaterialSkin.Controls.MaterialContextMenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.materialContextMenuStripCandidate.SuspendLayout();
+            this.materialContextMenuStripVoting.SuspendLayout();
             this.SuspendLayout();
             // 
             // listViewCandidates
             // 
             this.listViewCandidates.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewCandidates.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderID,
-            this.columnHeaderName,
             this.columnHeaderHash,
+            this.columnHeaderName,
+            this.columnHeaderID,
             this.columnHeaderVotes});
+            this.listViewCandidates.ContextMenuStrip = this.materialContextMenuStripCandidate;
             this.listViewCandidates.Depth = 0;
             this.listViewCandidates.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.listViewCandidates.FullRowSelect = true;
             this.listViewCandidates.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewCandidates.HideSelection = false;
-            this.listViewCandidates.Location = new System.Drawing.Point(604, 139);
+            this.listViewCandidates.Location = new System.Drawing.Point(71, 362);
             this.listViewCandidates.MouseLocation = new System.Drawing.Point(-1, -1);
             this.listViewCandidates.MouseState = MaterialSkin.MouseState.OUT;
             this.listViewCandidates.MultiSelect = false;
             this.listViewCandidates.Name = "listViewCandidates";
             this.listViewCandidates.OwnerDraw = true;
-            this.listViewCandidates.Size = new System.Drawing.Size(412, 159);
+            this.listViewCandidates.Size = new System.Drawing.Size(591, 236);
             this.listViewCandidates.TabIndex = 15;
             this.listViewCandidates.UseCompatibleStateImageBehavior = false;
             this.listViewCandidates.View = System.Windows.Forms.View.Details;
             // 
-            // columnHeaderID
+            // columnHeaderHash
             // 
-            this.columnHeaderID.Text = "ID";
+            this.columnHeaderHash.Text = "Hash";
+            this.columnHeaderHash.Width = 130;
             // 
             // columnHeaderName
             // 
             this.columnHeaderName.Text = "Name";
+            this.columnHeaderName.Width = 230;
             // 
-            // columnHeaderHash
+            // columnHeaderID
             // 
-            this.columnHeaderHash.Text = "Hash";
+            this.columnHeaderID.Text = "ID";
+            this.columnHeaderID.Width = 130;
             // 
             // columnHeaderVotes
             // 
             this.columnHeaderVotes.Text = "Votes";
+            this.columnHeaderVotes.Width = 90;
             // 
             // labelCandidates
             // 
@@ -88,7 +99,7 @@
             this.labelCandidates.Depth = 0;
             this.labelCandidates.Font = new System.Drawing.Font("Arial", 10F);
             this.labelCandidates.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelCandidates.Location = new System.Drawing.Point(600, 101);
+            this.labelCandidates.Location = new System.Drawing.Point(67, 324);
             this.labelCandidates.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelCandidates.Name = "labelCandidates";
             this.labelCandidates.Size = new System.Drawing.Size(91, 19);
@@ -99,15 +110,16 @@
             // 
             this.comboBoxVoting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.comboBoxVoting.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.comboBoxVoting.ContextMenuStrip = this.materialContextMenuStripVoting;
             this.comboBoxVoting.Depth = 0;
             this.comboBoxVoting.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.comboBoxVoting.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.comboBoxVoting.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.comboBoxVoting.FormattingEnabled = true;
-            this.comboBoxVoting.Location = new System.Drawing.Point(78, 123);
+            this.comboBoxVoting.Location = new System.Drawing.Point(71, 140);
             this.comboBoxVoting.MouseLocation = new System.Drawing.Point(-1, -1);
             this.comboBoxVoting.MouseState = MaterialSkin.MouseState.HOVER;
             this.comboBoxVoting.Name = "comboBoxVoting";
-            this.comboBoxVoting.Size = new System.Drawing.Size(450, 310);
+            this.comboBoxVoting.Size = new System.Drawing.Size(591, 150);
             this.comboBoxVoting.TabIndex = 13;
             this.comboBoxVoting.SelectedIndexChanged += new System.EventHandler(this.comboBoxVoting_SelectedIndexChanged);
             // 
@@ -117,7 +129,7 @@
             this.labelChooseVoting.Depth = 0;
             this.labelChooseVoting.Font = new System.Drawing.Font("Arial", 10F);
             this.labelChooseVoting.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelChooseVoting.Location = new System.Drawing.Point(74, 101);
+            this.labelChooseVoting.Location = new System.Drawing.Point(67, 102);
             this.labelChooseVoting.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelChooseVoting.Name = "labelChooseVoting";
             this.labelChooseVoting.Size = new System.Drawing.Size(112, 19);
@@ -129,10 +141,10 @@
             this.labelVotingInfo.Depth = 0;
             this.labelVotingInfo.Font = new System.Drawing.Font("Arial", 10F);
             this.labelVotingInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelVotingInfo.Location = new System.Drawing.Point(609, 332);
+            this.labelVotingInfo.Location = new System.Drawing.Point(750, 168);
             this.labelVotingInfo.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelVotingInfo.Name = "labelVotingInfo";
-            this.labelVotingInfo.Size = new System.Drawing.Size(407, 27);
+            this.labelVotingInfo.Size = new System.Drawing.Size(373, 27);
             this.labelVotingInfo.TabIndex = 0;
             this.labelVotingInfo.Text = "In voting";
             this.labelVotingInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -142,10 +154,10 @@
             this.labelCandidateName.Depth = 0;
             this.labelCandidateName.Font = new System.Drawing.Font("Arial", 10F);
             this.labelCandidateName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelCandidateName.Location = new System.Drawing.Point(612, 449);
+            this.labelCandidateName.Location = new System.Drawing.Point(750, 387);
             this.labelCandidateName.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelCandidateName.Name = "labelCandidateName";
-            this.labelCandidateName.Size = new System.Drawing.Size(404, 46);
+            this.labelCandidateName.Size = new System.Drawing.Size(373, 80);
             this.labelCandidateName.TabIndex = 4;
             this.labelCandidateName.Text = "...";
             this.labelCandidateName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -155,10 +167,10 @@
             this.labelCandidateInfo.Depth = 0;
             this.labelCandidateInfo.Font = new System.Drawing.Font("Arial", 10F);
             this.labelCandidateInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelCandidateInfo.Location = new System.Drawing.Point(612, 407);
+            this.labelCandidateInfo.Location = new System.Drawing.Point(750, 350);
             this.labelCandidateInfo.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelCandidateInfo.Name = "labelCandidateInfo";
-            this.labelCandidateInfo.Size = new System.Drawing.Size(404, 23);
+            this.labelCandidateInfo.Size = new System.Drawing.Size(373, 23);
             this.labelCandidateInfo.TabIndex = 3;
             this.labelCandidateInfo.Text = "Wons";
             this.labelCandidateInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -168,19 +180,67 @@
             this.labelVotingName.Depth = 0;
             this.labelVotingName.Font = new System.Drawing.Font("Arial", 10F);
             this.labelVotingName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelVotingName.Location = new System.Drawing.Point(612, 368);
+            this.labelVotingName.Location = new System.Drawing.Point(750, 210);
             this.labelVotingName.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelVotingName.Name = "labelVotingName";
-            this.labelVotingName.Size = new System.Drawing.Size(404, 23);
+            this.labelVotingName.Size = new System.Drawing.Size(373, 80);
             this.labelVotingName.TabIndex = 1;
             this.labelVotingName.Text = "...";
             this.labelVotingName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // materialDivider1
+            // 
+            this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialDivider1.Depth = 0;
+            this.materialDivider1.Location = new System.Drawing.Point(699, 102);
+            this.materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialDivider1.Name = "materialDivider1";
+            this.materialDivider1.Size = new System.Drawing.Size(10, 516);
+            this.materialDivider1.TabIndex = 16;
+            this.materialDivider1.Text = "materialDivider1";
+            // 
+            // materialContextMenuStripCandidate
+            // 
+            this.materialContextMenuStripCandidate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialContextMenuStripCandidate.Depth = 0;
+            this.materialContextMenuStripCandidate.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.materialContextMenuStripCandidate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.materialContextMenuStripCandidate.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialContextMenuStripCandidate.Name = "materialContextMenuStripUser";
+            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(182, 58);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 26);
+            this.toolStripMenuItem2.Text = "Copy";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // materialContextMenuStripVoting
+            // 
+            this.materialContextMenuStripVoting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialContextMenuStripVoting.Depth = 0;
+            this.materialContextMenuStripVoting.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.materialContextMenuStripVoting.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.materialContextMenuStripVoting.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialContextMenuStripVoting.Name = "materialContextMenuStripUser";
+            this.materialContextMenuStripVoting.Size = new System.Drawing.Size(119, 30);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
+            this.toolStripMenuItem1.Text = "Copy";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // VotingsStatisticForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1106, 794);
+            this.ClientSize = new System.Drawing.Size(1183, 665);
+            this.Controls.Add(this.materialDivider1);
             this.Controls.Add(this.labelCandidateName);
             this.Controls.Add(this.labelCandidateInfo);
             this.Controls.Add(this.labelVotingName);
@@ -190,8 +250,13 @@
             this.Controls.Add(this.comboBoxVoting);
             this.Controls.Add(this.labelChooseVoting);
             this.Name = "VotingsStatisticForm";
+            this.Sizable = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "VotingsStatisticForm";
             this.Load += new System.EventHandler(this.VotingsStatisticForm_Load);
+            this.Shown += new System.EventHandler(this.VotingsStatisticForm_Shown);
+            this.materialContextMenuStripCandidate.ResumeLayout(false);
+            this.materialContextMenuStripVoting.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,5 +276,10 @@
         private MaterialSkin.Controls.MaterialLabel labelCandidateInfo;
         private MaterialSkin.Controls.MaterialLabel labelVotingName;
         private System.Windows.Forms.ColumnHeader columnHeaderVotes;
+        private MaterialSkin.Controls.MaterialDivider materialDivider1;
+        private MaterialSkin.Controls.MaterialContextMenuStrip materialContextMenuStripCandidate;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private MaterialSkin.Controls.MaterialContextMenuStrip materialContextMenuStripVoting;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }

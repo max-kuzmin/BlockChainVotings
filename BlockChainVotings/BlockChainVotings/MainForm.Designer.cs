@@ -160,7 +160,9 @@
             this.Controls.Add(this.buttonStop);
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.textBoxTrackers);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.Sizable = false;
             this.Text = "BlockChainVotings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);

@@ -44,16 +44,22 @@
             this.columnHeaderCandidateHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCandidateName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCandidateID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.materialContextMenuStripUser = new MaterialSkin.Controls.MaterialContextMenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.materialContextMenuStripCandidate = new MaterialSkin.Controls.MaterialContextMenuStrip();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.materialContextMenuStripUser.SuspendLayout();
+            this.materialContextMenuStripCandidate.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonCreateVoting
             // 
             this.buttonCreateVoting.Depth = 0;
-            this.buttonCreateVoting.Location = new System.Drawing.Point(180, 363);
+            this.buttonCreateVoting.Location = new System.Drawing.Point(239, 661);
             this.buttonCreateVoting.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonCreateVoting.Name = "buttonCreateVoting";
-            this.buttonCreateVoting.Size = new System.Drawing.Size(225, 31);
-            this.buttonCreateVoting.TabIndex = 0;
+            this.buttonCreateVoting.Size = new System.Drawing.Size(225, 35);
+            this.buttonCreateVoting.TabIndex = 6;
             this.buttonCreateVoting.Text = "Create voting";
             this.buttonCreateVoting.UseVisualStyleBackColor = true;
             this.buttonCreateVoting.Click += new System.EventHandler(this.buttonCreate_Click);
@@ -64,7 +70,7 @@
             this.labelVotingName.Depth = 0;
             this.labelVotingName.Font = new System.Drawing.Font("Arial", 10F);
             this.labelVotingName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelVotingName.Location = new System.Drawing.Point(41, 102);
+            this.labelVotingName.Location = new System.Drawing.Point(79, 101);
             this.labelVotingName.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelVotingName.Name = "labelVotingName";
             this.labelVotingName.Size = new System.Drawing.Size(96, 19);
@@ -75,7 +81,7 @@
             // 
             this.textBoxVotingName.Depth = 0;
             this.textBoxVotingName.Hint = "";
-            this.textBoxVotingName.Location = new System.Drawing.Point(132, 99);
+            this.textBoxVotingName.Location = new System.Drawing.Point(83, 133);
             this.textBoxVotingName.MaxLength = 32767;
             this.textBoxVotingName.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxVotingName.Name = "textBoxVotingName";
@@ -83,8 +89,8 @@
             this.textBoxVotingName.SelectedText = "";
             this.textBoxVotingName.SelectionLength = 0;
             this.textBoxVotingName.SelectionStart = 0;
-            this.textBoxVotingName.Size = new System.Drawing.Size(413, 25);
-            this.textBoxVotingName.TabIndex = 2;
+            this.textBoxVotingName.Size = new System.Drawing.Size(560, 25);
+            this.textBoxVotingName.TabIndex = 0;
             this.textBoxVotingName.TabStop = false;
             this.textBoxVotingName.UseSystemPasswordChar = false;
             this.textBoxVotingName.TextChanged += new System.EventHandler(this.textBoxVotingName_TextChanged);
@@ -93,7 +99,7 @@
             // 
             this.textBoxSearchUser.Depth = 0;
             this.textBoxSearchUser.Hint = "";
-            this.textBoxSearchUser.Location = new System.Drawing.Point(44, 168);
+            this.textBoxSearchUser.Location = new System.Drawing.Point(83, 212);
             this.textBoxSearchUser.MaxLength = 32767;
             this.textBoxSearchUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxSearchUser.Name = "textBoxSearchUser";
@@ -101,8 +107,8 @@
             this.textBoxSearchUser.SelectedText = "";
             this.textBoxSearchUser.SelectionLength = 0;
             this.textBoxSearchUser.SelectionStart = 0;
-            this.textBoxSearchUser.Size = new System.Drawing.Size(218, 25);
-            this.textBoxSearchUser.TabIndex = 4;
+            this.textBoxSearchUser.Size = new System.Drawing.Size(560, 25);
+            this.textBoxSearchUser.TabIndex = 1;
             this.textBoxSearchUser.TabStop = false;
             this.textBoxSearchUser.UseSystemPasswordChar = false;
             this.textBoxSearchUser.TextChanged += new System.EventHandler(this.textBoxSearchUser_TextChanged);
@@ -113,7 +119,7 @@
             this.labelSearchUser.Depth = 0;
             this.labelSearchUser.Font = new System.Drawing.Font("Arial", 10F);
             this.labelSearchUser.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelSearchUser.Location = new System.Drawing.Point(41, 148);
+            this.labelSearchUser.Location = new System.Drawing.Point(79, 180);
             this.labelSearchUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelSearchUser.Name = "labelSearchUser";
             this.labelSearchUser.Size = new System.Drawing.Size(96, 19);
@@ -123,11 +129,11 @@
             // buttonAddUser
             // 
             this.buttonAddUser.Depth = 0;
-            this.buttonAddUser.Location = new System.Drawing.Point(274, 239);
+            this.buttonAddUser.Location = new System.Drawing.Point(295, 422);
             this.buttonAddUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonAddUser.Name = "buttonAddUser";
-            this.buttonAddUser.Size = new System.Drawing.Size(34, 23);
-            this.buttonAddUser.TabIndex = 7;
+            this.buttonAddUser.Size = new System.Drawing.Size(40, 30);
+            this.buttonAddUser.TabIndex = 3;
             this.buttonAddUser.Text = "=>";
             this.buttonAddUser.UseVisualStyleBackColor = true;
             this.buttonAddUser.Click += new System.EventHandler(this.buttonAddUser_Click);
@@ -135,11 +141,11 @@
             // buttonRemoveUser
             // 
             this.buttonRemoveUser.Depth = 0;
-            this.buttonRemoveUser.Location = new System.Drawing.Point(274, 268);
+            this.buttonRemoveUser.Location = new System.Drawing.Point(375, 422);
             this.buttonRemoveUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonRemoveUser.Name = "buttonRemoveUser";
-            this.buttonRemoveUser.Size = new System.Drawing.Size(34, 23);
-            this.buttonRemoveUser.TabIndex = 8;
+            this.buttonRemoveUser.Size = new System.Drawing.Size(40, 30);
+            this.buttonRemoveUser.TabIndex = 4;
             this.buttonRemoveUser.Text = "<=";
             this.buttonRemoveUser.UseVisualStyleBackColor = true;
             this.buttonRemoveUser.Click += new System.EventHandler(this.buttonRemoveUser_Click);
@@ -150,7 +156,7 @@
             this.labelCandidates.Depth = 0;
             this.labelCandidates.Font = new System.Drawing.Font("Arial", 10F);
             this.labelCandidates.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelCandidates.Location = new System.Drawing.Point(324, 197);
+            this.labelCandidates.Location = new System.Drawing.Point(79, 442);
             this.labelCandidates.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelCandidates.Name = "labelCandidates";
             this.labelCandidates.Size = new System.Drawing.Size(91, 19);
@@ -164,30 +170,35 @@
             this.columnHeaderUserHash,
             this.columnHeaderUserName,
             this.columnHeaderUserID});
+            this.listViewSearchUsers.ContextMenuStrip = this.materialContextMenuStripUser;
             this.listViewSearchUsers.Depth = 0;
+            this.listViewSearchUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.listViewSearchUsers.FullRowSelect = true;
             this.listViewSearchUsers.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewSearchUsers.Location = new System.Drawing.Point(44, 220);
+            this.listViewSearchUsers.Location = new System.Drawing.Point(83, 255);
             this.listViewSearchUsers.MouseLocation = new System.Drawing.Point(-1, -1);
             this.listViewSearchUsers.MouseState = MaterialSkin.MouseState.OUT;
             this.listViewSearchUsers.Name = "listViewSearchUsers";
             this.listViewSearchUsers.OwnerDraw = true;
-            this.listViewSearchUsers.Size = new System.Drawing.Size(218, 97);
-            this.listViewSearchUsers.TabIndex = 10;
+            this.listViewSearchUsers.Size = new System.Drawing.Size(560, 150);
+            this.listViewSearchUsers.TabIndex = 2;
             this.listViewSearchUsers.UseCompatibleStateImageBehavior = false;
             this.listViewSearchUsers.View = System.Windows.Forms.View.Details;
             // 
             // columnHeaderUserHash
             // 
             this.columnHeaderUserHash.Text = "Hash";
+            this.columnHeaderUserHash.Width = 150;
             // 
             // columnHeaderUserName
             // 
             this.columnHeaderUserName.Text = "Name";
+            this.columnHeaderUserName.Width = 250;
             // 
             // columnHeaderUserID
             // 
             this.columnHeaderUserID.Text = "ID";
+            this.columnHeaderUserID.Width = 150;
             // 
             // listViewCandidates
             // 
@@ -196,36 +207,77 @@
             this.columnHeaderCandidateHash,
             this.columnHeaderCandidateName,
             this.columnHeaderCandidateID});
+            this.listViewCandidates.ContextMenuStrip = this.materialContextMenuStripCandidate;
             this.listViewCandidates.Depth = 0;
+            this.listViewCandidates.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.listViewCandidates.FullRowSelect = true;
             this.listViewCandidates.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewCandidates.Location = new System.Drawing.Point(327, 220);
+            this.listViewCandidates.Location = new System.Drawing.Point(83, 471);
             this.listViewCandidates.MouseLocation = new System.Drawing.Point(-1, -1);
             this.listViewCandidates.MouseState = MaterialSkin.MouseState.OUT;
             this.listViewCandidates.Name = "listViewCandidates";
             this.listViewCandidates.OwnerDraw = true;
-            this.listViewCandidates.Size = new System.Drawing.Size(218, 97);
-            this.listViewCandidates.TabIndex = 11;
+            this.listViewCandidates.Size = new System.Drawing.Size(560, 150);
+            this.listViewCandidates.TabIndex = 5;
             this.listViewCandidates.UseCompatibleStateImageBehavior = false;
             this.listViewCandidates.View = System.Windows.Forms.View.Details;
             // 
             // columnHeaderCandidateHash
             // 
             this.columnHeaderCandidateHash.Text = "Hash";
+            this.columnHeaderCandidateHash.Width = 150;
             // 
             // columnHeaderCandidateName
             // 
             this.columnHeaderCandidateName.Text = "Name";
+            this.columnHeaderCandidateName.Width = 250;
             // 
             // columnHeaderCandidateID
             // 
             this.columnHeaderCandidateID.Text = "ID";
+            this.columnHeaderCandidateID.Width = 150;
+            // 
+            // materialContextMenuStripUser
+            // 
+            this.materialContextMenuStripUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialContextMenuStripUser.Depth = 0;
+            this.materialContextMenuStripUser.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.materialContextMenuStripUser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.materialContextMenuStripUser.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialContextMenuStripUser.Name = "materialContextMenuStripUser";
+            this.materialContextMenuStripUser.Size = new System.Drawing.Size(119, 30);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
+            this.toolStripMenuItem1.Text = "Copy";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // materialContextMenuStripCandidate
+            // 
+            this.materialContextMenuStripCandidate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialContextMenuStripCandidate.Depth = 0;
+            this.materialContextMenuStripCandidate.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.materialContextMenuStripCandidate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.materialContextMenuStripCandidate.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialContextMenuStripCandidate.Name = "materialContextMenuStripUser";
+            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(182, 58);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 26);
+            this.toolStripMenuItem2.Text = "Copy";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // CreateVotingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(591, 446);
+            this.ClientSize = new System.Drawing.Size(727, 740);
             this.Controls.Add(this.listViewCandidates);
             this.Controls.Add(this.listViewSearchUsers);
             this.Controls.Add(this.labelCandidates);
@@ -236,9 +288,14 @@
             this.Controls.Add(this.textBoxVotingName);
             this.Controls.Add(this.labelVotingName);
             this.Controls.Add(this.buttonCreateVoting);
+            this.MaximizeBox = false;
             this.Name = "CreateVotingForm";
+            this.Sizable = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CreateVoting";
             this.Load += new System.EventHandler(this.CreateVotingForm_Load);
+            this.materialContextMenuStripUser.ResumeLayout(false);
+            this.materialContextMenuStripCandidate.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -262,5 +319,9 @@
         private System.Windows.Forms.ColumnHeader columnHeaderUserHash;
         private System.Windows.Forms.ColumnHeader columnHeaderUserName;
         private System.Windows.Forms.ColumnHeader columnHeaderUserID;
+        private MaterialSkin.Controls.MaterialContextMenuStrip materialContextMenuStripUser;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private MaterialSkin.Controls.MaterialContextMenuStrip materialContextMenuStripCandidate;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }
