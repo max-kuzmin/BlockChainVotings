@@ -61,6 +61,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Copyright © 2016 Maxim Kuzmin, ISPU.
+        /// </summary>
+        internal static string about {
+            get {
+                return ResourceManager.GetString("about", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Активный.
         /// </summary>
         internal static string active {
@@ -124,6 +133,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Блоки.
+        /// </summary>
+        internal static string blocks {
+            get {
+                return ResourceManager.GetString("blocks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Хеш кандидата.
         /// </summary>
         internal static string candidateHash {
@@ -160,6 +178,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Сменить оформление.
+        /// </summary>
+        internal static string changeTheme {
+            get {
+                return ResourceManager.GetString("changeTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Выбор кандидата.
         /// </summary>
         internal static string chooseCandidate {
@@ -174,6 +201,33 @@ namespace BlockChainVotings.Properties {
         internal static string chooseVoting {
             get {
                 return ResourceManager.GetString("chooseVoting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Подкл. пиры.
+        /// </summary>
+        internal static string connectedPeers {
+            get {
+                return ResourceManager.GetString("connectedPeers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Подкл. трекеры.
+        /// </summary>
+        internal static string connectedTrackers {
+            get {
+                return ResourceManager.GetString("connectedTrackers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Консоль.
+        /// </summary>
+        internal static string console {
+            get {
+                return ResourceManager.GetString("console", resourceCulture);
             }
         }
         
@@ -214,6 +268,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Создавать свои блоки.
+        /// </summary>
+        internal static string createBlocks {
+            get {
+                return ResourceManager.GetString("createBlocks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Создание пользователя.
         /// </summary>
         internal static string createUser {
@@ -250,6 +313,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Здравсвуйте.
+        /// </summary>
+        internal static string hello {
+            get {
+                return ResourceManager.GetString("hello", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на В голосовании.
         /// </summary>
         internal static string inVoting {
@@ -277,6 +349,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка загрузки требуемых библиотек. Проверьте правильность установки программы..
+        /// </summary>
+        internal static string libsError {
+            get {
+                return ResourceManager.GetString("libsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Вход.
         /// </summary>
         internal static string login {
@@ -291,6 +372,51 @@ namespace BlockChainVotings.Properties {
         internal static string loginIntoNet {
             get {
                 return ResourceManager.GetString("loginIntoNet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Главная.
+        /// </summary>
+        internal static string main {
+            get {
+                return ResourceManager.GetString("main", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Моя статистика.
+        /// </summary>
+        internal static string myStatistic {
+            get {
+                return ResourceManager.GetString("myStatistic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Подключение к сети.
+        /// </summary>
+        internal static string netConnection {
+            get {
+                return ResourceManager.GetString("netConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Статистика сети.
+        /// </summary>
+        internal static string netStatistic {
+            get {
+                return ResourceManager.GetString("netStatistic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Настройки.
+        /// </summary>
+        internal static string options {
+            get {
+                return ResourceManager.GetString("options", resourceCulture);
             }
         }
         
@@ -376,6 +502,24 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Старт.
+        /// </summary>
+        internal static string start {
+            get {
+                return ResourceManager.GetString("start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Стоп.
+        /// </summary>
+        internal static string stop {
+            get {
+                return ResourceManager.GetString("stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Принять участие в голосовании.
         /// </summary>
         internal static string takePatrInVoting {
@@ -399,6 +543,24 @@ namespace BlockChainVotings.Properties {
         internal static string total {
             get {
                 return ResourceManager.GetString("total", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Трекеры.
+        /// </summary>
+        internal static string trackers {
+            get {
+                return ResourceManager.GetString("trackers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Транзакции.
+        /// </summary>
+        internal static string transactions {
+            get {
+                return ResourceManager.GetString("transactions", resourceCulture);
             }
         }
         
@@ -439,7 +601,16 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Статистистика по пользователям.
+        ///   Ищет локализованную строку, похожую на Пользователи.
+        /// </summary>
+        internal static string users {
+            get {
+                return ResourceManager.GetString("users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Статистика пользователей.
         /// </summary>
         internal static string usersStatistics {
             get {
@@ -520,7 +691,16 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Статистика по голосованиям.
+        ///   Ищет локализованную строку, похожую на Система электронных голосований.
+        /// </summary>
+        internal static string votingSoftware {
+            get {
+                return ResourceManager.GetString("votingSoftware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Статистика голосований.
         /// </summary>
         internal static string votingsStatistics {
             get {

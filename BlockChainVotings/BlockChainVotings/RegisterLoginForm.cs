@@ -44,6 +44,8 @@ namespace BlockChainVotings
                 tabPageLogin.Text = Properties.Resources.login;
                 tabPageRegister.Text = Properties.Resources.registration;
 
+                CommonHelpers.ChangeTheme(VotingsUser.Theme);
+
             }
             else
             {
@@ -51,7 +53,8 @@ namespace BlockChainVotings
                 var tab = tabControl1.TabPages["tabPageLogin"];
                 tabControl1.TabPages.Remove(tab);
             }
-            
+
+
         }
 
         private void textBoxPublicKeyRegister_TextChanged(object sender, EventArgs e)
@@ -125,6 +128,32 @@ namespace BlockChainVotings
             }
         }
 
+        private void RegisterLoginForm_Shown(object sender, EventArgs e)
+        {
+            Task.Run(() => CommonHelpers.GetTime());
+            Task.Run(() =>
+            {
+                try {
+                    if (!System.IO.File.Exists("Community.CsharpSqlite.dll") ||
+                    !System.IO.File.Exists("Community.CsharpSqlite.SQLiteClient.dll") ||
+                    !System.IO.File.Exists("NetworkCommsDotNetComplete.dll") ||
+                    !System.IO.File.Exists("Virgil.Crypto.dll") ||
+                    !System.IO.File.Exists("MaterialSkin.dll"))
+                        throw new Exception();
+
+                    CryptoHelper.GenerateKeyPair();
+                }
+                catch
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        MessageBox.Show(Properties.Resources.libsError, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Close();
+                    }
+                    ));
+                }
+            });
+        }
 
 
     }

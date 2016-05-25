@@ -26,6 +26,12 @@ namespace BlockChainVotings
         static public DateTime RootUserDate = new DateTime(2016, 1, 1);
 
 
+        static public bool CreateOwnBlocks;
+        static public int Theme;
+        static public string Trackers = "192.168.0.42";
+
+
+
 
         //static Configuration config = ConfigurationManager.OpenExeConfiguration(Path.Combine(Environment.CurrentDirectory, Process.GetCurrentProcess().MainModule.FileName));
         static Configuration config = ConfigurationManager.OpenExeConfiguration(Path.Combine(Environment.CurrentDirectory, "BlockChainVotings.exe"));
@@ -52,6 +58,10 @@ namespace BlockChainVotings
             PublicKey = config.AppSettings.Settings["publicKey"].Value;
             PrivateKeyCrypted = config.AppSettings.Settings["privateKeyCrypted"].Value;
             PasswordHash = config.AppSettings.Settings["passwordHash"].Value;
+
+            CreateOwnBlocks = bool.Parse(config.AppSettings.Settings["createOwnBlocks"].Value);
+            Theme = int.Parse(config.AppSettings.Settings["theme"].Value);
+            Trackers = config.AppSettings.Settings["trackers"].Value;
             //}
         }
 
@@ -60,6 +70,11 @@ namespace BlockChainVotings
             config.AppSettings.Settings.Remove("publicKey");
             config.AppSettings.Settings.Remove("privateKeyCrypted");
             config.AppSettings.Settings.Remove("passwordHash");
+
+            config.AppSettings.Settings.Remove("createOwnBlocks");
+            config.AppSettings.Settings.Remove("theme");
+            config.AppSettings.Settings.Remove("trackers");
+
             config.Save();
         }
 
@@ -67,7 +82,11 @@ namespace BlockChainVotings
         {
             if (config.AppSettings.Settings.AllKeys.Contains("publicKey") &&
                 config.AppSettings.Settings.AllKeys.Contains("privateKeyCrypted") &&
-                config.AppSettings.Settings.AllKeys.Contains("passwordHash"))
+                config.AppSettings.Settings.AllKeys.Contains("passwordHash") &&
+
+                config.AppSettings.Settings.AllKeys.Contains("createOwnBlocks") &&
+                config.AppSettings.Settings.AllKeys.Contains("theme") &&
+                config.AppSettings.Settings.AllKeys.Contains("trackers"))
                 return true;
             else return false;
         }
@@ -80,6 +99,19 @@ namespace BlockChainVotings
             config.AppSettings.Settings.Add("publicKey", publicKey);
             config.AppSettings.Settings.Add("privateKeyCrypted", privateKeyCrypted);
             config.AppSettings.Settings.Add("passwordHash", passwordHash);
+
+            config.AppSettings.Settings.Add("createOwnBlocks", true.ToString());
+            config.AppSettings.Settings.Add("theme", 0.ToString());
+            config.AppSettings.Settings.Add("trackers", Trackers);
+
+            config.Save();
+        }
+
+
+        static public void ChangeSetting(string name, string value)
+        {
+            config.AppSettings.Settings.Remove(name);
+            config.AppSettings.Settings.Add(name, value);
             config.Save();
         }
     }

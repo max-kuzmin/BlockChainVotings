@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UsersStatisticsForm));
             this.listViewSearchUsers = new MaterialSkin.Controls.MaterialListView();
             this.columnHeaderHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -68,6 +69,8 @@
             // 
             // listViewSearchUsers
             // 
+            this.listViewSearchUsers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewSearchUsers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewSearchUsers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderHash,
@@ -137,6 +140,8 @@
             // 
             // textBoxSearchUsers
             // 
+            this.textBoxSearchUsers.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSearchUsers.Depth = 0;
             this.textBoxSearchUsers.Hint = "";
             this.textBoxSearchUsers.Location = new System.Drawing.Point(72, 138);
@@ -155,6 +160,8 @@
             // 
             // listViewVotings
             // 
+            this.listViewVotings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listViewVotings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listViewVotings.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderVotingName,
@@ -243,6 +250,7 @@
             // 
             // labelId
             // 
+            this.labelId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelId.AutoSize = true;
             this.labelId.Depth = 0;
             this.labelId.Font = new System.Drawing.Font("Arial", 10F);
@@ -257,6 +265,7 @@
             // 
             // labelIdVal
             // 
+            this.labelIdVal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelIdVal.AutoEllipsis = true;
             this.labelIdVal.Depth = 0;
             this.labelIdVal.Font = new System.Drawing.Font("Arial", 10F);
@@ -270,6 +279,7 @@
             // 
             // labelName
             // 
+            this.labelName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelName.AutoSize = true;
             this.labelName.Depth = 0;
             this.labelName.Font = new System.Drawing.Font("Arial", 10F);
@@ -284,6 +294,7 @@
             // 
             // labelNameVal
             // 
+            this.labelNameVal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNameVal.AutoEllipsis = true;
             this.labelNameVal.Depth = 0;
             this.labelNameVal.Font = new System.Drawing.Font("Arial", 10F);
@@ -297,6 +308,7 @@
             // 
             // labelDate
             // 
+            this.labelDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelDate.AutoSize = true;
             this.labelDate.Depth = 0;
             this.labelDate.Font = new System.Drawing.Font("Arial", 10F);
@@ -311,6 +323,7 @@
             // 
             // labelDateVal
             // 
+            this.labelDateVal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelDateVal.AutoEllipsis = true;
             this.labelDateVal.Depth = 0;
             this.labelDateVal.Font = new System.Drawing.Font("Arial", 10F);
@@ -324,6 +337,7 @@
             // 
             // labelStatus
             // 
+            this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelStatus.AutoSize = true;
             this.labelStatus.Depth = 0;
             this.labelStatus.Font = new System.Drawing.Font("Arial", 10F);
@@ -338,6 +352,7 @@
             // 
             // labelStatusVal
             // 
+            this.labelStatusVal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelStatusVal.AutoEllipsis = true;
             this.labelStatusVal.Depth = 0;
             this.labelStatusVal.Font = new System.Drawing.Font("Arial", 10F);
@@ -351,6 +366,7 @@
             // 
             // labelActivity
             // 
+            this.labelActivity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelActivity.AutoSize = true;
             this.labelActivity.Depth = 0;
             this.labelActivity.Font = new System.Drawing.Font("Arial", 10F);
@@ -365,6 +381,7 @@
             // 
             // labelActivityVal
             // 
+            this.labelActivityVal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelActivityVal.AutoEllipsis = true;
             this.labelActivityVal.Depth = 0;
             this.labelActivityVal.Font = new System.Drawing.Font("Arial", 10F);
@@ -378,6 +395,7 @@
             // 
             // labelHash
             // 
+            this.labelHash.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelHash.AutoSize = true;
             this.labelHash.Depth = 0;
             this.labelHash.Font = new System.Drawing.Font("Arial", 10F);
@@ -392,6 +410,7 @@
             // 
             // labelHashVal
             // 
+            this.labelHashVal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelHashVal.AutoEllipsis = true;
             this.labelHashVal.Depth = 0;
             this.labelHashVal.Font = new System.Drawing.Font("Arial", 10F);
@@ -405,6 +424,7 @@
             // 
             // labelNumVotesVal
             // 
+            this.labelNumVotesVal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNumVotesVal.AutoEllipsis = true;
             this.labelNumVotesVal.Depth = 0;
             this.labelNumVotesVal.Font = new System.Drawing.Font("Arial", 10F);
@@ -418,6 +438,7 @@
             // 
             // labelNumVotes
             // 
+            this.labelNumVotes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelNumVotes.AutoSize = true;
             this.labelNumVotes.Depth = 0;
             this.labelNumVotes.Font = new System.Drawing.Font("Arial", 10F);
@@ -432,6 +453,7 @@
             // 
             // labelUserInfo
             // 
+            this.labelUserInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelUserInfo.Depth = 0;
             this.labelUserInfo.Font = new System.Drawing.Font("Arial", 10F);
             this.labelUserInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -445,6 +467,7 @@
             // 
             // materialDivider1
             // 
+            this.materialDivider1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.materialDivider1.Depth = 0;
             this.materialDivider1.Location = new System.Drawing.Point(710, 97);
@@ -480,8 +503,10 @@
             this.Controls.Add(this.listViewSearchUsers);
             this.Controls.Add(this.labelSearchUsers);
             this.Controls.Add(this.textBoxSearchUsers);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(1800, 711);
+            this.MinimumSize = new System.Drawing.Size(1215, 711);
             this.Name = "UsersStatisticsForm";
-            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UsersStatisticsForm";
             this.Shown += new System.EventHandler(this.UsersStatisticsForm_Shown);

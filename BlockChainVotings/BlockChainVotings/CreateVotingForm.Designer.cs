@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateVotingForm));
             this.buttonCreateVoting = new MaterialSkin.Controls.MaterialRaisedButton();
             this.labelVotingName = new MaterialSkin.Controls.MaterialLabel();
             this.textBoxVotingName = new MaterialSkin.Controls.MaterialSingleLineTextField();
@@ -40,12 +41,12 @@
             this.columnHeaderUserHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderUserName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderUserID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.materialContextMenuStripUser = new MaterialSkin.Controls.MaterialContextMenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.listViewCandidates = new MaterialSkin.Controls.MaterialListView();
             this.columnHeaderCandidateHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCandidateName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCandidateID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.materialContextMenuStripUser = new MaterialSkin.Controls.MaterialContextMenuStrip();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.materialContextMenuStripCandidate = new MaterialSkin.Controls.MaterialContextMenuStrip();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.materialContextMenuStripUser.SuspendLayout();
@@ -200,6 +201,24 @@
             this.columnHeaderUserID.Text = "ID";
             this.columnHeaderUserID.Width = 150;
             // 
+            // materialContextMenuStripUser
+            // 
+            this.materialContextMenuStripUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialContextMenuStripUser.Depth = 0;
+            this.materialContextMenuStripUser.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.materialContextMenuStripUser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.materialContextMenuStripUser.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialContextMenuStripUser.Name = "materialContextMenuStripUser";
+            this.materialContextMenuStripUser.Size = new System.Drawing.Size(119, 30);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(118, 26);
+            this.toolStripMenuItem1.Text = "Copy";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
             // listViewCandidates
             // 
             this.listViewCandidates.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -237,24 +256,6 @@
             this.columnHeaderCandidateID.Text = "ID";
             this.columnHeaderCandidateID.Width = 150;
             // 
-            // materialContextMenuStripUser
-            // 
-            this.materialContextMenuStripUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialContextMenuStripUser.Depth = 0;
-            this.materialContextMenuStripUser.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.materialContextMenuStripUser.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
-            this.materialContextMenuStripUser.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialContextMenuStripUser.Name = "materialContextMenuStripUser";
-            this.materialContextMenuStripUser.Size = new System.Drawing.Size(119, 30);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
-            this.toolStripMenuItem1.Text = "Copy";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
             // materialContextMenuStripCandidate
             // 
             this.materialContextMenuStripCandidate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -264,12 +265,12 @@
             this.toolStripMenuItem2});
             this.materialContextMenuStripCandidate.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialContextMenuStripCandidate.Name = "materialContextMenuStripUser";
-            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(182, 58);
+            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(119, 30);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 26);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(118, 26);
             this.toolStripMenuItem2.Text = "Copy";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
@@ -288,12 +289,12 @@
             this.Controls.Add(this.textBoxVotingName);
             this.Controls.Add(this.labelVotingName);
             this.Controls.Add(this.buttonCreateVoting);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "CreateVotingForm";
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CreateVoting";
-            this.Load += new System.EventHandler(this.CreateVotingForm_Load);
             this.materialContextMenuStripUser.ResumeLayout(false);
             this.materialContextMenuStripCandidate.ResumeLayout(false);
             this.ResumeLayout(false);

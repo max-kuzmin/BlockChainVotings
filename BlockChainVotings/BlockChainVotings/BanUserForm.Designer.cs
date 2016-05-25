@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BanUserForm));
             this.listViewSearchUsers = new MaterialSkin.Controls.MaterialListView();
             this.columnHeaderHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -185,6 +186,7 @@
             this.Controls.Add(this.listViewSearchUsers);
             this.Controls.Add(this.labelSearchUser);
             this.Controls.Add(this.textBoxSearchUser);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "BanUserForm";
             this.Sizable = false;

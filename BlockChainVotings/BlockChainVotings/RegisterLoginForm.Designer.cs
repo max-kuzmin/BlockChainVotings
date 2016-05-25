@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegisterLoginForm));
             this.buttonRegister = new MaterialSkin.Controls.MaterialRaisedButton();
             this.textBoxPasswordRegister = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.labelPrivateKeyRegister = new MaterialSkin.Controls.MaterialLabel();
@@ -351,12 +352,14 @@
             this.ClientSize = new System.Drawing.Size(537, 610);
             this.Controls.Add(this.materialTabSelector1);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "RegisterLoginForm";
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RegisterLoginForm";
+            this.Shown += new System.EventHandler(this.RegisterLoginForm_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPageRegister.ResumeLayout(false);
             this.tabPageRegister.PerformLayout();

@@ -30,9 +30,9 @@ namespace BlockChainVotings
             labelCandidates.Text = Properties.Resources.candidates;
             labelVotingInfo.Text = Properties.Resources.inVoting;
             labelCandidateInfo.Text = Properties.Resources.wons;
-            columnHeaderHash.Text = Properties.Resources.userID;
+            columnHeaderHash.Text = Properties.Resources.userHash;
             columnHeaderName.Text = Properties.Resources.userName;
-            columnHeaderID.Text = Properties.Resources.userHash;
+            columnHeaderID.Text = Properties.Resources.userID;
             columnHeaderVotes.Text = Properties.Resources.votesCount;
 
             toolStripMenuItem1.Text = Properties.Resources.copyHash;

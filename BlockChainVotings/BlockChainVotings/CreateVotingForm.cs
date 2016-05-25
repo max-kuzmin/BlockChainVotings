@@ -160,10 +160,6 @@ namespace BlockChainVotings
             }
         }
 
-        private void CreateVotingForm_Load(object sender, EventArgs e)
-        {
-            CheckCandidatesList();
-        }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {

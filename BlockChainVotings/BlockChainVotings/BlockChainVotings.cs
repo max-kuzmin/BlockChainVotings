@@ -17,6 +17,8 @@ namespace BlockChainVotings
         VotingsDB db;
         Network net;
 
+        public bool Started = false;
+
         Timer t;
 
         //блоки и транзакции, для проверки которых требуются дополнительные загрузки
@@ -35,7 +37,7 @@ namespace BlockChainVotings
         {
 
             NetworkComms.DisableLogging();
-            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "log.txt");
+            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "BlockChainVotings_log.txt");
             NetworkComms.EnableLogging(logger);
 
 
@@ -59,11 +61,11 @@ namespace BlockChainVotings
 
 
 
-        public void Start(string[] trackers)
+        public void Start()
         {
             CheckRoot();
 
-            net.Connect(trackers);
+            net.Connect();
 
             Task.Run(() =>
             {
@@ -74,7 +76,7 @@ namespace BlockChainVotings
             });
 
 
-            
+            Started = true;
 
 
         }
@@ -82,6 +84,8 @@ namespace BlockChainVotings
         public void Stop()
         {
             net.Disconnect();
+
+            Started = false;
         }
 
         private void DeleteOldPendingItems(object sender, ElapsedEventArgs e)
