@@ -67,6 +67,8 @@ namespace BlockChainVotings
             {
                 blockChain.BanUser(listViewSearchUsers.SelectedItems[0].SubItems[0].Text, textBoxCause.Text);
                 textBoxCause.Text = "";
+
+                Close();
             }
         }
 

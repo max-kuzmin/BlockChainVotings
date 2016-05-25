@@ -301,7 +301,7 @@
     <value>Создавать свои блоки</value>
   </data>
   <data name="hello" xml:space="preserve">
-    <value>Здравсвуйте</value>
+    <value>Привет</value>
   </data>
   <data name="libsError" xml:space="preserve">
     <value>Ошибка загрузки требуемых библиотек. Проверьте правильность установки программы.</value>
@@ -338,5 +338,20 @@
   </data>
   <data name="votingSoftware" xml:space="preserve">
     <value>Система электронных голосований</value>
+  </data>
+  <data name="avaliableN" xml:space="preserve">
+    <value>Доступно</value>
+  </data>
+  <data name="nVotings" xml:space="preserve">
+    <value>голосований</value>
+  </data>
+  <data name="avaliableNewVoting" xml:space="preserve">
+    <value>Новое голосование</value>
+  </data>
+  <data name="show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="user" xml:space="preserve">
+    <value>пользователь</value>
   </data>
 </root>

@@ -85,6 +85,8 @@ namespace BlockChainVotings
                 textBoxName.Text = "";
                 textBoxPrivateKey.Text = "";
                 textBoxID.Text = "";
+
+                Close();
             }
         }
 

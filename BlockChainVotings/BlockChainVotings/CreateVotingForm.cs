@@ -74,6 +74,8 @@ namespace BlockChainVotings
 
                 textBoxVotingName.Text = "";
                 textBoxSearchUser.Text = "";
+
+                Close();
             }
 
             //if (listViewCandidates.Items.Count < 2)

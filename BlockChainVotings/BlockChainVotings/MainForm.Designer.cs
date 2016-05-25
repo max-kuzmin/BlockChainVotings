@@ -33,6 +33,8 @@
             this.materialRaisedButtonTheme = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialTabControl1 = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPageMain = new System.Windows.Forms.TabPage();
+            this.materialRaisedButtonVote = new MaterialSkin.Controls.MaterialRaisedButton();
+            this.materialLabelAvaliableVotings = new MaterialSkin.Controls.MaterialLabel();
             this.materialDivider3 = new MaterialSkin.Controls.MaterialDivider();
             this.materialRaisedButtonMyStatistic = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialRaisedButtonUserStatistic = new MaterialSkin.Controls.MaterialRaisedButton();
@@ -41,7 +43,6 @@
             this.materialRaisedButtonBanUser = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialRaisedButtonCreateUser = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
-            this.materialRaisedButtonVote = new MaterialSkin.Controls.MaterialRaisedButton();
             this.materialLabelHello = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabelStatistics = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabelTrackersVal = new MaterialSkin.Controls.MaterialLabel();
@@ -67,7 +68,6 @@
             this.textBoxTrackers = new System.Windows.Forms.TextBox();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.materialLabelAvaliableVotings = new MaterialSkin.Controls.MaterialLabel();
             this.materialTabControl1.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.tabPageOptions.SuspendLayout();
@@ -132,6 +132,31 @@
             this.tabPageMain.Size = new System.Drawing.Size(812, 396);
             this.tabPageMain.TabIndex = 0;
             this.tabPageMain.Text = "Main";
+            // 
+            // materialRaisedButtonVote
+            // 
+            this.materialRaisedButtonVote.Depth = 0;
+            this.materialRaisedButtonVote.Location = new System.Drawing.Point(49, 50);
+            this.materialRaisedButtonVote.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialRaisedButtonVote.Name = "materialRaisedButtonVote";
+            this.materialRaisedButtonVote.Size = new System.Drawing.Size(297, 46);
+            this.materialRaisedButtonVote.TabIndex = 2;
+            this.materialRaisedButtonVote.Text = "Vote";
+            this.materialRaisedButtonVote.UseVisualStyleBackColor = true;
+            this.materialRaisedButtonVote.Click += new System.EventHandler(this.materialRaisedButtonVote_Click);
+            // 
+            // materialLabelAvaliableVotings
+            // 
+            this.materialLabelAvaliableVotings.Depth = 0;
+            this.materialLabelAvaliableVotings.Font = new System.Drawing.Font("Arial", 10F);
+            this.materialLabelAvaliableVotings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.materialLabelAvaliableVotings.Location = new System.Drawing.Point(45, 131);
+            this.materialLabelAvaliableVotings.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialLabelAvaliableVotings.Name = "materialLabelAvaliableVotings";
+            this.materialLabelAvaliableVotings.Size = new System.Drawing.Size(301, 28);
+            this.materialLabelAvaliableVotings.TabIndex = 21;
+            this.materialLabelAvaliableVotings.Text = "Avaliable votings";
+            this.materialLabelAvaliableVotings.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // materialDivider3
             // 
@@ -229,30 +254,18 @@
             this.materialDivider1.TabIndex = 13;
             this.materialDivider1.Text = "materialDivider1";
             // 
-            // materialRaisedButtonVote
-            // 
-            this.materialRaisedButtonVote.Depth = 0;
-            this.materialRaisedButtonVote.Location = new System.Drawing.Point(49, 50);
-            this.materialRaisedButtonVote.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialRaisedButtonVote.Name = "materialRaisedButtonVote";
-            this.materialRaisedButtonVote.Size = new System.Drawing.Size(297, 46);
-            this.materialRaisedButtonVote.TabIndex = 2;
-            this.materialRaisedButtonVote.Text = "Vote";
-            this.materialRaisedButtonVote.UseVisualStyleBackColor = true;
-            this.materialRaisedButtonVote.Click += new System.EventHandler(this.materialRaisedButtonVote_Click);
-            // 
             // materialLabelHello
             // 
-            this.materialLabelHello.AutoSize = true;
             this.materialLabelHello.Depth = 0;
             this.materialLabelHello.Font = new System.Drawing.Font("Arial", 10F);
             this.materialLabelHello.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabelHello.Location = new System.Drawing.Point(35, 3);
+            this.materialLabelHello.Location = new System.Drawing.Point(45, 3);
             this.materialLabelHello.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabelHello.Name = "materialLabelHello";
-            this.materialLabelHello.Size = new System.Drawing.Size(88, 19);
+            this.materialLabelHello.Size = new System.Drawing.Size(301, 21);
             this.materialLabelHello.TabIndex = 11;
             this.materialLabelHello.Text = "Hello, User";
+            this.materialLabelHello.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // materialLabelStatistics
             // 
@@ -568,19 +581,6 @@
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
-            // 
-            // materialLabelAvaliableVotings
-            // 
-            this.materialLabelAvaliableVotings.Depth = 0;
-            this.materialLabelAvaliableVotings.Font = new System.Drawing.Font("Arial", 10F);
-            this.materialLabelAvaliableVotings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabelAvaliableVotings.Location = new System.Drawing.Point(45, 131);
-            this.materialLabelAvaliableVotings.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialLabelAvaliableVotings.Name = "materialLabelAvaliableVotings";
-            this.materialLabelAvaliableVotings.Size = new System.Drawing.Size(301, 28);
-            this.materialLabelAvaliableVotings.TabIndex = 21;
-            this.materialLabelAvaliableVotings.Text = "Avaliable votings";
-            this.materialLabelAvaliableVotings.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 

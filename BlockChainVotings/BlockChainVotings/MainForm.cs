@@ -1,20 +1,7 @@
-﻿using NetworkCommsDotNet;
-using NetworkCommsDotNet.Connections;
-using NetworkCommsDotNet.Connections.TCP;
-using NetworkCommsDotNet.Tools;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Virgil.Crypto;
-using Virgil.Crypto.Foundation;
-using System.Net;
 using MaterialSkin;
 using MaterialSkin.Controls;
 
@@ -60,8 +47,6 @@ namespace BlockChainVotings
             buttonStart.Text = Properties.Resources.start;
             buttonStop.Text = Properties.Resources.stop;
             notifyIcon1.Text = Properties.Resources.votingSoftware;
-
-
 
         }
 
@@ -117,7 +102,6 @@ namespace BlockChainVotings
             materialLabelStatistics.Font = new Font("Arial", 10, FontStyle.Bold);
             materialLabelHello.Font = new Font("Arial", 10, FontStyle.Bold);
 
-
             //=============
 
 
@@ -127,6 +111,7 @@ namespace BlockChainVotings
                 materialRaisedButtonCreateUser.Show();
                 materialRaisedButtonCreateVoting.Show();
                 materialRaisedButtonVote.Hide();
+                materialLabelAvaliableVotings.Hide();
             }
             else
             {
@@ -134,11 +119,71 @@ namespace BlockChainVotings
                 materialRaisedButtonCreateUser.Hide();
                 materialRaisedButtonCreateVoting.Hide();
                 materialRaisedButtonVote.Show();
+                materialLabelAvaliableVotings.Show();
             }
 
             materialCheckBoxCreateBlocks.Checked = VotingsUser.CreateOwnBlocks;
             textBoxTrackers.Text = VotingsUser.Trackers;
             textBoxTrackers.Select(0, 0);
+
+
+            //============
+
+
+            //обработчики событий изменения БД
+            blockChain.NewBlock += (s, a) =>
+            {
+                materialLabelBlocksVal.Text = a.Data.ToString();
+            };
+
+            blockChain.NewTransaction += (s, a) =>
+            {
+                materialLabelTransactionsVal.Text = a.Data.ToString();
+            };
+
+            blockChain.NewUser += (s, a) =>
+            {
+                materialLabelUsersVal.Text = a.Data.ToString();
+            };
+
+            blockChain.NewVoting += (s, a) =>
+            {
+                materialLabelAvaliableVotings.Text = Properties.Resources.avaliableN + " " + blockChain.GetVotings().Count
+                + " " + Properties.Resources.nVotings;
+
+
+                var notify = new NotifyForm(blockChain.GetVotingName(a.Data));
+                notify.ButtonPressed += (s2, a2) => notifyIcon1_Click(s2, a2);
+                notify.Show();
+            };
+
+            CommonHelpers.PeersCountChanged += (s, a) =>
+            {
+                materialLabelPeersVal.Text = a.Data.ToString();
+            };
+
+            CommonHelpers.TrackersCountChanged += (s, a) =>
+            {
+                materialLabelTrackersVal.Text = a.Data.ToString();
+            };
+
+
+            //Задаем начальные значения
+            materialLabelBlocksVal.Text = blockChain.GetBlocksCount().ToString();
+            materialLabelTransactionsVal.Text = blockChain.GetTransactionsCount().ToString();
+            materialLabelUsersVal.Text = blockChain.GetUsersCount().ToString();
+            materialLabelAvaliableVotings.Text = Properties.Resources.avaliableN + " " + blockChain.GetVotings().Count
+                + " " + Properties.Resources.nVotings;
+            materialLabelPeersVal.Text = 0.ToString();
+            materialLabelTrackersVal.Text = 0.ToString();
+
+            string name = blockChain.GetMyName();
+
+            if (name != null)
+                materialLabelHello.Text = Properties.Resources.hello + ", " + name;
+            else
+                materialLabelHello.Text = Properties.Resources.hello + ", " + Properties.Resources.user;
+
 
         }
 
