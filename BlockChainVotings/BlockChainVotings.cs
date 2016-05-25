@@ -30,7 +30,6 @@ namespace BlockChainVotings
         public event EventHandler<IntEventArgs> NewUser;
         public event EventHandler<IntEventArgs> NewBlock;
 
-        public event EventHandler<IntEventArgs> PeersCountChanged;
 
 
         public BlockChainVotings()
@@ -880,5 +879,39 @@ namespace BlockChainVotings
         }
 
 
+        public string GetVotingName(int num)
+        {
+            var voting = db.GetVoting(num);
+
+            return "№" + voting.VotingNumber + " " + JObject.Parse(voting.Info)["name"];
+        }
+
+
+        public int GetUsersCount()
+        {
+            return db.UsersCount();
+        }
+
+        public int GetTransactionsCount()
+        {
+            return db.TransactionsCount();
+        }
+
+        public int GetBlocksCount()
+        {
+            return db.BlocksCount();
+        }
+
+
+        public string GetMyName()
+        {
+            var me = SearchUsers(VotingsUser.PublicKey);
+
+            if (me.Count > 0)
+                return JObject.Parse(me[0].Info)["name"].Value<string>();
+            else
+                return null;
+                
+        }
     }
 }

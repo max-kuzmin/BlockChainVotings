@@ -352,7 +352,7 @@ namespace BlockChainVotings
 
             NetworkComms.Logger.Warn("===== Client started =====");
 
-            //только для дебага !!!!!!
+ 
             ConnectToTrackers();
             RequestPeers();
             ConnectToPeers();

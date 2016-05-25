@@ -126,13 +126,18 @@ namespace BlockChainVotings
 
         private void buttonVote_Click(object sender, EventArgs e)
         {
-            var tr = ((comboBoxVoting.SelectedItem as ComboBoxItem).Value as Transaction);
-            blockchain.CreateVote(listViewCandidates.SelectedItems[0].SubItems[2].Text, tr.Hash);
+            if (listViewCandidates.SelectedItems.Count == 1 && comboBoxVoting.SelectedItems.Count == 1)
+            {
+                var tr = ((comboBoxVoting.SelectedItem as ComboBoxItem).Value as Transaction);
+                blockchain.CreateVote(listViewCandidates.SelectedItems[0].SubItems[2].Text, tr.Hash);
 
-            comboBoxVoting.SelectedItem = null;
-            checkBoxAgree.Checked = false;
+                comboBoxVoting.SelectedItem = null;
+                checkBoxAgree.Checked = false;
 
-            SendVoteForm_Load(this, new EventArgs());
+                SendVoteForm_Load(this, new EventArgs());
+
+                Close();
+            }
         }
 
         private void SendVoteForm_Shown(object sender, EventArgs e)
