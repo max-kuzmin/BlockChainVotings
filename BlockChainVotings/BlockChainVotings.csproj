@@ -76,6 +76,9 @@
     <StartupObject>
     </StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>voting.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Community.CsharpSqlite, Version=3.7.7.1, Culture=neutral, PublicKeyToken=a6e4873496fdc8b5, processorArchitecture=MSIL">
       <HintPath>..\packages\Community.CsharpSqlite.SQLiteClient.3.7.7.3\lib\net45\Community.CsharpSqlite.dll</HintPath>
@@ -130,6 +133,12 @@
     </Compile>
     <Compile Include="CreateVotingForm.Designer.cs">
       <DependentUpon>CreateVotingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotifyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NotifyForm.Designer.cs">
+      <DependentUpon>NotifyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RegisterLoginForm.cs">
       <SubType>Form</SubType>
@@ -186,6 +195,9 @@
     <EmbeddedResource Include="CreateVotingForm.resx">
       <DependentUpon>CreateVotingForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NotifyForm.resx">
+      <DependentUpon>NotifyForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegisterLoginForm.resx">
       <DependentUpon>RegisterLoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -237,6 +249,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\voting.ico" />
+    <None Include="Resources\MainIcon.ico" />
+    <Content Include="voting.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Virgil.Crypto.1.5.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets" Condition="Exists('..\packages\Virgil.Crypto.1.5.0\build\portable-net4+sl4+wp7+win8+wpa81\Virgil.Crypto.targets')" />

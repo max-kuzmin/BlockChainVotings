@@ -223,7 +223,7 @@
     <value>ФИО</value>
   </data>
   <data name="usersStatistics" xml:space="preserve">
-    <value>Статистистика по пользователям</value>
+    <value>Статистика пользователей</value>
   </data>
   <data name="userStatus" xml:space="preserve">
     <value>Статус</value>
@@ -250,7 +250,7 @@
     <value>Кол-во голосований</value>
   </data>
   <data name="votingsStatistics" xml:space="preserve">
-    <value>Статистика по голосованиям</value>
+    <value>Статистика голосований</value>
   </data>
   <data name="wons" xml:space="preserve">
     <value>одерживает победу кандидат</value>
@@ -278,5 +278,65 @@
   </data>
   <data name="reason" xml:space="preserve">
     <value>Причина</value>
+  </data>
+  <data name="about" xml:space="preserve">
+    <value>Copyright © 2016 Maxim Kuzmin, ISPU</value>
+  </data>
+  <data name="blocks" xml:space="preserve">
+    <value>Блоки</value>
+  </data>
+  <data name="changeTheme" xml:space="preserve">
+    <value>Сменить оформление</value>
+  </data>
+  <data name="connectedPeers" xml:space="preserve">
+    <value>Подкл. пиры</value>
+  </data>
+  <data name="connectedTrackers" xml:space="preserve">
+    <value>Подкл. трекеры</value>
+  </data>
+  <data name="console" xml:space="preserve">
+    <value>Консоль</value>
+  </data>
+  <data name="createBlocks" xml:space="preserve">
+    <value>Создавать свои блоки</value>
+  </data>
+  <data name="hello" xml:space="preserve">
+    <value>Здравсвуйте</value>
+  </data>
+  <data name="libsError" xml:space="preserve">
+    <value>Ошибка загрузки требуемых библиотек. Проверьте правильность установки программы.</value>
+  </data>
+  <data name="main" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="myStatistic" xml:space="preserve">
+    <value>Моя статистика</value>
+  </data>
+  <data name="netConnection" xml:space="preserve">
+    <value>Подключение к сети</value>
+  </data>
+  <data name="netStatistic" xml:space="preserve">
+    <value>Статистика сети</value>
+  </data>
+  <data name="options" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="start" xml:space="preserve">
+    <value>Старт</value>
+  </data>
+  <data name="stop" xml:space="preserve">
+    <value>Стоп</value>
+  </data>
+  <data name="trackers" xml:space="preserve">
+    <value>Трекеры</value>
+  </data>
+  <data name="transactions" xml:space="preserve">
+    <value>Транзакции</value>
+  </data>
+  <data name="users" xml:space="preserve">
+    <value>Пользователи</value>
+  </data>
+  <data name="votingSoftware" xml:space="preserve">
+    <value>Система электронных голосований</value>
   </data>
 </root>

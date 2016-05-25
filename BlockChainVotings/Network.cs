@@ -69,8 +69,10 @@ namespace BlockChainVotings
         }
 
 
-        void ParseTrackers(string[] addresses)
+        void ParseTrackers()
         {
+            string[] addresses = VotingsUser.Trackers.Split('\n');
+
             foreach (var line in addresses)
             {
                 var parts = line.Split(':');
@@ -333,9 +335,9 @@ namespace BlockChainVotings
             NetworkComms.Logger.Warn("===== Client stopped =====");
         }
 
-        public void Connect(string[] trackers)
+        public void Connect()
         {
-            ParseTrackers(trackers);
+            ParseTrackers();
 
             if (CommonHelpers.GetLocalEndPoint(1) != null)
             {

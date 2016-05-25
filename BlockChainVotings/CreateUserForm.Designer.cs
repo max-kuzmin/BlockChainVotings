@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateUserForm));
             this.textBoxPublicKey = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.textBoxPrivateKey = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.labelPublicKey = new MaterialSkin.Controls.MaterialLabel();
@@ -111,11 +112,11 @@
             // buttonGenerate
             // 
             this.buttonGenerate.Depth = 0;
-            this.buttonGenerate.Location = new System.Drawing.Point(314, 407);
+            this.buttonGenerate.Location = new System.Drawing.Point(306, 407);
             this.buttonGenerate.Margin = new System.Windows.Forms.Padding(4);
             this.buttonGenerate.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonGenerate.Name = "buttonGenerate";
-            this.buttonGenerate.Size = new System.Drawing.Size(143, 51);
+            this.buttonGenerate.Size = new System.Drawing.Size(151, 51);
             this.buttonGenerate.TabIndex = 5;
             this.buttonGenerate.Text = "Generate KeyPair";
             this.buttonGenerate.UseVisualStyleBackColor = true;
@@ -128,7 +129,7 @@
             this.buttonCreateUser.Margin = new System.Windows.Forms.Padding(4);
             this.buttonCreateUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonCreateUser.Name = "buttonCreateUser";
-            this.buttonCreateUser.Size = new System.Drawing.Size(143, 51);
+            this.buttonCreateUser.Size = new System.Drawing.Size(151, 51);
             this.buttonCreateUser.TabIndex = 4;
             this.buttonCreateUser.Text = "Create User";
             this.buttonCreateUser.UseVisualStyleBackColor = true;
@@ -215,6 +216,7 @@
             this.Controls.Add(this.labelPublicKey);
             this.Controls.Add(this.textBoxPrivateKey);
             this.Controls.Add(this.textBoxPublicKey);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "CreateUserForm";

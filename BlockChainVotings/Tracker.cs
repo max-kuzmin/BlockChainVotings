@@ -138,6 +138,9 @@ namespace BlockChainVotings
                         OnTrackerError(this, new EventArgs());
                     }
                 }
+
+
+                CommonHelpers.LogTrackers(allTrackers);
             }
         }
 
@@ -208,6 +211,8 @@ namespace BlockChainVotings
             }
 
             Status = TrackerStatus.Disconnected;
+
+            CommonHelpers.LogTrackers(allTrackers);
         }
 
 

@@ -28,6 +28,7 @@ namespace BlockChainVotings
 
 
         static public event EventHandler<IntEventArgs> PeersCountChanged;
+        static public event EventHandler<IntEventArgs> TrackersCountChanged;
 
 
 
@@ -48,6 +49,14 @@ namespace BlockChainVotings
                 ", disconnected - " + peers.Count(p => p.Status == PeerStatus.Disconnected));
 
             PeersCountChanged(null, new IntEventArgs(peers.Count(p => p.Status == PeerStatus.Connected)));
+        }
+
+        static public void LogTrackers(List<Tracker> trackers)
+        {
+            NetworkComms.Logger.Warn("Peers: connected - " + trackers.Count(p => p.Status == TrackerStatus.Connected) +
+                ", disconnected - " + trackers.Count(p => p.Status == TrackerStatus.Disconnected));
+
+            TrackersCountChanged(null, new IntEventArgs(trackers.Count(p => p.Status == TrackerStatus.Connected)));
         }
 
 
@@ -136,12 +145,9 @@ namespace BlockChainVotings
 
 
 
-        static public void ChangeTheme()
+        static public void ChangeTheme(int num)
         {
-            colorSchemeIndex++;
-            if (colorSchemeIndex > 3) colorSchemeIndex = 0;
-
-            switch (colorSchemeIndex)
+            switch (num)
             {
                 case 0:
                     MaterialSkinManager.Instance.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
@@ -158,7 +164,6 @@ namespace BlockChainVotings
             }
         }
 
-        static private int colorSchemeIndex;
 
     }
 }

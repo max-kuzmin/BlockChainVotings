@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SendVoteForm));
             this.labelChooseVoting = new MaterialSkin.Controls.MaterialLabel();
             this.comboBoxVoting = new MaterialSkin.Controls.MaterialListBox();
+            this.materialContextMenuStripVoting = new MaterialSkin.Controls.MaterialContextMenuStrip();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonVote = new MaterialSkin.Controls.MaterialRaisedButton();
             this.labelCandidate = new MaterialSkin.Controls.MaterialLabel();
             this.labelCandidateName = new MaterialSkin.Controls.MaterialLabel();
@@ -41,11 +44,9 @@
             this.columnHeaderCandidateHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCandidateName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderCandidateID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
-            this.materialContextMenuStripVoting = new MaterialSkin.Controls.MaterialContextMenuStrip();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.materialContextMenuStripCandidate = new MaterialSkin.Controls.MaterialContextMenuStrip();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.materialDivider1 = new MaterialSkin.Controls.MaterialDivider();
             this.materialContextMenuStripVoting.SuspendLayout();
             this.materialContextMenuStripCandidate.SuspendLayout();
             this.SuspendLayout();
@@ -79,6 +80,24 @@
             this.comboBoxVoting.Size = new System.Drawing.Size(560, 150);
             this.comboBoxVoting.TabIndex = 0;
             this.comboBoxVoting.SelectedIndexChanged += new System.EventHandler(this.comboBoxVoting_TextUpdate);
+            // 
+            // materialContextMenuStripVoting
+            // 
+            this.materialContextMenuStripVoting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialContextMenuStripVoting.Depth = 0;
+            this.materialContextMenuStripVoting.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.materialContextMenuStripVoting.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.materialContextMenuStripVoting.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialContextMenuStripVoting.Name = "materialContextMenuStripUser";
+            this.materialContextMenuStripVoting.Size = new System.Drawing.Size(119, 30);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(118, 26);
+            this.toolStripMenuItem1.Text = "Copy";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // buttonVote
             // 
@@ -216,6 +235,24 @@
             this.columnHeaderCandidateID.Text = "ID";
             this.columnHeaderCandidateID.Width = 150;
             // 
+            // materialContextMenuStripCandidate
+            // 
+            this.materialContextMenuStripCandidate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.materialContextMenuStripCandidate.Depth = 0;
+            this.materialContextMenuStripCandidate.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.materialContextMenuStripCandidate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
+            this.materialContextMenuStripCandidate.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialContextMenuStripCandidate.Name = "materialContextMenuStripUser";
+            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(119, 30);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(118, 26);
+            this.toolStripMenuItem2.Text = "Copy";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
             // materialDivider1
             // 
             this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -226,42 +263,6 @@
             this.materialDivider1.Size = new System.Drawing.Size(10, 420);
             this.materialDivider1.TabIndex = 12;
             this.materialDivider1.Text = "materialDivider1";
-            // 
-            // materialContextMenuStripVoting
-            // 
-            this.materialContextMenuStripVoting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialContextMenuStripVoting.Depth = 0;
-            this.materialContextMenuStripVoting.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.materialContextMenuStripVoting.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
-            this.materialContextMenuStripVoting.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialContextMenuStripVoting.Name = "materialContextMenuStripUser";
-            this.materialContextMenuStripVoting.Size = new System.Drawing.Size(119, 30);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(181, 26);
-            this.toolStripMenuItem1.Text = "Copy";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // materialContextMenuStripCandidate
-            // 
-            this.materialContextMenuStripCandidate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.materialContextMenuStripCandidate.Depth = 0;
-            this.materialContextMenuStripCandidate.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.materialContextMenuStripCandidate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2});
-            this.materialContextMenuStripCandidate.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialContextMenuStripCandidate.Name = "materialContextMenuStripUser";
-            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(182, 58);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(181, 26);
-            this.toolStripMenuItem2.Text = "Copy";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // SendVoteForm
             // 
@@ -279,6 +280,7 @@
             this.Controls.Add(this.labelVotingInfo);
             this.Controls.Add(this.comboBoxVoting);
             this.Controls.Add(this.labelChooseVoting);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "SendVoteForm";
             this.Sizable = false;
