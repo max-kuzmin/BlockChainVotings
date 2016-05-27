@@ -16,6 +16,7 @@ namespace BlockChainVotingsTracker
         static public int TrackerPort { get { return 10102; } }
         static public int DiscoveryPort { get { return 10001; } }
         static public int CheckAliveInterval { get { return 60000; } }
+        static public int MessagesInterval { get { return 1000; } }
 
         static public string LocalHash = (new Random((int)(DateTime.Now.Ticks)).Next().ToString());
 

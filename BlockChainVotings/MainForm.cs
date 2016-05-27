@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MaterialSkin;
 using MaterialSkin.Controls;
+using System.Threading;
 
 namespace BlockChainVotings
 {
@@ -73,7 +74,7 @@ namespace BlockChainVotings
             regForm.SuccssesLogin += RegForm_SuccssesLogin;
             regForm.FormClosed += (s, a) =>
             {
-                Close();
+                Invoke(new Action(() => Close()));
             };
 
             regForm.Show();
@@ -94,13 +95,17 @@ namespace BlockChainVotings
 
         private void RegForm_SuccssesLogin(object sender, EventArgs e)
         {
+
             this.WindowState = FormWindowState.Normal;
-            this.Enabled = true;
             this.ShowInTaskbar = true;
             notifyIcon1.Visible = false;
 
-            materialLabelStatistics.Font = new Font("Arial", 10, FontStyle.Bold);
-            materialLabelHello.Font = new Font("Arial", 10, FontStyle.Bold);
+
+            blockChain.CheckRoot();
+
+
+            this.Enabled = true;
+
 
             //=============
 
@@ -133,38 +138,60 @@ namespace BlockChainVotings
             //обработчики событий изменения БД
             blockChain.NewBlock += (s, a) =>
             {
-                materialLabelBlocksVal.Text = a.Data.ToString();
+                Invoke(new Action(() =>
+                {
+                    materialLabelBlocksVal.Text = a.Data.ToString();
+                }));
             };
 
             blockChain.NewTransaction += (s, a) =>
             {
-                materialLabelTransactionsVal.Text = a.Data.ToString();
+                Invoke(new Action(() =>
+                {
+                    materialLabelTransactionsVal.Text = a.Data.ToString();
+                }));
+                
             };
 
             blockChain.NewUser += (s, a) =>
             {
-                materialLabelUsersVal.Text = a.Data.ToString();
+                Invoke(new Action(() =>
+                {
+                    materialLabelUsersVal.Text = a.Data.ToString();
+                }));
+                
             };
 
             blockChain.NewVoting += (s, a) =>
             {
-                materialLabelAvaliableVotings.Text = Properties.Resources.avaliableN + " " + blockChain.GetVotings().Count
+
+                Invoke(new Action(() =>
+                {
+                    materialLabelAvaliableVotings.Text = Properties.Resources.avaliableN + " " + blockChain.GetOpenedVotings().Count
                 + " " + Properties.Resources.nVotings;
 
 
-                var notify = new NotifyForm(blockChain.GetVotingName(a.Data));
-                notify.ButtonPressed += (s2, a2) => notifyIcon1_Click(s2, a2);
-                notify.Show();
+                    var notify = new NotifyForm(blockChain.GetVotingName(a.Data));
+                    notify.ButtonPressed += (s2, a2) => notifyIcon1_Click(s2, a2);
+                    notify.Show();
+                }));
+                
             };
 
             CommonHelpers.PeersCountChanged += (s, a) =>
             {
-                materialLabelPeersVal.Text = a.Data.ToString();
+                Invoke(new Action(() =>
+                {
+                    materialLabelPeersVal.Text = a.Data.ToString();
+                }));
             };
 
             CommonHelpers.TrackersCountChanged += (s, a) =>
             {
-                materialLabelTrackersVal.Text = a.Data.ToString();
+                Invoke(new Action(() =>
+                {
+                    materialLabelTrackersVal.Text = a.Data.ToString();
+                }));
             };
 
 
@@ -172,7 +199,7 @@ namespace BlockChainVotings
             materialLabelBlocksVal.Text = blockChain.GetBlocksCount().ToString();
             materialLabelTransactionsVal.Text = blockChain.GetTransactionsCount().ToString();
             materialLabelUsersVal.Text = blockChain.GetUsersCount().ToString();
-            materialLabelAvaliableVotings.Text = Properties.Resources.avaliableN + " " + blockChain.GetVotings().Count
+            materialLabelAvaliableVotings.Text = Properties.Resources.avaliableN + " " + blockChain.GetOpenedVotings().Count
                 + " " + Properties.Resources.nVotings;
             materialLabelPeersVal.Text = 0.ToString();
             materialLabelTrackersVal.Text = 0.ToString();
@@ -185,11 +212,26 @@ namespace BlockChainVotings
                 materialLabelHello.Text = Properties.Resources.hello + ", " + Properties.Resources.user;
 
 
+
+            ChangeLabelsFont();
+
+
+            Task.Run(() => blockChain.Start());
+            buttonStart.Enabled = false;
+
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Task.Run(() => blockChain.Stop());
+            e.Cancel = true;
+
+            Task.Run(() =>
+            {
+                blockChain.Stop();
+                Thread.Sleep(CommonHelpers.MessagesInterval);
+                Application.Exit();
+            });
+
         }
 
 
@@ -211,6 +253,7 @@ namespace BlockChainVotings
                 this.ShowInTaskbar = false;
                 notifyIcon1.Visible = true;
             }
+
         }
 
         private void notifyIcon1_Click(object sender, EventArgs e)
@@ -221,12 +264,24 @@ namespace BlockChainVotings
                 this.ShowInTaskbar = true;
                 notifyIcon1.Visible = false;
             }
+
+
+            ChangeLabelsFont();
         }
 
         private void materialLabelAbout_VisibleChanged(object sender, EventArgs e)
         {
+            ChangeLabelsFont();
+        }
+
+
+        void ChangeLabelsFont()
+        {
             materialLabelAbout.Font = new Font("Arial", 8);
             materialLabelAbout.ForeColor = Color.Gray;
+
+            materialLabelStatistics.Font = new Font("Arial", 10, FontStyle.Bold);
+            materialLabelHello.Font = new Font("Arial", 10, FontStyle.Bold);
         }
 
         private void materialRaisedButtonVote_Click(object sender, EventArgs e)

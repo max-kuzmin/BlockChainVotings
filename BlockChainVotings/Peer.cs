@@ -9,6 +9,7 @@ using System.Net;
 using NetworkCommsDotNet.Connections.TCP;
 using NetworkCommsDotNet.Connections.UDP;
 using System.Reflection;
+using System.Threading;
 
 namespace BlockChainVotings
 {
@@ -50,7 +51,7 @@ namespace BlockChainVotings
 
         public void Connect(bool withTracker = false)
         {
-
+            //111withTracker = true;
             if (Status == PeerStatus.NoHashRecieved)
             {
                 RequestPeerHash();
@@ -70,6 +71,7 @@ namespace BlockChainVotings
                 {
                     ConnectionInfo connInfo = new ConnectionInfo(Address);
                     TCPConnection newTCPConn = TCPConnection.GetConnection(connInfo);
+                    
 
                     ConnectionMode = ConnectionMode.Direct;
                     Status = PeerStatus.NoHashRecieved;
@@ -118,6 +120,7 @@ namespace BlockChainVotings
                                 OnPeersMessage(this, new MessageEventArgs(m, Hash, Address));
                         });
 
+                    Thread.Sleep(CommonHelpers.MessagesInterval);
 
                     RequestPeerHash();
                 }
@@ -164,6 +167,7 @@ namespace BlockChainVotings
                 Status = PeerStatus.NoHashRecieved;
 
                 tracker.ConnectPeerToPeer(this);
+
 
                 RequestPeerHash();
 

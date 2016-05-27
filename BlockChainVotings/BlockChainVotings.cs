@@ -62,17 +62,18 @@ namespace BlockChainVotings
 
         public void Start()
         {
-            CheckRoot();
+
+            net.OnPeerConnected += Net_OnPeerConnected;
 
             net.Connect();
 
-            Task.Run(() =>
-            {
-                System.Threading.Thread.Sleep(CommonHelpers.WaitAfterStartInterval);
-                RequestLastBlock();
-                RequestLastFreeTransactions();
-                
-            });
+            //Task.Run(() =>
+            //{
+            //    System.Threading.Thread.Sleep(CommonHelpers.WaitAfterStartInterval);
+            //RequestLastBlock();
+            //RequestLastFreeTransactions();
+
+            //});
 
 
             Started = true;
@@ -80,8 +81,16 @@ namespace BlockChainVotings
 
         }
 
+        private void Net_OnPeerConnected(object sender, MessageEventArgs e)
+        {
+            RequestLastBlock(e.SenderAddress);
+            RequestLastFreeTransactions(e.SenderAddress);
+        }
+
         public void Stop()
         {
+            net.OnPeerConnected -= Net_OnPeerConnected;
+
             net.Disconnect();
 
             Started = false;
@@ -94,7 +103,11 @@ namespace BlockChainVotings
             foreach (var item in pendingBlocksCopy)
             {
                 //если ожидающий блок старее 1 часа - удаляем его
-                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromHours(1)) pendingBlocks.Remove(item.Key);
+                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromHours(1))
+                {
+                    pendingBlocks.Remove(item.Key);
+                    db.DeletePendingTransactions(item.Key.Transactions);
+                }
             }
 
 
@@ -156,7 +169,9 @@ namespace BlockChainVotings
 
             if (message.Date > 0)
             {
-                transactions.AddRange(db.GetFreeTransactionsFromDate(message.Date0, CommonHelpers.TransactionsInBlock));
+                //получаем все свободные транзакции, а не только с даты, поскольку иногда дата указывается неверно в запросе (поздняя)
+                //transactions.AddRange(db.GetFreeTransactionsFromDate(message.Date0, CommonHelpers.TransactionsInBlock));
+                transactions.AddRange(db.GetFreeTransactions(CommonHelpers.TransactionsInBlock));
             }
 
 
@@ -222,10 +237,17 @@ namespace BlockChainVotings
 
 
 
-        void RequestLastBlock()
+        void RequestLastBlock(EndPoint address = null)
         {
             var message = new RequestBlocksMessage(new List<string>());
-            net.SendMessageToAllPeers(message);
+            if (address != null)
+            {
+                net.SendMessageToPeer(message, address);
+            }
+            else
+            {
+                net.SendMessageToAllPeers(message);
+            }
         }
 
         public void RequestTransaction(string hash, EndPoint peerAddress = null)
@@ -330,7 +352,7 @@ namespace BlockChainVotings
                     (lastBlockInChain.Number == lastBlockInDB.Number && block.Date0 < blockCopyInDB.Date0))
                 {
                     //удаляем из базы все блоки начиная с этого
-                    for (int i = blockCopyInDB.Number; i < lastBlockInDB.Number; i++)
+                    for (int i = blockCopyInDB.Number; i <= lastBlockInDB.Number; i++)
                     {
                         var blockToRemove = db.GetBlock(i);
                         db.DeleteBlock(blockToRemove);
@@ -347,6 +369,16 @@ namespace BlockChainVotings
                     //запускаем проверку последнего ожидаещего блока из цепочки (он снова загрузит нужные транзакции)
                     CheckBlock(lastBlockInChain);
                 }
+                else
+                {
+                    //если не приняли новый блок, то удаляем полученные для него транзакции 
+                    //со статусом ожидающие из базы
+                    db.DeletePendingTransactions(block.Transactions);
+                }
+
+
+                NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                NewBlock(this, new IntEventArgs(db.BlocksCount()));
 
                 return false;
 
@@ -544,10 +576,14 @@ namespace BlockChainVotings
             {
                 //если копия уже в блоке то выход
                 if (existsVote.Status == TransactionStatus.InBlock) return false;
-                //если копия транзакции старее то выход
-                else if (existsVote.Date0 < transaction.Date0) return false;
-                //иначе удаляем сущесвующую транзакцию из базы
-                else db.DeleteTransaction(existsVote);
+                //если копия транзакции старее и при этом свободна, то выход
+                else if (existsVote.Date0 < transaction.Date0 && existsVote.Status == TransactionStatus.Free) return false;
+                //иначе удаляем сущесвующую транзакцию из базы 
+                else
+                {
+                    db.DeleteTransaction(existsVote);
+                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                }
             }
 
             return true;
@@ -630,11 +666,19 @@ namespace BlockChainVotings
 
 
 
-        void RequestLastFreeTransactions()
+        void RequestLastFreeTransactions(EndPoint address)
         {
             var date = db.GetLastTransaction().Date0;
             var message = new RequestTransactionsMessage(date);
-            net.SendMessageToAllPeers(message);
+
+            if (address != null)
+            {
+                net.SendMessageToPeer(message, address);
+            }
+            else
+            {
+                net.SendMessageToAllPeers(message);
+            }
 
         }
 
@@ -727,9 +771,14 @@ namespace BlockChainVotings
                 db.PutTransaction(voting);
                 db.PutBlock(block);
             }
+            else
+            {
+                //удаляем ожидающие транзакции, чтобы не засоряли базу
+                db.DeletePendingTransactions();
+            }
 
 
-            NetworkComms.Logger.Warn("DB Root checked");
+            NetworkComms.Logger.Warn("Database root checked");
 
         }
 
@@ -767,7 +816,7 @@ namespace BlockChainVotings
         public void CreateVote(string candidateHash, string votingHash)
         {
             var voting = db.GetTransaction(votingHash);
-            var vote = Transaction.VoteTransaction(candidateHash, voting.Hash);
+            var vote = Transaction.VoteTransaction(candidateHash, voting.Hash, voting.VotingNumber);
 
             if (CheckTransaction(vote))
             {
@@ -849,6 +898,9 @@ namespace BlockChainVotings
         {
             return db.GetVotings();
         }
+
+
+
 
 
         public List<Transaction> GetCandidates(Transaction voting)

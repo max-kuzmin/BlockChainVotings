@@ -504,6 +504,7 @@
             this.Controls.Add(this.labelSearchUsers);
             this.Controls.Add(this.textBoxSearchUsers);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1800, 711);
             this.MinimumSize = new System.Drawing.Size(1215, 711);
             this.Name = "UsersStatisticsForm";

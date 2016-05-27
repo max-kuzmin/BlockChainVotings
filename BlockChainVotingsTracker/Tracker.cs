@@ -48,7 +48,7 @@ namespace BlockChainVotingsTracker
             }
             else
             {
-                existPeer.Connection = connection;
+                existPeer.SetupConnection(connection);
             }
         }
 
@@ -64,7 +64,7 @@ namespace BlockChainVotingsTracker
 
                 t.Start();
 
-
+                
             }
         }
 
@@ -92,10 +92,9 @@ namespace BlockChainVotingsTracker
 
         private void SetupLogging()
         {
-            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "log.txt");
+            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "BlockChainVotingsTracker_log.txt");
             NetworkComms.EnableLogging(logger);
 
-            //NetworkComms.Logger.Warn("==================== Initialisation ====================");
 
 
         }

@@ -163,10 +163,25 @@ namespace BlockChainVotingsTracker
         [ProtoMember(2)]
         public List<string> Hashes = new List<string>();
 
+        public DateTime Date0
+        {
+            get { return new DateTime(Date); }
+            set { Date = value.Ticks; }
+        }
+
+        [ProtoMember(3)]
+        public long Date = 0;
+
         public RequestTransactionsMessage(List<string> hashes)
         {
             this.Type = MessageType.RequestTransactions;
             this.Hashes = hashes;
+        }
+
+        public RequestTransactionsMessage(DateTime date)
+        {
+            this.Type = MessageType.RequestTransactions;
+            this.Date = date.Ticks;
         }
 
         //
@@ -232,6 +247,8 @@ namespace BlockChainVotingsTracker
             this.Type = MessageType.Transactions;
             this.Transactions = transactions;
         }
+
+        public TransactionsMessage() { }
     }
 
     [ProtoContract]
@@ -245,6 +262,8 @@ namespace BlockChainVotingsTracker
             this.Type = MessageType.Transactions;
             this.Blocks = blocks;
         }
+
+        public BlocksMessage() { }
     }
 
     [ProtoContract]
@@ -290,6 +309,9 @@ namespace BlockChainVotingsTracker
             RecieverAddress = new IPEndPoint(recieverAddress, recieverPort);
         }
     }
+
+
+
 
 
 }

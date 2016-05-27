@@ -251,6 +251,7 @@
             this.Controls.Add(this.comboBoxVoting);
             this.Controls.Add(this.labelChooseVoting);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "VotingsStatisticForm";
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

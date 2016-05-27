@@ -18,10 +18,10 @@ namespace BlockChainVotings
         static string PrivateKeyCrypted;
         public static string PasswordHash;
 
-        static public string RootPublicKey = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZzd0ZRWUhLb1pJemowQ0FRWUtLd1lCQkFHWFZRRUZBUU5DQUFSN1FQeEYzVjZzV0l5Y1o2Q0JlenRYeEljQgo1WTdCd2hRdTBKaVFlWXhZdVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==";
-        static public string RootCreationSignature = "MFkwDQYJYIZIAWUDBAICBQAESDBGAiEAxS2PLzJ4a3aYaDoiyIwSLvy3RjMiQXoYQx6LPl4nKc8CIQCC+K2Q79OdQSdMmrnA3ybRBHENnlxrx/rcazqrx+/BcA==";
-        static public string FirstVotingSignature = "MFkwDQYJYIZIAWUDBAICBQAESDBGAiEAtO8rUKFxUCVDA54wAQiqI9LFvQHDql0Fu9ROs+pytXACIQCE2fXvIgwJpdmCgja5HAi/zJPDAmHrJhYFIqiJJrFiKA==";
-        static public string FirstBlockSignature = "MFkwDQYJYIZIAWUDBAICBQAESDBGAiEAiRSmH2zdKAl7pfmi8SvrsyFGS+v+4L9BOIBDcgpoAPwCIQCIzH1BJE+jgyBPa1e3KOI52xqBC3exkq38wWEiNRJQJg==";
+        static public string RootPublicKey = "MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAEhWfjbJW2Xd+f0Gls8bi2pzrV5av+R7eG6H8ysQXKNY99mL5j+fUSoJRDaZz9dxhPq3+zmRiewNy0BesJljUl1Q==";
+        static public string RootCreationSignature = "MFgwDQYJYIZIAWUDBAICBQAERzBFAiEArA9SnlCxrh3xD7w3TQ7mAENQ3xgWwAFE7bL7mLSRAOACIGqVhy3uks97DdIQhjA8EAPdW1hArdsbvYJdndSodlD6";
+        static public string FirstVotingSignature = "MFgwDQYJYIZIAWUDBAICBQAERzBFAiEA4Px5VS8aKtMNq4zmdBd9jtYe1uBfGpk27nOmm9pORigCIEts8ThqMphCuaxo3fh1STHLGAWKIYSCMTELWW8J9hZO";
+        static public string FirstBlockSignature = "MFkwDQYJYIZIAWUDBAICBQAESDBGAiEAwVRfJ4BaVOfrAg588C9blSThuTB9GtOYed06u6ZLU38CIQDw/1Yz3conNjirNMbFtMBrJuS+yfpPQETEBMqfrwJueQ==";
 
         static public DateTime RootUserDate = new DateTime(2016, 1, 1);
 
