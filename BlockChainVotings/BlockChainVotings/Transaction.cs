@@ -139,7 +139,7 @@ namespace BlockChainVotings
             return tr;
         }
 
-        public static Transaction VoteTransaction(string candidateHash, string votingHash)
+        public static Transaction VoteTransaction(string candidateHash, string votingHash, int votingNumber)
         {
             var tr = new Transaction();
 
@@ -147,6 +147,7 @@ namespace BlockChainVotings
             tr.Date0 = CommonHelpers.GetTime();
             tr.SenderHash = VotingsUser.PublicKey;
             tr.RecieverHash = candidateHash;
+            tr.VotingNumber = votingNumber;
 
             tr.PreviousHash = votingHash;
 

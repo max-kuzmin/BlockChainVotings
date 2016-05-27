@@ -162,13 +162,41 @@ namespace BlockChainVotings
 
         public List<Transaction> GetFreeTransactionsFromDate(DateTime date, int count)
         {
-
-
             var query = dbAsync.Table<Transaction>().Where(tr => tr.Date > date.Ticks && tr.Status == TransactionStatus.Free);
             var elems = query.Take(count).ToListAsync();
             elems.Wait();
             return elems.Result;
         }
+
+
+        public void DeletePendingTransactions(List<string> transactions = null)
+        {
+            if (transactions == null)
+            {
+                var query = dbAsync.Table<Transaction>().Where(tr => tr.Status == TransactionStatus.InPendingBlock);
+                var elems = query.ToListAsync();
+                elems.Wait();
+
+                foreach (Transaction item in elems.Result)
+                {
+                    dbAsync.DeleteAsync(item).Wait();
+                }
+            }
+            else
+            {
+                foreach (var item in transactions)
+                {
+                    var tr = GetTransaction(item);
+                    if (tr.Status == TransactionStatus.InPendingBlock)
+                        DeleteTransaction(tr);
+                }
+            }
+
+        }
+
+
+
+
 
         public Transaction GetUserBan(string userHash)
         {

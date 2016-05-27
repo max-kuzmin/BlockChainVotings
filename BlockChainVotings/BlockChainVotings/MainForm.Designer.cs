@@ -589,6 +589,7 @@
             this.ClientSize = new System.Drawing.Size(829, 545);
             this.Controls.Add(this.materialTabSelector1);
             this.Controls.Add(this.materialTabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(829, 545);
             this.Name = "MainForm";

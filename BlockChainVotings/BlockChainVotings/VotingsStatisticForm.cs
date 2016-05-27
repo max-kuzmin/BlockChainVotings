@@ -40,10 +40,6 @@ namespace BlockChainVotings
 
         }
 
-        private void ListViewCandidates_DrawItem(object sender, DrawListViewItemEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
 
         private void comboBoxVoting_SelectedIndexChanged(object sender, EventArgs e)
@@ -102,9 +98,10 @@ namespace BlockChainVotings
                 strSum[3] = sum.ToString();
                 strSum[2] = Properties.Resources.total;
                 ListViewItem item2 = new ListViewItem(strSum);
-                item2.Font = new Font(FontFamily.GenericSansSerif, 8, FontStyle.Bold);
+                //item2.Font = new Font("Arial", 10, FontStyle.Bold);
                 listViewCandidates.Items.Add(item2);
 
+                
             }
 
 
@@ -129,7 +126,7 @@ namespace BlockChainVotings
             foreach (var item in list)
             {
                 var info = JObject.Parse(item.Info);
-                string line = item.VotingNumber + ". " + info["name"] + " (" + item.Date0.ToShortDateString() + ", hash: " + item.Hash + ")";
+                string line = "№" + item.VotingNumber + " " + info["name"] + " " + Properties.Resources.from + " " + item.Date0.ToShortDateString();
 
                 comboBoxVoting.Items.Add(new ComboBoxItem(line, item));
             }
@@ -158,5 +155,7 @@ namespace BlockChainVotings
                 Clipboard.SetText(listViewCandidates.SelectedItems[0].SubItems[0].Text);
             }
         }
+
+
     }
 }

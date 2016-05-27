@@ -29,7 +29,7 @@ namespace BlockChainVotings
         public event EventHandler<MessageEventArgs> OnBlocksMessage;
         public event EventHandler<MessageEventArgs> OnTransactionsMessage;
 
-
+        public event EventHandler<MessageEventArgs> OnPeerConnected;
 
         public Network()
         {
@@ -39,7 +39,7 @@ namespace BlockChainVotings
             Peers = new List<Peer>();
 
 
-            t = new Timer(CommonHelpers.CheckAliveInterval);
+            t = new Timer(CommonHelpers.PeersCheckInterval);
             t.Elapsed += (s, e) => RequestPeers();
             t.Elapsed += (s, e) => ConnectToPeers();
             t.Elapsed += (s, e) => ConnectToTrackers();
@@ -222,6 +222,15 @@ namespace BlockChainVotings
 
 
                 peer.Connect(withTracker);
+
+
+                //вызов события подключения пира
+                Task.Run(() =>
+                {
+                    System.Threading.Thread.Sleep(CommonHelpers.MessagesInterval);
+
+                    OnPeerConnected(this, new MessageEventArgs(new Message(), peer.Hash, peer.Address));
+                });
             }
         }
 

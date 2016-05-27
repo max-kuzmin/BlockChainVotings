@@ -33,4 +33,21 @@ namespace BlockChainVotingsTracker
         Stopped,
         Started
     }
+
+    public enum TransactionType
+    {
+        None = 0,
+        CreateUser,
+        BanUser,
+        Vote,
+        StartVoting,
+        ChangeRootUser
+    }
+
+    public enum TransactionStatus
+    {
+        Free,
+        InBlock,
+        InPendingBlock
+    }
 }

@@ -20,8 +20,9 @@ namespace BlockChainVotings
         static public int PeerPort { get { return 10101; } }
         static public int TrackerPort { get { return 10102; } }
         static public int DiscoveryPort { get { return 10001; } }
-        static public int CheckAliveInterval { get { return 60000*5; } }
-        static public int WaitAfterStartInterval { get { return 10000; } }
+        static public int PeersCheckInterval { get { return 60000; } }
+        static public int WaitAfterStartInterval { get { return 5000; } }
+        static public int MessagesInterval { get { return 1000; } }
 
         static TimeSpan? dateDelta;
         public static int TransactionsInBlock { get { return 10; } }
@@ -53,7 +54,7 @@ namespace BlockChainVotings
 
         static public void LogTrackers(List<Tracker> trackers)
         {
-            NetworkComms.Logger.Warn("Peers: connected - " + trackers.Count(p => p.Status == TrackerStatus.Connected) +
+            NetworkComms.Logger.Warn("Trackers: connected - " + trackers.Count(p => p.Status == TrackerStatus.Connected) +
                 ", disconnected - " + trackers.Count(p => p.Status == TrackerStatus.Disconnected));
 
             TrackersCountChanged(null, new IntEventArgs(trackers.Count(p => p.Status == TrackerStatus.Connected)));

@@ -6,17 +6,19 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using NetworkCommsDotNet;
+using System.Threading;
 
 namespace BlockChainVotingsTracker
 {
     public class Peer
     {
         public EndPoint Address { get; private set; }
-        public Connection Connection { get; set; }
         public string Hash { get; set; }
         public int SendToOthersCount { get; set; }
         public List<Peer> ConnectedPeers { get; private set; }
         public PeerStatus Status { get; set; }
+
+        public Connection Connection { get; private set; }
 
         public int ErrorsCount { get; set; }
 
@@ -25,26 +27,41 @@ namespace BlockChainVotingsTracker
 
 
 
-        public Peer(Connection connection, List<Peer> allPeers)
+        public void SetupConnection(Connection con)
         {
-            this.ConnectedPeers = new List<Peer>();
-            this.Connection = connection;
-            this.Address = connection.ConnectionInfo.RemoteEndPoint;
-            this.allPeers = allPeers;
+            this.Connection = con;
 
-            this.Status = PeerStatus.NoHashRecieved;
-
-            //обработчики приходящих сообщений
+            //обработчики приходящих сообщений для подключения
             //this.Connection.AppendShutdownHandler((c) => Disconnect());
-            Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
-                        (p, c, m) => Disconnect());
+            this.Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
+                                    (p, c, m) => Disconnect());
             this.Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name, OnPeerHashMessage);
             this.Connection.AppendIncomingPacketHandler<RequestPeersMessage>(typeof(RequestPeersMessage).Name, OnRequestPeersMessage);
             this.Connection.AppendIncomingPacketHandler<ConnectToPeerWithTrackerMessage>(typeof(ConnectToPeerWithTrackerMessage).Name, OnConnectToPeerWithTrackerMessage);
             this.Connection.AppendIncomingPacketHandler<ToPeerMessage>(typeof(ToPeerMessage).Name, OnToPeerMessage);
 
+            Thread.Sleep(CommonHelpers.MessagesInterval);
+
+
             RequestPeerForHash();
         }
+
+
+        public Peer(Connection connection, List<Peer> allPeers)
+        {
+            this.ConnectedPeers = new List<Peer>();
+            //this.Connection = connection;
+            this.Address = connection.ConnectionInfo.RemoteEndPoint;
+            this.allPeers = allPeers;
+
+            this.Status = PeerStatus.NoHashRecieved;
+
+            SetupConnection(connection);
+
+            
+        }
+
+
 
         private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
         {
@@ -53,7 +70,8 @@ namespace BlockChainVotingsTracker
                 Peer reciever = ConnectedPeers.FirstOrDefault(peer => peer.Address.Equals(incomingObject.RecieverAddress));
                 if (reciever != null && reciever.ConnectedPeers.Contains(this))
                 {
-                    try {
+                    try
+                    {
                         reciever.Connection.SendObject(incomingObject.GetType().Name, incomingObject);
                     }
                     catch
@@ -62,7 +80,7 @@ namespace BlockChainVotingsTracker
                         //OnConnectedPeerError(reciever.Address);
                     }
                 }
-                else 
+                else
                 {
                     OnConnectedPeerError(incomingObject.RecieverAddress);
                 }
@@ -82,8 +100,9 @@ namespace BlockChainVotingsTracker
 
         public void OnConnectedPeerError(EndPoint address)
         {
-             var message = new PeerDisconnectMessage(address);
-            try {
+            var message = new PeerDisconnectMessage(address);
+            try
+            {
                 Connection.SendObject(message.GetType().Name, message);
             }
             catch
@@ -123,8 +142,10 @@ namespace BlockChainVotingsTracker
                 {
                     peerToConnect.ConnectedPeers.Add(this);
 
-                    try {
-                        peerToConnect.Connection.SendObject(incomingObject.GetType().Name, incomingObject); }
+                    try
+                    {
+                        peerToConnect.Connection.SendObject(incomingObject.GetType().Name, incomingObject);
+                    }
                     catch
                     {
                         peerToConnect.OnError();
@@ -140,7 +161,7 @@ namespace BlockChainVotingsTracker
             {
                 var message = new PeerDisconnectMessage(peerToConnect.Address);
 
-                    Connection.SendObject(message.GetType().Name, message);
+                Connection.SendObject(message.GetType().Name, message);
             }
 
 
@@ -180,16 +201,16 @@ namespace BlockChainVotingsTracker
             //отправить пусой хеш и ожидать его хеш
             var message = new PeerHashMessage(string.Empty, true);
 
-            try {
-                Connection.SendObject(message.GetType().Name, message); }
+            try
+            {
+                Connection.SendObject(message.GetType().Name, message);
+            }
             catch { }
         }
 
         public void Disconnect()
         {
             allPeers.Remove(this);
-
-            CommonHelpers.LogPeers(allPeers);
 
             var ConnectedPeersCopy = new List<Peer>(ConnectedPeers);
 
@@ -218,6 +239,9 @@ namespace BlockChainVotingsTracker
             }
 
             Status = PeerStatus.Disconnected;
+
+
+            CommonHelpers.LogPeers(allPeers);
         }
 
     }

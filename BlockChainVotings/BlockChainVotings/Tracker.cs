@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BlockChainVotings
@@ -125,6 +126,8 @@ namespace BlockChainVotings
                                 OnDisconnectPeer(this, new MessageEventArgs(m, null, Address));
                         });
 
+                    Thread.Sleep(CommonHelpers.MessagesInterval);
+
                 }
                 catch 
                 {
@@ -135,7 +138,8 @@ namespace BlockChainVotings
                     {
                         allTrackers.Remove(this);
 
-                        OnTrackerError(this, new EventArgs());
+                        if (OnTrackerError!=null)
+                            OnTrackerError(this, new EventArgs());
                     }
                 }
 

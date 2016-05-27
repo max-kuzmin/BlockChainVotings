@@ -129,7 +129,7 @@ namespace BlockChainVotings
             if (listViewCandidates.SelectedItems.Count == 1 && comboBoxVoting.SelectedItems.Count == 1)
             {
                 var tr = ((comboBoxVoting.SelectedItem as ComboBoxItem).Value as Transaction);
-                blockchain.CreateVote(listViewCandidates.SelectedItems[0].SubItems[2].Text, tr.Hash);
+                blockchain.CreateVote(listViewCandidates.SelectedItems[0].SubItems[0].Text, tr.Hash);
 
                 comboBoxVoting.SelectedItem = null;
                 checkBoxAgree.Checked = false;

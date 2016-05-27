@@ -25,6 +25,7 @@ namespace BlockChainVotingsTracker
         private void buttonStopTracker_Click(object sender, EventArgs e)
         {
             Task.Run(() => tracker.Stop());
+            buttonStartTracker.Enabled = true;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -35,6 +36,7 @@ namespace BlockChainVotingsTracker
         private void buttonStartTracker_Click(object sender, EventArgs e)
         {
             Task.Run(() => tracker.Start());
+            buttonStartTracker.Enabled = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
