@@ -121,7 +121,7 @@ namespace BlockChainVotings
 
         public List<Transaction> SearchUsers(string nameIdHash)
         {
-            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.CreateUser && 
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.CreateUser &&
             (tr.Info.Contains(nameIdHash) || tr.RecieverHash == nameIdHash));
             var elem = query.ToListAsync();
             elem.Wait();
@@ -169,9 +169,35 @@ namespace BlockChainVotings
         }
 
 
-        public void DeletePendingTransactions(List<string> transactions = null)
+        public Transaction GetSameUser(string userPreviousHash)
         {
-            if (transactions == null)
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.CreateUser && tr.PreviousHash == userPreviousHash);
+            var elems = query.FirstOrDefaultAsync();
+            elems.Wait();
+            return elems.Result;
+        }
+
+
+
+        public void MarkAsFreePendingTransactions(bool notOnlyPending, List<string> transactions = null)
+        {
+            if (transactions != null)
+            {
+                var list = new List<Transaction>();
+                foreach (var item in transactions)
+                {
+                    var tr = GetTransaction(item);
+                    if (tr != null && (tr.Status == TransactionStatus.InPendingBlock || notOnlyPending))
+                    {
+                        tr.Status = TransactionStatus.Free;
+                        list.Add(tr);
+                    }
+                }
+
+                dbAsync.UpdateAllAsync(list).Wait();
+
+            }
+            else
             {
                 var query = dbAsync.Table<Transaction>().Where(tr => tr.Status == TransactionStatus.InPendingBlock);
                 var elems = query.ToListAsync();
@@ -179,17 +205,10 @@ namespace BlockChainVotings
 
                 foreach (Transaction item in elems.Result)
                 {
-                    dbAsync.DeleteAsync(item).Wait();
+                    item.Status = TransactionStatus.Free;
                 }
-            }
-            else
-            {
-                foreach (var item in transactions)
-                {
-                    var tr = GetTransaction(item);
-                    if (tr.Status == TransactionStatus.InPendingBlock)
-                        DeleteTransaction(tr);
-                }
+
+                dbAsync.UpdateAllAsync(elems.Result).Wait();
             }
 
         }
@@ -241,7 +260,7 @@ namespace BlockChainVotings
 
             foreach (var item in candidates)
             {
-                var query = dbAsync.Table<Transaction>().Where(tr => tr.PreviousHash == voting.Hash 
+                var query = dbAsync.Table<Transaction>().Where(tr => tr.PreviousHash == voting.Hash
                 && tr.RecieverHash == item.RecieverHash && tr.Type == TransactionType.Vote);
                 var votes = query.CountAsync();
                 votes.Wait();
@@ -316,7 +335,7 @@ namespace BlockChainVotings
             foreach (var item in elem.Result)
             {
                 //находим голос пользователя для этого голосования
-                var elem2 = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote && 
+                var elem2 = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.Vote &&
                     tr.PreviousHash == item.Hash && tr.SenderHash == VotingsUser.PublicKey).FirstOrDefaultAsync();
                 elem2.Wait();
 

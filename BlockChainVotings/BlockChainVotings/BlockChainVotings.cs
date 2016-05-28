@@ -46,7 +46,7 @@ namespace BlockChainVotings
 
             db.ConnectToDBAsync();
 
-            t = new Timer(60 * 60 * 1000);
+            t = new Timer(CommonHelpers.PeersCheckInterval * 10);
 
             pendingBlocks = new Dictionary<Block, DateTime>();
             pendingTransactions = new Dictionary<Transaction, DateTime>();
@@ -104,13 +104,12 @@ namespace BlockChainVotings
             foreach (var item in pendingBlocksCopy)
             {
                 //если ожидающий блок старее 10 минут - проверяем, затем удаляем его
-                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromMilliseconds(CommonHelpers.PeersCheckInterval /** 10*/))
+                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromMilliseconds(CommonHelpers.PeersCheckInterval * 10))
                 {
                     CheckBlock(GetLastBlockFromPending(item.Key));
-
                     pendingBlocks.Remove(item.Key);
-                    //удаляем ожидающие транзакции из базы
-                    db.DeletePendingTransactions(item.Key.Transactions);
+                    //отмечаем ожидающие транзакции из базы как свободные
+                    db.MarkAsFreePendingTransactions(false, item.Key.Transactions);
                 }
             }
 
@@ -120,10 +119,9 @@ namespace BlockChainVotings
             foreach (var item in pendingTransactionsCopy)
             {
                 //если ожидающая транзакция старее 10 минут - проверяем, затем удаляем ее
-                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromMilliseconds(CommonHelpers.PeersCheckInterval /** 10*/))
+                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromMilliseconds(CommonHelpers.PeersCheckInterval * 10))
                 {
                     CheckTransaction(item.Key);
-
                     pendingTransactions.Remove(item.Key);
                 }
             }
@@ -138,6 +136,7 @@ namespace BlockChainVotings
                 //если транзакция была в блоке, помечаем ее как транзакцию из непроверенного блока
                 if (transaction.Status == TransactionStatus.InBlock)
                     transaction.Status = TransactionStatus.InPendingBlock;
+
 
                 //проверка на существование транзакции с таким же хешем
                 if (db.GetTransaction(transaction.Hash) == null && !pendingTransactions.Keys.Any(tr => tr.Hash == transaction.Hash))
@@ -313,7 +312,7 @@ namespace BlockChainVotings
             //если блок не в списке ожидающих и запросили инфу, то отправляем ее в список ожидающих
             if (needWait == true)
             {
-                if (!pendingBlocks.ContainsKey(block)) 
+                if (!pendingBlocks.ContainsKey(block))
                     pendingBlocks.Add(block, CommonHelpers.GetTime());
                 return false;
             }
@@ -324,12 +323,6 @@ namespace BlockChainVotings
             //удаляем его из ожидающих
             pendingBlocks.Remove(block);
 
-            ////помечаем транзакции как свободные, чтобы если проверка блока не удастся, на их основе можно было создат ьсвой блок
-            //foreach (var itemHash in block.Transactions)
-            //{
-            //    var tr = db.GetTransaction(itemHash);
-            //    db.MarkTransaction(tr, TransactionStatus.Free);
-            //}
 
             //проверка хеша и подписи
             if (!(block.CheckHash() && block.CheckSignature())) return false;
@@ -366,11 +359,10 @@ namespace BlockChainVotings
                         var blockToRemove = db.GetBlock(i);
                         db.DeleteBlock(blockToRemove);
 
-                        //удаляем транзакции из этого блока
-                        foreach (var item in blockToRemove.Transactions)
-                        {
-                            db.DeleteTransaction(db.GetTransaction(item));
-                        }
+                        //СПОРНЫЙ МОМЕНТ
+                        //отмечаем транзакции из блока как свободные
+                        db.MarkAsFreePendingTransactions(true, blockToRemove.Transactions);
+
                     }
 
                     //добавляем блок обратно в ожидающие
@@ -381,9 +373,9 @@ namespace BlockChainVotings
                 }
                 else
                 {
-                    //если не приняли новый блок, то удаляем полученные для него транзакции 
-                    //со статусом ожидающие из базы
-                    db.DeletePendingTransactions(block.Transactions);
+                    //СПОРНЫЙ МОМЕНТ
+                    //если не приняли новый блок, то освобождаем полученные для него транзакции
+                    db.MarkAsFreePendingTransactions(false, block.Transactions);
                 }
 
 
@@ -526,8 +518,8 @@ namespace BlockChainVotings
                 //ищем в ожидающих транзакции связанные с этой и проверяем их
                 var pending = pendingTransactions.Keys.Where(tr =>
                 {
-                    return tr.PreviousHash == transaction.Hash || 
-                    tr.SenderHash == transaction.RecieverHash || 
+                    return tr.PreviousHash == transaction.Hash ||
+                    tr.SenderHash == transaction.RecieverHash ||
                     tr.RecieverHash == transaction.RecieverHash;
                 }).ToList();
                 foreach (var item in pending)
@@ -539,7 +531,7 @@ namespace BlockChainVotings
                 //ищем в ожидающих блоках связанные с этим и проверяем их
                 var pending2 = pendingBlocks.Keys.Where(bl =>
                 {
-                    return bl.TransactionsBlob.Contains(transaction.Hash) 
+                    return bl.TransactionsBlob.Contains(transaction.Hash)
                     || bl.CreatorHash == transaction.RecieverHash;
                 }).ToList();
                 foreach (var item in pending2)
@@ -618,6 +610,26 @@ namespace BlockChainVotings
             //проверка чтобы предыдущая транзакция не была новее
             if (transaction.Date0 < db.GetTransaction(transaction.PreviousHash).Date0) return false;
 
+
+            var existsUser = db.GetSameUser(transaction.PreviousHash);
+            //проверка существования копий транзакции
+            if (existsUser != null)
+            {
+                //если копия уже в блоке то выход
+                if (existsUser.Status == TransactionStatus.InBlock) return false;
+                //если копия транзакции старее и при этом свободна, то выход
+                else if (existsUser.Date0 < transaction.Date0 && existsUser.Status == TransactionStatus.Free) return false;
+                //иначе удаляем сущесвующую транзакцию из базы 
+                else
+                {
+                    db.DeleteTransaction(existsUser);
+                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                }
+            }
+
+
+
+
             try
             {
                 var info = JObject.Parse(transaction.Info);
@@ -649,7 +661,7 @@ namespace BlockChainVotings
             var recieverCreation = db.GetUserCreation(transaction.RecieverHash);
             //проверка на существование пользователя на заданную дату
             if (recieverCreation.Date0 > transaction.Date0) return false;
-            if (db.GetUserBan(transaction.RecieverHash) != null) return false;
+
 
 
             var prevTransaction = db.GetTransaction(transaction.PreviousHash);
@@ -658,6 +670,24 @@ namespace BlockChainVotings
             if (prevTransaction.Hash != recieverCreation.Hash) return false;
             //проверка чтобы предыдущая транзакция не была новее
             if (transaction.Date0 < prevTransaction.Date0) return false;
+
+
+            var existsBan = db.GetUserBan(transaction.RecieverHash);
+            //проверка существования копий транзакции
+            if (existsBan != null)
+            {
+                //если копия уже в блоке то выход
+                if (existsBan.Status == TransactionStatus.InBlock) return false;
+                //если копия транзакции старее и при этом свободна, то выход
+                else if (existsBan.Date0 < transaction.Date0 && existsBan.Status == TransactionStatus.Free) return false;
+                //иначе удаляем сущесвующую транзакцию из базы 
+                else
+                {
+                    db.DeleteTransaction(existsBan);
+                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                }
+            }
+
 
 
             try
@@ -710,8 +740,22 @@ namespace BlockChainVotings
             //проверка, что транзакцию создал корневой клиент
             if (transaction.SenderHash != VotingsUser.RootPublicKey) return false;
 
-            //проверка на существование голосования с таким же номером
-            if (db.GetVoting(transaction.VotingNumber) != null) return false;
+
+            var existsVoting = db.GetVoting(transaction.VotingNumber);
+            //проверка существования копий транзакции
+            if (existsVoting != null)
+            {
+                //если копия уже в блоке то выход
+                if (existsVoting.Status == TransactionStatus.InBlock) return false;
+                //если копия транзакции старее и при этом свободна, то выход
+                else if (existsVoting.Date0 < transaction.Date0 && existsVoting.Status == TransactionStatus.Free) return false;
+                //иначе удаляем сущесвующую транзакцию из базы 
+                else
+                {
+                    db.DeleteTransaction(existsVoting);
+                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                }
+            }
 
 
             try
@@ -771,7 +815,7 @@ namespace BlockChainVotings
             var blockInDB = db.GetBlock(0);
 
             //если транзакции нет в базе или она ошибочна, обнуляем базу и вносим транзакцию в нее
-            if (rootInDB == null || votingInDB==null || blockInDB == null
+            if (rootInDB == null || votingInDB == null || blockInDB == null
                 /*root.Hash != rootInDB.Hash || root.Info != rootInDB.Info || root.PreviousHash != rootInDB.PreviousHash ||
                 root.RecieverHash != rootInDB.RecieverHash || root.SenderHash != rootInDB.SenderHash || 
                 root.Signature != rootInDB.Signature || root.Type != rootInDB.Type || root.VotingNumber!=rootInDB.VotingNumber*/)
@@ -783,8 +827,8 @@ namespace BlockChainVotings
             }
             else
             {
-                //удаляем ожидающие транзакции, чтобы не засоряли базу
-                db.DeletePendingTransactions();
+                //освобождаем ожидающие транзакции, чтобы не засоряли базу
+                db.MarkAsFreePendingTransactions(false);
             }
 
 
@@ -973,7 +1017,7 @@ namespace BlockChainVotings
                 return JObject.Parse(me[0].Info)["name"].Value<string>();
             else
                 return null;
-                
+
         }
     }
 }
