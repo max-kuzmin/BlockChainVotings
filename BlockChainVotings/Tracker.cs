@@ -43,7 +43,7 @@ namespace BlockChainVotings
         public event EventHandler<MessageEventArgs> OnTransactionsMessage;
 
         //событие при ошибке трекера
-        public event EventHandler OnTrackerError;
+        public event EventHandler OnTrackerDelete;
 
 
         public Tracker(EndPoint address, List<Tracker> allTrackers)
@@ -140,8 +140,8 @@ namespace BlockChainVotings
                     {
                         allTrackers.Remove(this);
 
-                        if (OnTrackerError!=null)
-                            OnTrackerError(this, new EventArgs());
+                        if (OnTrackerDelete!=null)
+                            OnTrackerDelete(this, new EventArgs());
                     }
                 }
 
@@ -220,6 +220,9 @@ namespace BlockChainVotings
             }
 
             Status = TrackerStatus.Disconnected;
+
+            if (OnTrackerDelete != null)
+                OnTrackerDelete(this, new EventArgs());
 
             CommonHelpers.LogTrackers(allTrackers);
         }
