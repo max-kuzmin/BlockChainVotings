@@ -141,7 +141,7 @@ namespace BlockChainVotings
                 //проверка на существование транзакции с таким же хешем
                 if (db.GetTransaction(transaction.Hash) == null && !pendingTransactions.Keys.Any(tr => tr.Hash == transaction.Hash))
                 {
-                    if (CheckTransaction(transaction))
+                    if (CheckTransaction(transaction, e.SenderAddress))
                     {
                         //если внесли хотя бы одну транзакцию в базу, отсылаем сообщение остальным пирам
                         net.SendMessageToAllPeers(message);
@@ -220,7 +220,7 @@ namespace BlockChainVotings
                 //проверка на существование блока с таким же хешем
                 if (db.GetBlock(block.Hash) == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.Hash))
                 {
-                    if (CheckBlock(block))
+                    if (CheckBlock(block, e.SenderAddress))
                     {
                         //если внесли блок в базу, отсылаем его остальным пирам
                         net.SendMessageToAllPeers(message);
@@ -270,7 +270,7 @@ namespace BlockChainVotings
                 net.SendMessageToPeer(message, peerAddress);
         }
 
-        public bool CheckBlock(Block block)
+        public bool CheckBlock(Block block, EndPoint peerAddress = null)
         {
 
             var prevBlock = db.GetBlock(block.PreviousHash);
@@ -284,7 +284,7 @@ namespace BlockChainVotings
             {
                 //если ее нет и в ожидающих - запрашиваем от пиров
                 if (!pendingBlocks.Keys.Any(bl => bl.Hash == block.PreviousHash))
-                    RequestBlock(block.PreviousHash);
+                    RequestBlock(block.PreviousHash, peerAddress);
                 needWait = true;
             }
 
@@ -293,7 +293,7 @@ namespace BlockChainVotings
             if (creator == null)
             {
                 if (!pendingTransactions.Keys.Any(tr => tr.RecieverHash == block.CreatorHash))
-                    RequestTransaction(block.CreatorHash);
+                    RequestTransaction(block.CreatorHash, peerAddress);
                 needWait = true;
             }
 
@@ -303,7 +303,7 @@ namespace BlockChainVotings
                 if (db.GetTransaction(itemHash) == null)
                 {
                     if (!pendingTransactions.Keys.Any(tr => tr.Hash == itemHash))
-                        RequestTransaction(itemHash);
+                        RequestTransaction(itemHash, peerAddress);
                     needWait = true;
                 }
             }
@@ -430,7 +430,7 @@ namespace BlockChainVotings
             else return GetLastBlockFromPending(nextBlock);
         }
 
-        public bool CheckTransaction(Transaction transaction)
+        public bool CheckTransaction(Transaction transaction, EndPoint peerAddress = null)
         {
 
             bool needWait = false;
@@ -442,7 +442,7 @@ namespace BlockChainVotings
             {
                 //если ее нет и в ожидающих - запрашиваем от пиров
                 if (!pendingTransactions.Keys.Any(tr => tr.RecieverHash == transaction.PreviousHash))
-                    RequestTransaction(transaction.SenderHash);
+                    RequestTransaction(transaction.SenderHash, peerAddress);
                 needWait = true;
             }
 
@@ -451,7 +451,7 @@ namespace BlockChainVotings
                 && (db.GetUserCreation(transaction.RecieverHash) == null))
             {
                 if (!pendingTransactions.Keys.Any(tr => tr.RecieverHash == transaction.RecieverHash))
-                    RequestTransaction(transaction.RecieverHash);
+                    RequestTransaction(transaction.RecieverHash, peerAddress);
                 needWait = true;
             }
 
@@ -459,7 +459,7 @@ namespace BlockChainVotings
             if (db.GetTransaction(transaction.PreviousHash) == null)
             {
                 if (!pendingTransactions.Keys.Any(tr => tr.Hash == transaction.PreviousHash))
-                    RequestTransaction(transaction.PreviousHash);
+                    RequestTransaction(transaction.PreviousHash, peerAddress);
                 needWait = true;
             }
 

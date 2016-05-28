@@ -126,6 +126,8 @@ namespace BlockChainVotings
                     try
                     {
                         var client = new TcpClient("time.nist.gov", 13);
+                        client.ReceiveTimeout = 2000;
+                        client.SendTimeout = 2000;
                         using (var streamReader = new StreamReader(client.GetStream()))
                         {
                             var response = streamReader.ReadToEnd();

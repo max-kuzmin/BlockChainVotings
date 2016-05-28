@@ -40,10 +40,9 @@ namespace BlockChainVotingsTracker
 
             if (existPeer == null)
             {
-                var peer = new Peer(connection, Peers);
+                var peer = new Peer(connection, Peers, t);
 
-                t.Elapsed += (s, e) => peer.CheckConnection();
-
+               
                 Peers.Add(peer);
             }
             else

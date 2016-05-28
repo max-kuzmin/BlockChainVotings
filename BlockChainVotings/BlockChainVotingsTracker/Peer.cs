@@ -25,7 +25,7 @@ namespace BlockChainVotingsTracker
         List<Peer> allPeers;
         static PeerComparer peerComparer = new PeerComparer();
 
-
+        System.Timers.Timer t;
 
         public void SetupConnection(Connection con)
         {
@@ -47,7 +47,7 @@ namespace BlockChainVotingsTracker
         }
 
 
-        public Peer(Connection connection, List<Peer> allPeers)
+        public Peer(Connection connection, List<Peer> allPeers, System.Timers.Timer t)
         {
             this.ConnectedPeers = new List<Peer>();
             //this.Connection = connection;
@@ -55,6 +55,10 @@ namespace BlockChainVotingsTracker
             this.allPeers = allPeers;
 
             this.Status = PeerStatus.NoHashRecieved;
+
+            this.t = t;
+            t.Elapsed += CheckConnection;
+
 
             SetupConnection(connection);
 
@@ -65,6 +69,7 @@ namespace BlockChainVotingsTracker
 
         private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
         {
+			NetworkComms.Logger.Warn("Recieved message of type " + incomingObject.Message.Type.ToString());
             if (Address.Equals(incomingObject.SenderAddress))
             {
                 Peer reciever = ConnectedPeers.FirstOrDefault(peer => peer.Address.Equals(incomingObject.RecieverAddress));
@@ -112,7 +117,7 @@ namespace BlockChainVotingsTracker
         }
 
 
-        public void CheckConnection()
+        public void CheckConnection(object sender, System.Timers.ElapsedEventArgs e)
         {
             bool alive = false;
             try
@@ -210,12 +215,14 @@ namespace BlockChainVotingsTracker
 
         public void Disconnect()
         {
+            t.Elapsed -= CheckConnection;
             allPeers.Remove(this);
 
             var ConnectedPeersCopy = new List<Peer>(ConnectedPeers);
 
             foreach (var peer in ConnectedPeersCopy)
             {
+                
 
                 //удалить это пир из списка того пира
                 peer.ConnectedPeers.Remove(this);
@@ -239,6 +246,7 @@ namespace BlockChainVotingsTracker
             }
 
             Status = PeerStatus.Disconnected;
+
 
 
             CommonHelpers.LogPeers(allPeers);

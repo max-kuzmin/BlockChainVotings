@@ -51,7 +51,7 @@ namespace BlockChainVotings
 
         public void Connect(bool withTracker = false)
         {
-            //111withTracker = true;
+            withTracker = true;//111
             if (Status == PeerStatus.NoHashRecieved)
             {
                 RequestPeerHash();
@@ -155,7 +155,7 @@ namespace BlockChainVotings
         {
 
                 //при удалении трекера из списка отключаем пир
-                tracker.OnTrackerError += RemoveTracker;
+                tracker.OnTrackerDelete += RemoveTracker;
 
                 //подписка на сообщения с трекера
                 tracker.OnDisconnectPeer += OnDisconnectPeerWithTracker;
@@ -177,10 +177,11 @@ namespace BlockChainVotings
         {
             tracker = null;
 
-            if (Status == PeerStatus.Connected && ConnectionMode == ConnectionMode.WithTracker)
+            if (/*Status == PeerStatus.Connected &&*/ ConnectionMode == ConnectionMode.WithTracker)
             {
                 Status = PeerStatus.Disconnected;
                 ConnectionMode = ConnectionMode.Direct;
+                Connect();
             }
         }
 
