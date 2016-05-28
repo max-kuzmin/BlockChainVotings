@@ -57,6 +57,8 @@ namespace BlockChainVotings
         {
             if (Status == TrackerStatus.Connected)
             {
+                NetworkComms.Logger.Warn("Sent message of type " + message.Type.ToString());
+
                 var shellMessage = new ToPeerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), peer.Address, message);
                 try {
                     Connection.SendObject(shellMessage.GetType().Name, shellMessage); }
@@ -158,6 +160,9 @@ namespace BlockChainVotings
 
         private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
         {
+
+            NetworkComms.Logger.Warn("Recieved message of type " + incomingObject.Message.Type.ToString());
+
             if (incomingObject.RecieverAddress.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort)))
             {
                 var eventArgs = new MessageEventArgs(incomingObject.Message, null, incomingObject.SenderAddress);
