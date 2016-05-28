@@ -227,7 +227,7 @@ namespace BlockChainVotings
                 //вызов события подключения пира
                 Task.Run(() =>
                 {
-                    System.Threading.Thread.Sleep(CommonHelpers.MessagesInterval);
+                    System.Threading.Thread.Sleep(CommonHelpers.MessagesInterval*5);
 
                     OnPeerConnected(this, new MessageEventArgs(new Message(), peer.Hash, peer.Address));
                 });

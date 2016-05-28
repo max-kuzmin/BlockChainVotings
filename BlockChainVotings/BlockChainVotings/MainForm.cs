@@ -14,6 +14,9 @@ namespace BlockChainVotings
         BlockChainVotings blockChain;
         RegisterLoginForm regForm;
 
+
+        bool helloStatus = false;
+
         public MainForm()
         {
             InitializeComponent();
@@ -53,14 +56,14 @@ namespace BlockChainVotings
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            Task.Run( ()=> blockChain.Start() );
+            Task.Run(() => blockChain.Start());
 
             buttonStart.Enabled = false;
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
         {
-            Task.Run(() => blockChain.Stop() );
+            Task.Run(() => blockChain.Stop());
 
             buttonStart.Enabled = true;
         }
@@ -146,11 +149,23 @@ namespace BlockChainVotings
 
             blockChain.NewTransaction += (s, a) =>
             {
+                //обновляем имя и количество транзакций
+                string name2 = "";
+                if (helloStatus == false)
+                    name2 = blockChain.GetMyName();
+
                 Invoke(new Action(() =>
                 {
                     materialLabelTransactionsVal.Text = a.Data.ToString();
+
+                    if (helloStatus == false)
+                    {
+                        materialLabelHello.Text = Properties.Resources.hello + ", " + name2;
+                        helloStatus = true;
+                    }
                 }));
-                
+
+
             };
 
             blockChain.NewUser += (s, a) =>
@@ -159,7 +174,7 @@ namespace BlockChainVotings
                 {
                     materialLabelUsersVal.Text = a.Data.ToString();
                 }));
-                
+
             };
 
             blockChain.NewVoting += (s, a) =>
@@ -175,7 +190,7 @@ namespace BlockChainVotings
                     notify.ButtonPressed += (s2, a2) => notifyIcon1_Click(s2, a2);
                     notify.Show();
                 }));
-                
+
             };
 
             CommonHelpers.PeersCountChanged += (s, a) =>
@@ -207,7 +222,10 @@ namespace BlockChainVotings
             string name = blockChain.GetMyName();
 
             if (name != null)
+            {
                 materialLabelHello.Text = Properties.Resources.hello + ", " + name;
+                helloStatus = true;
+            }
             else
                 materialLabelHello.Text = Properties.Resources.hello + ", " + Properties.Resources.user;
 

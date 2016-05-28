@@ -32,6 +32,7 @@ namespace BlockChainVotings
 
 
 
+
         public BlockChainVotings()
         {
 
@@ -55,7 +56,7 @@ namespace BlockChainVotings
             net.OnRequestTransactionsMessage += OnRequestTransactionsMessage;
             net.OnTransactionsMessage += OnTransactionsMessage;
 
-            t.Elapsed += DeleteOldPendingItems;
+            t.Elapsed += CheckDeleteOldPendingItems;
         }
 
 
@@ -96,16 +97,19 @@ namespace BlockChainVotings
             Started = false;
         }
 
-        private void DeleteOldPendingItems(object sender, ElapsedEventArgs e)
+        private void CheckDeleteOldPendingItems(object sender, ElapsedEventArgs e)
         {
             var pendingBlocksCopy = new Dictionary<Block, DateTime>(pendingBlocks);
 
             foreach (var item in pendingBlocksCopy)
             {
-                //если ожидающий блок старее 1 часа - удаляем его
-                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromHours(1))
+                //если ожидающий блок старее 10 минут - проверяем, затем удаляем его
+                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromMilliseconds(CommonHelpers.PeersCheckInterval /** 10*/))
                 {
+                    CheckBlock(GetLastBlockFromPending(item.Key));
+
                     pendingBlocks.Remove(item.Key);
+                    //удаляем ожидающие транзакции из базы
                     db.DeletePendingTransactions(item.Key.Transactions);
                 }
             }
@@ -115,8 +119,13 @@ namespace BlockChainVotings
 
             foreach (var item in pendingTransactionsCopy)
             {
-                //если ожидающая транзакция старее 1 часа - удаляем ее
-                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromHours(1)) pendingTransactions.Remove(item.Key);
+                //если ожидающая транзакция старее 10 минут - проверяем, затем удаляем ее
+                if ((CommonHelpers.GetTime() - item.Value) > TimeSpan.FromMilliseconds(CommonHelpers.PeersCheckInterval /** 10*/))
+                {
+                    CheckTransaction(item.Key);
+
+                    pendingTransactions.Remove(item.Key);
+                }
             }
         }
 
@@ -135,7 +144,7 @@ namespace BlockChainVotings
                 {
                     if (CheckTransaction(transaction))
                     {
-                        //если внесли транзакцию в базу, отсылаем ее остальным пирам
+                        //если внесли хотя бы одну транзакцию в базу, отсылаем сообщение остальным пирам
                         net.SendMessageToAllPeers(message);
                     }
                 }
@@ -368,6 +377,7 @@ namespace BlockChainVotings
                     pendingBlocks.Add(block, CommonHelpers.GetTime());
                     //запускаем проверку последнего ожидаещего блока из цепочки (он снова загрузит нужные транзакции)
                     CheckBlock(lastBlockInChain);
+
                 }
                 else
                 {
@@ -787,7 +797,7 @@ namespace BlockChainVotings
 
             var transactions = db.GetFreeTransactions(CommonHelpers.TransactionsInBlock);
 
-            if (transactions.Count < CommonHelpers.TransactionsInBlock) return;
+            if (transactions.Count < CommonHelpers.TransactionsInBlock || !VotingsUser.CreateOwnBlocks) return;
 
             //помечаем их как ожидающие, поскольку сейчас создадим блок
             foreach (var item in transactions)
