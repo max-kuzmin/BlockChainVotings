@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainVotings", "BlockC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainVotingsTracker", "BlockChainVotingsTracker\BlockChainVotingsTracker.csproj", "{78F5F64A-A1E0-4BA2-A828-C942714B3B0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockChainVotingsAndroid", "BlockChainVotingsAndroid\BlockChainVotingsAndroid.csproj", "{753FADF7-0FD2-4252-A08C-E7C72CEA5F6E}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -25,6 +27,12 @@ Global
 		{78F5F64A-A1E0-4BA2-A828-C942714B3B0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78F5F64A-A1E0-4BA2-A828-C942714B3B0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78F5F64A-A1E0-4BA2-A828-C942714B3B0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{753FADF7-0FD2-4252-A08C-E7C72CEA5F6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{753FADF7-0FD2-4252-A08C-E7C72CEA5F6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{753FADF7-0FD2-4252-A08C-E7C72CEA5F6E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{753FADF7-0FD2-4252-A08C-E7C72CEA5F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{753FADF7-0FD2-4252-A08C-E7C72CEA5F6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{753FADF7-0FD2-4252-A08C-E7C72CEA5F6E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

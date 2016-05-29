@@ -199,7 +199,7 @@ namespace BlockChainVotings
                 var peersAddresses = peersToSend.Select(peer => peer.Address);
                 var messageToSend = new PeersMessage(peersAddresses.ToList());
 
-                tracker.SendMessageToPeer(message, this);
+                tracker.SendMessageToPeer(messageToSend, this);
 
                 foreach (var peer in peersToSend)
                 {

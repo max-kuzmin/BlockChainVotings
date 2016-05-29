@@ -1011,7 +1011,7 @@ namespace BlockChainVotings
 
         public int UserAsCandiddateCount(string userHash)
         {
-            return db.UserAsCandiddateCount(userHash);
+            return db.UserAsCandidateCount(userHash);
         }
 
 
