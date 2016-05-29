@@ -80,7 +80,7 @@ namespace BlockChainVotings
         }
 
 
-        public int UserAsCandiddateCount(string userHash)
+        public int UserAsCandidateCount(string userHash)
         {
             var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.StartVoting && tr.Info.Contains(userHash));
             var elem = query.CountAsync();
