@@ -80,6 +80,16 @@ namespace BlockChainVotings
         }
 
 
+        public int UserAsCandiddateCount(string userHash)
+        {
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.StartVoting && tr.Info.Contains(userHash));
+            var elem = query.CountAsync();
+            elem.Wait();
+
+            return elem.Result;
+        }
+
+
         public Block GetLastBlock()
         {
             var query = dbAsync.Table<Block>().OrderByDescending(block => block.Date);

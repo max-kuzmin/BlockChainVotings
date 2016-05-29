@@ -1009,6 +1009,12 @@ namespace BlockChainVotings
         }
 
 
+        public int UserAsCandiddateCount(string userHash)
+        {
+            return db.UserAsCandiddateCount(userHash);
+        }
+
+
         public string GetMyName()
         {
             var me = SearchUsers(VotingsUser.PublicKey);

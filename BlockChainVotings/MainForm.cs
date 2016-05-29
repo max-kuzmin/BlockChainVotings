@@ -24,6 +24,7 @@ namespace BlockChainVotings
             //MaterialSkinManager.Instance.Theme = new DarkTheme();
             MaterialSkinManager.Instance.AddFormToManage(this);
 
+            MaterialSkinManager.Instance.ROBOTO_MEDIUM_9 = new Font("Arial", 9);
 
             this.Text = Properties.Resources.votingSoftware;
             materialLabelAbout.Text = Properties.Resources.about;
@@ -51,6 +52,7 @@ namespace BlockChainVotings
             buttonStart.Text = Properties.Resources.start;
             buttonStop.Text = Properties.Resources.stop;
             notifyIcon1.Text = Properties.Resources.votingSoftware;
+            materialLabelVotings.Text = Properties.Resources.votings;
 
         }
 
@@ -93,6 +95,7 @@ namespace BlockChainVotings
                 buttonStart.Enabled = false;
             else
                 buttonStart.Enabled = true;
+
 
         }
 
@@ -185,6 +188,7 @@ namespace BlockChainVotings
                     materialLabelAvaliableVotings.Text = Properties.Resources.avaliableN + " " + blockChain.GetOpenedVotings().Count
                 + " " + Properties.Resources.nVotings;
 
+                    materialLabelVotingsVal.Text = blockChain.GetVotings().Count.ToString();
 
                     var notify = new NotifyForm(blockChain.GetVotingName(a.Data));
                     notify.ButtonPressed += (s2, a2) => notifyIcon1_Click(s2, a2);
@@ -218,6 +222,7 @@ namespace BlockChainVotings
                 + " " + Properties.Resources.nVotings;
             materialLabelPeersVal.Text = 0.ToString();
             materialLabelTrackersVal.Text = 0.ToString();
+            materialLabelVotingsVal.Text = blockChain.GetVotings().Count.ToString();
 
             string name = blockChain.GetMyName();
 

@@ -56,13 +56,14 @@
             this.listViewSearchUsers.FullRowSelect = true;
             this.listViewSearchUsers.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewSearchUsers.LabelWrap = false;
-            this.listViewSearchUsers.Location = new System.Drawing.Point(78, 168);
+            this.listViewSearchUsers.Location = new System.Drawing.Point(57, 146);
+            this.listViewSearchUsers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listViewSearchUsers.MouseLocation = new System.Drawing.Point(-1, -1);
             this.listViewSearchUsers.MouseState = MaterialSkin.MouseState.OUT;
             this.listViewSearchUsers.MultiSelect = false;
             this.listViewSearchUsers.Name = "listViewSearchUsers";
             this.listViewSearchUsers.OwnerDraw = true;
-            this.listViewSearchUsers.Size = new System.Drawing.Size(560, 190);
+            this.listViewSearchUsers.Size = new System.Drawing.Size(420, 155);
             this.listViewSearchUsers.TabIndex = 1;
             this.listViewSearchUsers.UseCompatibleStateImageBehavior = false;
             this.listViewSearchUsers.View = System.Windows.Forms.View.Details;
@@ -71,17 +72,17 @@
             // columnHeaderHash
             // 
             this.columnHeaderHash.Text = "Hash";
-            this.columnHeaderHash.Width = 150;
+            this.columnHeaderHash.Width = 100;
             // 
             // columnHeaderName
             // 
             this.columnHeaderName.Text = "Name";
-            this.columnHeaderName.Width = 250;
+            this.columnHeaderName.Width = 215;
             // 
             // columnHeaderId
             // 
             this.columnHeaderId.Text = "ID";
-            this.columnHeaderId.Width = 150;
+            this.columnHeaderId.Width = 100;
             // 
             // materialContextMenuStripUser
             // 
@@ -92,12 +93,12 @@
             this.toolStripMenuItem1});
             this.materialContextMenuStripUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialContextMenuStripUser.Name = "materialContextMenuStripUser";
-            this.materialContextMenuStripUser.Size = new System.Drawing.Size(119, 30);
+            this.materialContextMenuStripUser.Size = new System.Drawing.Size(103, 26);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(118, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(102, 22);
             this.toolStripMenuItem1.Text = "Copy";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
@@ -107,10 +108,11 @@
             this.labelSearchUser.Depth = 0;
             this.labelSearchUser.Font = new System.Drawing.Font("Arial", 10F);
             this.labelSearchUser.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelSearchUser.Location = new System.Drawing.Point(73, 96);
+            this.labelSearchUser.Location = new System.Drawing.Point(54, 88);
+            this.labelSearchUser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelSearchUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelSearchUser.Name = "labelSearchUser";
-            this.labelSearchUser.Size = new System.Drawing.Size(96, 19);
+            this.labelSearchUser.Size = new System.Drawing.Size(82, 16);
             this.labelSearchUser.TabIndex = 12;
             this.labelSearchUser.Text = "SearchUser";
             // 
@@ -118,7 +120,8 @@
             // 
             this.textBoxSearchUser.Depth = 0;
             this.textBoxSearchUser.Hint = "";
-            this.textBoxSearchUser.Location = new System.Drawing.Point(77, 127);
+            this.textBoxSearchUser.Location = new System.Drawing.Point(57, 113);
+            this.textBoxSearchUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxSearchUser.MaxLength = 32767;
             this.textBoxSearchUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxSearchUser.Name = "textBoxSearchUser";
@@ -126,7 +129,7 @@
             this.textBoxSearchUser.SelectedText = "";
             this.textBoxSearchUser.SelectionLength = 0;
             this.textBoxSearchUser.SelectionStart = 0;
-            this.textBoxSearchUser.Size = new System.Drawing.Size(560, 25);
+            this.textBoxSearchUser.Size = new System.Drawing.Size(420, 21);
             this.textBoxSearchUser.TabIndex = 11;
             this.textBoxSearchUser.TabStop = false;
             this.textBoxSearchUser.UseSystemPasswordChar = false;
@@ -135,10 +138,11 @@
             // buttonBan
             // 
             this.buttonBan.Depth = 0;
-            this.buttonBan.Location = new System.Drawing.Point(256, 500);
+            this.buttonBan.Location = new System.Drawing.Point(191, 416);
+            this.buttonBan.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonBan.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonBan.Name = "buttonBan";
-            this.buttonBan.Size = new System.Drawing.Size(184, 35);
+            this.buttonBan.Size = new System.Drawing.Size(138, 28);
             this.buttonBan.TabIndex = 3;
             this.buttonBan.Text = "Ban";
             this.buttonBan.UseVisualStyleBackColor = true;
@@ -150,10 +154,11 @@
             this.labelCause.Depth = 0;
             this.labelCause.Font = new System.Drawing.Font("Arial", 10F);
             this.labelCause.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelCause.Location = new System.Drawing.Point(74, 406);
+            this.labelCause.Location = new System.Drawing.Point(55, 340);
+            this.labelCause.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCause.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelCause.Name = "labelCause";
-            this.labelCause.Size = new System.Drawing.Size(56, 19);
+            this.labelCause.Size = new System.Drawing.Size(49, 16);
             this.labelCause.TabIndex = 16;
             this.labelCause.Text = "Cause";
             // 
@@ -161,7 +166,8 @@
             // 
             this.textBoxCause.Depth = 0;
             this.textBoxCause.Hint = "";
-            this.textBoxCause.Location = new System.Drawing.Point(78, 437);
+            this.textBoxCause.Location = new System.Drawing.Point(57, 365);
+            this.textBoxCause.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBoxCause.MaxLength = 32767;
             this.textBoxCause.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxCause.Name = "textBoxCause";
@@ -169,7 +175,7 @@
             this.textBoxCause.SelectedText = "";
             this.textBoxCause.SelectionLength = 0;
             this.textBoxCause.SelectionStart = 0;
-            this.textBoxCause.Size = new System.Drawing.Size(560, 25);
+            this.textBoxCause.Size = new System.Drawing.Size(420, 21);
             this.textBoxCause.TabIndex = 2;
             this.textBoxCause.TabStop = false;
             this.textBoxCause.UseSystemPasswordChar = false;
@@ -177,9 +183,9 @@
             // 
             // BanUserForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(717, 565);
+            this.ClientSize = new System.Drawing.Size(538, 470);
             this.Controls.Add(this.labelCause);
             this.Controls.Add(this.textBoxCause);
             this.Controls.Add(this.buttonBan);
@@ -187,6 +193,7 @@
             this.Controls.Add(this.labelSearchUser);
             this.Controls.Add(this.textBoxSearchUser);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "BanUserForm";
             this.Sizable = false;

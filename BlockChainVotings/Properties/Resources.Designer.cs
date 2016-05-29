@@ -106,6 +106,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Кол-во выдвижений.
+        /// </summary>
+        internal static string asCandidate {
+            get {
+                return ResourceManager.GetString("asCandidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Доступно.
         /// </summary>
         internal static string avaliableN {
@@ -700,6 +709,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на голосов.
+        /// </summary>
+        internal static string votes {
+            get {
+                return ResourceManager.GetString("votes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Голоса.
         /// </summary>
         internal static string votesCount {
@@ -723,6 +741,15 @@ namespace BlockChainVotings.Properties {
         internal static string votingName {
             get {
                 return ResourceManager.GetString("votingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Голосования.
+        /// </summary>
+        internal static string votings {
+            get {
+                return ResourceManager.GetString("votings", resourceCulture);
             }
         }
         
@@ -759,6 +786,15 @@ namespace BlockChainVotings.Properties {
         internal static string waitDB {
             get {
                 return ResourceManager.GetString("waitDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на с результатом.
+        /// </summary>
+        internal static string withResult {
+            get {
+                return ResourceManager.GetString("withResult", resourceCulture);
             }
         }
         

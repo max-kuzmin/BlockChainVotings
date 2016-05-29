@@ -38,6 +38,7 @@ namespace BlockChainVotings
             labelStatus.Text = Properties.Resources.userStatus;
             labelUserInfo.Text = Properties.Resources.userInfo;
             labelUserVotings.Text = Properties.Resources.userVotings;
+            materialLabelAsCandidate.Text = Properties.Resources.asCandidate;
 
             columnHeaderId.Text = Properties.Resources.userID;
             columnHeaderCandidateHash.Text = Properties.Resources.candidateHash;
@@ -47,6 +48,7 @@ namespace BlockChainVotings
             columnHeaderCandidateName.Text = Properties.Resources.candidateName;
             columnHeaderHash.Text = Properties.Resources.userHash;
             columnHeaderName.Text = Properties.Resources.userName;
+
 
 
             toolStripMenuItemUser.Text = Properties.Resources.copyCandidate;
@@ -129,6 +131,7 @@ namespace BlockChainVotings
                 labelNumVotesVal.Text = votings.Count.ToString();
                 labelHashVal.Text = userHash;
                 labelActivityVal.Text = lastVote == null ? "-" : lastVote.Date0.ToString();
+                materialLabelAsCandidateVal.Text = blockChain.UserAsCandiddateCount(userHash).ToString();
 
                 if (ban == null)
                     labelStatusVal.Text = Properties.Resources.active;
@@ -149,6 +152,7 @@ namespace BlockChainVotings
             labelHashVal.Text = "...";
             labelActivityVal.Text = "...";
             labelStatusVal.Text = "...";
+            materialLabelAsCandidateVal.Text = "...";
         }
 
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
