@@ -34,9 +34,11 @@ namespace BlockChainVotings
             columnHeaderName.Text = Properties.Resources.userName;
             columnHeaderID.Text = Properties.Resources.userID;
             columnHeaderVotes.Text = Properties.Resources.votesCount;
+            materialLabelWithResult.Text = Properties.Resources.withResult;
 
             toolStripMenuItem1.Text = Properties.Resources.copyHash;
             toolStripMenuItem2.Text = Properties.Resources.copyHash;
+            
 
         }
 
@@ -50,6 +52,7 @@ namespace BlockChainVotings
 
             labelVotingName.Text = "...";
             labelCandidateName.Text = "...";
+            materialLabelResult.Text = "...";
 
             labelCandidateName.BackColor = Color.White;
 
@@ -59,6 +62,10 @@ namespace BlockChainVotings
                 labelVotingName.Text = "№" + tr.VotingNumber + " " + JObject.Parse(tr.Info)["name"] + "\n" + Properties.Resources.from + " " + tr.Date0.ToShortDateString() + ",\n" + tr.Hash;
             }
             else return;
+
+
+            int sum = 0;
+
 
             if (tr!=null)
                 list = blockChain.GetCandidatesResults(tr);
@@ -71,7 +78,6 @@ namespace BlockChainVotings
             }
             else
             {
-                int sum = 0;
 
                 foreach (var user in list)
                 {
@@ -107,12 +113,18 @@ namespace BlockChainVotings
 
             if (int.Parse(listViewCandidates.Items[0].SubItems[3].Text) > int.Parse(listViewCandidates.Items[1].SubItems[3].Text))
             {
+
+                int persent = (int)(int.Parse(listViewCandidates.Items[0].SubItems[3].Text) / (double)sum * 100d);
+
                 labelCandidateName.Text = listViewCandidates.Items[0].SubItems[1].Text + ",\n" + Properties.Resources.userID + " ";
-                labelCandidateName.Text += listViewCandidates.Items[0].SubItems[2].Text + ",\n" + listViewCandidates.Items[0].SubItems[3].Text;
+                labelCandidateName.Text += listViewCandidates.Items[0].SubItems[2].Text + ",\n" + listViewCandidates.Items[0].SubItems[0].Text;
+
+                materialLabelResult.Text = listViewCandidates.Items[0].SubItems[3].Text + " " + Properties.Resources.votes + ", " + persent + "%";
             }
             else
             {
                 labelCandidateName.Text = "-";
+                materialLabelResult.Text = "-";
             }
         }
 
@@ -138,6 +150,7 @@ namespace BlockChainVotings
             labelVotingInfo.Font = new Font("Arial", 12);
             labelVotingName.Font = new Font("Arial", 12, FontStyle.Bold);
             labelCandidateName.Font = new Font("Arial", 12, FontStyle.Bold);
+            materialLabelResult.Font = new Font("Arial", 12, FontStyle.Bold);
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)

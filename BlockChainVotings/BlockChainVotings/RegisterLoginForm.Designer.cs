@@ -55,11 +55,10 @@
             // buttonRegister
             // 
             this.buttonRegister.Depth = 0;
-            this.buttonRegister.Location = new System.Drawing.Point(115, 387);
-            this.buttonRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRegister.Location = new System.Drawing.Point(85, 319);
             this.buttonRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonRegister.Name = "buttonRegister";
-            this.buttonRegister.Size = new System.Drawing.Size(261, 35);
+            this.buttonRegister.Size = new System.Drawing.Size(196, 28);
             this.buttonRegister.TabIndex = 6;
             this.buttonRegister.Text = "Register";
             this.buttonRegister.UseVisualStyleBackColor = true;
@@ -70,8 +69,7 @@
             this.textBoxPasswordRegister.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxPasswordRegister.Depth = 0;
             this.textBoxPasswordRegister.Hint = "";
-            this.textBoxPasswordRegister.Location = new System.Drawing.Point(71, 234);
-            this.textBoxPasswordRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPasswordRegister.Location = new System.Drawing.Point(53, 195);
             this.textBoxPasswordRegister.MaxLength = 32767;
             this.textBoxPasswordRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPasswordRegister.Name = "textBoxPasswordRegister";
@@ -79,7 +77,7 @@
             this.textBoxPasswordRegister.SelectedText = "";
             this.textBoxPasswordRegister.SelectionLength = 0;
             this.textBoxPasswordRegister.SelectionStart = 0;
-            this.textBoxPasswordRegister.Size = new System.Drawing.Size(370, 25);
+            this.textBoxPasswordRegister.Size = new System.Drawing.Size(278, 21);
             this.textBoxPasswordRegister.TabIndex = 4;
             this.textBoxPasswordRegister.TabStop = false;
             this.textBoxPasswordRegister.UseSystemPasswordChar = false;
@@ -91,11 +89,10 @@
             this.labelPrivateKeyRegister.Depth = 0;
             this.labelPrivateKeyRegister.Font = new System.Drawing.Font("Arial", 10F);
             this.labelPrivateKeyRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPrivateKeyRegister.Location = new System.Drawing.Point(68, 109);
-            this.labelPrivateKeyRegister.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelPrivateKeyRegister.Location = new System.Drawing.Point(52, 92);
             this.labelPrivateKeyRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelPrivateKeyRegister.Name = "labelPrivateKeyRegister";
-            this.labelPrivateKeyRegister.Size = new System.Drawing.Size(88, 19);
+            this.labelPrivateKeyRegister.Size = new System.Drawing.Size(76, 16);
             this.labelPrivateKeyRegister.TabIndex = 7;
             this.labelPrivateKeyRegister.Text = "PrivateKey";
             // 
@@ -105,11 +102,10 @@
             this.labelPublicKeyRegister.Depth = 0;
             this.labelPublicKeyRegister.Font = new System.Drawing.Font("Arial", 10F);
             this.labelPublicKeyRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPublicKeyRegister.Location = new System.Drawing.Point(67, 21);
-            this.labelPublicKeyRegister.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelPublicKeyRegister.Location = new System.Drawing.Point(50, 20);
             this.labelPublicKeyRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelPublicKeyRegister.Name = "labelPublicKeyRegister";
-            this.labelPublicKeyRegister.Size = new System.Drawing.Size(83, 19);
+            this.labelPublicKeyRegister.Size = new System.Drawing.Size(70, 16);
             this.labelPublicKeyRegister.TabIndex = 6;
             this.labelPublicKeyRegister.Text = "PublicKey";
             // 
@@ -118,8 +114,7 @@
             this.textBoxPrivateKeyRegister.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxPrivateKeyRegister.Depth = 0;
             this.textBoxPrivateKeyRegister.Hint = "";
-            this.textBoxPrivateKeyRegister.Location = new System.Drawing.Point(71, 141);
-            this.textBoxPrivateKeyRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPrivateKeyRegister.Location = new System.Drawing.Point(53, 120);
             this.textBoxPrivateKeyRegister.MaxLength = 32767;
             this.textBoxPrivateKeyRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPrivateKeyRegister.Name = "textBoxPrivateKeyRegister";
@@ -127,7 +122,7 @@
             this.textBoxPrivateKeyRegister.SelectedText = "";
             this.textBoxPrivateKeyRegister.SelectionLength = 0;
             this.textBoxPrivateKeyRegister.SelectionStart = 0;
-            this.textBoxPrivateKeyRegister.Size = new System.Drawing.Size(370, 25);
+            this.textBoxPrivateKeyRegister.Size = new System.Drawing.Size(278, 21);
             this.textBoxPrivateKeyRegister.TabIndex = 3;
             this.textBoxPrivateKeyRegister.TabStop = false;
             this.textBoxPrivateKeyRegister.UseSystemPasswordChar = false;
@@ -139,8 +134,7 @@
             this.textBoxPublicKeyRegister.Depth = 0;
             this.textBoxPublicKeyRegister.ForeColor = System.Drawing.SystemColors.WindowText;
             this.textBoxPublicKeyRegister.Hint = "";
-            this.textBoxPublicKeyRegister.Location = new System.Drawing.Point(71, 53);
-            this.textBoxPublicKeyRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPublicKeyRegister.Location = new System.Drawing.Point(53, 48);
             this.textBoxPublicKeyRegister.MaxLength = 32767;
             this.textBoxPublicKeyRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPublicKeyRegister.Name = "textBoxPublicKeyRegister";
@@ -148,7 +142,7 @@
             this.textBoxPublicKeyRegister.SelectedText = "";
             this.textBoxPublicKeyRegister.SelectionLength = 0;
             this.textBoxPublicKeyRegister.SelectionStart = 0;
-            this.textBoxPublicKeyRegister.Size = new System.Drawing.Size(370, 25);
+            this.textBoxPublicKeyRegister.Size = new System.Drawing.Size(278, 21);
             this.textBoxPublicKeyRegister.TabIndex = 2;
             this.textBoxPublicKeyRegister.TabStop = false;
             this.textBoxPublicKeyRegister.UseSystemPasswordChar = false;
@@ -160,11 +154,10 @@
             this.labelPasswordRegister.Depth = 0;
             this.labelPasswordRegister.Font = new System.Drawing.Font("Arial", 10F);
             this.labelPasswordRegister.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPasswordRegister.Location = new System.Drawing.Point(68, 200);
-            this.labelPasswordRegister.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelPasswordRegister.Location = new System.Drawing.Point(50, 167);
             this.labelPasswordRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelPasswordRegister.Name = "labelPasswordRegister";
-            this.labelPasswordRegister.Size = new System.Drawing.Size(80, 19);
+            this.labelPasswordRegister.Size = new System.Drawing.Size(69, 16);
             this.labelPasswordRegister.TabIndex = 8;
             this.labelPasswordRegister.Text = "Password";
             // 
@@ -173,12 +166,11 @@
             this.tabControl1.Controls.Add(this.tabPageRegister);
             this.tabControl1.Controls.Add(this.tabPageLogin);
             this.tabControl1.Depth = 0;
-            this.tabControl1.Location = new System.Drawing.Point(8, 105);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControl1.Location = new System.Drawing.Point(6, 95);
             this.tabControl1.MouseState = MaterialSkin.MouseState.HOVER;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(521, 492);
+            this.tabControl1.Size = new System.Drawing.Size(391, 390);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPageRegister
@@ -193,11 +185,10 @@
             this.tabPageRegister.Controls.Add(this.textBoxPasswordRegister);
             this.tabPageRegister.Controls.Add(this.labelPublicKeyRegister);
             this.tabPageRegister.Controls.Add(this.textBoxPrivateKeyRegister);
-            this.tabPageRegister.Location = new System.Drawing.Point(4, 25);
-            this.tabPageRegister.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageRegister.Location = new System.Drawing.Point(4, 22);
             this.tabPageRegister.Name = "tabPageRegister";
-            this.tabPageRegister.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageRegister.Size = new System.Drawing.Size(513, 463);
+            this.tabPageRegister.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageRegister.Size = new System.Drawing.Size(383, 364);
             this.tabPageRegister.TabIndex = 0;
             this.tabPageRegister.Text = "Register";
             // 
@@ -207,11 +198,10 @@
             this.labelPasswordRegister2.Depth = 0;
             this.labelPasswordRegister2.Font = new System.Drawing.Font("Arial", 10F);
             this.labelPasswordRegister2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPasswordRegister2.Location = new System.Drawing.Point(68, 292);
-            this.labelPasswordRegister2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelPasswordRegister2.Location = new System.Drawing.Point(50, 241);
             this.labelPasswordRegister2.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelPasswordRegister2.Name = "labelPasswordRegister2";
-            this.labelPasswordRegister2.Size = new System.Drawing.Size(89, 19);
+            this.labelPasswordRegister2.Size = new System.Drawing.Size(77, 16);
             this.labelPasswordRegister2.TabIndex = 10;
             this.labelPasswordRegister2.Text = "Password2";
             // 
@@ -220,8 +210,7 @@
             this.textBoxPasswordRegister2.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxPasswordRegister2.Depth = 0;
             this.textBoxPasswordRegister2.Hint = "";
-            this.textBoxPasswordRegister2.Location = new System.Drawing.Point(71, 325);
-            this.textBoxPasswordRegister2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPasswordRegister2.Location = new System.Drawing.Point(53, 269);
             this.textBoxPasswordRegister2.MaxLength = 32767;
             this.textBoxPasswordRegister2.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPasswordRegister2.Name = "textBoxPasswordRegister2";
@@ -229,7 +218,7 @@
             this.textBoxPasswordRegister2.SelectedText = "";
             this.textBoxPasswordRegister2.SelectionLength = 0;
             this.textBoxPasswordRegister2.SelectionStart = 0;
-            this.textBoxPasswordRegister2.Size = new System.Drawing.Size(370, 25);
+            this.textBoxPasswordRegister2.Size = new System.Drawing.Size(278, 21);
             this.textBoxPasswordRegister2.TabIndex = 5;
             this.textBoxPasswordRegister2.TabStop = false;
             this.textBoxPasswordRegister2.UseSystemPasswordChar = false;
@@ -243,11 +232,10 @@
             this.tabPageLogin.Controls.Add(this.buttonLogin);
             this.tabPageLogin.Controls.Add(this.textBoxPassLogin);
             this.tabPageLogin.Controls.Add(this.labelPublicKeyLogin);
-            this.tabPageLogin.Location = new System.Drawing.Point(4, 25);
-            this.tabPageLogin.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPageLogin.Location = new System.Drawing.Point(4, 22);
             this.tabPageLogin.Name = "tabPageLogin";
-            this.tabPageLogin.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPageLogin.Size = new System.Drawing.Size(513, 463);
+            this.tabPageLogin.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageLogin.Size = new System.Drawing.Size(383, 364);
             this.tabPageLogin.TabIndex = 1;
             this.tabPageLogin.Text = "Login";
             // 
@@ -258,8 +246,7 @@
             this.textBoxPublicKeyLogin.Enabled = false;
             this.textBoxPublicKeyLogin.ForeColor = System.Drawing.SystemColors.WindowText;
             this.textBoxPublicKeyLogin.Hint = "";
-            this.textBoxPublicKeyLogin.Location = new System.Drawing.Point(71, 126);
-            this.textBoxPublicKeyLogin.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPublicKeyLogin.Location = new System.Drawing.Point(53, 102);
             this.textBoxPublicKeyLogin.MaxLength = 32767;
             this.textBoxPublicKeyLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPublicKeyLogin.Name = "textBoxPublicKeyLogin";
@@ -267,7 +254,7 @@
             this.textBoxPublicKeyLogin.SelectedText = "";
             this.textBoxPublicKeyLogin.SelectionLength = 0;
             this.textBoxPublicKeyLogin.SelectionStart = 0;
-            this.textBoxPublicKeyLogin.Size = new System.Drawing.Size(370, 25);
+            this.textBoxPublicKeyLogin.Size = new System.Drawing.Size(278, 21);
             this.textBoxPublicKeyLogin.TabIndex = 7;
             this.textBoxPublicKeyLogin.TabStop = false;
             this.textBoxPublicKeyLogin.UseSystemPasswordChar = false;
@@ -278,22 +265,20 @@
             this.labelPassLogin.Depth = 0;
             this.labelPassLogin.Font = new System.Drawing.Font("Arial", 10F);
             this.labelPassLogin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPassLogin.Location = new System.Drawing.Point(67, 187);
-            this.labelPassLogin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelPassLogin.Location = new System.Drawing.Point(50, 152);
             this.labelPassLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelPassLogin.Name = "labelPassLogin";
-            this.labelPassLogin.Size = new System.Drawing.Size(80, 19);
+            this.labelPassLogin.Size = new System.Drawing.Size(69, 16);
             this.labelPassLogin.TabIndex = 13;
             this.labelPassLogin.Text = "Password";
             // 
             // buttonLogin
             // 
             this.buttonLogin.Depth = 0;
-            this.buttonLogin.Location = new System.Drawing.Point(156, 351);
-            this.buttonLogin.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonLogin.Location = new System.Drawing.Point(117, 285);
             this.buttonLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonLogin.Name = "buttonLogin";
-            this.buttonLogin.Size = new System.Drawing.Size(190, 35);
+            this.buttonLogin.Size = new System.Drawing.Size(142, 28);
             this.buttonLogin.TabIndex = 9;
             this.buttonLogin.Text = "Login";
             this.buttonLogin.UseVisualStyleBackColor = true;
@@ -304,8 +289,7 @@
             this.textBoxPassLogin.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxPassLogin.Depth = 0;
             this.textBoxPassLogin.Hint = "";
-            this.textBoxPassLogin.Location = new System.Drawing.Point(71, 219);
-            this.textBoxPassLogin.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxPassLogin.Location = new System.Drawing.Point(53, 178);
             this.textBoxPassLogin.MaxLength = 32767;
             this.textBoxPassLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPassLogin.Name = "textBoxPassLogin";
@@ -313,7 +297,7 @@
             this.textBoxPassLogin.SelectedText = "";
             this.textBoxPassLogin.SelectionLength = 0;
             this.textBoxPassLogin.SelectionStart = 0;
-            this.textBoxPassLogin.Size = new System.Drawing.Size(370, 25);
+            this.textBoxPassLogin.Size = new System.Drawing.Size(278, 21);
             this.textBoxPassLogin.TabIndex = 8;
             this.textBoxPassLogin.TabStop = false;
             this.textBoxPassLogin.UseSystemPasswordChar = false;
@@ -325,11 +309,10 @@
             this.labelPublicKeyLogin.Depth = 0;
             this.labelPublicKeyLogin.Font = new System.Drawing.Font("Arial", 10F);
             this.labelPublicKeyLogin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelPublicKeyLogin.Location = new System.Drawing.Point(67, 92);
-            this.labelPublicKeyLogin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelPublicKeyLogin.Location = new System.Drawing.Point(50, 75);
             this.labelPublicKeyLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelPublicKeyLogin.Name = "labelPublicKeyLogin";
-            this.labelPublicKeyLogin.Size = new System.Drawing.Size(83, 19);
+            this.labelPublicKeyLogin.Size = new System.Drawing.Size(70, 16);
             this.labelPublicKeyLogin.TabIndex = 12;
             this.labelPublicKeyLogin.Text = "PublicKey";
             // 
@@ -338,22 +321,22 @@
             this.materialTabSelector1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.materialTabSelector1.BaseTabControl = this.tabControl1;
             this.materialTabSelector1.Depth = 0;
-            this.materialTabSelector1.Location = new System.Drawing.Point(-11, 63);
+            this.materialTabSelector1.Location = new System.Drawing.Point(-14, 57);
+            this.materialTabSelector1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.materialTabSelector1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabSelector1.Name = "materialTabSelector1";
-            this.materialTabSelector1.Size = new System.Drawing.Size(577, 35);
+            this.materialTabSelector1.Size = new System.Drawing.Size(433, 33);
             this.materialTabSelector1.TabIndex = 11;
             this.materialTabSelector1.Text = "materialTabSelector1";
             // 
             // RegisterLoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(537, 610);
+            this.ClientSize = new System.Drawing.Size(403, 496);
             this.Controls.Add(this.materialTabSelector1);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "RegisterLoginForm";
             this.Sizable = false;

@@ -51,7 +51,7 @@ namespace BlockChainVotings
 
         public void Connect(bool withTracker = false)
         {
-            withTracker = true;//111
+            //111withTracker = true;
             if (Status == PeerStatus.NoHashRecieved)
             {
                 RequestPeerHash();

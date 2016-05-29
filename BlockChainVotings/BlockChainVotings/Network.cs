@@ -353,8 +353,8 @@ namespace BlockChainVotings
                 PeerDiscovery.MinTargetLocalIPPort = CommonHelpers.DiscoveryPort;
                 PeerDiscovery.MaxTargetLocalIPPort = CommonHelpers.DiscoveryPort;
                 PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
-                //111PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonHelpers.GetLocalEndPoint(CommonHelpers.DiscoveryPort));
-                
+                PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonHelpers.GetLocalEndPoint(CommonHelpers.DiscoveryPort));
+                //111
             }
 
 

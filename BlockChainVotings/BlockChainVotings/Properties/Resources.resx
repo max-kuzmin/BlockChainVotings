@@ -354,4 +354,16 @@
   <data name="user" xml:space="preserve">
     <value>пользователь</value>
   </data>
+  <data name="asCandidate" xml:space="preserve">
+    <value>Кол-во выдвижений</value>
+  </data>
+  <data name="votes" xml:space="preserve">
+    <value>голосов</value>
+  </data>
+  <data name="votings" xml:space="preserve">
+    <value>Голосования</value>
+  </data>
+  <data name="withResult" xml:space="preserve">
+    <value>с результатом</value>
+  </data>
 </root>
