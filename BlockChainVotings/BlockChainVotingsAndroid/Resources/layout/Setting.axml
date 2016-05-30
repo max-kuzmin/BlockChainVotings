@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <TextView
+        android:text="@string/trackers"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewTrackers" />
+    <EditText
+        android:inputType="textMultiLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextTrackers" />
+    <TextView
+        android:text="@string/netConnection"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewNetConnection" />
+    <Button
+        android:id="@+id/buttonStop"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/stop" />
+    <Button
+        android:text="@string/start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonStart" />
+    <CheckBox
+        android:text="@string/createBlocks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxCreateBlocks" />
+    <TextView
+        android:text="@string/console"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewConsoleLabel" />
+    <ScrollView
+        android:id="@+id/SCROLLER_ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+        android:minWidth="25px"
+        android:minHeight="25px">
+        <TextView
+            android:text="Console\n"
+            android:layout_width="match_parent"
+            android:id="@+id/textViewConsole"
+            android:layout_height="match_parent" />
+    </ScrollView>
+</LinearLayout>
