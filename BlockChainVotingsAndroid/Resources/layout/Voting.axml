@@ -6,9 +6,33 @@
     p1:minWidth="25px"
     p1:minHeight="25px">
     <TextView
-        p1:text="hello"
+        p1:text="@string/selectVoting"
         p1:textAppearance="?android:attr/textAppearanceMedium"
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:id="@+id/textView1" />
+        p1:id="@+id/textViewSelectVoting" />
+    <Spinner
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/spinnerVoting" />
+    <TextView
+        p1:text="@string/selectCandidate"
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/textViewSelectCandidate" />
+    <Spinner
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/spinnerCandidates" />
+    <CheckBox
+        p1:text="@string/agree"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/checkBoxAgree" />
+    <Button
+        p1:text="@string/vote"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/buttonVote" />
 </LinearLayout>

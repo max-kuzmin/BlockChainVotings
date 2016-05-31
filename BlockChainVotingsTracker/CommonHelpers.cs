@@ -21,13 +21,25 @@ namespace BlockChainVotingsTracker
         static public string LocalHash = (new Random((int)(DateTime.Now.Ticks)).Next().ToString());
 
 
+        static IPAddress localAddr = null;
+
         static public IPEndPoint GetLocalEndPoint(int port)
         {
-            if (!NetworkInterface.GetIsNetworkAvailable()) return null;
-
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            var address = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork).OrderByDescending(addr => addr.Address).First();
-            IPEndPoint endPoint = new IPEndPoint(address, port);
+            if (localAddr == null)
+            {
+                try
+                {
+                    var client = new UdpClient("8.8.8.8", 80);
+                    client.Client.ReceiveTimeout = 2000;
+                    client.Client.SendTimeout = 2000;
+                    localAddr = ((IPEndPoint)client.Client.LocalEndPoint).Address;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            IPEndPoint endPoint = new IPEndPoint(localAddr, port);
             return endPoint;
         }
 

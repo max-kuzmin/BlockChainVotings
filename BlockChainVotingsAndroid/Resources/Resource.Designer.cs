@@ -66,9 +66,6 @@ namespace BlockChainVotingsAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050015
-			public const int SCROLLER_ID = 2131034133;
-			
 			// aapt resource value: 0x7f050004
 			public const int buttonLogin = 2131034116;
 			
@@ -80,6 +77,12 @@ namespace BlockChainVotingsAndroid
 			
 			// aapt resource value: 0x7f050011
 			public const int buttonStop = 2131034129;
+			
+			// aapt resource value: 0x7f05001c
+			public const int buttonVote = 2131034140;
+			
+			// aapt resource value: 0x7f05001b
+			public const int checkBoxAgree = 2131034139;
 			
 			// aapt resource value: 0x7f050013
 			public const int checkBoxCreateBlocks = 2131034131;
@@ -105,8 +108,14 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f05000f
 			public const int editTextTrackers = 2131034127;
 			
-			// aapt resource value: 0x7f050017
-			public const int textView1 = 2131034135;
+			// aapt resource value: 0x7f050015
+			public const int scrollVIewConsole = 2131034133;
+			
+			// aapt resource value: 0x7f05001a
+			public const int spinnerCandidates = 2131034138;
+			
+			// aapt resource value: 0x7f050018
+			public const int spinnerVoting = 2131034136;
 			
 			// aapt resource value: 0x7f050016
 			public const int textViewConsole = 2131034134;
@@ -134,6 +143,12 @@ namespace BlockChainVotingsAndroid
 			
 			// aapt resource value: 0x7f050005
 			public const int textViewPublicKeyReg = 2131034117;
+			
+			// aapt resource value: 0x7f050019
+			public const int textViewSelectCandidate = 2131034137;
+			
+			// aapt resource value: 0x7f050017
+			public const int textViewSelectVoting = 2131034135;
 			
 			// aapt resource value: 0x7f05000e
 			public const int textViewTrackers = 2131034126;
@@ -182,6 +197,9 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f040000
 			public const int Hello = 2130968576;
 			
+			// aapt resource value: 0x7f040017
+			public const int agree = 2130968599;
+			
 			// aapt resource value: 0x7f04000a
 			public const int blockChainVoting = 2130968586;
 			
@@ -190,6 +208,9 @@ namespace BlockChainVotingsAndroid
 			
 			// aapt resource value: 0x7f04000f
 			public const int createBlocks = 2130968591;
+			
+			// aapt resource value: 0x7f040015
+			public const int from = 2130968597;
 			
 			// aapt resource value: 0x7f040007
 			public const int login = 2130968583;
@@ -212,8 +233,17 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f040006
 			public const int register = 2130968582;
 			
+			// aapt resource value: 0x7f040014
+			public const int selectCandidate = 2130968596;
+			
+			// aapt resource value: 0x7f040013
+			public const int selectVoting = 2130968595;
+			
 			// aapt resource value: 0x7f040011
 			public const int setting = 2130968593;
+			
+			// aapt resource value: 0x7f040016
+			public const int snils = 2130968598;
 			
 			// aapt resource value: 0x7f04000b
 			public const int start = 2130968587;
@@ -229,6 +259,9 @@ namespace BlockChainVotingsAndroid
 			
 			// aapt resource value: 0x7f040012
 			public const int trackers = 2130968594;
+			
+			// aapt resource value: 0x7f040018
+			public const int vote = 2130968600;
 			
 			// aapt resource value: 0x7f040010
 			public const int voting = 2130968592;

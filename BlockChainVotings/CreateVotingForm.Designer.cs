@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateVotingForm));
             this.buttonCreateVoting = new MaterialSkin.Controls.MaterialRaisedButton();
             this.labelVotingName = new MaterialSkin.Controls.MaterialLabel();
             this.textBoxVotingName = new MaterialSkin.Controls.MaterialSingleLineTextField();
@@ -56,11 +55,11 @@
             // buttonCreateVoting
             // 
             this.buttonCreateVoting.Depth = 0;
-            this.buttonCreateVoting.Location = new System.Drawing.Point(179, 548);
-            this.buttonCreateVoting.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonCreateVoting.Location = new System.Drawing.Point(239, 674);
+            this.buttonCreateVoting.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonCreateVoting.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonCreateVoting.Name = "buttonCreateVoting";
-            this.buttonCreateVoting.Size = new System.Drawing.Size(169, 28);
+            this.buttonCreateVoting.Size = new System.Drawing.Size(225, 34);
             this.buttonCreateVoting.TabIndex = 6;
             this.buttonCreateVoting.Text = "Create voting";
             this.buttonCreateVoting.UseVisualStyleBackColor = true;
@@ -72,11 +71,10 @@
             this.labelVotingName.Depth = 0;
             this.labelVotingName.Font = new System.Drawing.Font("Arial", 10F);
             this.labelVotingName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelVotingName.Location = new System.Drawing.Point(59, 93);
-            this.labelVotingName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelVotingName.Location = new System.Drawing.Point(79, 114);
             this.labelVotingName.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelVotingName.Name = "labelVotingName";
-            this.labelVotingName.Size = new System.Drawing.Size(83, 16);
+            this.labelVotingName.Size = new System.Drawing.Size(96, 19);
             this.labelVotingName.TabIndex = 1;
             this.labelVotingName.Text = "VotingName";
             // 
@@ -84,8 +82,8 @@
             // 
             this.textBoxVotingName.Depth = 0;
             this.textBoxVotingName.Hint = "";
-            this.textBoxVotingName.Location = new System.Drawing.Point(62, 119);
-            this.textBoxVotingName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxVotingName.Location = new System.Drawing.Point(83, 146);
+            this.textBoxVotingName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxVotingName.MaxLength = 32767;
             this.textBoxVotingName.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxVotingName.Name = "textBoxVotingName";
@@ -93,7 +91,7 @@
             this.textBoxVotingName.SelectedText = "";
             this.textBoxVotingName.SelectionLength = 0;
             this.textBoxVotingName.SelectionStart = 0;
-            this.textBoxVotingName.Size = new System.Drawing.Size(420, 21);
+            this.textBoxVotingName.Size = new System.Drawing.Size(560, 25);
             this.textBoxVotingName.TabIndex = 0;
             this.textBoxVotingName.TabStop = false;
             this.textBoxVotingName.UseSystemPasswordChar = false;
@@ -103,8 +101,8 @@
             // 
             this.textBoxSearchUser.Depth = 0;
             this.textBoxSearchUser.Hint = "";
-            this.textBoxSearchUser.Location = new System.Drawing.Point(62, 183);
-            this.textBoxSearchUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxSearchUser.Location = new System.Drawing.Point(83, 225);
+            this.textBoxSearchUser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxSearchUser.MaxLength = 32767;
             this.textBoxSearchUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxSearchUser.Name = "textBoxSearchUser";
@@ -112,7 +110,7 @@
             this.textBoxSearchUser.SelectedText = "";
             this.textBoxSearchUser.SelectionLength = 0;
             this.textBoxSearchUser.SelectionStart = 0;
-            this.textBoxSearchUser.Size = new System.Drawing.Size(420, 21);
+            this.textBoxSearchUser.Size = new System.Drawing.Size(560, 25);
             this.textBoxSearchUser.TabIndex = 1;
             this.textBoxSearchUser.TabStop = false;
             this.textBoxSearchUser.UseSystemPasswordChar = false;
@@ -124,22 +122,21 @@
             this.labelSearchUser.Depth = 0;
             this.labelSearchUser.Font = new System.Drawing.Font("Arial", 10F);
             this.labelSearchUser.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelSearchUser.Location = new System.Drawing.Point(59, 157);
-            this.labelSearchUser.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelSearchUser.Location = new System.Drawing.Point(79, 193);
             this.labelSearchUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelSearchUser.Name = "labelSearchUser";
-            this.labelSearchUser.Size = new System.Drawing.Size(82, 16);
+            this.labelSearchUser.Size = new System.Drawing.Size(96, 19);
             this.labelSearchUser.TabIndex = 5;
             this.labelSearchUser.Text = "SearchUser";
             // 
             // buttonAddUser
             // 
             this.buttonAddUser.Depth = 0;
-            this.buttonAddUser.Location = new System.Drawing.Point(221, 354);
-            this.buttonAddUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonAddUser.Location = new System.Drawing.Point(295, 436);
+            this.buttonAddUser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonAddUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonAddUser.Name = "buttonAddUser";
-            this.buttonAddUser.Size = new System.Drawing.Size(30, 24);
+            this.buttonAddUser.Size = new System.Drawing.Size(40, 30);
             this.buttonAddUser.TabIndex = 3;
             this.buttonAddUser.Text = "=>";
             this.buttonAddUser.UseVisualStyleBackColor = true;
@@ -148,11 +145,11 @@
             // buttonRemoveUser
             // 
             this.buttonRemoveUser.Depth = 0;
-            this.buttonRemoveUser.Location = new System.Drawing.Point(281, 354);
-            this.buttonRemoveUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonRemoveUser.Location = new System.Drawing.Point(375, 436);
+            this.buttonRemoveUser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonRemoveUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonRemoveUser.Name = "buttonRemoveUser";
-            this.buttonRemoveUser.Size = new System.Drawing.Size(30, 24);
+            this.buttonRemoveUser.Size = new System.Drawing.Size(40, 30);
             this.buttonRemoveUser.TabIndex = 4;
             this.buttonRemoveUser.Text = "<=";
             this.buttonRemoveUser.UseVisualStyleBackColor = true;
@@ -164,11 +161,10 @@
             this.labelCandidates.Depth = 0;
             this.labelCandidates.Font = new System.Drawing.Font("Arial", 10F);
             this.labelCandidates.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelCandidates.Location = new System.Drawing.Point(59, 370);
-            this.labelCandidates.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelCandidates.Location = new System.Drawing.Point(79, 455);
             this.labelCandidates.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelCandidates.Name = "labelCandidates";
-            this.labelCandidates.Size = new System.Drawing.Size(80, 16);
+            this.labelCandidates.Size = new System.Drawing.Size(91, 19);
             this.labelCandidates.TabIndex = 9;
             this.labelCandidates.Text = "Candidates";
             // 
@@ -184,13 +180,13 @@
             this.listViewSearchUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.listViewSearchUsers.FullRowSelect = true;
             this.listViewSearchUsers.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewSearchUsers.Location = new System.Drawing.Point(62, 218);
-            this.listViewSearchUsers.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listViewSearchUsers.Location = new System.Drawing.Point(83, 268);
+            this.listViewSearchUsers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listViewSearchUsers.MouseLocation = new System.Drawing.Point(-1, -1);
             this.listViewSearchUsers.MouseState = MaterialSkin.MouseState.OUT;
             this.listViewSearchUsers.Name = "listViewSearchUsers";
             this.listViewSearchUsers.OwnerDraw = true;
-            this.listViewSearchUsers.Size = new System.Drawing.Size(420, 122);
+            this.listViewSearchUsers.Size = new System.Drawing.Size(559, 150);
             this.listViewSearchUsers.TabIndex = 2;
             this.listViewSearchUsers.UseCompatibleStateImageBehavior = false;
             this.listViewSearchUsers.View = System.Windows.Forms.View.Details;
@@ -219,12 +215,12 @@
             this.toolStripMenuItem1});
             this.materialContextMenuStripUser.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialContextMenuStripUser.Name = "materialContextMenuStripUser";
-            this.materialContextMenuStripUser.Size = new System.Drawing.Size(103, 26);
+            this.materialContextMenuStripUser.Size = new System.Drawing.Size(119, 30);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(102, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(118, 26);
             this.toolStripMenuItem1.Text = "Copy";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
@@ -240,13 +236,13 @@
             this.listViewCandidates.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.listViewCandidates.FullRowSelect = true;
             this.listViewCandidates.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewCandidates.Location = new System.Drawing.Point(62, 394);
-            this.listViewCandidates.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listViewCandidates.Location = new System.Drawing.Point(83, 485);
+            this.listViewCandidates.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listViewCandidates.MouseLocation = new System.Drawing.Point(-1, -1);
             this.listViewCandidates.MouseState = MaterialSkin.MouseState.OUT;
             this.listViewCandidates.Name = "listViewCandidates";
             this.listViewCandidates.OwnerDraw = true;
-            this.listViewCandidates.Size = new System.Drawing.Size(420, 122);
+            this.listViewCandidates.Size = new System.Drawing.Size(559, 150);
             this.listViewCandidates.TabIndex = 5;
             this.listViewCandidates.UseCompatibleStateImageBehavior = false;
             this.listViewCandidates.View = System.Windows.Forms.View.Details;
@@ -275,20 +271,20 @@
             this.toolStripMenuItem2});
             this.materialContextMenuStripCandidate.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialContextMenuStripCandidate.Name = "materialContextMenuStripUser";
-            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(103, 26);
+            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(119, 30);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(102, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(118, 26);
             this.toolStripMenuItem2.Text = "Copy";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
             // CreateVotingForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(545, 612);
+            this.ClientSize = new System.Drawing.Size(727, 753);
             this.Controls.Add(this.listViewCandidates);
             this.Controls.Add(this.listViewSearchUsers);
             this.Controls.Add(this.labelCandidates);
@@ -299,8 +295,7 @@
             this.Controls.Add(this.textBoxVotingName);
             this.Controls.Add(this.labelVotingName);
             this.Controls.Add(this.buttonCreateVoting);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.Name = "CreateVotingForm";
             this.Sizable = false;

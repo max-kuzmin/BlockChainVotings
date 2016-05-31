@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UsersStatisticsForm));
             this.listViewSearchUsers = new MaterialSkin.Controls.MaterialListView();
             this.columnHeaderHash = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -83,13 +82,13 @@
             this.listViewSearchUsers.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.listViewSearchUsers.FullRowSelect = true;
             this.listViewSearchUsers.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewSearchUsers.Location = new System.Drawing.Point(51, 159);
-            this.listViewSearchUsers.Margin = new System.Windows.Forms.Padding(2);
+            this.listViewSearchUsers.Location = new System.Drawing.Point(68, 196);
+            this.listViewSearchUsers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listViewSearchUsers.MouseLocation = new System.Drawing.Point(-1, -1);
             this.listViewSearchUsers.MouseState = MaterialSkin.MouseState.OUT;
             this.listViewSearchUsers.Name = "listViewSearchUsers";
             this.listViewSearchUsers.OwnerDraw = true;
-            this.listViewSearchUsers.Size = new System.Drawing.Size(496, 122);
+            this.listViewSearchUsers.Size = new System.Drawing.Size(661, 150);
             this.listViewSearchUsers.TabIndex = 13;
             this.listViewSearchUsers.UseCompatibleStateImageBehavior = false;
             this.listViewSearchUsers.View = System.Windows.Forms.View.Details;
@@ -119,12 +118,12 @@
             this.toolStripMenuItem2});
             this.materialContextMenuStripCandidate.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialContextMenuStripCandidate.Name = "materialContextMenuStripUser";
-            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(103, 26);
+            this.materialContextMenuStripCandidate.Size = new System.Drawing.Size(119, 30);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(102, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(118, 26);
             this.toolStripMenuItem2.Text = "Copy";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
             // 
@@ -134,11 +133,10 @@
             this.labelSearchUsers.Depth = 0;
             this.labelSearchUsers.Font = new System.Drawing.Font("Arial", 10F);
             this.labelSearchUsers.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelSearchUsers.Location = new System.Drawing.Point(48, 96);
-            this.labelSearchUsers.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelSearchUsers.Location = new System.Drawing.Point(64, 118);
             this.labelSearchUsers.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelSearchUsers.Name = "labelSearchUsers";
-            this.labelSearchUsers.Size = new System.Drawing.Size(89, 16);
+            this.labelSearchUsers.Size = new System.Drawing.Size(104, 19);
             this.labelSearchUsers.TabIndex = 12;
             this.labelSearchUsers.Text = "SearchUsers";
             // 
@@ -148,8 +146,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxSearchUsers.Depth = 0;
             this.textBoxSearchUsers.Hint = "";
-            this.textBoxSearchUsers.Location = new System.Drawing.Point(51, 121);
-            this.textBoxSearchUsers.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxSearchUsers.Location = new System.Drawing.Point(68, 149);
+            this.textBoxSearchUsers.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxSearchUsers.MaxLength = 32767;
             this.textBoxSearchUsers.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxSearchUsers.Name = "textBoxSearchUsers";
@@ -157,7 +155,7 @@
             this.textBoxSearchUsers.SelectedText = "";
             this.textBoxSearchUsers.SelectionLength = 0;
             this.textBoxSearchUsers.SelectionStart = 0;
-            this.textBoxSearchUsers.Size = new System.Drawing.Size(495, 21);
+            this.textBoxSearchUsers.Size = new System.Drawing.Size(660, 25);
             this.textBoxSearchUsers.TabIndex = 11;
             this.textBoxSearchUsers.TabStop = false;
             this.textBoxSearchUsers.UseSystemPasswordChar = false;
@@ -179,13 +177,13 @@
             this.listViewVotings.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
             this.listViewVotings.FullRowSelect = true;
             this.listViewVotings.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.listViewVotings.Location = new System.Drawing.Point(51, 346);
-            this.listViewVotings.Margin = new System.Windows.Forms.Padding(2);
+            this.listViewVotings.Location = new System.Drawing.Point(68, 426);
+            this.listViewVotings.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listViewVotings.MouseLocation = new System.Drawing.Point(-1, -1);
             this.listViewVotings.MouseState = MaterialSkin.MouseState.OUT;
             this.listViewVotings.Name = "listViewVotings";
             this.listViewVotings.OwnerDraw = true;
-            this.listViewVotings.Size = new System.Drawing.Size(496, 190);
+            this.listViewVotings.Size = new System.Drawing.Size(661, 233);
             this.listViewVotings.TabIndex = 14;
             this.listViewVotings.UseCompatibleStateImageBehavior = false;
             this.listViewVotings.View = System.Windows.Forms.View.Details;
@@ -223,19 +221,19 @@
             this.toolStripMenuItemVoting});
             this.materialContextMenuStripVoting.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialContextMenuStripVoting.Name = "materialContextMenuStripUser";
-            this.materialContextMenuStripVoting.Size = new System.Drawing.Size(140, 48);
+            this.materialContextMenuStripVoting.Size = new System.Drawing.Size(165, 56);
             // 
             // toolStripMenuItemUser
             // 
             this.toolStripMenuItemUser.Name = "toolStripMenuItemUser";
-            this.toolStripMenuItemUser.Size = new System.Drawing.Size(139, 22);
+            this.toolStripMenuItemUser.Size = new System.Drawing.Size(164, 26);
             this.toolStripMenuItemUser.Text = "Copy user";
             this.toolStripMenuItemUser.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItemVoting
             // 
             this.toolStripMenuItemVoting.Name = "toolStripMenuItemVoting";
-            this.toolStripMenuItemVoting.Size = new System.Drawing.Size(139, 22);
+            this.toolStripMenuItemVoting.Size = new System.Drawing.Size(164, 26);
             this.toolStripMenuItemVoting.Text = "Copy voting";
             this.toolStripMenuItemVoting.Click += new System.EventHandler(this.toolStripMenuItemVoting_Click);
             // 
@@ -245,11 +243,10 @@
             this.labelUserVotings.Depth = 0;
             this.labelUserVotings.Font = new System.Drawing.Font("Arial", 10F);
             this.labelUserVotings.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelUserVotings.Location = new System.Drawing.Point(48, 320);
-            this.labelUserVotings.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelUserVotings.Location = new System.Drawing.Point(64, 394);
             this.labelUserVotings.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelUserVotings.Name = "labelUserVotings";
-            this.labelUserVotings.Size = new System.Drawing.Size(83, 16);
+            this.labelUserVotings.Size = new System.Drawing.Size(96, 19);
             this.labelUserVotings.TabIndex = 15;
             this.labelUserVotings.Text = "UserVotings";
             // 
@@ -260,11 +257,10 @@
             this.labelId.Depth = 0;
             this.labelId.Font = new System.Drawing.Font("Arial", 10F);
             this.labelId.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelId.Location = new System.Drawing.Point(623, 150);
-            this.labelId.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelId.Location = new System.Drawing.Point(831, 185);
             this.labelId.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelId.Name = "labelId";
-            this.labelId.Size = new System.Drawing.Size(21, 16);
+            this.labelId.Size = new System.Drawing.Size(26, 19);
             this.labelId.TabIndex = 16;
             this.labelId.Text = "ID";
             this.labelId.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -276,11 +272,10 @@
             this.labelIdVal.Depth = 0;
             this.labelIdVal.Font = new System.Drawing.Font("Arial", 10F);
             this.labelIdVal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelIdVal.Location = new System.Drawing.Point(772, 150);
-            this.labelIdVal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelIdVal.Location = new System.Drawing.Point(1029, 185);
             this.labelIdVal.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelIdVal.Name = "labelIdVal";
-            this.labelIdVal.Size = new System.Drawing.Size(154, 15);
+            this.labelIdVal.Size = new System.Drawing.Size(205, 18);
             this.labelIdVal.TabIndex = 17;
             this.labelIdVal.Text = "...";
             // 
@@ -291,11 +286,10 @@
             this.labelName.Depth = 0;
             this.labelName.Font = new System.Drawing.Font("Arial", 10F);
             this.labelName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelName.Location = new System.Drawing.Point(623, 190);
-            this.labelName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelName.Location = new System.Drawing.Point(831, 234);
             this.labelName.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(44, 16);
+            this.labelName.Size = new System.Drawing.Size(51, 19);
             this.labelName.TabIndex = 18;
             this.labelName.Text = "Name";
             this.labelName.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -307,11 +301,10 @@
             this.labelNameVal.Depth = 0;
             this.labelNameVal.Font = new System.Drawing.Font("Arial", 10F);
             this.labelNameVal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelNameVal.Location = new System.Drawing.Point(772, 190);
-            this.labelNameVal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelNameVal.Location = new System.Drawing.Point(1029, 234);
             this.labelNameVal.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelNameVal.Name = "labelNameVal";
-            this.labelNameVal.Size = new System.Drawing.Size(154, 15);
+            this.labelNameVal.Size = new System.Drawing.Size(205, 18);
             this.labelNameVal.TabIndex = 19;
             this.labelNameVal.Text = "...";
             // 
@@ -322,11 +315,10 @@
             this.labelDate.Depth = 0;
             this.labelDate.Font = new System.Drawing.Font("Arial", 10F);
             this.labelDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelDate.Location = new System.Drawing.Point(623, 271);
-            this.labelDate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelDate.Location = new System.Drawing.Point(831, 334);
             this.labelDate.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelDate.Name = "labelDate";
-            this.labelDate.Size = new System.Drawing.Size(116, 16);
+            this.labelDate.Size = new System.Drawing.Size(131, 19);
             this.labelDate.TabIndex = 20;
             this.labelDate.Text = "Registration date";
             this.labelDate.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -338,11 +330,10 @@
             this.labelDateVal.Depth = 0;
             this.labelDateVal.Font = new System.Drawing.Font("Arial", 10F);
             this.labelDateVal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelDateVal.Location = new System.Drawing.Point(772, 271);
-            this.labelDateVal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelDateVal.Location = new System.Drawing.Point(1029, 334);
             this.labelDateVal.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelDateVal.Name = "labelDateVal";
-            this.labelDateVal.Size = new System.Drawing.Size(154, 15);
+            this.labelDateVal.Size = new System.Drawing.Size(205, 18);
             this.labelDateVal.TabIndex = 21;
             this.labelDateVal.Text = "...";
             // 
@@ -353,11 +344,10 @@
             this.labelStatus.Depth = 0;
             this.labelStatus.Font = new System.Drawing.Font("Arial", 10F);
             this.labelStatus.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelStatus.Location = new System.Drawing.Point(623, 312);
-            this.labelStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelStatus.Location = new System.Drawing.Point(831, 384);
             this.labelStatus.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(48, 16);
+            this.labelStatus.Size = new System.Drawing.Size(54, 19);
             this.labelStatus.TabIndex = 22;
             this.labelStatus.Text = "Status";
             this.labelStatus.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -369,11 +359,10 @@
             this.labelStatusVal.Depth = 0;
             this.labelStatusVal.Font = new System.Drawing.Font("Arial", 10F);
             this.labelStatusVal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelStatusVal.Location = new System.Drawing.Point(772, 312);
-            this.labelStatusVal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelStatusVal.Location = new System.Drawing.Point(1029, 384);
             this.labelStatusVal.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelStatusVal.Name = "labelStatusVal";
-            this.labelStatusVal.Size = new System.Drawing.Size(154, 15);
+            this.labelStatusVal.Size = new System.Drawing.Size(205, 18);
             this.labelStatusVal.TabIndex = 23;
             this.labelStatusVal.Text = "...";
             // 
@@ -384,11 +373,10 @@
             this.labelActivity.Depth = 0;
             this.labelActivity.Font = new System.Drawing.Font("Arial", 10F);
             this.labelActivity.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelActivity.Location = new System.Drawing.Point(623, 353);
-            this.labelActivity.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelActivity.Location = new System.Drawing.Point(831, 434);
             this.labelActivity.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelActivity.Name = "labelActivity";
-            this.labelActivity.Size = new System.Drawing.Size(82, 16);
+            this.labelActivity.Size = new System.Drawing.Size(94, 19);
             this.labelActivity.TabIndex = 24;
             this.labelActivity.Text = "Last activity";
             this.labelActivity.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -400,11 +388,10 @@
             this.labelActivityVal.Depth = 0;
             this.labelActivityVal.Font = new System.Drawing.Font("Arial", 10F);
             this.labelActivityVal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelActivityVal.Location = new System.Drawing.Point(772, 353);
-            this.labelActivityVal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelActivityVal.Location = new System.Drawing.Point(1029, 434);
             this.labelActivityVal.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelActivityVal.Name = "labelActivityVal";
-            this.labelActivityVal.Size = new System.Drawing.Size(154, 15);
+            this.labelActivityVal.Size = new System.Drawing.Size(205, 18);
             this.labelActivityVal.TabIndex = 25;
             this.labelActivityVal.Text = "...";
             // 
@@ -415,11 +402,10 @@
             this.labelHash.Depth = 0;
             this.labelHash.Font = new System.Drawing.Font("Arial", 10F);
             this.labelHash.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelHash.Location = new System.Drawing.Point(623, 231);
-            this.labelHash.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelHash.Location = new System.Drawing.Point(831, 284);
             this.labelHash.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelHash.Name = "labelHash";
-            this.labelHash.Size = new System.Drawing.Size(40, 16);
+            this.labelHash.Size = new System.Drawing.Size(46, 19);
             this.labelHash.TabIndex = 26;
             this.labelHash.Text = "Hash";
             this.labelHash.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -431,11 +417,10 @@
             this.labelHashVal.Depth = 0;
             this.labelHashVal.Font = new System.Drawing.Font("Arial", 10F);
             this.labelHashVal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelHashVal.Location = new System.Drawing.Point(772, 231);
-            this.labelHashVal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelHashVal.Location = new System.Drawing.Point(1029, 284);
             this.labelHashVal.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelHashVal.Name = "labelHashVal";
-            this.labelHashVal.Size = new System.Drawing.Size(154, 15);
+            this.labelHashVal.Size = new System.Drawing.Size(205, 18);
             this.labelHashVal.TabIndex = 27;
             this.labelHashVal.Text = "...";
             // 
@@ -446,11 +431,10 @@
             this.labelNumVotesVal.Depth = 0;
             this.labelNumVotesVal.Font = new System.Drawing.Font("Arial", 10F);
             this.labelNumVotesVal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelNumVotesVal.Location = new System.Drawing.Point(772, 393);
-            this.labelNumVotesVal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelNumVotesVal.Location = new System.Drawing.Point(1029, 484);
             this.labelNumVotesVal.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelNumVotesVal.Name = "labelNumVotesVal";
-            this.labelNumVotesVal.Size = new System.Drawing.Size(154, 15);
+            this.labelNumVotesVal.Size = new System.Drawing.Size(205, 18);
             this.labelNumVotesVal.TabIndex = 29;
             this.labelNumVotesVal.Text = "...";
             // 
@@ -461,11 +445,10 @@
             this.labelNumVotes.Depth = 0;
             this.labelNumVotes.Font = new System.Drawing.Font("Arial", 10F);
             this.labelNumVotes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelNumVotes.Location = new System.Drawing.Point(623, 393);
-            this.labelNumVotes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelNumVotes.Location = new System.Drawing.Point(831, 484);
             this.labelNumVotes.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelNumVotes.Name = "labelNumVotes";
-            this.labelNumVotes.Size = new System.Drawing.Size(95, 16);
+            this.labelNumVotes.Size = new System.Drawing.Size(109, 19);
             this.labelNumVotes.TabIndex = 28;
             this.labelNumVotes.Text = "Votes number";
             this.labelNumVotes.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -476,11 +459,10 @@
             this.labelUserInfo.Depth = 0;
             this.labelUserInfo.Font = new System.Drawing.Font("Arial", 10F);
             this.labelUserInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelUserInfo.Location = new System.Drawing.Point(627, 96);
-            this.labelUserInfo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelUserInfo.Location = new System.Drawing.Point(836, 118);
             this.labelUserInfo.MouseState = MaterialSkin.MouseState.HOVER;
             this.labelUserInfo.Name = "labelUserInfo";
-            this.labelUserInfo.Size = new System.Drawing.Size(299, 15);
+            this.labelUserInfo.Size = new System.Drawing.Size(399, 18);
             this.labelUserInfo.TabIndex = 30;
             this.labelUserInfo.Text = "User Info";
             this.labelUserInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -490,11 +472,11 @@
             this.materialDivider1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.materialDivider1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.materialDivider1.Depth = 0;
-            this.materialDivider1.Location = new System.Drawing.Point(581, 88);
-            this.materialDivider1.Margin = new System.Windows.Forms.Padding(2);
+            this.materialDivider1.Location = new System.Drawing.Point(775, 108);
+            this.materialDivider1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialDivider1.Name = "materialDivider1";
-            this.materialDivider1.Size = new System.Drawing.Size(8, 462);
+            this.materialDivider1.Size = new System.Drawing.Size(11, 569);
             this.materialDivider1.TabIndex = 33;
             this.materialDivider1.Text = "materialDivider1";
             // 
@@ -505,11 +487,10 @@
             this.materialLabelAsCandidateVal.Depth = 0;
             this.materialLabelAsCandidateVal.Font = new System.Drawing.Font("Arial", 10F);
             this.materialLabelAsCandidateVal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabelAsCandidateVal.Location = new System.Drawing.Point(772, 436);
-            this.materialLabelAsCandidateVal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.materialLabelAsCandidateVal.Location = new System.Drawing.Point(1029, 537);
             this.materialLabelAsCandidateVal.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabelAsCandidateVal.Name = "materialLabelAsCandidateVal";
-            this.materialLabelAsCandidateVal.Size = new System.Drawing.Size(154, 15);
+            this.materialLabelAsCandidateVal.Size = new System.Drawing.Size(205, 18);
             this.materialLabelAsCandidateVal.TabIndex = 35;
             this.materialLabelAsCandidateVal.Text = "...";
             // 
@@ -520,20 +501,19 @@
             this.materialLabelAsCandidate.Depth = 0;
             this.materialLabelAsCandidate.Font = new System.Drawing.Font("Arial", 10F);
             this.materialLabelAsCandidate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabelAsCandidate.Location = new System.Drawing.Point(623, 436);
-            this.materialLabelAsCandidate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.materialLabelAsCandidate.Location = new System.Drawing.Point(831, 537);
             this.materialLabelAsCandidate.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabelAsCandidate.Name = "materialLabelAsCandidate";
-            this.materialLabelAsCandidate.Size = new System.Drawing.Size(142, 16);
+            this.materialLabelAsCandidate.Size = new System.Drawing.Size(164, 19);
             this.materialLabelAsCandidate.TabIndex = 34;
             this.materialLabelAsCandidate.Text = "As candidate number";
             this.materialLabelAsCandidate.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // UsersStatisticsForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(963, 578);
+            this.ClientSize = new System.Drawing.Size(1284, 711);
             this.Controls.Add(this.materialLabelAsCandidateVal);
             this.Controls.Add(this.materialLabelAsCandidate);
             this.Controls.Add(this.materialDivider1);
@@ -557,11 +537,10 @@
             this.Controls.Add(this.listViewSearchUsers);
             this.Controls.Add(this.labelSearchUsers);
             this.Controls.Add(this.textBoxSearchUsers);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1350, 578);
-            this.MinimumSize = new System.Drawing.Size(911, 578);
+            this.MaximumSize = new System.Drawing.Size(1800, 711);
+            this.MinimumSize = new System.Drawing.Size(1215, 711);
             this.Name = "UsersStatisticsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UsersStatisticsForm";

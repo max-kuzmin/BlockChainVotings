@@ -64,6 +64,8 @@ namespace BlockChainVotings
                 listViewSearchUsers_ItemSelectionChanged(this, new ListViewItemSelectionChangedEventArgs(listViewSearchUsers.Items[0], 0, true));
             }
 
+            Icon = Properties.Resources.votingIcon;
+
         }
 
         private void textBoxSearchUser_TextChanged(object sender, EventArgs e)

@@ -19,7 +19,8 @@ namespace BlockChainVotingsAndroid
 
         public void ConnectToDBAsync()
         {
-            string dbPath = Path.Combine(Environment.CurrentDirectory, "VotingsDB.db3");
+            //string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "VotingsDB.db3");
+            string dbPath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.ToString(), "VotingsDB.db3");
             dbAsync = new SQLiteAsyncConnection(dbPath);
             dbAsync.CreateTableAsync<Transaction>().Wait();
             dbAsync.CreateTableAsync<Block>().Wait();

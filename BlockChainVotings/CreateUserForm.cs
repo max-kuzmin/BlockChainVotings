@@ -31,6 +31,8 @@ namespace BlockChainVotings
             labelID.Text = Properties.Resources.userID;
             buttonCreateUser.Text = Properties.Resources.create;
             buttonGenerate.Text = Properties.Resources.generateKeys;
+
+            Icon = Properties.Resources.votingIcon;
         }
 
         private void buttonGenerate_Click(object sender, EventArgs e)

@@ -20,6 +20,8 @@ namespace BlockChainVotingsTracker
         public MainForm()
         {
             InitializeComponent();
+
+            Icon = Properties.Resources.votingIcon;
         }
         
         private void buttonStopTracker_Click(object sender, EventArgs e)

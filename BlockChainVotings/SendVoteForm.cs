@@ -39,6 +39,9 @@ namespace BlockChainVotings
 
             toolStripMenuItem1.Text = Properties.Resources.copyHash;
             toolStripMenuItem2.Text = Properties.Resources.copyHash;
+
+
+            Icon = Properties.Resources.votingIcon;
         }
 
         private void SendVoteForm_Load(object sender, EventArgs e)

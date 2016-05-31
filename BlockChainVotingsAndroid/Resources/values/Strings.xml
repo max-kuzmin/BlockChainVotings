@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="ApplicationName">BlockChainVotingsAndroid</string>
-    <string name="publicKey">Открытый ключ</string>
-    <string name="privateKey">Секретный ключ</string>
-    <string name="password">Пароль</string>
-    <string name="password2">Повтор пароля</string>
-    <string name="register">Регистрация</string>
-    <string name="login">Вход</string>
+  <string name="ApplicationName">BlockChainVotingsAndroid</string>
+  <string name="publicKey">Открытый ключ</string>
+  <string name="privateKey">Секретный ключ</string>
+  <string name="password">Пароль</string>
+  <string name="password2">Повтор пароля</string>
+  <string name="register">Регистрация</string>
+  <string name="login">Вход</string>
   <string name="toRegister">Зарегистрироваться</string>
   <string name="toLogin">Войти</string>
   <string name="blockChainVoting">Система элеткронных голосований</string>
@@ -18,4 +18,10 @@
   <string name="voting">Голосование</string>
   <string name="setting">Настройки</string>
   <string name="trackers">Трекеры</string>
+  <string name="selectVoting">Выберите голосование</string>
+  <string name="selectCandidate">Выберите кандидата</string>
+  <string name="from">от</string>
+  <string name="snils">СНИЛС</string>
+  <string name="agree">Согласен</string>
+  <string name="vote">Голосовать</string>
 </resources>

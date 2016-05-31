@@ -197,6 +197,7 @@ namespace BlockChainVotings
             var blocks = new List<Block>();
             foreach (var hash in message.Hashes)
             {
+                if (hash == "0") return;
                 var block = db.GetBlock(hash);
                 if (block != null) blocks.Add(block);
             }
@@ -297,6 +298,8 @@ namespace BlockChainVotings
                 needWait = true;
             }
 
+            if (block.Transactions == null) return false;
+
             //проверка существования транзакций
             foreach (var itemHash in block.Transactions)
             {
@@ -379,8 +382,8 @@ namespace BlockChainVotings
                 }
 
 
-                NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
-                NewBlock(this, new IntEventArgs(db.BlocksCount()));
+                NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
+                NewBlock?.Invoke(this, new IntEventArgs(db.BlocksCount()));
 
                 return false;
 
@@ -401,7 +404,7 @@ namespace BlockChainVotings
 
             NetworkComms.Logger.Warn("Added block " + block.Hash);
 
-            NewBlock(this, new IntEventArgs(db.BlocksCount()));
+            NewBlock?.Invoke(this, new IntEventArgs(db.BlocksCount()));
 
             //помечаем транзакции, что они в блоке
             foreach (var itemHash in block.Transactions)
@@ -504,13 +507,13 @@ namespace BlockChainVotings
 
                 NetworkComms.Logger.Warn("Added transaction " + transaction.Type.ToString() + " " + transaction.Hash);
 
-                NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
 
                 //если добавили новую транзакцию голосования, то вызываем событие
                 if (transaction.Type == TransactionType.StartVoting)
-                    NewVoting(this, new IntEventArgs(transaction.VotingNumber));
+                    NewVoting?.Invoke(this, new IntEventArgs(transaction.VotingNumber));
                 else if (transaction.Type == TransactionType.CreateUser)
-                    NewUser(this, new IntEventArgs(db.UsersCount()));
+                    NewUser?.Invoke(this, new IntEventArgs(db.UsersCount()));
 
                 //проверяем нужно ли создавать новый блок
                 MakeBlock();
@@ -584,7 +587,7 @@ namespace BlockChainVotings
                 else
                 {
                     db.DeleteTransaction(existsVote);
-                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                    NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
                 }
             }
 
@@ -623,7 +626,7 @@ namespace BlockChainVotings
                 else
                 {
                     db.DeleteTransaction(existsUser);
-                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                    NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
                 }
             }
 
@@ -684,7 +687,7 @@ namespace BlockChainVotings
                 else
                 {
                     db.DeleteTransaction(existsBan);
-                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                    NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
                 }
             }
 
@@ -753,7 +756,7 @@ namespace BlockChainVotings
                 else
                 {
                     db.DeleteTransaction(existsVoting);
-                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                    NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
                 }
             }
 

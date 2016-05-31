@@ -90,26 +90,22 @@ namespace BlockChainVotingsAndroid
                     //перенаправляем события трекера вне
                     tracker.OnRequestBlocksMessage += (s, e) =>
                     {
-                        if (OnRequestBlocksMessage != null)
-                            OnRequestBlocksMessage(s, e);
+                        OnRequestBlocksMessage?.Invoke(s, e);
                     };
 
                     tracker.OnRequestTransactionsMessage += (s, e) => 
                     {
-                        if (OnRequestTransactionsMessage != null)
-                            OnRequestTransactionsMessage(s, e);
+                        OnRequestTransactionsMessage?.Invoke(s, e);
                     };
 
                     tracker.OnBlocksMessage += (s, e) => 
                     {
-                        if (OnBlocksMessage != null)
-                            OnBlocksMessage(s, e);
+                        OnBlocksMessage?.Invoke(s, e);
                     };
 
                     tracker.OnTransactionsMessage += (s, e) => 
                     {
-                        if (OnTransactionsMessage != null)
-                            OnTransactionsMessage(s, e);
+                        OnTransactionsMessage?.Invoke(s, e);
                     };
 
 
@@ -197,26 +193,22 @@ namespace BlockChainVotingsAndroid
                 //перенаправляем события пира
                 peer.OnRequestBlocksMessage += (s, e) => 
                 {
-                    if (OnRequestBlocksMessage != null)
-                        OnRequestBlocksMessage(s, e);
+                    OnRequestBlocksMessage?.Invoke(s, e);
                 };
 
                 peer.OnRequestTransactionsMessage += (s, e) => 
                 {
-                    if (OnRequestTransactionsMessage != null)
-                        OnRequestTransactionsMessage(s, e);
+                    OnRequestTransactionsMessage?.Invoke(s, e);
                 };
 
                 peer.OnBlocksMessage += (s, e) => 
                 {
-                    if (OnBlocksMessage != null)
-                        OnBlocksMessage(s, e);
+                    OnBlocksMessage?.Invoke(s, e);
                 };
 
                 peer.OnTransactionsMessage += (s, e) => 
                 {
-                    if (OnTransactionsMessage != null)
-                        OnTransactionsMessage(s, e);
+                    OnTransactionsMessage?.Invoke(s, e);
                 };
 
                 peer.OnPeersMessage += (s, e) => OnPeersMessage(s, e);
@@ -231,7 +223,7 @@ namespace BlockChainVotingsAndroid
                 {
                     System.Threading.Thread.Sleep(CommonHelpers.MessagesInterval*5);
 
-                    OnPeerConnected(this, new MessageEventArgs(new Message(), peer.Hash, peer.Address));
+                    OnPeerConnected?.Invoke(this, new MessageEventArgs(new Message(), peer.Hash, peer.Address));
                 });
             }
         }

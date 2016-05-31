@@ -28,13 +28,13 @@ namespace BlockChainVotings
 
         static public bool CreateOwnBlocks;
         static public int Theme;
-        static public string Trackers = "192.168.0.42";
+        static public string Trackers = "192.168.0.36";
 
 
 
 
-        //static Configuration config = ConfigurationManager.OpenExeConfiguration(Path.Combine(Environment.CurrentDirectory, Process.GetCurrentProcess().MainModule.FileName));
-        static Configuration config = ConfigurationManager.OpenExeConfiguration(Path.Combine(Environment.CurrentDirectory, "BlockChainVotings.exe"));
+        static Configuration config = ConfigurationManager.OpenExeConfiguration(Path.Combine(Environment.CurrentDirectory, Process.GetCurrentProcess().MainModule.FileName));
+        //static Configuration config = ConfigurationManager.OpenExeConfiguration(Path.Combine(Environment.CurrentDirectory, "BlockChainVotings.exe"));
 
 
         static public bool Login(string password)
