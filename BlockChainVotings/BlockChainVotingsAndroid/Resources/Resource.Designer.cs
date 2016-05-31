@@ -75,17 +75,20 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f050012
 			public const int buttonStart = 2131034130;
 			
-			// aapt resource value: 0x7f050011
-			public const int buttonStop = 2131034129;
-			
-			// aapt resource value: 0x7f05001c
-			public const int buttonVote = 2131034140;
-			
-			// aapt resource value: 0x7f05001b
-			public const int checkBoxAgree = 2131034139;
-			
 			// aapt resource value: 0x7f050013
-			public const int checkBoxCreateBlocks = 2131034131;
+			public const int buttonStop = 2131034131;
+			
+			// aapt resource value: 0x7f05001f
+			public const int buttonVote = 2131034143;
+			
+			// aapt resource value: 0x7f05001e
+			public const int checkBoxAgree = 2131034142;
+			
+			// aapt resource value: 0x7f050014
+			public const int checkBoxCreateBlocks = 2131034132;
+			
+			// aapt resource value: 0x7f050015
+			public const int checkBoxPeerDiscovery = 2131034133;
 			
 			// aapt resource value: 0x7f05000c
 			public const int editTextPass2Reg = 2131034124;
@@ -108,20 +111,26 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f05000f
 			public const int editTextTrackers = 2131034127;
 			
-			// aapt resource value: 0x7f050015
-			public const int scrollVIewConsole = 2131034133;
+			// aapt resource value: 0x7f050011
+			public const int linearLayout1 = 2131034129;
 			
-			// aapt resource value: 0x7f05001a
-			public const int spinnerCandidates = 2131034138;
+			// aapt resource value: 0x7f050017
+			public const int scrollVIewConsole = 2131034135;
+			
+			// aapt resource value: 0x7f05001d
+			public const int spinnerCandidates = 2131034141;
+			
+			// aapt resource value: 0x7f05001b
+			public const int spinnerVoting = 2131034139;
 			
 			// aapt resource value: 0x7f050018
-			public const int spinnerVoting = 2131034136;
+			public const int textViewConsole = 2131034136;
 			
 			// aapt resource value: 0x7f050016
-			public const int textViewConsole = 2131034134;
+			public const int textViewConsoleLabel = 2131034134;
 			
-			// aapt resource value: 0x7f050014
-			public const int textViewConsoleLabel = 2131034132;
+			// aapt resource value: 0x7f050019
+			public const int textViewHello = 2131034137;
 			
 			// aapt resource value: 0x7f050010
 			public const int textViewNetConnection = 2131034128;
@@ -144,11 +153,11 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f050005
 			public const int textViewPublicKeyReg = 2131034117;
 			
-			// aapt resource value: 0x7f050019
-			public const int textViewSelectCandidate = 2131034137;
+			// aapt resource value: 0x7f05001c
+			public const int textViewSelectCandidate = 2131034140;
 			
-			// aapt resource value: 0x7f050017
-			public const int textViewSelectVoting = 2131034135;
+			// aapt resource value: 0x7f05001a
+			public const int textViewSelectVoting = 2131034138;
 			
 			// aapt resource value: 0x7f05000e
 			public const int textViewTrackers = 2131034126;
@@ -212,6 +221,9 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f040015
 			public const int from = 2130968597;
 			
+			// aapt resource value: 0x7f04001a
+			public const int hello = 2130968602;
+			
 			// aapt resource value: 0x7f040007
 			public const int login = 2130968583;
 			
@@ -223,6 +235,9 @@ namespace BlockChainVotingsAndroid
 			
 			// aapt resource value: 0x7f040005
 			public const int password2 = 2130968581;
+			
+			// aapt resource value: 0x7f040019
+			public const int peerDiscovery = 2130968601;
 			
 			// aapt resource value: 0x7f040003
 			public const int privateKey = 2130968579;
@@ -260,8 +275,14 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f040012
 			public const int trackers = 2130968594;
 			
+			// aapt resource value: 0x7f04001c
+			public const int user = 2130968604;
+			
 			// aapt resource value: 0x7f040018
 			public const int vote = 2130968600;
+			
+			// aapt resource value: 0x7f04001b
+			public const int voteComplete = 2130968603;
 			
 			// aapt resource value: 0x7f040010
 			public const int voting = 2130968592;

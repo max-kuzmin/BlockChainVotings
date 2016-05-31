@@ -475,6 +475,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Обнаружение пиров.
+        /// </summary>
+        internal static string peerDiscovery {
+            get {
+                return ResourceManager.GetString("peerDiscovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Секретный ключ.
         /// </summary>
         internal static string privateKey {

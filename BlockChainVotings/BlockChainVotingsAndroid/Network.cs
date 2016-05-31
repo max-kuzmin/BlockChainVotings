@@ -64,7 +64,8 @@ namespace BlockChainVotingsAndroid
         private void OnConnectPeerDirect(Connection connection)
         {
             if (connection.ConnectionInfo.ConnectionType == ConnectionType.TCP
-                && (connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Port == CommonHelpers.PeerPort)
+                && (connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Port == CommonHelpers.PeerPort
+                && VotingsUser.PeerDiscovery)
             {
                 AddPeer(connection.ConnectionInfo.RemoteEndPoint);
             }
@@ -236,11 +237,12 @@ namespace BlockChainVotingsAndroid
 
 
             //сначала ищем пиры без трекера
-            try
-            {
-                PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
-            }
-            catch { }
+            if (VotingsUser.PeerDiscovery)
+                try
+                {
+                    PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
+                }
+                catch { }
 
 
 
@@ -343,14 +345,13 @@ namespace BlockChainVotingsAndroid
         {
             ParseTrackers();
 
-            if (CommonHelpers.GetLocalEndPoint(1) != null)
+            if (CommonHelpers.GetLocalEndPoint(1) != null && VotingsUser.PeerDiscovery)
             {
                 PeerDiscovery.MinTargetLocalIPPort = CommonHelpers.DiscoveryPort;
                 PeerDiscovery.MaxTargetLocalIPPort = CommonHelpers.DiscoveryPort;
                 PeerDiscovery.ListenMode = PeerDiscovery.LocalListenMode.OnlyZeroAdaptor;
                 PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
                 PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonHelpers.GetLocalEndPoint(CommonHelpers.DiscoveryPort));
-                //111
             }
 
 

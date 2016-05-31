@@ -59,7 +59,7 @@ namespace BlockChainVotings
             {
                 NetworkComms.Logger.Warn("Sent message of type " + message.Type.ToString());
 
-                var shellMessage = new ToPeerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), peer.Address, message);
+                var shellMessage = new ToPeerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true), peer.Address, message);
                 try {
                     Connection.SendObject(shellMessage.GetType().Name, shellMessage); }
                 catch
@@ -75,7 +75,7 @@ namespace BlockChainVotings
         {
             if (Status == TrackerStatus.Connected)
             {
-                var message = new ConnectToPeerWithTrackerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), peerToConnect.Address);
+                var message = new ConnectToPeerWithTrackerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true), peerToConnect.Address);
                 try
                 {
                     Connection.SendObject(message.GetType().Name, message);
@@ -163,7 +163,7 @@ namespace BlockChainVotings
 
             NetworkComms.Logger.Warn("Recieved message of type " + incomingObject.Message.Type.ToString());
 
-            if (incomingObject.RecieverAddress.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort)))
+            if (incomingObject.RecieverAddress.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true)))
             {
                 var eventArgs = new MessageEventArgs(incomingObject.Message, null, incomingObject.SenderAddress);
 
@@ -205,7 +205,7 @@ namespace BlockChainVotings
             if (Status == TrackerStatus.Connected)
             {
 
-                var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort));
+                var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true));
                 try {
                     Connection.SendObject(message.GetType().Name, message);
                 }

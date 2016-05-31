@@ -58,6 +58,7 @@
             this.materialLabelBlocks = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabelTransactions = new MaterialSkin.Controls.MaterialLabel();
             this.tabPageOptions = new System.Windows.Forms.TabPage();
+            this.materialCheckBoxPeerDiscovery = new MaterialSkin.Controls.MaterialCheckBox();
             this.materialDivider2 = new MaterialSkin.Controls.MaterialDivider();
             this.materialLabelNetwork = new MaterialSkin.Controls.MaterialLabel();
             this.buttonStop = new MaterialSkin.Controls.MaterialRaisedButton();
@@ -79,7 +80,7 @@
             // 
             this.materialRaisedButtonTheme.Depth = 0;
             this.materialRaisedButtonTheme.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.materialRaisedButtonTheme.Location = new System.Drawing.Point(40, 159);
+            this.materialRaisedButtonTheme.Location = new System.Drawing.Point(40, 182);
             this.materialRaisedButtonTheme.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.materialRaisedButtonTheme.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialRaisedButtonTheme.Name = "materialRaisedButtonTheme";
@@ -455,6 +456,7 @@
             // tabPageOptions
             // 
             this.tabPageOptions.BackColor = System.Drawing.Color.White;
+            this.tabPageOptions.Controls.Add(this.materialCheckBoxPeerDiscovery);
             this.tabPageOptions.Controls.Add(this.materialDivider2);
             this.tabPageOptions.Controls.Add(this.materialLabelNetwork);
             this.tabPageOptions.Controls.Add(this.buttonStop);
@@ -473,6 +475,25 @@
             this.tabPageOptions.Size = new System.Drawing.Size(812, 393);
             this.tabPageOptions.TabIndex = 1;
             this.tabPageOptions.Text = "Options";
+            // 
+            // materialCheckBoxPeerDiscovery
+            // 
+            this.materialCheckBoxPeerDiscovery.AutoSize = true;
+            this.materialCheckBoxPeerDiscovery.BackColor = System.Drawing.Color.Transparent;
+            this.materialCheckBoxPeerDiscovery.Depth = 0;
+            this.materialCheckBoxPeerDiscovery.Font = new System.Drawing.Font("Arial", 10F);
+            this.materialCheckBoxPeerDiscovery.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.materialCheckBoxPeerDiscovery.Location = new System.Drawing.Point(39, 98);
+            this.materialCheckBoxPeerDiscovery.Margin = new System.Windows.Forms.Padding(0);
+            this.materialCheckBoxPeerDiscovery.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialCheckBoxPeerDiscovery.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCheckBoxPeerDiscovery.Name = "materialCheckBoxPeerDiscovery";
+            this.materialCheckBoxPeerDiscovery.Ripple = true;
+            this.materialCheckBoxPeerDiscovery.Size = new System.Drawing.Size(145, 30);
+            this.materialCheckBoxPeerDiscovery.TabIndex = 18;
+            this.materialCheckBoxPeerDiscovery.Text = "Peer discovery";
+            this.materialCheckBoxPeerDiscovery.UseVisualStyleBackColor = false;
+            this.materialCheckBoxPeerDiscovery.CheckedChanged += new System.EventHandler(this.materialCheckBoxPeerDiscovery_CheckedChanged);
             // 
             // materialDivider2
             // 
@@ -494,7 +515,7 @@
             this.materialLabelNetwork.Depth = 0;
             this.materialLabelNetwork.Font = new System.Drawing.Font("Arial", 10F);
             this.materialLabelNetwork.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabelNetwork.Location = new System.Drawing.Point(36, 217);
+            this.materialLabelNetwork.Location = new System.Drawing.Point(36, 240);
             this.materialLabelNetwork.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabelNetwork.Name = "materialLabelNetwork";
             this.materialLabelNetwork.Size = new System.Drawing.Size(152, 19);
@@ -504,7 +525,7 @@
             // buttonStop
             // 
             this.buttonStop.Depth = 0;
-            this.buttonStop.Location = new System.Drawing.Point(177, 251);
+            this.buttonStop.Location = new System.Drawing.Point(177, 274);
             this.buttonStop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonStop.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonStop.Name = "buttonStop";
@@ -517,7 +538,7 @@
             // buttonStart
             // 
             this.buttonStart.Depth = 0;
-            this.buttonStart.Location = new System.Drawing.Point(40, 251);
+            this.buttonStart.Location = new System.Drawing.Point(40, 274);
             this.buttonStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonStart.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonStart.Name = "buttonStart";
@@ -550,7 +571,7 @@
             this.materialCheckBoxCreateBlocks.Depth = 0;
             this.materialCheckBoxCreateBlocks.Font = new System.Drawing.Font("Arial", 10F);
             this.materialCheckBoxCreateBlocks.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.materialCheckBoxCreateBlocks.Location = new System.Drawing.Point(35, 110);
+            this.materialCheckBoxCreateBlocks.Location = new System.Drawing.Point(39, 128);
             this.materialCheckBoxCreateBlocks.Margin = new System.Windows.Forms.Padding(0);
             this.materialCheckBoxCreateBlocks.MouseLocation = new System.Drawing.Point(-1, -1);
             this.materialCheckBoxCreateBlocks.MouseState = MaterialSkin.MouseState.HOVER;
@@ -697,6 +718,7 @@
         private MaterialSkin.Controls.MaterialLabel materialLabelAvaliableVotings;
         private MaterialSkin.Controls.MaterialLabel materialLabelVotingsVal;
         private MaterialSkin.Controls.MaterialLabel materialLabelVotings;
+        private MaterialSkin.Controls.MaterialCheckBox materialCheckBoxPeerDiscovery;
     }
 }
 

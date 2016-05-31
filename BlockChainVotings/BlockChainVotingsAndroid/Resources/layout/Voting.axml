@@ -6,33 +6,52 @@
     p1:minWidth="25px"
     p1:minHeight="25px">
     <TextView
+        p1:text="@string/hello"
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/textViewHello"
+        p1:textStyle="bold"
+        p1:layout_marginLeft="10.0dp"
+        p1:layout_marginRight="10.0dp"
+        p1:layout_marginBottom="10.0dp"
+        p1:layout_marginTop="20.0dp" />
+    <TextView
         p1:text="@string/selectVoting"
         p1:textAppearance="?android:attr/textAppearanceMedium"
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:id="@+id/textViewSelectVoting" />
+        p1:id="@+id/textViewSelectVoting"
+        p1:layout_margin="10.0dp" />
     <Spinner
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:id="@+id/spinnerVoting" />
+        p1:id="@+id/spinnerVoting"
+        p1:layout_margin="10.0dp" />
     <TextView
         p1:text="@string/selectCandidate"
         p1:textAppearance="?android:attr/textAppearanceMedium"
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:id="@+id/textViewSelectCandidate" />
+        p1:id="@+id/textViewSelectCandidate"
+        p1:layout_margin="10.0dp" />
     <Spinner
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:id="@+id/spinnerCandidates" />
+        p1:id="@+id/spinnerCandidates"
+        p1:layout_margin="10.0dp" />
     <CheckBox
         p1:text="@string/agree"
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:id="@+id/checkBoxAgree" />
+        p1:id="@+id/checkBoxAgree"
+        p1:layout_margin="10.0dp" />
     <Button
         p1:text="@string/vote"
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:id="@+id/buttonVote" />
+        p1:id="@+id/buttonVote"
+        p1:layout_marginLeft="20.0dp"
+        p1:layout_marginRight="20.0dp"
+        p1:layout_marginTop="10.0dp" />
 </LinearLayout>

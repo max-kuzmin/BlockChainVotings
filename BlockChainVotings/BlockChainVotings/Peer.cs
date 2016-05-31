@@ -51,7 +51,7 @@ namespace BlockChainVotings
 
         public void Connect(bool withTracker = false)
         {
-            //111withTracker = true;
+
             if (Status == PeerStatus.NoHashRecieved)
             {
                 RequestPeerHash();
@@ -62,7 +62,7 @@ namespace BlockChainVotings
                 return;
             }
             //попытка подключения сразу через трекер (используется если поступил запрос от трекера)
-            else if (withTracker)
+            else if (withTracker || !VotingsUser.PeerDiscovery)
                 ConnectWithTracker();
             else
             {
@@ -366,7 +366,7 @@ namespace BlockChainVotings
                 try {
                     if (sendMessage)
                     {
-                        var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort));
+                        var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true));
                         Connection.SendObject(message.GetType().Name, message);
                     }
 

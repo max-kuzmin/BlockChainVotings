@@ -29,6 +29,9 @@ namespace BlockChainVotings
         static public bool CreateOwnBlocks;
         static public int Theme;
         static public string Trackers = "192.168.0.36";
+        static public bool PeerDiscovery;
+
+        static public string LocalIP = null;
 
 
 
@@ -62,6 +65,13 @@ namespace BlockChainVotings
             CreateOwnBlocks = bool.Parse(config.AppSettings.Settings["createOwnBlocks"].Value);
             Theme = int.Parse(config.AppSettings.Settings["theme"].Value);
             Trackers = config.AppSettings.Settings["trackers"].Value;
+            PeerDiscovery = bool.Parse(config.AppSettings.Settings["peerDiscovery"].Value);
+
+
+            if (config.AppSettings.Settings.AllKeys.Contains("localIP"))
+            {
+                LocalIP = config.AppSettings.Settings["localIP"].Value;
+            }
             //}
         }
 
@@ -74,6 +84,7 @@ namespace BlockChainVotings
             config.AppSettings.Settings.Remove("createOwnBlocks");
             config.AppSettings.Settings.Remove("theme");
             config.AppSettings.Settings.Remove("trackers");
+            config.AppSettings.Settings.Remove("peerDiscovery");
 
             config.Save();
         }
@@ -86,7 +97,8 @@ namespace BlockChainVotings
 
                 config.AppSettings.Settings.AllKeys.Contains("createOwnBlocks") &&
                 config.AppSettings.Settings.AllKeys.Contains("theme") &&
-                config.AppSettings.Settings.AllKeys.Contains("trackers"))
+                config.AppSettings.Settings.AllKeys.Contains("trackers") &&
+                config.AppSettings.Settings.AllKeys.Contains("peerDiscovery"))
                 return true;
             else return false;
         }
@@ -103,6 +115,7 @@ namespace BlockChainVotings
             config.AppSettings.Settings.Add("createOwnBlocks", true.ToString());
             config.AppSettings.Settings.Add("theme", 0.ToString());
             config.AppSettings.Settings.Add("trackers", Trackers);
+            config.AppSettings.Settings.Add("peerDiscovery", true.ToString());
 
             config.Save();
         }

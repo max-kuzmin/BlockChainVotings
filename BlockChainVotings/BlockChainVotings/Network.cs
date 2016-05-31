@@ -61,7 +61,8 @@ namespace BlockChainVotings
         private void OnConnectPeerDirect(Connection connection)
         {
             if (connection.ConnectionInfo.ConnectionType == ConnectionType.TCP
-                && (connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Port == CommonHelpers.PeerPort)
+                && (connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Port == CommonHelpers.PeerPort
+                && VotingsUser.PeerDiscovery)
             {
                 AddPeer(connection.ConnectionInfo.RemoteEndPoint);
             }
@@ -182,7 +183,7 @@ namespace BlockChainVotings
         private void AddPeer(EndPoint address, Tracker tracker = null, bool withTracker = false)
         {
             if (!(Peers.Any(peer => peer.Address.Equals(address)))
-                && !(address.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort))))
+                && !(address.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true))))
             {
                 var peer = new Peer(address, Peers, tracker);
                 Peers.Add(peer);
@@ -233,10 +234,11 @@ namespace BlockChainVotings
 
 
             //сначала ищем пиры без трекера
-            try {
-                PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
-            }
-            catch { }
+            if (VotingsUser.PeerDiscovery)
+                try {
+                    PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
+                }
+                catch { }
 
 
 
@@ -339,13 +341,13 @@ namespace BlockChainVotings
         {
             ParseTrackers();
 
-            if (CommonHelpers.GetLocalEndPoint(1) != null)
+            if (CommonHelpers.GetLocalEndPoint(1, true) != null && VotingsUser.PeerDiscovery)
             {
                 PeerDiscovery.MinTargetLocalIPPort = CommonHelpers.DiscoveryPort;
                 PeerDiscovery.MaxTargetLocalIPPort = CommonHelpers.DiscoveryPort;
                 PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
                 PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonHelpers.GetLocalEndPoint(CommonHelpers.DiscoveryPort));
-                //111
+                
             }
 
 

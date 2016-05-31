@@ -8,25 +8,32 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewPublicKeyLogin" />
+        android:id="@+id/textViewPublicKeyLogin"
+        android:layout_margin="10.0dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextPublicKeyLogin" />
+        android:id="@+id/editTextPublicKeyLogin"
+        android:layout_margin="10.0dp"
+        android:singleLine="true" />
     <TextView
         android:text="@string/password"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewPassLogin" />
+        android:id="@+id/textViewPassLogin"
+        android:layout_margin="10.0dp" />
     <EditText
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextPassLogin" />
+        android:id="@+id/editTextPassLogin"
+        android:layout_margin="10.0dp"
+        android:singleLine="true" />
     <Button
         android:text="@string/toLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonLogin" />
+        android:id="@+id/buttonLogin"
+        android:layout_margin="20.0dp" />
 </LinearLayout>

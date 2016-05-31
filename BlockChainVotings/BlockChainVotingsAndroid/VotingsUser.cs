@@ -31,6 +31,7 @@ namespace BlockChainVotingsAndroid
         static public bool CreateOwnBlocks;
         static public int Theme;
         static public string Trackers = "192.168.0.36";
+        static public bool PeerDiscovery;
 
 
         static ISharedPreferences prefs = Application.Context.GetSharedPreferences("Setting", FileCreationMode.Private);
@@ -58,6 +59,7 @@ namespace BlockChainVotingsAndroid
 
             CreateOwnBlocks = bool.Parse(prefs.GetString("createOwnBlocks", null));
             Trackers = prefs.GetString("trackers", null);
+            PeerDiscovery = bool.Parse(prefs.GetString("peerDiscovery", null));
         }
 
         static public void ClearUserData()
@@ -70,6 +72,7 @@ namespace BlockChainVotingsAndroid
             prefEditor.Remove("createOwnBlocks");
             prefEditor.Remove("theme");
             prefEditor.Remove("trackers");
+            prefEditor.Remove("peerDiscovery");
 
             prefEditor.Commit();
         }
@@ -83,7 +86,8 @@ namespace BlockChainVotingsAndroid
 
                 prefs.Contains("createOwnBlocks") &&
                 prefs.Contains("theme") &&
-                prefs.Contains("trackers"))
+                prefs.Contains("trackers") &&
+                prefs.Contains("peerDiscovery"))
                 return true;
             else return false;
         }
@@ -101,6 +105,7 @@ namespace BlockChainVotingsAndroid
             prefEditor.PutString("createOwnBlocks", true.ToString());
             prefEditor.PutString("theme", 0.ToString());
             prefEditor.PutString("trackers", Trackers);
+            prefEditor.PutString("peerDiscovery", true.ToString());
 
             prefEditor.Commit();
         }

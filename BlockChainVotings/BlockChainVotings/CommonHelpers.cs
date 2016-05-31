@@ -35,7 +35,7 @@ namespace BlockChainVotings
 
         static IPAddress localAddr = null;
 
-        static public IPEndPoint GetLocalEndPoint(int port)
+        static public IPEndPoint GetLocalEndPoint(int port, bool forSending = false)
         {
             if (localAddr == null)
             {
@@ -52,6 +52,12 @@ namespace BlockChainVotings
                 }
             }
             IPEndPoint endPoint = new IPEndPoint(localAddr, port);
+
+            if (VotingsUser.LocalIP!=null && forSending)
+            {
+                endPoint = new IPEndPoint(IPAddress.Parse(VotingsUser.LocalIP), port);
+            }
+
             return endPoint;
         }
 
