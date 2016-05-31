@@ -108,7 +108,6 @@ namespace BlockChainVotingsAndroid
             ActionBar.AddTab(tabSetting);
 
 
-            //показ сообщения об ожидании================================================================
             if (!CommonHelpers.RootChecked)
             {
                 blockChain.CheckRoot();
@@ -125,6 +124,7 @@ namespace BlockChainVotingsAndroid
             Button buttonStart = FindViewById<Button>(Resource.Id.buttonStart);
             Button buttonStop = FindViewById<Button>(Resource.Id.buttonStop);
             CheckBox checkBoxCreateBlocks = FindViewById<CheckBox>(Resource.Id.checkBoxCreateBlocks);
+            CheckBox checkBoxDiscovery = FindViewById<CheckBox>(Resource.Id.checkBoxPeerDiscovery);
             EditText editTextTrackers = FindViewById<EditText>(Resource.Id.editTextTrackers);
 
             buttonStart.Enabled = !(blockChain.Started);
@@ -132,9 +132,11 @@ namespace BlockChainVotingsAndroid
             buttonStart.Click += ButtonStart_Click;
             buttonStop.Click += ButtonStop_Click;
             checkBoxCreateBlocks.Click += CheckBoxCreateBlocks_Click;
+            checkBoxDiscovery.Click += CheckBoxDiscovery_Click;
             editTextTrackers.TextChanged += EditTextTrackers_TextChanged;
 
             checkBoxCreateBlocks.Checked = VotingsUser.CreateOwnBlocks;
+            checkBoxDiscovery.Checked = VotingsUser.PeerDiscovery;
             editTextTrackers.Text = VotingsUser.Trackers;
 
             //обработка вывода лога в консоль
@@ -143,6 +145,14 @@ namespace BlockChainVotingsAndroid
             ConsoleToTextViewWriter writer = new ConsoleToTextViewWriter(textViewConsole, RunOnUiThread);
             Console.SetOut(writer);
 
+        }
+
+        private void CheckBoxDiscovery_Click(object sender, EventArgs e)
+        {
+            CheckBox checkBoxDiscovery = FindViewById<CheckBox>(Resource.Id.checkBoxPeerDiscovery);
+
+            VotingsUser.PeerDiscovery = checkBoxDiscovery.Checked;
+            VotingsUser.ChangeSetting("createOwnBlocks", checkBoxDiscovery.Checked.ToString());
         }
 
         private void EditTextTrackers_TextChanged(object sender, EventArgs e)
@@ -169,6 +179,29 @@ namespace BlockChainVotingsAndroid
             CheckBox agreeCheckBox = FindViewById<CheckBox>(Resource.Id.checkBoxAgree);
             voteButton.Enabled = false;
             agreeCheckBox.Enabled = false;
+
+
+            //установка имени
+            TextView textViewHello = FindViewById<TextView>(Resource.Id.textViewHello);
+            string name = blockChain.GetMyName();
+            if (name == null)
+            {
+                textViewHello.Text = Resources.GetString(Resource.String.hello) + ", " + Resources.GetString(Resource.String.user);
+            }
+            else
+            {
+                textViewHello.Text = Resources.GetString(Resource.String.hello) + ", " + name;
+            }
+
+            blockChain.NewTransaction += (s, ee) =>
+             {
+                 string name2 = blockChain.GetMyName();
+                 if (name2 != null)
+                 {
+                     textViewHello.Text = Resources.GetString(Resource.String.hello) + ", " + name2;
+                 }
+             };
+
 
             voteButton.Click += VoteButton_Click;
 
@@ -209,7 +242,9 @@ namespace BlockChainVotingsAndroid
 
                 blockChain.CreateVote(candidate.RecieverHash, voting.Hash);
 
-                //====================================уведомление
+                Toast.MakeText(this, Resource.String.voteComplete, ToastLength.Long);
+
+                CreateVotingSettingTabs();
             }
         }
 

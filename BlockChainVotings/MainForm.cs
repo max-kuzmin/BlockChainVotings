@@ -31,7 +31,7 @@ namespace BlockChainVotings
             materialLabelBlocks.Text = Properties.Resources.blocks;
             materialLabelConnectedTrackers.Text = Properties.Resources.connectedTrackers;
             materialLabelConsole.Text = Properties.Resources.console;
-            materialLabelHello.Text = Properties.Resources.hello;
+            materialLabelHello.Text = Properties.Resources.hello + ", " + Properties.Resources.user;
             materialLabelNetwork.Text = Properties.Resources.netConnection;
             materialLabelPeers.Text = Properties.Resources.connectedPeers;
             materialLabelStatistics.Text = Properties.Resources.netStatistic;
@@ -53,6 +53,8 @@ namespace BlockChainVotings
             buttonStop.Text = Properties.Resources.stop;
             notifyIcon1.Text = Properties.Resources.votingSoftware;
             materialLabelVotings.Text = Properties.Resources.votings;
+            materialCheckBoxCreateBlocks.Text = Properties.Resources.createBlocks;
+            materialCheckBoxPeerDiscovery.Text = Properties.Resources.peerDiscovery;
 
             Icon = Properties.Resources.votingIcon;
 
@@ -136,6 +138,7 @@ namespace BlockChainVotings
             }
 
             materialCheckBoxCreateBlocks.Checked = VotingsUser.CreateOwnBlocks;
+            materialCheckBoxPeerDiscovery.Checked = VotingsUser.PeerDiscovery;
             textBoxTrackers.Text = VotingsUser.Trackers;
             textBoxTrackers.Select(0, 0);
 
@@ -155,20 +158,25 @@ namespace BlockChainVotings
             blockChain.NewTransaction += (s, a) =>
             {
                 //обновляем имя и количество транзакций
-                string name2 = "";
+                materialLabelTransactionsVal.Text = a.Data.ToString();
+
+
+                string name2 = null;
                 if (helloStatus == false)
+                {
                     name2 = blockChain.GetMyName();
 
-                Invoke(new Action(() =>
-                {
-                    materialLabelTransactionsVal.Text = a.Data.ToString();
+                    if (name2!=null)
+                        Invoke(new Action(() =>
+                        {
 
-                    if (helloStatus == false)
-                    {
-                        materialLabelHello.Text = Properties.Resources.hello + ", " + name2;
-                        helloStatus = true;
-                    }
-                }));
+                            if (helloStatus == false)
+                            {
+                                materialLabelHello.Text = Properties.Resources.hello + ", " + name2;
+                                helloStatus = true;
+                            }
+                        }));
+                }
 
 
             };
@@ -363,5 +371,12 @@ namespace BlockChainVotings
             VotingsUser.Trackers = textBoxTrackers.Text;
             VotingsUser.ChangeSetting("trackers", textBoxTrackers.Text.ToString());
         }
+
+        private void materialCheckBoxPeerDiscovery_CheckedChanged(object sender, EventArgs e)
+        {
+            VotingsUser.PeerDiscovery = materialCheckBoxPeerDiscovery.Checked;
+            VotingsUser.ChangeSetting("peerDiscovery", materialCheckBoxPeerDiscovery.Checked.ToString());
+        }
+
     }
 }

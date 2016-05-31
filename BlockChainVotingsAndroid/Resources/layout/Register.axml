@@ -8,46 +8,67 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewPublicKeyReg" />
+        android:id="@+id/textViewPublicKeyReg"
+        android:layout_margin="10.0dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextPublicKeyReg" />
+        android:id="@+id/editTextPublicKeyReg"
+        android:layout_marginBottom="10.0dp"
+        android:layout_marginLeft="10.0dp"
+        android:layout_marginRight="10.0dp"
+        android:singleLine="true" />
     <TextView
         android:text="@string/privateKey"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewPrivateKeyReg" />
+        android:id="@+id/textViewPrivateKeyReg"
+        android:layout_margin="10.0dp" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextPrivateKeyReg" />
+        android:id="@+id/editTextPrivateKeyReg"
+        android:layout_marginBottom="10.0dp"
+        android:layout_marginLeft="10.0dp"
+        android:layout_marginRight="10.0dp"
+        android:singleLine="true" />
     <TextView
         android:text="@string/password"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewPassReg" />
+        android:id="@+id/textViewPassReg"
+        android:layout_margin="10.0dp" />
     <EditText
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextPassReg" />
+        android:id="@+id/editTextPassReg"
+        android:layout_marginBottom="10.0dp"
+        android:layout_marginLeft="10.0dp"
+        android:layout_marginRight="10.0dp"
+        android:singleLine="true" />
     <TextView
         android:text="@string/password2"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewPass2Reg" />
+        android:id="@+id/textViewPass2Reg"
+        android:layout_margin="10.0dp" />
     <EditText
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextPass2Reg" />
+        android:id="@+id/editTextPass2Reg"
+        android:layout_marginBottom="10.0dp"
+        android:layout_marginLeft="10.0dp"
+        android:layout_marginRight="10.0dp"
+        android:singleLine="true" />
     <Button
         android:text="@string/toRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonReg" />
+        android:id="@+id/buttonReg"
+        android:layout_margin="20.0dp" />
 </LinearLayout>

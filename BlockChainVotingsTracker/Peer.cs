@@ -71,14 +71,14 @@ namespace BlockChainVotingsTracker
 
             SetupConnection(connection);
 
-            
+
         }
 
 
 
         private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
         {
-			NetworkComms.Logger.Warn("Recieved message of type " + incomingObject.Message.Type.ToString());
+            NetworkComms.Logger.Warn("Recieved message of type " + incomingObject.Message.Type.ToString());
             if (Address.Equals(incomingObject.SenderAddress))
             {
                 Peer reciever = ConnectedPeers.FirstOrDefault(peer => peer.Address.Equals(incomingObject.RecieverAddress));
@@ -144,7 +144,9 @@ namespace BlockChainVotingsTracker
 
         private void OnConnectToPeerWithTrackerMessage(PacketHeader packetHeader, Connection connection, ConnectToPeerWithTrackerMessage incomingObject)
         {
-            var peerToConnect = allPeers.FirstOrDefault(peer => peer.Address.Equals(incomingObject.RecieverAddress));
+
+
+            Peer peerToConnect = allPeers.FirstOrDefault(peer => peer.Address.Equals(incomingObject.RecieverAddress));
 
             if (peerToConnect != null)
             {
@@ -167,13 +169,11 @@ namespace BlockChainVotingsTracker
                     }
                 }
 
-
-
             }
             //если трекер не нашел пир адресат то отправляем отправителю дисконнект адресата
             else
             {
-                var message = new PeerDisconnectMessage(peerToConnect.Address);
+                var message = new PeerDisconnectMessage(incomingObject.SenderAddress);
 
                 Connection.SendObject(message.GetType().Name, message);
             }
@@ -231,7 +231,7 @@ namespace BlockChainVotingsTracker
 
             foreach (var peer in ConnectedPeersCopy)
             {
-                
+
 
                 //удалить это пир из списка того пира
                 peer.ConnectedPeers.Remove(this);

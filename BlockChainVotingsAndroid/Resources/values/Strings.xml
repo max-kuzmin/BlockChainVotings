@@ -24,4 +24,8 @@
   <string name="snils">СНИЛС</string>
   <string name="agree">Согласен</string>
   <string name="vote">Голосовать</string>
+  <string name="peerDiscovery">Обнаружение пиров</string>
+  <string name="hello">Здравсвуйте</string>
+  <string name="voteComplete">Вы успешно проголосовали</string>
+  <string name="user">пользователь</string>
 </resources>

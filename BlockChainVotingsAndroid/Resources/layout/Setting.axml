@@ -8,39 +8,64 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewTrackers" />
+        android:id="@+id/textViewTrackers"
+        android:layout_margin="10.0dp" />
     <EditText
         android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextTrackers" />
+        android:id="@+id/editTextTrackers"
+        android:layout_marginBottom="10.0dp"
+        android:layout_marginLeft="10.0dp"
+        android:layout_marginRight="10.0dp" />
     <TextView
         android:text="@string/netConnection"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewNetConnection" />
-    <Button
-        android:id="@+id/buttonStop"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/stop" />
-    <Button
-        android:text="@string/start"
+        android:id="@+id/textViewNetConnection"
+        android:layout_margin="10.0dp" />
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonStart" />
+        android:id="@+id/linearLayout1"
+        android:layout_margin="10.0dp">
+        <Button
+            android:text="@string/start"
+            android:id="@+id/buttonStart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/buttonStop"
+            android:text="@string/stop"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10.0dp" />
+    </LinearLayout>
     <CheckBox
         android:text="@string/createBlocks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/checkBoxCreateBlocks" />
+        android:id="@+id/checkBoxCreateBlocks"
+        android:layout_marginLeft="10.0dp"
+        android:layout_marginRight="10.0dp"
+        android:layout_marginTop="10.0dp" />
+    <CheckBox
+        android:text="@string/peerDiscovery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxPeerDiscovery"
+        android:layout_marginLeft="10.0dp"
+        android:layout_marginRight="10.0dp"
+        android:layout_marginTop="10.0dp" />
     <TextView
         android:text="@string/console"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewConsoleLabel" />
+        android:id="@+id/textViewConsoleLabel"
+        android:layout_margin="10.0dp" />
     <ScrollView
         android:id="@+id/scrollVIewConsole"
         android:layout_width="wrap_content"
@@ -48,7 +73,8 @@
         android:scrollbars="vertical"
         android:fillViewport="true"
         android:minWidth="25px"
-        android:minHeight="25px">
+        android:minHeight="25px"
+        android:layout_margin="10.0dp">
         <TextView
             android:text="Console\n"
             android:layout_width="match_parent"
