@@ -197,6 +197,7 @@ namespace BlockChainVotingsAndroid
             var blocks = new List<Block>();
             foreach (var hash in message.Hashes)
             {
+                if (hash == "0") return;
                 var block = db.GetBlock(hash);
                 if (block != null) blocks.Add(block);
             }
@@ -213,21 +214,21 @@ namespace BlockChainVotingsAndroid
 
         private void OnBlockMessage(object sender, MessageEventArgs e)
         {
-            var message = e.Message as BlocksMessage;
+                var message = e.Message as BlocksMessage;
 
-            foreach (var block in message.Blocks)
-            {
-                //проверка на существование блока с таким же хешем
-                if (db.GetBlock(block.Hash) == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.Hash))
+                foreach (var block in message.Blocks)
                 {
-                    if (CheckBlock(block, e.SenderAddress))
+                    //проверка на существование блока с таким же хешем
+                    if (db.GetBlock(block.Hash) == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.Hash))
                     {
-                        //если внесли блок в базу, отсылаем его остальным пирам
-                        net.SendMessageToAllPeers(message);
-                    }
+                        if (CheckBlock(block, e.SenderAddress))
+                        {
+                            //если внесли блок в базу, отсылаем его остальным пирам
+                            net.SendMessageToAllPeers(message);
+                        }
 
+                    }
                 }
-            }
         }
 
 
@@ -296,6 +297,8 @@ namespace BlockChainVotingsAndroid
                     RequestTransaction(block.CreatorHash, peerAddress);
                 needWait = true;
             }
+
+            if (block.Transactions == null) return false;
 
             //проверка существования транзакций
             foreach (var itemHash in block.Transactions)
@@ -379,8 +382,8 @@ namespace BlockChainVotingsAndroid
                 }
 
 
-                NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
-                NewBlock(this, new IntEventArgs(db.BlocksCount()));
+                NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
+                NewBlock?.Invoke(this, new IntEventArgs(db.BlocksCount()));
 
                 return false;
 
@@ -401,7 +404,7 @@ namespace BlockChainVotingsAndroid
 
             NetworkComms.Logger.Warn("Added block " + block.Hash);
 
-            NewBlock(this, new IntEventArgs(db.BlocksCount()));
+            NewBlock?.Invoke(this, new IntEventArgs(db.BlocksCount()));
 
             //помечаем транзакции, что они в блоке
             foreach (var itemHash in block.Transactions)
@@ -504,13 +507,14 @@ namespace BlockChainVotingsAndroid
 
                 NetworkComms.Logger.Warn("Added transaction " + transaction.Type.ToString() + " " + transaction.Hash);
 
-                NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+
+                NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
 
                 //если добавили новую транзакцию голосования, то вызываем событие
                 if (transaction.Type == TransactionType.StartVoting)
-                    NewVoting(this, new IntEventArgs(transaction.VotingNumber));
+                    NewVoting?.Invoke(this, new IntEventArgs(transaction.VotingNumber));
                 else if (transaction.Type == TransactionType.CreateUser)
-                    NewUser(this, new IntEventArgs(db.UsersCount()));
+                    NewUser?.Invoke(this, new IntEventArgs(db.UsersCount()));
 
                 //проверяем нужно ли создавать новый блок
                 MakeBlock();
@@ -584,7 +588,7 @@ namespace BlockChainVotingsAndroid
                 else
                 {
                     db.DeleteTransaction(existsVote);
-                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                    NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
                 }
             }
 
@@ -623,7 +627,7 @@ namespace BlockChainVotingsAndroid
                 else
                 {
                     db.DeleteTransaction(existsUser);
-                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                    NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
                 }
             }
 
@@ -684,7 +688,7 @@ namespace BlockChainVotingsAndroid
                 else
                 {
                     db.DeleteTransaction(existsBan);
-                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                    NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
                 }
             }
 
@@ -753,7 +757,7 @@ namespace BlockChainVotingsAndroid
                 else
                 {
                     db.DeleteTransaction(existsVoting);
-                    NewTransaction(this, new IntEventArgs(db.TransactionsCount()));
+                    NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
                 }
             }
 

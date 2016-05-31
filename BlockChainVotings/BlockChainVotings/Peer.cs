@@ -76,49 +76,52 @@ namespace BlockChainVotings
                     ConnectionMode = ConnectionMode.Direct;
                     Status = PeerStatus.NoHashRecieved;
                     Connection = newTCPConn;
-
+                    
                     //обработчики приходящих сообщений внутри пира
                     //Connection.AppendShutdownHandler((c) => DisconnectDirect(false));
-                    Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
-                        (p, c, m) => DisconnectDirect(false));
+                    if (!Connection.IncomingPacketHandlerExists(typeof(PeerDisconnectMessage).Name))
+                        Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
+                            (p, c, m) => DisconnectDirect(false));
 
-                    Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name,
-                        (p, c, m) => OnPeerHashMessageDirect(m));
+                    if (!Connection.IncomingPacketHandlerExists(typeof(PeerHashMessage).Name))
+                        Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name,
+                            (p, c, m) => OnPeerHashMessageDirect(m));
 
-                    Connection.AppendIncomingPacketHandler<RequestPeersMessage>(typeof(RequestPeersMessage).Name,
-                        (p, c, m) => OnRequestPeersMessageDirect(m));
+                    if (!Connection.IncomingPacketHandlerExists(typeof(RequestPeersMessage).Name))
+                        Connection.AppendIncomingPacketHandler<RequestPeersMessage>(typeof(RequestPeersMessage).Name,
+                            (p, c, m) => OnRequestPeersMessageDirect(m));
 
 
                     //вызов внешних событий
-                    Connection.AppendIncomingPacketHandler<RequestBlocksMessage>(typeof(RequestBlocksMessage).Name,
-                        (p, c, m) => {
-                            if (OnRequestBlocksMessage != null)
-                                OnRequestBlocksMessage(this, new MessageEventArgs(m, Hash, Address));
-                        });
+                    if (!Connection.IncomingPacketHandlerExists(typeof(RequestBlocksMessage).Name))
+                        Connection.AppendIncomingPacketHandler<RequestBlocksMessage>(typeof(RequestBlocksMessage).Name,
+                            (p, c, m) => {
+                                OnRequestBlocksMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
+                            });
 
-                    Connection.AppendIncomingPacketHandler<RequestTransactionsMessage>(typeof(RequestTransactionsMessage).Name,
-                        (p, c, m) => {
-                            if (OnRequestTransactionsMessage != null)
-                                OnRequestTransactionsMessage(this, new MessageEventArgs(m, Hash, Address));
-                        });
+                    if (!Connection.IncomingPacketHandlerExists(typeof(RequestTransactionsMessage).Name))
+                        Connection.AppendIncomingPacketHandler<RequestTransactionsMessage>(typeof(RequestTransactionsMessage).Name,
+                            (p, c, m) => {
+                                OnRequestTransactionsMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
+                            });
 
-                    Connection.AppendIncomingPacketHandler<BlocksMessage>(typeof(BlocksMessage).Name,
-                        (p, c, m) => {
-                            if (OnBlocksMessage != null)
-                                OnBlocksMessage(this, new MessageEventArgs(m, Hash, Address));
-                        });
+                    if (!Connection.IncomingPacketHandlerExists(typeof(BlocksMessage).Name))
+                        Connection.AppendIncomingPacketHandler<BlocksMessage>(typeof(BlocksMessage).Name,
+                            (p, c, m) => {
+                                OnBlocksMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
+                            });
 
-                    Connection.AppendIncomingPacketHandler<TransactionsMessage>(typeof(TransactionsMessage).Name,
-                        (p, c, m) => {
-                            if (OnTransactionsMessage != null)
-                                OnTransactionsMessage(this, new MessageEventArgs(m, Hash, Address));
-                        });
+                    if (!Connection.IncomingPacketHandlerExists(typeof(TransactionsMessage).Name))
+                        Connection.AppendIncomingPacketHandler<TransactionsMessage>(typeof(TransactionsMessage).Name,
+                            (p, c, m) => {
+                                OnTransactionsMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
+                            });
 
-                    Connection.AppendIncomingPacketHandler<PeersMessage>(typeof(PeersMessage).Name,
-                        (p, c, m) => {
-                            if (OnPeersMessage != null)
-                                OnPeersMessage(this, new MessageEventArgs(m, Hash, Address));
-                        });
+                    if (!Connection.IncomingPacketHandlerExists(typeof(PeersMessage).Name))
+                        Connection.AppendIncomingPacketHandler<PeersMessage>(typeof(PeersMessage).Name,
+                            (p, c, m) => {
+                                OnPeersMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
+                            });
 
                     Thread.Sleep(CommonHelpers.MessagesInterval);
 

@@ -99,37 +99,38 @@ namespace BlockChainVotingsAndroid
 
                 try
                 {
-                    
                     ConnectionInfo connInfo = new ConnectionInfo(Address);
                     Connection newTCPConn = TCPConnection.GetConnection(connInfo);
 
-                    
+                    Status = TrackerStatus.Connected;
+                    Connection = newTCPConn;
 
+                    if (!Connection.IncomingPacketHandlerExists(typeof(ToPeerMessage).Name))
+                        Connection.AppendIncomingPacketHandler<ToPeerMessage>(typeof(ToPeerMessage).Name, OnToPeerMessage);
 
-                    Connection.AppendIncomingPacketHandler<ToPeerMessage>(typeof(ToPeerMessage).Name, OnToPeerMessage);
+                    if (!Connection.IncomingPacketHandlerExists(typeof(PeerHashMessage).Name))
+                        Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name, OnPeerHashMessageFromTracker);
 
-                    Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name, OnPeerHashMessageFromTracker);
+                    if (!Connection.IncomingPacketHandlerExists(typeof(PeersMessage).Name))
+                        Connection.AppendIncomingPacketHandler<PeersMessage>(typeof(PeersMessage).Name,
+                            (p, c, m) =>
+                            {
+                                OnPeersMessageFromTracker?.Invoke(this, new MessageEventArgs(m, null, Address));
+                            });
 
-                    Connection.AppendIncomingPacketHandler<PeersMessage>(typeof(PeersMessage).Name,
-                        (p, c, m) =>
-                        {
-                            if (OnPeersMessageFromTracker != null)
-                                OnPeersMessageFromTracker(this, new MessageEventArgs(m, null, Address));
-                        });
+                    if (!Connection.IncomingPacketHandlerExists(typeof(ConnectToPeerWithTrackerMessage).Name))
+                        Connection.AppendIncomingPacketHandler<ConnectToPeerWithTrackerMessage>(typeof(ConnectToPeerWithTrackerMessage).Name,
+                            (p, c, m) =>
+                            {
+                                OnConnectToPeerWithTrackerMessage?.Invoke(this, new MessageEventArgs(m, null, Address));
+                            });
 
-                    Connection.AppendIncomingPacketHandler<ConnectToPeerWithTrackerMessage>(typeof(ConnectToPeerWithTrackerMessage).Name,
-                        (p, c, m) =>
-                        {
-                            if (OnConnectToPeerWithTrackerMessage != null)
-                                OnConnectToPeerWithTrackerMessage(this, new MessageEventArgs(m, null, Address));
-                        });
-
-                    Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
-                        (p, c, m) =>
-                        {
-                            if (OnDisconnectPeer != null)
-                                OnDisconnectPeer(this, new MessageEventArgs(m, null, Address));
-                        });
+                    if (!Connection.IncomingPacketHandlerExists(typeof(PeerDisconnectMessage).Name))
+                        Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
+                            (p, c, m) =>
+                            {
+                                OnDisconnectPeer?.Invoke(this, new MessageEventArgs(m, null, Address));
+                            });
 
                     Thread.Sleep(CommonHelpers.MessagesInterval);
 
@@ -144,8 +145,7 @@ namespace BlockChainVotingsAndroid
                     {
                         allTrackers.Remove(this);
 
-                        if (OnTrackerDelete!=null)
-                            OnTrackerDelete(this, new EventArgs());
+                        OnTrackerDelete?.Invoke(this, new EventArgs());
                     }
                 }
 
@@ -171,33 +171,33 @@ namespace BlockChainVotingsAndroid
             {
                 var eventArgs = new MessageEventArgs(incomingObject.Message, null, incomingObject.SenderAddress);
 
-                if (incomingObject.Message is PeerHashMessage && OnPeerHashMessage != null)
+                if (incomingObject.Message is PeerHashMessage)
                 {
-                    OnPeerHashMessage(this, eventArgs);
+                    OnPeerHashMessage?.Invoke(this, eventArgs);
                 }
-                else if (incomingObject.Message is RequestPeersMessage && OnRequestPeersMessage != null)
+                else if (incomingObject.Message is RequestPeersMessage)
                 {
-                    OnRequestPeersMessage(this, eventArgs);
+                    OnRequestPeersMessage?.Invoke(this, eventArgs);
                 }
-                else if (incomingObject.Message is PeersMessage && OnPeersMessageFromPeer != null)
+                else if (incomingObject.Message is PeersMessage)
                 {
-                    OnPeersMessageFromPeer(this, eventArgs);
+                    OnPeersMessageFromPeer?.Invoke(this, eventArgs);
                 }
-                else if (incomingObject.Message is RequestBlocksMessage && OnRequestBlocksMessage != null)
+                else if (incomingObject.Message is RequestBlocksMessage)
                 {
-                    OnRequestBlocksMessage(this, eventArgs);
+                    OnRequestBlocksMessage?.Invoke(this, eventArgs);
                 }
-                else if (incomingObject.Message is RequestTransactionsMessage && OnRequestTransactionsMessage != null)
+                else if (incomingObject.Message is RequestTransactionsMessage)
                 {
-                    OnRequestTransactionsMessage(this, eventArgs);
+                    OnRequestTransactionsMessage?.Invoke(this, eventArgs);
                 }
-                else if (incomingObject.Message is BlocksMessage && OnBlocksMessage != null)
+                else if (incomingObject.Message is BlocksMessage)
                 {
-                    OnBlocksMessage(this, eventArgs);
+                    OnBlocksMessage?.Invoke(this, eventArgs);
                 }
-                else if (incomingObject.Message is TransactionsMessage && OnTransactionsMessage != null)
+                else if (incomingObject.Message is TransactionsMessage)
                 {
-                    OnTransactionsMessage(this, eventArgs);
+                    OnTransactionsMessage?.Invoke(this, eventArgs);
                 }              
             }
         }
@@ -225,8 +225,7 @@ namespace BlockChainVotingsAndroid
 
             Status = TrackerStatus.Disconnected;
 
-            if (OnTrackerDelete != null)
-                OnTrackerDelete(this, new EventArgs());
+            OnTrackerDelete?.Invoke(this, new EventArgs());
 
             CommonHelpers.LogTrackers(allTrackers);
         }

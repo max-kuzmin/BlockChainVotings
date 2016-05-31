@@ -54,6 +54,8 @@ namespace BlockChainVotings
             notifyIcon1.Text = Properties.Resources.votingSoftware;
             materialLabelVotings.Text = Properties.Resources.votings;
 
+            Icon = Properties.Resources.votingIcon;
+
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
@@ -76,7 +78,7 @@ namespace BlockChainVotings
             Console.SetOut(writer);
 
             regForm = new RegisterLoginForm();
-            regForm.SuccssesLogin += RegForm_SuccssesLogin;
+            regForm.SuccsessLogin += RegForm_SuccssesLogin;
             regForm.FormClosed += (s, a) =>
             {
                 Invoke(new Action(() => Close()));
@@ -106,7 +108,7 @@ namespace BlockChainVotings
             this.ShowInTaskbar = true;
             notifyIcon1.Visible = false;
 
-
+            
             blockChain.CheckRoot();
 
 

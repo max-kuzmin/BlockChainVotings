@@ -24,6 +24,8 @@ namespace BlockChainVotings
             materialRaisedButtonShow.Text = Properties.Resources.show;
 
             labelNewVoting.Text = votingInfo;
+
+            Icon = Properties.Resources.votingIcon;
         }
 
         Timer t;

@@ -16,7 +16,7 @@ namespace BlockChainVotings
     public partial class RegisterLoginForm : MaterialForm
     {
 
-        public event EventHandler SuccssesLogin;
+        public event EventHandler SuccsessLogin;
 
         public RegisterLoginForm()
         {
@@ -24,25 +24,27 @@ namespace BlockChainVotings
 
             MaterialSkinManager.Instance.AddFormToManage(this);
 
+
+            this.Text = Properties.Resources.loginIntoNet;
+            labelPassLogin.Text = Properties.Resources.pass;
+            labelPasswordRegister.Text = Properties.Resources.pass;
+            labelPasswordRegister2.Text = Properties.Resources.passRepeat;
+            labelPrivateKeyRegister.Text = Properties.Resources.privateKey;
+            labelPublicKeyLogin.Text = Properties.Resources.userHash;
+            labelPublicKeyRegister.Text = Properties.Resources.userHash;
+            buttonLogin.Text = Properties.Resources.toLogin;
+            buttonRegister.Text = Properties.Resources.register;
+            tabPageLogin.Text = Properties.Resources.login;
+            tabPageRegister.Text = Properties.Resources.registration;
+
+            
+
             if (VotingsUser.CheckUserExists())
             {
                 VotingsUser.GetKeysFromConfig();
 
                 tabControl1.SelectTab("tabPageLogin");
                 textBoxPublicKeyLogin.Text = VotingsUser.PublicKey;
-
-
-                this.Text = Properties.Resources.loginIntoNet;
-                labelPassLogin.Text = Properties.Resources.pass;
-                labelPasswordRegister.Text = Properties.Resources.pass;
-                labelPasswordRegister2.Text = Properties.Resources.passRepeat;
-                labelPrivateKeyRegister.Text = Properties.Resources.privateKey;
-                labelPublicKeyLogin.Text = Properties.Resources.userHash;
-                labelPublicKeyRegister.Text = Properties.Resources.userHash;
-                buttonLogin.Text = Properties.Resources.toLogin;
-                buttonRegister.Text = Properties.Resources.register;
-                tabPageLogin.Text = Properties.Resources.login;
-                tabPageRegister.Text = Properties.Resources.registration;
 
                 CommonHelpers.ChangeTheme(VotingsUser.Theme);
 
@@ -53,6 +55,9 @@ namespace BlockChainVotings
                 var tab = tabControl1.TabPages["tabPageLogin"];
                 tabControl1.TabPages.Remove(tab);
             }
+
+
+            Icon = Properties.Resources.votingIcon;
 
 
         }
@@ -98,7 +103,7 @@ namespace BlockChainVotings
 
                 if (VotingsUser.Login(textBoxPasswordRegister.Text))
                 {
-                    SuccssesLogin(this, new EventArgs());
+                    SuccsessLogin?.Invoke(this, new EventArgs());
                     Hide();
                 }
             }
@@ -122,7 +127,7 @@ namespace BlockChainVotings
             {
                 if (VotingsUser.Login(textBoxPassLogin.Text))
                 {
-                    SuccssesLogin(this, new EventArgs());
+                    SuccsessLogin?.Invoke(this, new EventArgs());
                     Hide();
                 }
             }

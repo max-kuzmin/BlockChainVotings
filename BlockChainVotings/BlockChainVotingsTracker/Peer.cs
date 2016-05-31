@@ -33,12 +33,21 @@ namespace BlockChainVotingsTracker
 
             //обработчики приходящих сообщений для подключения
             //this.Connection.AppendShutdownHandler((c) => Disconnect());
-            this.Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
+            if (!Connection.IncomingPacketHandlerExists(typeof(PeerDisconnectMessage).Name))
+                this.Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
                                     (p, c, m) => Disconnect());
-            this.Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name, OnPeerHashMessage);
-            this.Connection.AppendIncomingPacketHandler<RequestPeersMessage>(typeof(RequestPeersMessage).Name, OnRequestPeersMessage);
-            this.Connection.AppendIncomingPacketHandler<ConnectToPeerWithTrackerMessage>(typeof(ConnectToPeerWithTrackerMessage).Name, OnConnectToPeerWithTrackerMessage);
-            this.Connection.AppendIncomingPacketHandler<ToPeerMessage>(typeof(ToPeerMessage).Name, OnToPeerMessage);
+
+            if (!Connection.IncomingPacketHandlerExists(typeof(PeerHashMessage).Name))
+                this.Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name, OnPeerHashMessage);
+
+            if (!Connection.IncomingPacketHandlerExists(typeof(RequestPeersMessage).Name))
+                this.Connection.AppendIncomingPacketHandler<RequestPeersMessage>(typeof(RequestPeersMessage).Name, OnRequestPeersMessage);
+
+            if (!Connection.IncomingPacketHandlerExists(typeof(ConnectToPeerWithTrackerMessage).Name))
+                this.Connection.AppendIncomingPacketHandler<ConnectToPeerWithTrackerMessage>(typeof(ConnectToPeerWithTrackerMessage).Name, OnConnectToPeerWithTrackerMessage);
+
+            if (!Connection.IncomingPacketHandlerExists(typeof(ToPeerMessage).Name))
+                this.Connection.AppendIncomingPacketHandler<ToPeerMessage>(typeof(ToPeerMessage).Name, OnToPeerMessage);
 
             Thread.Sleep(CommonHelpers.MessagesInterval);
 

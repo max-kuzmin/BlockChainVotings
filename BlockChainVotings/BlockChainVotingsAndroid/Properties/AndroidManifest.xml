@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="BlockChainVotingsAndroid.BlockChainVotingsAndroid" android:versionCode="1" android:versionName="1.0">
-	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="21" />
-	<application android:label="BlockChainVotingsAndroid" android:icon="@drawable/Icon"></application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="BlockChainVotingsAndroid.BlockChainVotingsAndroid" android:versionCode="1" android:versionName="1.0" android:installLocation="preferExternal">
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="23" />
+	<application android:label="Система электронных голосований"></application>
 </manifest>

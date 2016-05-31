@@ -34,6 +34,7 @@ namespace BlockChainVotings
             buttonBan.Text = Properties.Resources.ban;
             toolStripMenuItem1.Text = Properties.Resources.copyHash;
 
+            Icon = Properties.Resources.votingIcon;
 
         }
 

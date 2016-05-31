@@ -9,6 +9,8 @@ using System.Text;
 using NetworkCommsDotNet;
 using System.Threading.Tasks;
 using Android.Graphics;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace BlockChainVotingsAndroid
 {
@@ -26,7 +28,15 @@ namespace BlockChainVotingsAndroid
             this.SetTitle(Resource.String.blockChainVoting);
 
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-            CreateRegisterLoginTabs();
+
+            if (VotingsUser.PrivateKey != null && VotingsUser.PublicKey != null)
+            {
+                CreateVotingSettingTabs();
+            }
+            else
+            {
+                CreateRegisterLoginTabs();
+            }
 
         }
 
@@ -40,11 +50,25 @@ namespace BlockChainVotingsAndroid
 
             var tabLogin = ActionBar.NewTab();
             tabLogin.SetText(Resource.String.login);
-            tabLogin.TabSelected += TabLogin_TabSelected;
 
-            tabReg.Select();
-            ActionBar.AddTab(tabReg);
-            ActionBar.AddTab(tabLogin);
+            if (VotingsUser.CheckUserExists())
+            {
+                VotingsUser.GetKeysFromConfig();
+                tabLogin.TabSelected += TabLogin_TabSelected;
+
+                ActionBar.AddTab(tabLogin);
+                ActionBar.AddTab(tabReg);
+                tabLogin.Select();
+            }
+            else
+            {
+                tabLogin.TabSelected += (s, e) => { };
+
+                ActionBar.AddTab(tabReg);
+                ActionBar.AddTab(tabLogin);
+                tabReg.Select();
+            }
+
         }
 
         private void TabLogin_TabSelected(object sender, ActionBar.TabEventArgs e)
@@ -54,13 +78,9 @@ namespace BlockChainVotingsAndroid
             Button buttonLogin = FindViewById<Button>(Resource.Id.buttonLogin);
             buttonLogin.Click += ButtonLogin_Click;
 
-
-            if (VotingsUser.CheckUserExists())
-            {
-                VotingsUser.GetKeysFromConfig();
-                EditText editTextPublicKey = FindViewById<EditText>(Resource.Id.editTextPublicKeyLogin);
-                editTextPublicKey.Text = VotingsUser.PublicKey;
-            }
+            EditText editTextPublicKey = FindViewById<EditText>(Resource.Id.editTextPublicKeyLogin);
+            editTextPublicKey.Text = VotingsUser.PublicKey;
+            editTextPublicKey.Enabled = false;
         }
 
         private void TabReg_TabSelected(object sender, ActionBar.TabEventArgs e)
@@ -74,21 +94,27 @@ namespace BlockChainVotingsAndroid
         private void CreateVotingSettingTabs()
         {
             ActionBar.RemoveAllTabs();
-           
-            //показ сообщения об ожидании================================================================
-            //blockChain.CheckRoot();
 
             var tabVoting = ActionBar.NewTab();
             tabVoting.SetText(Resource.String.voting);
             tabVoting.TabSelected += TabVoting_TabSelected;
 
             var tabSetting = ActionBar.NewTab();
-            tabSetting.SetText(Resource.String.login);
+            tabSetting.SetText(Resource.String.setting);
             tabSetting.TabSelected += TabSetting_TabSelected;
 
             tabVoting.Select();
             ActionBar.AddTab(tabVoting);
             ActionBar.AddTab(tabSetting);
+
+
+            //показ сообщения об ожидании================================================================
+            if (!CommonHelpers.RootChecked)
+            {
+                blockChain.CheckRoot();
+                CommonHelpers.RootChecked = true;
+                blockChain.Start();
+            }
 
         }
 
@@ -101,24 +127,25 @@ namespace BlockChainVotingsAndroid
             CheckBox checkBoxCreateBlocks = FindViewById<CheckBox>(Resource.Id.checkBoxCreateBlocks);
             EditText editTextTrackers = FindViewById<EditText>(Resource.Id.editTextTrackers);
 
-            buttonStart.Enabled = false;
+            buttonStart.Enabled = !(blockChain.Started);
 
             buttonStart.Click += ButtonStart_Click;
             buttonStop.Click += ButtonStop_Click;
             checkBoxCreateBlocks.Click += CheckBoxCreateBlocks_Click;
-            editTextTrackers.Click += EditTextTrackers_Click;
+            editTextTrackers.TextChanged += EditTextTrackers_TextChanged;
 
             checkBoxCreateBlocks.Checked = VotingsUser.CreateOwnBlocks;
             editTextTrackers.Text = VotingsUser.Trackers;
 
-            //вывод лога в консоль - не стоит вызывать каждый раз ====================================================
+            //обработка вывода лога в консоль
             TextView textViewConsole = FindViewById<TextView>(Resource.Id.textViewConsole);
-            textViewConsole.Text = "";
+            textViewConsole.Text = ConsoleToTextViewWriter.Text;
             ConsoleToTextViewWriter writer = new ConsoleToTextViewWriter(textViewConsole, RunOnUiThread);
             Console.SetOut(writer);
+
         }
 
-        private void EditTextTrackers_Click(object sender, EventArgs e)
+        private void EditTextTrackers_TextChanged(object sender, EventArgs e)
         {
             EditText editTextTrackers = FindViewById<EditText>(Resource.Id.editTextTrackers);
 
@@ -138,7 +165,105 @@ namespace BlockChainVotingsAndroid
         {
             SetContentView(Resource.Layout.Voting);
 
+            Button voteButton = FindViewById<Button>(Resource.Id.buttonVote);
+            CheckBox agreeCheckBox = FindViewById<CheckBox>(Resource.Id.checkBoxAgree);
+            voteButton.Enabled = false;
+            agreeCheckBox.Enabled = false;
 
+            voteButton.Click += VoteButton_Click;
+
+            //заполняем голосования
+            Spinner votingsSpiner = FindViewById<Spinner>(Resource.Id.spinnerVoting);
+
+            var transactions = blockChain.GetOpenedVotings();
+            var list = new List<SpinerItem>();
+
+            foreach (var item in transactions)
+            {
+                try
+                {
+                    var info = JObject.Parse(item.Info);
+                    string line = "№" + item.VotingNumber + " " + info["name"] + " " + Resources.GetString(Resource.String.from) + " " + item.Date0.ToShortDateString();
+                    list.Add(new SpinerItem(line, item));
+                }
+                catch { }
+            }
+
+            var arrayAdapter = new ArrayAdapter<SpinerItem>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, list);
+            votingsSpiner.Adapter = arrayAdapter;
+
+            votingsSpiner.ItemSelected += VotingsSpiner_ItemSelected;
+
+        }
+
+        private void VoteButton_Click(object sender, EventArgs e)
+        {
+            CheckBox agreeCheckBox = FindViewById<CheckBox>(Resource.Id.checkBoxAgree);
+            if (agreeCheckBox.Checked)
+            {
+                Spinner candidatesSpiner = FindViewById<Spinner>(Resource.Id.spinnerCandidates);
+                Spinner votingsSpiner = FindViewById<Spinner>(Resource.Id.spinnerVoting);
+
+                var voting = (votingsSpiner.SelectedItem as SpinerItem).Value;
+                var candidate = (candidatesSpiner.SelectedItem as SpinerItem).Value;
+
+                blockChain.CreateVote(candidate.RecieverHash, voting.Hash);
+
+                //====================================уведомление
+            }
+        }
+
+        private void VotingsSpiner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            CheckBox agreeCheckBox = FindViewById<CheckBox>(Resource.Id.checkBoxAgree);
+            agreeCheckBox.Checked = false;
+
+
+            //заполняем кандидатов
+            Spinner candidatesSpiner = FindViewById<Spinner>(Resource.Id.spinnerCandidates);
+            Spinner votingsSpiner = FindViewById<Spinner>(Resource.Id.spinnerVoting);
+
+            var voting = (votingsSpiner.Adapter.GetItem(e.Position) as SpinerItem).Value;
+            var transactions = blockChain.GetCandidates(voting);
+            var list = new List<SpinerItem>();
+
+            //пустая строка
+            list.Add(new SpinerItem("", null));
+
+            foreach (var item in transactions)
+            {
+                try
+                {
+                    var info = JObject.Parse(item.Info);
+                    string line = info["name"] + ", " + Resources.GetString(Resource.String.snils) + " " + info["id"];
+                    list.Add(new SpinerItem(line, item));
+                }
+                catch { }
+            }
+
+            var arrayAdapter = new ArrayAdapter<SpinerItem>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, list);
+            candidatesSpiner.Adapter = arrayAdapter;
+
+            candidatesSpiner.ItemSelected += CandidatesSpiner_ItemSelected;
+
+
+
+        }
+
+        private void CandidatesSpiner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            CheckBox agreeCheckBox = FindViewById<CheckBox>(Resource.Id.checkBoxAgree);
+            Spinner candidatesSpiner = FindViewById<Spinner>(Resource.Id.spinnerCandidates);
+
+            if ((candidatesSpiner.SelectedItem as SpinerItem).Value == null)
+                agreeCheckBox.Enabled = false;
+            else
+                agreeCheckBox.Enabled = true;
+
+            agreeCheckBox.Checked = false;
+
+            Button voteButton = FindViewById<Button>(Resource.Id.buttonVote);
+            voteButton.Enabled = true;
         }
 
         private void ButtonStop_Click(object sender, EventArgs e)
@@ -157,6 +282,7 @@ namespace BlockChainVotingsAndroid
             Task.Run(() => blockChain.Start());
 
             buttonStart.Enabled = false;
+            blockChain.Started = true;
         }
 
         private void ButtonLogin_Click(object sender, EventArgs e)

@@ -20,31 +20,31 @@ namespace BlockChainVotingsAndroid
             this.runOnUi = runOnUiThread;
         }
 
-
+        public static string Text = "";
         string line = "";
 
         public override void Write(char value)
         {
             base.Write(value);
 
-            runOnUi(new Action(() =>
-            {
                 line += value;
 
                 if (value == '\n')
                 {
                     if (!line.Contains("Trace]"))
                     {
+                        Text += line;
                         try
                         {
-                            textView.Text += line;
+                            runOnUi(new Action(() =>
+                            {
+                                textView.Text = Text;
+                            }));
                         }
                         catch { }
                     }
                     line = "";
                 }
-
-            }));
         }
 
         public override Encoding Encoding

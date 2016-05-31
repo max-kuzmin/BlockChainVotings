@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("BlockChainVotings")]
+[assembly: AssemblyTitle("Система электронных голосований")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Maxim Kuzmin, ISPU")]
 [assembly: AssemblyProduct("BlockChainVotings")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © 2016 Maxim Kuzmin")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

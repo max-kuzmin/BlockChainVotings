@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Virgil.Crypto;
 using Virgil.Crypto.Foundation;
@@ -25,6 +26,8 @@ namespace BlockChainVotingsAndroid
 
         static TimeSpan? dateDelta;
         public static int TransactionsInBlock { get { return 10; } }
+
+        static public bool RootChecked = false;
 
 
         static public event EventHandler<IntEventArgs> PeersCountChanged;
@@ -59,8 +62,7 @@ namespace BlockChainVotingsAndroid
                 ", noHashRecieved - " + peers.Count(p => p.Status == PeerStatus.NoHashRecieved) +
                 ", disconnected - " + peers.Count(p => p.Status == PeerStatus.Disconnected));
 
-            if (PeersCountChanged != null)
-                PeersCountChanged(null, new IntEventArgs(peers.Count(p => p.Status == PeerStatus.Connected)));
+            PeersCountChanged?.Invoke(null, new IntEventArgs(peers.Count(p => p.Status == PeerStatus.Connected)));
         }
 
         static public void LogTrackers(List<Tracker> trackers)
@@ -68,15 +70,16 @@ namespace BlockChainVotingsAndroid
             NetworkComms.Logger.Warn("Trackers: connected - " + trackers.Count(p => p.Status == TrackerStatus.Connected) +
                 ", disconnected - " + trackers.Count(p => p.Status == TrackerStatus.Disconnected));
 
-            if (TrackersCountChanged != null)
-                TrackersCountChanged(null, new IntEventArgs(trackers.Count(p => p.Status == TrackerStatus.Connected)));
+            TrackersCountChanged?.Invoke(null, new IntEventArgs(trackers.Count(p => p.Status == TrackerStatus.Connected)));
         }
 
 
 
         static public string CalcHash(string data)
         {
-            byte[] binData = Encoding.UTF8.GetBytes(data);
+            string normalized = Regex.Replace(data, "(?<!\r)\n", "\r\n");
+
+            byte[] binData = Encoding.UTF8.GetBytes(normalized);
             byte[] result = VirgilHash.Sha256().Hash(binData);
             return Convert.ToBase64String(result);
         }
@@ -116,14 +119,18 @@ namespace BlockChainVotingsAndroid
 
         static public string SignData(string data, string privateKey)
         {
+            string normalized = Regex.Replace(data, "(?<!\r)\n", "\r\n");
+
             var key = Convert.FromBase64String(privateKey);
-            return CryptoHelper.Sign(data, key);
+            return CryptoHelper.Sign(normalized, key);
         }
 
         static public bool VerifyData(string data, string signature, string publicKey)
         {
+            string normalized = Regex.Replace(data, "(?<!\r)\n", "\r\n");
+
             var key = Convert.FromBase64String(publicKey);
-            return CryptoHelper.Verify(data, signature, key);
+            return CryptoHelper.Verify(normalized, signature, key);
         }
 
 

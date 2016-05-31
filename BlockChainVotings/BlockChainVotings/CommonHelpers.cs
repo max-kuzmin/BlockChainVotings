@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Virgil.Crypto;
 using Virgil.Crypto.Foundation;
@@ -32,14 +33,25 @@ namespace BlockChainVotings
         static public event EventHandler<IntEventArgs> TrackersCountChanged;
 
 
+        static IPAddress localAddr = null;
 
         static public IPEndPoint GetLocalEndPoint(int port)
         {
-            if (!NetworkInterface.GetIsNetworkAvailable()) return null;
-
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            var address = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork).OrderByDescending(addr => addr.Address).First();
-            IPEndPoint endPoint = new IPEndPoint(address, port);
+            if (localAddr == null)
+            {
+                try
+                {
+                    var client = new UdpClient("8.8.8.8", 80);
+                    client.Client.ReceiveTimeout = 2000;
+                    client.Client.SendTimeout = 2000;
+                    localAddr = ((IPEndPoint)client.Client.LocalEndPoint).Address;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            IPEndPoint endPoint = new IPEndPoint(localAddr, port);
             return endPoint;
         }
 
@@ -49,7 +61,7 @@ namespace BlockChainVotings
                 ", noHashRecieved - " + peers.Count(p => p.Status == PeerStatus.NoHashRecieved) +
                 ", disconnected - " + peers.Count(p => p.Status == PeerStatus.Disconnected));
 
-            PeersCountChanged(null, new IntEventArgs(peers.Count(p => p.Status == PeerStatus.Connected)));
+            PeersCountChanged?.Invoke(null, new IntEventArgs(peers.Count(p => p.Status == PeerStatus.Connected)));
         }
 
         static public void LogTrackers(List<Tracker> trackers)
@@ -57,14 +69,16 @@ namespace BlockChainVotings
             NetworkComms.Logger.Warn("Trackers: connected - " + trackers.Count(p => p.Status == TrackerStatus.Connected) +
                 ", disconnected - " + trackers.Count(p => p.Status == TrackerStatus.Disconnected));
 
-            TrackersCountChanged(null, new IntEventArgs(trackers.Count(p => p.Status == TrackerStatus.Connected)));
+            TrackersCountChanged?.Invoke(null, new IntEventArgs(trackers.Count(p => p.Status == TrackerStatus.Connected)));
         }
 
 
 
         static public string CalcHash(string data)
         {
-            byte[] binData = Encoding.UTF8.GetBytes(data);
+			string normalized = Regex.Replace(data, "(?<!\r)\n", "\r\n");
+			
+            byte[] binData = Encoding.UTF8.GetBytes(normalized);
             byte[] result = VirgilHash.Sha256().Hash(binData);
             return Convert.ToBase64String(result);
         }
@@ -104,14 +118,18 @@ namespace BlockChainVotings
 
         static public string SignData(string data, string privateKey)
         {
+			string normalized = Regex.Replace(data, "(?<!\r)\n", "\r\n");
+
             var key = Convert.FromBase64String(privateKey);
-            return CryptoHelper.Sign(data, key);
+            return CryptoHelper.Sign(normalized, key);
         }
 
         static public bool VerifyData(string data, string signature, string publicKey)
         {
+			string normalized = Regex.Replace(data, "(?<!\r)\n", "\r\n");
+			
             var key = Convert.FromBase64String(publicKey);
-            return CryptoHelper.Verify(data, signature, key);
+            return CryptoHelper.Verify(normalized, signature, key);
         }
 
 
@@ -125,7 +143,7 @@ namespace BlockChainVotings
                 {
                     try
                     {
-                        var client = new TcpClient("time.nist.gov", 13);
+                        var client = new TcpClient("129.6.15.30", 13);
                         client.ReceiveTimeout = 2000;
                         client.SendTimeout = 2000;
                         using (var streamReader = new StreamReader(client.GetStream()))
