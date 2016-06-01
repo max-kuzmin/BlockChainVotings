@@ -61,7 +61,7 @@ namespace BlockChainVotings
         private void buttonCreate_Click(object sender, EventArgs e)
         {
             if (textBoxVotingName.BackColor == Color.Honeydew &&
-                listViewCandidates.Items.Count>=2)
+                listViewCandidates.Items.Count >= 2)
             {
                 var candidates = new List<string>();
 
@@ -91,7 +91,7 @@ namespace BlockChainVotings
         {
             listViewSearchUsers.Items.Clear();
 
-            if (textBoxSearchUser.Text.Length>=3)
+            if (textBoxSearchUser.Text.Length >= 3)
             {
                 var users = blockChain.SearchUsers(textBoxSearchUser.Text);
 

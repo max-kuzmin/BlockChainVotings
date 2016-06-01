@@ -34,6 +34,7 @@ namespace BlockChainVotings
         public Network()
         {
 
+
             Trackers = new List<Tracker>();
             Peers = new List<Peer>();
 
@@ -53,7 +54,7 @@ namespace BlockChainVotings
             var peersCopy = new List<Peer>(Peers);
             foreach (var peer in peersCopy)
             {
-                if (Peers.Count(p => p.Address.Equals(peer.Address))>1) Peers.Remove(peer);
+                if (Peers.Count(p => p.Address.Equals(peer.Address)) > 1) Peers.Remove(peer);
                 peer.CheckConnection();
             }
         }
@@ -91,17 +92,17 @@ namespace BlockChainVotings
                         OnRequestBlocksMessage?.Invoke(s, e);
                     };
 
-                    tracker.OnRequestTransactionsMessage += (s, e) => 
+                    tracker.OnRequestTransactionsMessage += (s, e) =>
                     {
                         OnRequestTransactionsMessage?.Invoke(s, e);
                     };
 
-                    tracker.OnBlocksMessage += (s, e) => 
+                    tracker.OnBlocksMessage += (s, e) =>
                     {
                         OnBlocksMessage?.Invoke(s, e);
                     };
 
-                    tracker.OnTransactionsMessage += (s, e) => 
+                    tracker.OnTransactionsMessage += (s, e) =>
                     {
                         OnTransactionsMessage?.Invoke(s, e);
                     };
@@ -147,7 +148,7 @@ namespace BlockChainVotings
             foreach (var address in message.PeersAdresses)
             {
                 //if (!Peers.Any(peer => peer.Address.Equals(address)))
-                    AddPeer(address, (sender is Tracker) ? (sender as Tracker) : null);
+                AddPeer(address, (sender is Tracker) ? (sender as Tracker) : null);
             }
         }
 
@@ -189,24 +190,24 @@ namespace BlockChainVotings
                 Peers.Add(peer);
 
                 //перенаправляем события пира
-                peer.OnRequestBlocksMessage += (s, e) => 
+                peer.OnRequestBlocksMessage += (s, e) =>
                 {
-                        OnRequestBlocksMessage?.Invoke(s, e);
+                    OnRequestBlocksMessage?.Invoke(s, e);
                 };
 
-                peer.OnRequestTransactionsMessage += (s, e) => 
+                peer.OnRequestTransactionsMessage += (s, e) =>
                 {
-                        OnRequestTransactionsMessage?.Invoke(s, e);
+                    OnRequestTransactionsMessage?.Invoke(s, e);
                 };
 
-                peer.OnBlocksMessage += (s, e) => 
+                peer.OnBlocksMessage += (s, e) =>
                 {
-                        OnBlocksMessage?.Invoke(s, e);
+                    OnBlocksMessage?.Invoke(s, e);
                 };
 
-                peer.OnTransactionsMessage += (s, e) => 
+                peer.OnTransactionsMessage += (s, e) =>
                 {
-                        OnTransactionsMessage?.Invoke(s, e);
+                    OnTransactionsMessage?.Invoke(s, e);
                 };
 
                 peer.OnPeersMessage += (s, e) => OnPeersMessage(s, e);
@@ -219,9 +220,9 @@ namespace BlockChainVotings
                 //вызов события подключения пира
                 Task.Run(() =>
                 {
-                    System.Threading.Thread.Sleep(CommonHelpers.MessagesInterval*5);
+                    System.Threading.Thread.Sleep(CommonHelpers.MessagesInterval * 5);
 
-                    OnPeerConnected(this, new MessageEventArgs(new Message(), peer.Hash, peer.Address));
+                    OnPeerConnected?.Invoke(this, new MessageEventArgs(new Message(), peer.Hash, peer.Address));
                 });
             }
         }
@@ -235,7 +236,8 @@ namespace BlockChainVotings
 
             //сначала ищем пиры без трекера
             if (VotingsUser.PeerDiscovery)
-                try {
+                try
+                {
                     PeerDiscovery.DiscoverPeersAsync(PeerDiscovery.DiscoveryMethod.UDPBroadcast);
                 }
                 catch { }
@@ -317,9 +319,9 @@ namespace BlockChainVotings
 
         public void Disconnect()
         {
-            while (Peers.Count>0)
+            while (Peers.Count > 0)
             {
-                Peers.First().DisconnectDirect();
+                Peers.First().DisconnectAny();
             }
             while (Trackers.Count > 0)
             {
@@ -341,29 +343,33 @@ namespace BlockChainVotings
         {
             ParseTrackers();
 
-            if (CommonHelpers.GetLocalEndPoint(1, true) != null && VotingsUser.PeerDiscovery)
+            try
             {
-                PeerDiscovery.MinTargetLocalIPPort = CommonHelpers.DiscoveryPort;
-                PeerDiscovery.MaxTargetLocalIPPort = CommonHelpers.DiscoveryPort;
-                PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
-                PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonHelpers.GetLocalEndPoint(CommonHelpers.DiscoveryPort));
-                
+                if (CommonHelpers.GetLocalEndPoint(1, true) != null && VotingsUser.PeerDiscovery)
+                {
+                    PeerDiscovery.MinTargetLocalIPPort = CommonHelpers.DiscoveryPort;
+                    PeerDiscovery.MaxTargetLocalIPPort = CommonHelpers.DiscoveryPort;
+                    PeerDiscovery.OnPeerDiscovered -= PeerDiscovered;
+                    PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
+                    PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonHelpers.GetLocalEndPoint(CommonHelpers.DiscoveryPort));
+
+                }
+
+                TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), false);
             }
-
-
-            TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), false);
+            catch
+            {
+                NetworkComms.Logger.Error("Can't start listener on this IP: " + CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort).ToString());
+            }
 
             NetworkComms.Logger.Warn("===== Client started =====");
 
- 
+
             ConnectToTrackers();
             RequestPeers();
             ConnectToPeers();
             t.Start();
         }
-
-
-
 
 
     }

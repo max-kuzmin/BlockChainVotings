@@ -51,7 +51,7 @@ namespace BlockChainVotingsAndroid
     [ProtoContract]
     public class PeerDisconnectMessage : Message
     {
-        
+
         public EndPoint PeerAddress;
 
         public PeerDisconnectMessage(EndPoint peerAddress)
@@ -73,7 +73,7 @@ namespace BlockChainVotingsAndroid
         private void Serialize()
         {
             peerAddress = (PeerAddress as IPEndPoint).Address.Address;
-            peerPort = (PeerAddress as IPEndPoint).Port ;
+            peerPort = (PeerAddress as IPEndPoint).Port;
         }
 
         [ProtoAfterDeserialization]
@@ -170,7 +170,7 @@ namespace BlockChainVotingsAndroid
         }
 
         [ProtoMember(3)]
-        public long Date=0;
+        public long Date = 0;
 
         public RequestTransactionsMessage(List<string> hashes)
         {

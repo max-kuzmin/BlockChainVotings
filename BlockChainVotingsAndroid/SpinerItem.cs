@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlockChainVotingsAndroid
 {
-    public class SpinerItem: Java.Lang.Object
+    public class SpinerItem : Java.Lang.Object
     {
         public string Text { get; set; }
         public Transaction Value { get; set; }

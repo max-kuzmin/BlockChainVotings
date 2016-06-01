@@ -28,10 +28,10 @@ namespace BlockChainVotings
 
         static public bool CreateOwnBlocks;
         static public int Theme;
-        static public string Trackers = "192.168.0.36";
+        static public string Trackers = "";
         static public bool PeerDiscovery;
 
-        static public string LocalIP = null;
+        static public bool UseLanLocalIP = true;
 
 
 
@@ -56,8 +56,7 @@ namespace BlockChainVotings
 
         static public void GetKeysFromConfig()
         {
-            //if (CheckUserExists())
-            //{
+
             PublicKey = config.AppSettings.Settings["publicKey"].Value;
             PrivateKeyCrypted = config.AppSettings.Settings["privateKeyCrypted"].Value;
             PasswordHash = config.AppSettings.Settings["passwordHash"].Value;
@@ -66,13 +65,9 @@ namespace BlockChainVotings
             Theme = int.Parse(config.AppSettings.Settings["theme"].Value);
             Trackers = config.AppSettings.Settings["trackers"].Value;
             PeerDiscovery = bool.Parse(config.AppSettings.Settings["peerDiscovery"].Value);
+            UseLanLocalIP = bool.Parse(config.AppSettings.Settings["useLanLocalIP"].Value);
 
 
-            if (config.AppSettings.Settings.AllKeys.Contains("localIP"))
-            {
-                LocalIP = config.AppSettings.Settings["localIP"].Value;
-            }
-            //}
         }
 
         static public void ClearUserData()
@@ -85,6 +80,7 @@ namespace BlockChainVotings
             config.AppSettings.Settings.Remove("theme");
             config.AppSettings.Settings.Remove("trackers");
             config.AppSettings.Settings.Remove("peerDiscovery");
+            config.AppSettings.Settings.Remove("useLanLocalIP");
 
             config.Save();
         }
@@ -98,7 +94,8 @@ namespace BlockChainVotings
                 config.AppSettings.Settings.AllKeys.Contains("createOwnBlocks") &&
                 config.AppSettings.Settings.AllKeys.Contains("theme") &&
                 config.AppSettings.Settings.AllKeys.Contains("trackers") &&
-                config.AppSettings.Settings.AllKeys.Contains("peerDiscovery"))
+                config.AppSettings.Settings.AllKeys.Contains("peerDiscovery") &&
+                config.AppSettings.Settings.AllKeys.Contains("useLanLocalIP"))
                 return true;
             else return false;
         }
@@ -116,6 +113,7 @@ namespace BlockChainVotings
             config.AppSettings.Settings.Add("theme", 0.ToString());
             config.AppSettings.Settings.Add("trackers", Trackers);
             config.AppSettings.Settings.Add("peerDiscovery", true.ToString());
+            config.AppSettings.Settings.Add("useLanLocalIP", true.ToString());
 
             config.Save();
         }

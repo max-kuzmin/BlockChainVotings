@@ -33,9 +33,6 @@ namespace BlockChainVotingsAndroid
 
         public Network()
         {
-            NetworkComms.DisableLogging();
-            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleOnly);
-            NetworkComms.EnableLogging(logger);
 
             Trackers = new List<Tracker>();
             Peers = new List<Peer>();
@@ -56,7 +53,7 @@ namespace BlockChainVotingsAndroid
             var peersCopy = new List<Peer>(Peers);
             foreach (var peer in peersCopy)
             {
-                if (Peers.Count(p => p.Address.Equals(peer.Address))>1) Peers.Remove(peer);
+                if (Peers.Count(p => p.Address.Equals(peer.Address)) > 1) Peers.Remove(peer);
                 peer.CheckConnection();
             }
         }
@@ -94,17 +91,17 @@ namespace BlockChainVotingsAndroid
                         OnRequestBlocksMessage?.Invoke(s, e);
                     };
 
-                    tracker.OnRequestTransactionsMessage += (s, e) => 
+                    tracker.OnRequestTransactionsMessage += (s, e) =>
                     {
                         OnRequestTransactionsMessage?.Invoke(s, e);
                     };
 
-                    tracker.OnBlocksMessage += (s, e) => 
+                    tracker.OnBlocksMessage += (s, e) =>
                     {
                         OnBlocksMessage?.Invoke(s, e);
                     };
 
-                    tracker.OnTransactionsMessage += (s, e) => 
+                    tracker.OnTransactionsMessage += (s, e) =>
                     {
                         OnTransactionsMessage?.Invoke(s, e);
                     };
@@ -150,7 +147,7 @@ namespace BlockChainVotingsAndroid
             foreach (var address in message.PeersAdresses)
             {
                 //if (!Peers.Any(peer => peer.Address.Equals(address)))
-                    AddPeer(address, (sender is Tracker) ? (sender as Tracker) : null);
+                AddPeer(address, (sender is Tracker) ? (sender as Tracker) : null);
             }
         }
 
@@ -192,22 +189,22 @@ namespace BlockChainVotingsAndroid
                 Peers.Add(peer);
 
                 //перенаправляем события пира
-                peer.OnRequestBlocksMessage += (s, e) => 
+                peer.OnRequestBlocksMessage += (s, e) =>
                 {
                     OnRequestBlocksMessage?.Invoke(s, e);
                 };
 
-                peer.OnRequestTransactionsMessage += (s, e) => 
+                peer.OnRequestTransactionsMessage += (s, e) =>
                 {
                     OnRequestTransactionsMessage?.Invoke(s, e);
                 };
 
-                peer.OnBlocksMessage += (s, e) => 
+                peer.OnBlocksMessage += (s, e) =>
                 {
                     OnBlocksMessage?.Invoke(s, e);
                 };
 
-                peer.OnTransactionsMessage += (s, e) => 
+                peer.OnTransactionsMessage += (s, e) =>
                 {
                     OnTransactionsMessage?.Invoke(s, e);
                 };
@@ -222,7 +219,7 @@ namespace BlockChainVotingsAndroid
                 //вызов события подключения пира
                 Task.Run(() =>
                 {
-                    System.Threading.Thread.Sleep(CommonHelpers.MessagesInterval*5);
+                    System.Threading.Thread.Sleep(CommonHelpers.MessagesInterval * 5);
 
                     OnPeerConnected?.Invoke(this, new MessageEventArgs(new Message(), peer.Hash, peer.Address));
                 });
@@ -321,9 +318,9 @@ namespace BlockChainVotingsAndroid
 
         public void Disconnect()
         {
-            while (Peers.Count>0)
+            while (Peers.Count > 0)
             {
-                Peers.First().DisconnectDirect();
+                Peers.First().DisconnectAny();
             }
             while (Trackers.Count > 0)
             {
@@ -345,21 +342,28 @@ namespace BlockChainVotingsAndroid
         {
             ParseTrackers();
 
-            if (CommonHelpers.GetLocalEndPoint(1) != null && VotingsUser.PeerDiscovery)
+            try
             {
-                PeerDiscovery.MinTargetLocalIPPort = CommonHelpers.DiscoveryPort;
-                PeerDiscovery.MaxTargetLocalIPPort = CommonHelpers.DiscoveryPort;
-                PeerDiscovery.ListenMode = PeerDiscovery.LocalListenMode.OnlyZeroAdaptor;
-                PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
-                PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonHelpers.GetLocalEndPoint(CommonHelpers.DiscoveryPort));
+                if (CommonHelpers.GetLocalEndPoint(1, true) != null && VotingsUser.PeerDiscovery)
+                {
+                    PeerDiscovery.MinTargetLocalIPPort = CommonHelpers.DiscoveryPort;
+                    PeerDiscovery.MaxTargetLocalIPPort = CommonHelpers.DiscoveryPort;
+                    PeerDiscovery.OnPeerDiscovered -= PeerDiscovered;
+                    PeerDiscovery.OnPeerDiscovered += PeerDiscovered;
+                    PeerDiscovery.EnableDiscoverable(PeerDiscovery.DiscoveryMethod.UDPBroadcast, CommonHelpers.GetLocalEndPoint(CommonHelpers.DiscoveryPort));
+
+                }
+
+                TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), false);
             }
-
-
-            TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), false);
+            catch
+            {
+                NetworkComms.Logger.Error("Can't start listener on this IP: " + CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort).ToString());
+            }
 
             NetworkComms.Logger.Warn("===== Client started =====");
 
- 
+
             ConnectToTrackers();
             RequestPeers();
             ConnectToPeers();

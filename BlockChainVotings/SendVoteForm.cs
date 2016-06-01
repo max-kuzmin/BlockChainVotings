@@ -84,7 +84,7 @@ namespace BlockChainVotings
 
             if (list == null)
             {
-                labelCandidateName.Text = Properties.Resources.waitDB; 
+                labelCandidateName.Text = Properties.Resources.waitDB;
                 labelCandidateName.BackColor = Color.MistyRose;
                 return;
             }
@@ -111,7 +111,7 @@ namespace BlockChainVotings
             if (listViewCandidates.SelectedItems.Count == 1)
             {
 
-                labelCandidateName.Text = listViewCandidates.SelectedItems[0].SubItems[1].Text + ",\n" + Properties.Resources.userID +" ";
+                labelCandidateName.Text = listViewCandidates.SelectedItems[0].SubItems[1].Text + ",\n" + Properties.Resources.userID + " ";
                 labelCandidateName.Text += listViewCandidates.SelectedItems[0].SubItems[2].Text + ",\n" + listViewCandidates.SelectedItems[0].SubItems[0].Text;
 
             }
@@ -146,7 +146,7 @@ namespace BlockChainVotings
         private void SendVoteForm_Shown(object sender, EventArgs e)
         {
             labelCandidateInfo.Font = new Font("Arial", 12);
-            labelVotingInfo.Font = new Font("Arial", 12); 
+            labelVotingInfo.Font = new Font("Arial", 12);
             labelVotingName.Font = new Font("Arial", 12, FontStyle.Bold);
             labelCandidateName.Font = new Font("Arial", 12, FontStyle.Bold);
         }

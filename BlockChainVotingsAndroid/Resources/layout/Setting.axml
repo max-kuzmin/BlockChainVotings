@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTextTrackers"
-        android:layout_marginBottom="10.0dp"
         android:layout_marginLeft="10.0dp"
         android:layout_marginRight="10.0dp" />
     <TextView
@@ -59,13 +58,12 @@
         android:layout_marginLeft="10.0dp"
         android:layout_marginRight="10.0dp"
         android:layout_marginTop="10.0dp" />
-    <TextView
-        android:text="@string/console"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+    <CheckBox
+        android:text="@string/useLanLocalIP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewConsoleLabel"
-        android:layout_margin="10.0dp" />
+        android:id="@+id/checkBoxUseLanLocalIP"
+        android:layout_margin="10dp" />
     <ScrollView
         android:id="@+id/scrollVIewConsole"
         android:layout_width="wrap_content"

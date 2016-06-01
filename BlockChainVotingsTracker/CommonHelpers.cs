@@ -21,26 +21,26 @@ namespace BlockChainVotingsTracker
         static public string LocalHash = (new Random((int)(DateTime.Now.Ticks)).Next().ToString());
 
 
-        static IPAddress localAddr = null;
+        static IPAddress lanLocalAddr = null;
 
         static public IPEndPoint GetLocalEndPoint(int port)
         {
-            if (localAddr == null)
+
+            if (lanLocalAddr == null)
             {
-                try
-                {
-                    var client = new UdpClient("8.8.8.8", 80);
-                    client.Client.ReceiveTimeout = 2000;
-                    client.Client.SendTimeout = 2000;
-                    localAddr = ((IPEndPoint)client.Client.LocalEndPoint).Address;
-                }
-                catch
-                {
-                    return null;
-                }
+
+                IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+
+                string addressString = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork)
+                    .Select(ip => ip.ToString())
+                    .First(ip => ip.Contains("192."));
+
+                lanLocalAddr = IPAddress.Parse(addressString);
             }
-            IPEndPoint endPoint = new IPEndPoint(localAddr, port);
-            return endPoint;
+
+
+            return new IPEndPoint(lanLocalAddr, port);
+
         }
 
         static public void LogPeers(List<Peer> peers)

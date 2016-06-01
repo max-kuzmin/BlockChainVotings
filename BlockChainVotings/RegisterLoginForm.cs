@@ -37,7 +37,7 @@ namespace BlockChainVotings
             tabPageLogin.Text = Properties.Resources.login;
             tabPageRegister.Text = Properties.Resources.registration;
 
-            
+
 
             if (VotingsUser.CheckUserExists())
             {
@@ -78,8 +78,8 @@ namespace BlockChainVotings
 
         private void textBoxPasswordRegister_TextChanged(object sender, EventArgs e)
         {
-            if (textBoxPasswordRegister.Text == textBoxPasswordRegister2.Text 
-                && textBoxPasswordRegister.Text.Length>=3 && textBoxPasswordRegister.Text.Length<=20)
+            if (textBoxPasswordRegister.Text == textBoxPasswordRegister2.Text
+                && textBoxPasswordRegister.Text.Length >= 3 && textBoxPasswordRegister.Text.Length <= 20)
             {
                 textBoxPasswordRegister.BackColor = Color.Honeydew;
                 textBoxPasswordRegister2.BackColor = Color.Honeydew;
@@ -138,7 +138,8 @@ namespace BlockChainVotings
             Task.Run(() => CommonHelpers.GetTime());
             Task.Run(() =>
             {
-                try {
+                try
+                {
                     if (!System.IO.File.Exists("Community.CsharpSqlite.dll") ||
                     !System.IO.File.Exists("Community.CsharpSqlite.SQLiteClient.dll") ||
                     !System.IO.File.Exists("NetworkCommsDotNetComplete.dll") ||

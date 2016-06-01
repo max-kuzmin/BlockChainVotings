@@ -1,4 +1,5 @@
 ﻿using NetworkCommsDotNet;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -34,27 +35,54 @@ namespace BlockChainVotingsAndroid
         static public event EventHandler<IntEventArgs> TrackersCountChanged;
 
 
-        static IPAddress localAddr = null;
+        static IPAddress lanLocalAddr = null;
+        static IPAddress wanLocalAddr = null;
 
-        static public IPEndPoint GetLocalEndPoint(int port)
+        static public IPEndPoint GetLocalEndPoint(int port, bool forSending = false)
         {
-            if (localAddr == null)
+
+            if (lanLocalAddr == null)
             {
-                try
-                {
-                    var client = new UdpClient("8.8.8.8", 80);
-                    client.Client.ReceiveTimeout = 2000;
-                    client.Client.SendTimeout = 2000;
-                    localAddr = ((IPEndPoint)client.Client.LocalEndPoint).Address;
-                }
-                catch
-                {
-                    return null;
-                }
+
+                IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+
+                string addressString = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork)
+                    .Select(ip => ip.ToString())
+                    .First(ip => ip.Contains("192."));
+
+                lanLocalAddr = IPAddress.Parse(addressString);
             }
-            IPEndPoint endPoint = new IPEndPoint(localAddr, port);
-            return endPoint;
+
+            if (wanLocalAddr == null && !VotingsUser.UseLanLocalIP)
+            {
+
+                for (int i = 0; i < 3; i++)
+                {
+                    try
+                    {
+                        var req = HttpWebRequest.Create("http://api.ipify.org/?format=json");
+                        req.Timeout = 1000;
+                        var res = req.GetResponse();
+                        using (var streamReader = new StreamReader(res.GetResponseStream()))
+                        {
+                            var response = streamReader.ReadToEnd();
+                            wanLocalAddr = IPAddress.Parse(JObject.Parse(response)["ip"].Value<string>());
+                            break;
+                        }
+                    }
+                    catch { }
+                }
+
+            }
+
+
+            if (forSending || VotingsUser.UseLanLocalIP || wanLocalAddr == null)
+                return new IPEndPoint(lanLocalAddr, port);
+            else
+                return new IPEndPoint(wanLocalAddr, port);
         }
+
+
 
         static public void LogPeers(List<Peer> peers)
         {
@@ -90,7 +118,7 @@ namespace BlockChainVotingsAndroid
         {
             VirgilKeyPair pair = VirgilKeyPair.Generate(VirgilKeyPair.Type.EC_SECP256K1);
             var keys = new string[2];
-            
+
             keys[0] = Encoding.UTF8.GetString(pair.PublicKey())
                 .Replace("-----BEGIN PUBLIC KEY-----", "")
                 .Replace("-----END PUBLIC KEY-----", "")
@@ -104,7 +132,7 @@ namespace BlockChainVotingsAndroid
         }
 
 
-        static public bool CheckKeys(string publicKey, string privateKey) 
+        static public bool CheckKeys(string publicKey, string privateKey)
         {
             try
             {
@@ -136,7 +164,7 @@ namespace BlockChainVotingsAndroid
 
         static public DateTime GetTime()
         {
-            if (dateDelta==null)
+            if (dateDelta == null)
             {
                 DateTime time = DateTime.Now;
 
@@ -144,9 +172,10 @@ namespace BlockChainVotingsAndroid
                 {
                     try
                     {
-                        var client = new TcpClient("129.6.15.30", 13);
-                        client.ReceiveTimeout = 2000;
-                        client.SendTimeout = 2000;
+                        var client = new TcpClient();
+                        client.ReceiveTimeout = 1000;
+                        client.SendTimeout = 1000;
+                        client.Connect("129.6.15.30", 13);
                         using (var streamReader = new StreamReader(client.GetStream()))
                         {
                             var response = streamReader.ReadToEnd();
@@ -167,7 +196,7 @@ namespace BlockChainVotingsAndroid
 
 
 
-        
+
 
 
     }

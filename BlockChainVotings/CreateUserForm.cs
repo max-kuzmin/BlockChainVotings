@@ -58,7 +58,7 @@ namespace BlockChainVotings
 
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
-            if (textBoxName.Text.Length<3 || textBoxName.Text.Length>50)
+            if (textBoxName.Text.Length < 3 || textBoxName.Text.Length > 50)
                 textBoxName.BackColor = Color.MistyRose;
             else
                 textBoxName.BackColor = Color.Honeydew;

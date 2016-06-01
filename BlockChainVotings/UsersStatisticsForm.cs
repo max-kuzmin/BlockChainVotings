@@ -113,7 +113,7 @@ namespace BlockChainVotings
                     string[] str = new string[5];
                     str[0] = "№" + voting.Key.VotingNumber + " " + jsonInfoVoting["name"];
                     str[1] = voting.Key.Hash;
-                    str[2] = jsonInfoCandidate["name"] +"" /*+ ","+ Properties.Resources.userID + " " + jsonInfoCandidate["id"]*/;
+                    str[2] = jsonInfoCandidate["name"] + "" /*+ ","+ Properties.Resources.userID + " " + jsonInfoCandidate["id"]*/;
                     str[3] = candidate.RecieverHash;
                     str[4] = voting.Value.Date0.ToString();
 
@@ -138,7 +138,7 @@ namespace BlockChainVotings
                 if (ban == null)
                     labelStatusVal.Text = Properties.Resources.active;
                 else
-                    labelStatusVal.Text = Properties.Resources.banned + " " + ban.Date0.ToString() + ". " + Properties.Resources.reason+": " + JObject.Parse(ban.Info)["cause"].Value<string>();
+                    labelStatusVal.Text = Properties.Resources.banned + " " + ban.Date0.ToString() + ". " + Properties.Resources.reason + ": " + JObject.Parse(ban.Info)["cause"].Value<string>();
             }
 
         }

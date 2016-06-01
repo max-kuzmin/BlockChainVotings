@@ -71,17 +71,17 @@ namespace BlockChainVotings
                 {
                     ConnectionInfo connInfo = new ConnectionInfo(Address);
                     TCPConnection newTCPConn = TCPConnection.GetConnection(connInfo);
-                    
+
 
                     ConnectionMode = ConnectionMode.Direct;
                     Status = PeerStatus.NoHashRecieved;
                     Connection = newTCPConn;
-                    
+
                     //обработчики приходящих сообщений внутри пира
                     //Connection.AppendShutdownHandler((c) => DisconnectDirect(false));
                     if (!Connection.IncomingPacketHandlerExists(typeof(PeerDisconnectMessage).Name))
                         Connection.AppendIncomingPacketHandler<PeerDisconnectMessage>(typeof(PeerDisconnectMessage).Name,
-                            (p, c, m) => DisconnectDirect(false));
+                            (p, c, m) => DisconnectAny(false));
 
                     if (!Connection.IncomingPacketHandlerExists(typeof(PeerHashMessage).Name))
                         Connection.AppendIncomingPacketHandler<PeerHashMessage>(typeof(PeerHashMessage).Name,
@@ -95,31 +95,36 @@ namespace BlockChainVotings
                     //вызов внешних событий
                     if (!Connection.IncomingPacketHandlerExists(typeof(RequestBlocksMessage).Name))
                         Connection.AppendIncomingPacketHandler<RequestBlocksMessage>(typeof(RequestBlocksMessage).Name,
-                            (p, c, m) => {
+                            (p, c, m) =>
+                            {
                                 OnRequestBlocksMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
                             });
 
                     if (!Connection.IncomingPacketHandlerExists(typeof(RequestTransactionsMessage).Name))
                         Connection.AppendIncomingPacketHandler<RequestTransactionsMessage>(typeof(RequestTransactionsMessage).Name,
-                            (p, c, m) => {
+                            (p, c, m) =>
+                            {
                                 OnRequestTransactionsMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
                             });
 
                     if (!Connection.IncomingPacketHandlerExists(typeof(BlocksMessage).Name))
                         Connection.AppendIncomingPacketHandler<BlocksMessage>(typeof(BlocksMessage).Name,
-                            (p, c, m) => {
+                            (p, c, m) =>
+                            {
                                 OnBlocksMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
                             });
 
                     if (!Connection.IncomingPacketHandlerExists(typeof(TransactionsMessage).Name))
                         Connection.AppendIncomingPacketHandler<TransactionsMessage>(typeof(TransactionsMessage).Name,
-                            (p, c, m) => {
+                            (p, c, m) =>
+                            {
                                 OnTransactionsMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
                             });
 
                     if (!Connection.IncomingPacketHandlerExists(typeof(PeersMessage).Name))
                         Connection.AppendIncomingPacketHandler<PeersMessage>(typeof(PeersMessage).Name,
-                            (p, c, m) => {
+                            (p, c, m) =>
+                            {
                                 OnPeersMessage?.Invoke(this, new MessageEventArgs(m, Hash, Address));
                             });
 
@@ -127,7 +132,7 @@ namespace BlockChainVotings
 
                     RequestPeerHash();
                 }
-                catch 
+                catch
                 {
                     Connection = null;
 
@@ -147,41 +152,51 @@ namespace BlockChainVotings
 
 
             //если более трех ошибок подключения, то удаляем пир из списка
-            if (ErrorsCount>=3 && Status == PeerStatus.Disconnected)
+            if (ErrorsCount >= 3 && Status == PeerStatus.Disconnected)
             {
-                DisconnectDirect();
+                DisconnectAny();
             }
         }
 
 
         private void ConnectWithTracker()
         {
+            //удаляем старую подписку на события
+            tracker.OnTrackerDelete -= RemoveTracker;
+            tracker.OnDisconnectPeer -= OnDisconnectPeerWithTracker;
+            tracker.OnPeerHashMessage -= OnPeerHashMessageWithTracker;
+            tracker.OnRequestPeersMessage -= OnRequestPeersMessageWithTracker;
 
-                //при удалении трекера из списка отключаем пир
-                tracker.OnTrackerDelete += RemoveTracker;
-
-                //подписка на сообщения с трекера
-                tracker.OnDisconnectPeer += OnDisconnectPeerWithTracker;
-                tracker.OnPeerHashMessage += OnPeerHashMessageWithTracker;
-                tracker.OnRequestPeersMessage += OnRequestPeersMessageWithTracker;
-
-
-                ConnectionMode = ConnectionMode.WithTracker;
-                Status = PeerStatus.NoHashRecieved;
-
-                tracker.ConnectPeerToPeer(this);
+            //при удалении трекера из списка отключаем пир
+            tracker.OnTrackerDelete += RemoveTracker;
+            //подписка на сообщения с трекера
+            tracker.OnDisconnectPeer += OnDisconnectPeerWithTracker;
+            tracker.OnPeerHashMessage += OnPeerHashMessageWithTracker;
+            tracker.OnRequestPeersMessage += OnRequestPeersMessageWithTracker;
 
 
-                RequestPeerHash();
+            ConnectionMode = ConnectionMode.WithTracker;
+            Status = PeerStatus.NoHashRecieved;
+
+            tracker.ConnectPeerToPeer(this);
+
+
+            RequestPeerHash();
 
         }
 
         private void RemoveTracker(object sender, EventArgs e)
         {
-            tracker = null;
 
-            if (/*Status == PeerStatus.Connected &&*/ ConnectionMode == ConnectionMode.WithTracker)
+            //если отключено обнаружение, то удаляем пир, поскльку без трекера он не может подключиться
+            if (!VotingsUser.PeerDiscovery)
             {
+                DisconnectAny();
+            }
+            //иначе переводим в режим прямого подключения
+            else if (ConnectionMode == ConnectionMode.WithTracker)
+            {
+                tracker = null;
                 Status = PeerStatus.Disconnected;
                 ConnectionMode = ConnectionMode.Direct;
                 Connect();
@@ -354,28 +369,28 @@ namespace BlockChainVotings
             }
         }
 
-        public void DisconnectDirect(bool sendMessage = true)
+        public void DisconnectAny(bool sendMessage = true)
         {
             allPeers.Remove(this);
 
             CommonHelpers.LogPeers(allPeers);
 
-            if (ConnectionMode == ConnectionMode.Direct)
+            try
             {
+                if (sendMessage)
+                {
+                    var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort));
 
-                try {
-                    if (sendMessage)
-                    {
-                        var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true));
+                    if (ConnectionMode == ConnectionMode.Direct)
                         Connection.SendObject(message.GetType().Name, message);
-                    }
-
-                    Connection.Dispose();
-                    Connection = null;
+                    else
+                        tracker.SendMessageToPeer(message, this);
                 }
-                catch { }
-                
+
+                Connection.Dispose();
+                Connection = null;
             }
+            catch { }
 
             Status = PeerStatus.Disconnected;
         }
@@ -391,9 +406,9 @@ namespace BlockChainVotings
 
                 //возможно стоит отключить повторную отправку сообщения, чтобы они не дублировались
                 if (message.NeedResponse == true)
-                    {
+                {
                     var messageToSend = new PeerHashMessage(VotingsUser.PublicKey, false);
-                    Connection.SendObject(messageToSend.GetType().Name, messageToSend); 
+                    Connection.SendObject(messageToSend.GetType().Name, messageToSend);
                 }
             }
         }

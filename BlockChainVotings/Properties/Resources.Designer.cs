@@ -619,6 +619,15 @@ namespace BlockChainVotings.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Локальный IP.
+        /// </summary>
+        internal static string useLanLocalIP {
+            get {
+                return ResourceManager.GetString("useLanLocalIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на пользователь.
         /// </summary>
         internal static string user {

@@ -28,4 +28,5 @@
   <string name="hello">Здравсвуйте</string>
   <string name="voteComplete">Вы успешно проголосовали</string>
   <string name="user">пользователь</string>
+  <string name="useLanLocalIP">Локальный IP</string>
 </resources>

@@ -55,6 +55,7 @@ namespace BlockChainVotings
             materialLabelVotings.Text = Properties.Resources.votings;
             materialCheckBoxCreateBlocks.Text = Properties.Resources.createBlocks;
             materialCheckBoxPeerDiscovery.Text = Properties.Resources.peerDiscovery;
+            materialCheckBoxUseLanLocalIP.Text = Properties.Resources.useLanLocalIP;
 
             Icon = Properties.Resources.votingIcon;
 
@@ -110,7 +111,7 @@ namespace BlockChainVotings
             this.ShowInTaskbar = true;
             notifyIcon1.Visible = false;
 
-            
+
             blockChain.CheckRoot();
 
 
@@ -139,6 +140,7 @@ namespace BlockChainVotings
 
             materialCheckBoxCreateBlocks.Checked = VotingsUser.CreateOwnBlocks;
             materialCheckBoxPeerDiscovery.Checked = VotingsUser.PeerDiscovery;
+            materialCheckBoxUseLanLocalIP.Checked = VotingsUser.UseLanLocalIP;
             textBoxTrackers.Text = VotingsUser.Trackers;
             textBoxTrackers.Select(0, 0);
 
@@ -158,7 +160,12 @@ namespace BlockChainVotings
             blockChain.NewTransaction += (s, a) =>
             {
                 //обновляем имя и количество транзакций
-                materialLabelTransactionsVal.Text = a.Data.ToString();
+                Invoke(new Action(() =>
+                {
+                    materialLabelTransactionsVal.Text = a.Data.ToString();
+                    materialLabelAvaliableVotings.Text = Properties.Resources.avaliableN + " " + blockChain.GetOpenedVotings().Count
+                + " " + Properties.Resources.nVotings;
+                }));
 
 
                 string name2 = null;
@@ -166,7 +173,7 @@ namespace BlockChainVotings
                 {
                     name2 = blockChain.GetMyName();
 
-                    if (name2!=null)
+                    if (name2 != null)
                         Invoke(new Action(() =>
                         {
 
@@ -378,5 +385,10 @@ namespace BlockChainVotings
             VotingsUser.ChangeSetting("peerDiscovery", materialCheckBoxPeerDiscovery.Checked.ToString());
         }
 
+        private void materialCheckBoxUseLanLocalIP_CheckedChanged(object sender, EventArgs e)
+        {
+            VotingsUser.UseLanLocalIP = materialCheckBoxUseLanLocalIP.Checked;
+            VotingsUser.ChangeSetting("useLanLocalIP", materialCheckBoxUseLanLocalIP.Checked.ToString());
+        }
     }
 }

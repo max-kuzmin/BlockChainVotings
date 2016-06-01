@@ -214,21 +214,21 @@ namespace BlockChainVotingsAndroid
 
         private void OnBlockMessage(object sender, MessageEventArgs e)
         {
-                var message = e.Message as BlocksMessage;
+            var message = e.Message as BlocksMessage;
 
-                foreach (var block in message.Blocks)
+            foreach (var block in message.Blocks)
+            {
+                //проверка на существование блока с таким же хешем
+                if (db.GetBlock(block.Hash) == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.Hash))
                 {
-                    //проверка на существование блока с таким же хешем
-                    if (db.GetBlock(block.Hash) == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.Hash))
+                    if (CheckBlock(block, e.SenderAddress))
                     {
-                        if (CheckBlock(block, e.SenderAddress))
-                        {
-                            //если внесли блок в базу, отсылаем его остальным пирам
-                            net.SendMessageToAllPeers(message);
-                        }
-
+                        //если внесли блок в базу, отсылаем его остальным пирам
+                        net.SendMessageToAllPeers(message);
                     }
+
                 }
+            }
         }
 
 

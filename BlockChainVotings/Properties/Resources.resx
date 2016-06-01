@@ -373,4 +373,7 @@
   <data name="peerDiscovery" xml:space="preserve">
     <value>Обнаружение пиров</value>
   </data>
+  <data name="useLanLocalIP" xml:space="preserve">
+    <value>Локальный IP</value>
+  </data>
 </root>
