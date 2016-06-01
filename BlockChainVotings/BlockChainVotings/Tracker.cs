@@ -60,8 +60,10 @@ namespace BlockChainVotings
                 NetworkComms.Logger.Warn("Sent message of type " + message.Type.ToString());
 
                 var shellMessage = new ToPeerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true), peer.Address, message);
-                try {
-                    Connection.SendObject(shellMessage.GetType().Name, shellMessage); }
+                try
+                {
+                    Connection.SendObject(shellMessage.GetType().Name, shellMessage);
+                }
                 catch
                 {
                     Status = TrackerStatus.Disconnected;
@@ -132,7 +134,7 @@ namespace BlockChainVotings
                     Thread.Sleep(CommonHelpers.MessagesInterval);
 
                 }
-                catch 
+                catch
                 {
                     ErrorsCount++;
                     Status = TrackerStatus.Disconnected;
@@ -153,7 +155,15 @@ namespace BlockChainVotings
         private void OnPeerHashMessageFromTracker(PacketHeader packetHeader, Connection connection, PeerHashMessage incomingObject)
         {
             var messageToSend = new PeerHashMessage(VotingsUser.PublicKey, false);
-            Connection.SendObject(messageToSend.GetType().Name, messageToSend);
+            try
+            {
+                Connection.SendObject(messageToSend.GetType().Name, messageToSend);
+            }
+            catch
+            {
+                Status = TrackerStatus.Disconnected;
+                Connect();
+            }
         }
 
 
@@ -161,7 +171,7 @@ namespace BlockChainVotings
         private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
         {
 
-            NetworkComms.Logger.Warn("Recieved message of type " + incomingObject.Message.Type.ToString());
+            NetworkComms.Logger.Warn("Message: " + incomingObject.Message.Type.ToString());
 
             if (incomingObject.RecieverAddress.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true)))
             {
@@ -194,7 +204,7 @@ namespace BlockChainVotings
                 else if (incomingObject.Message is TransactionsMessage)
                 {
                     OnTransactionsMessage?.Invoke(this, eventArgs);
-                }              
+                }
             }
         }
 
@@ -202,26 +212,27 @@ namespace BlockChainVotings
         {
             allTrackers.Remove(this);
 
+            OnTrackerDelete?.Invoke(this, new EventArgs());
+
             if (Status == TrackerStatus.Connected)
             {
 
                 var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true));
-                try {
+                try
+                {
                     Connection.SendObject(message.GetType().Name, message);
                 }
                 catch { }
 
             }
 
-            if (Connection != null)
-            {
+            try { 
                 Connection.Dispose();
                 Connection = null;
             }
+            catch { }
 
             Status = TrackerStatus.Disconnected;
-
-            OnTrackerDelete?.Invoke(this, new EventArgs());
 
             CommonHelpers.LogTrackers(allTrackers);
         }
@@ -233,7 +244,7 @@ namespace BlockChainVotings
             {
                 var message = new RequestPeersMessage(count);
                 try
-                { 
+                {
                     Connection.SendObject(message.GetType().Name, message);
                 }
                 catch

@@ -27,24 +27,24 @@ namespace BlockChainVotingsAndroid
         {
             base.Write(value);
 
-                line += value;
+            line += value;
 
-                if (value == '\n')
+            if (value == '\n')
+            {
+                if (!line.Contains("Trace]"))
                 {
-                    if (!line.Contains("Trace]"))
+                    Text += line;
+                    try
                     {
-                        Text += line;
-                        try
+                        runOnUi(new Action(() =>
                         {
-                            runOnUi(new Action(() =>
-                            {
-                                textView.Text = Text;
-                            }));
-                        }
-                        catch { }
+                            textView.Text = Text;
+                        }));
                     }
-                    line = "";
+                    catch { }
                 }
+                line = "";
+            }
         }
 
         public override Encoding Encoding

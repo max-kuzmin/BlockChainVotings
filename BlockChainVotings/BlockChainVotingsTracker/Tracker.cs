@@ -29,7 +29,9 @@ namespace BlockChainVotingsTracker
 
             t = new Timer(CommonHelpers.CheckAliveInterval);
 
-            SetupLogging();
+            NetworkComms.DisableLogging();
+            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "BlockChainVotingsTracker_log.txt");
+            NetworkComms.EnableLogging(logger);
 
             NetworkComms.AppendGlobalConnectionEstablishHandler(OnConnectPeer);
         }
@@ -42,7 +44,7 @@ namespace BlockChainVotingsTracker
             {
                 var peer = new Peer(connection, Peers, t);
 
-               
+
                 Peers.Add(peer);
             }
             else
@@ -56,14 +58,21 @@ namespace BlockChainVotingsTracker
         {
             if (Status == TrackerStatus.Stopped)
             {
-                TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.TrackerPort), false);
-                Status = TrackerStatus.Started;
+                try
+                {
+                    TCPConnection.StartListening(CommonHelpers.GetLocalEndPoint(CommonHelpers.TrackerPort), false);
+                    Status = TrackerStatus.Started;
+                }
+                catch
+                {
+                    NetworkComms.Logger.Error("Can't start listener on this IP: " + CommonHelpers.GetLocalEndPoint(CommonHelpers.TrackerPort).ToString());
+                }
 
                 NetworkComms.Logger.Warn("===== Tracker started =====");
 
                 t.Start();
 
-                
+
             }
         }
 
@@ -73,7 +82,7 @@ namespace BlockChainVotingsTracker
             {
                 t.Stop();
 
-                while (Peers.Count>0)
+                while (Peers.Count > 0)
                 {
                     var peer = Peers.First();
                     peer.Disconnect();
@@ -89,14 +98,6 @@ namespace BlockChainVotingsTracker
 
 
 
-        private void SetupLogging()
-        {
-            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "BlockChainVotingsTracker_log.txt");
-            NetworkComms.EnableLogging(logger);
-
-
-
-        }
 
     }
 

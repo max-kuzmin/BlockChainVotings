@@ -15,9 +15,11 @@ namespace BlockChainVotings
     public class Block
     {
         [Ignore]
-        public DateTime Date0 {
+        public DateTime Date0
+        {
             get { return new DateTime(Date); }
-            set { Date = value.Ticks; } }
+            set { Date = value.Ticks; }
+        }
 
         [ProtoMember(20)]
         public long Date { get; set; }
@@ -35,7 +37,8 @@ namespace BlockChainVotings
         [Ignore]
         public List<string> Transactions { get; set; }
 
-        public string TransactionsBlob {
+        public string TransactionsBlob
+        {
             get
             {
                 return JsonConvert.SerializeObject(Transactions);

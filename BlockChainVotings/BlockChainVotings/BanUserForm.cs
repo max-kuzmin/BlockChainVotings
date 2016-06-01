@@ -64,7 +64,7 @@ namespace BlockChainVotings
 
         private void buttonBan_Click(object sender, EventArgs e)
         {
-            if (listViewSearchUsers.SelectedItems.Count  == 1 && textBoxCause.BackColor == Color.Honeydew)
+            if (listViewSearchUsers.SelectedItems.Count == 1 && textBoxCause.BackColor == Color.Honeydew)
             {
                 blockChain.BanUser(listViewSearchUsers.SelectedItems[0].SubItems[0].Text, textBoxCause.Text);
                 textBoxCause.Text = "";

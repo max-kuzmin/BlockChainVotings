@@ -90,6 +90,9 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f050015
 			public const int checkBoxPeerDiscovery = 2131034133;
 			
+			// aapt resource value: 0x7f050016
+			public const int checkBoxUseLanLocalIP = 2131034134;
+			
 			// aapt resource value: 0x7f05000c
 			public const int editTextPass2Reg = 2131034124;
 			
@@ -125,9 +128,6 @@ namespace BlockChainVotingsAndroid
 			
 			// aapt resource value: 0x7f050018
 			public const int textViewConsole = 2131034136;
-			
-			// aapt resource value: 0x7f050016
-			public const int textViewConsoleLabel = 2131034134;
 			
 			// aapt resource value: 0x7f050019
 			public const int textViewHello = 2131034137;
@@ -274,6 +274,9 @@ namespace BlockChainVotingsAndroid
 			
 			// aapt resource value: 0x7f040012
 			public const int trackers = 2130968594;
+			
+			// aapt resource value: 0x7f04001d
+			public const int useLanLocalIP = 2130968605;
 			
 			// aapt resource value: 0x7f04001c
 			public const int user = 2130968604;

@@ -30,8 +30,10 @@ namespace BlockChainVotingsAndroid
 
         static public bool CreateOwnBlocks;
         static public int Theme;
-        static public string Trackers = "192.168.0.36";
+        static public string Trackers = "";
         static public bool PeerDiscovery;
+
+        static public bool UseLanLocalIP = true;
 
 
         static ISharedPreferences prefs = Application.Context.GetSharedPreferences("Setting", FileCreationMode.Private);
@@ -60,11 +62,12 @@ namespace BlockChainVotingsAndroid
             CreateOwnBlocks = bool.Parse(prefs.GetString("createOwnBlocks", null));
             Trackers = prefs.GetString("trackers", null);
             PeerDiscovery = bool.Parse(prefs.GetString("peerDiscovery", null));
+            UseLanLocalIP = bool.Parse(prefs.GetString("useLanLocalIP", null));
         }
 
         static public void ClearUserData()
         {
-            
+
             prefEditor.Remove("publicKey");
             prefEditor.Remove("privateKeyCrypted");
             prefEditor.Remove("passwordHash");
@@ -73,13 +76,14 @@ namespace BlockChainVotingsAndroid
             prefEditor.Remove("theme");
             prefEditor.Remove("trackers");
             prefEditor.Remove("peerDiscovery");
+            prefEditor.Remove("useLanLocalIP");
 
             prefEditor.Commit();
         }
 
         static public bool CheckUserExists()
         {
-            
+
             if (prefs.Contains("publicKey") &&
                 prefs.Contains("privateKeyCrypted") &&
                 prefs.Contains("passwordHash") &&
@@ -87,7 +91,8 @@ namespace BlockChainVotingsAndroid
                 prefs.Contains("createOwnBlocks") &&
                 prefs.Contains("theme") &&
                 prefs.Contains("trackers") &&
-                prefs.Contains("peerDiscovery"))
+                prefs.Contains("peerDiscovery") &&
+                prefs.Contains("useLanLocalIP"))
                 return true;
             else return false;
         }
@@ -97,7 +102,7 @@ namespace BlockChainVotingsAndroid
             string privateKeyCrypted = Convert.ToBase64String(CryptoHelper.Encrypt(Encoding.UTF8.GetBytes(privateKey), password));
             string passwordHash = CommonHelpers.CalcHash(password);
 
-            
+
             prefEditor.PutString("publicKey", publicKey);
             prefEditor.PutString("privateKeyCrypted", privateKeyCrypted);
             prefEditor.PutString("passwordHash", passwordHash);
@@ -106,6 +111,7 @@ namespace BlockChainVotingsAndroid
             prefEditor.PutString("theme", 0.ToString());
             prefEditor.PutString("trackers", Trackers);
             prefEditor.PutString("peerDiscovery", true.ToString());
+            prefEditor.PutString("useLanLocalIP", true.ToString());
 
             prefEditor.Commit();
         }

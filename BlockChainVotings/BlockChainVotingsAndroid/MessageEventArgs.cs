@@ -24,7 +24,7 @@ namespace BlockChainVotingsAndroid
 
     public class IntEventArgs
     {
-        public int Data {get; set;}
+        public int Data { get; set; }
 
         public IntEventArgs(int data)
         {

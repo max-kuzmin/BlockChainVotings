@@ -70,7 +70,7 @@ namespace BlockChainVotings
             int sum = 0;
 
 
-            if (tr!=null)
+            if (tr != null)
                 list = blockChain.GetCandidatesResults(tr);
 
             if (list == null)
@@ -101,7 +101,7 @@ namespace BlockChainVotings
                     sum += user.Value;
                 }
 
-               
+
                 string[] strSum = new string[4];
 
                 strSum[3] = sum.ToString();
@@ -110,7 +110,7 @@ namespace BlockChainVotings
                 //item2.Font = new Font("Arial", 10, FontStyle.Bold);
                 listViewCandidates.Items.Add(item2);
 
-                
+
             }
 
 

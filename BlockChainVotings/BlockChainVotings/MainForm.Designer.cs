@@ -58,6 +58,7 @@
             this.materialLabelBlocks = new MaterialSkin.Controls.MaterialLabel();
             this.materialLabelTransactions = new MaterialSkin.Controls.MaterialLabel();
             this.tabPageOptions = new System.Windows.Forms.TabPage();
+            this.materialCheckBoxUseLanLocalIP = new MaterialSkin.Controls.MaterialCheckBox();
             this.materialCheckBoxPeerDiscovery = new MaterialSkin.Controls.MaterialCheckBox();
             this.materialDivider2 = new MaterialSkin.Controls.MaterialDivider();
             this.materialLabelNetwork = new MaterialSkin.Controls.MaterialLabel();
@@ -80,7 +81,7 @@
             // 
             this.materialRaisedButtonTheme.Depth = 0;
             this.materialRaisedButtonTheme.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.materialRaisedButtonTheme.Location = new System.Drawing.Point(40, 182);
+            this.materialRaisedButtonTheme.Location = new System.Drawing.Point(40, 199);
             this.materialRaisedButtonTheme.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.materialRaisedButtonTheme.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialRaisedButtonTheme.Name = "materialRaisedButtonTheme";
@@ -456,6 +457,7 @@
             // tabPageOptions
             // 
             this.tabPageOptions.BackColor = System.Drawing.Color.White;
+            this.tabPageOptions.Controls.Add(this.materialCheckBoxUseLanLocalIP);
             this.tabPageOptions.Controls.Add(this.materialCheckBoxPeerDiscovery);
             this.tabPageOptions.Controls.Add(this.materialDivider2);
             this.tabPageOptions.Controls.Add(this.materialLabelNetwork);
@@ -475,6 +477,25 @@
             this.tabPageOptions.Size = new System.Drawing.Size(812, 393);
             this.tabPageOptions.TabIndex = 1;
             this.tabPageOptions.Text = "Options";
+            // 
+            // materialCheckBoxUseLanLocalIP
+            // 
+            this.materialCheckBoxUseLanLocalIP.AutoSize = true;
+            this.materialCheckBoxUseLanLocalIP.BackColor = System.Drawing.Color.Transparent;
+            this.materialCheckBoxUseLanLocalIP.Depth = 0;
+            this.materialCheckBoxUseLanLocalIP.Font = new System.Drawing.Font("Arial", 10F);
+            this.materialCheckBoxUseLanLocalIP.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.materialCheckBoxUseLanLocalIP.Location = new System.Drawing.Point(39, 158);
+            this.materialCheckBoxUseLanLocalIP.Margin = new System.Windows.Forms.Padding(0);
+            this.materialCheckBoxUseLanLocalIP.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialCheckBoxUseLanLocalIP.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialCheckBoxUseLanLocalIP.Name = "materialCheckBoxUseLanLocalIP";
+            this.materialCheckBoxUseLanLocalIP.Ripple = true;
+            this.materialCheckBoxUseLanLocalIP.Size = new System.Drawing.Size(162, 30);
+            this.materialCheckBoxUseLanLocalIP.TabIndex = 19;
+            this.materialCheckBoxUseLanLocalIP.Text = "Use Lan Local IP";
+            this.materialCheckBoxUseLanLocalIP.UseVisualStyleBackColor = false;
+            this.materialCheckBoxUseLanLocalIP.CheckedChanged += new System.EventHandler(this.materialCheckBoxUseLanLocalIP_CheckedChanged);
             // 
             // materialCheckBoxPeerDiscovery
             // 
@@ -515,7 +536,7 @@
             this.materialLabelNetwork.Depth = 0;
             this.materialLabelNetwork.Font = new System.Drawing.Font("Arial", 10F);
             this.materialLabelNetwork.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.materialLabelNetwork.Location = new System.Drawing.Point(36, 240);
+            this.materialLabelNetwork.Location = new System.Drawing.Point(37, 249);
             this.materialLabelNetwork.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabelNetwork.Name = "materialLabelNetwork";
             this.materialLabelNetwork.Size = new System.Drawing.Size(152, 19);
@@ -525,7 +546,7 @@
             // buttonStop
             // 
             this.buttonStop.Depth = 0;
-            this.buttonStop.Location = new System.Drawing.Point(177, 274);
+            this.buttonStop.Location = new System.Drawing.Point(178, 283);
             this.buttonStop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonStop.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonStop.Name = "buttonStop";
@@ -538,7 +559,7 @@
             // buttonStart
             // 
             this.buttonStart.Depth = 0;
-            this.buttonStart.Location = new System.Drawing.Point(40, 274);
+            this.buttonStart.Location = new System.Drawing.Point(41, 283);
             this.buttonStart.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.buttonStart.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonStart.Name = "buttonStart";
@@ -719,6 +740,7 @@
         private MaterialSkin.Controls.MaterialLabel materialLabelVotingsVal;
         private MaterialSkin.Controls.MaterialLabel materialLabelVotings;
         private MaterialSkin.Controls.MaterialCheckBox materialCheckBoxPeerDiscovery;
+        private MaterialSkin.Controls.MaterialCheckBox materialCheckBoxUseLanLocalIP;
     }
 }
 

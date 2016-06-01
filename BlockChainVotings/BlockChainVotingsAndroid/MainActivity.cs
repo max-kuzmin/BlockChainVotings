@@ -125,6 +125,7 @@ namespace BlockChainVotingsAndroid
             Button buttonStop = FindViewById<Button>(Resource.Id.buttonStop);
             CheckBox checkBoxCreateBlocks = FindViewById<CheckBox>(Resource.Id.checkBoxCreateBlocks);
             CheckBox checkBoxDiscovery = FindViewById<CheckBox>(Resource.Id.checkBoxPeerDiscovery);
+            CheckBox checkBoxLocalIP = FindViewById<CheckBox>(Resource.Id.checkBoxUseLanLocalIP);
             EditText editTextTrackers = FindViewById<EditText>(Resource.Id.editTextTrackers);
 
             buttonStart.Enabled = !(blockChain.Started);
@@ -133,10 +134,12 @@ namespace BlockChainVotingsAndroid
             buttonStop.Click += ButtonStop_Click;
             checkBoxCreateBlocks.Click += CheckBoxCreateBlocks_Click;
             checkBoxDiscovery.Click += CheckBoxDiscovery_Click;
+            checkBoxLocalIP.Click += CheckBoxLocalIP_Click;
             editTextTrackers.TextChanged += EditTextTrackers_TextChanged;
 
             checkBoxCreateBlocks.Checked = VotingsUser.CreateOwnBlocks;
             checkBoxDiscovery.Checked = VotingsUser.PeerDiscovery;
+            checkBoxLocalIP.Checked = VotingsUser.UseLanLocalIP;
             editTextTrackers.Text = VotingsUser.Trackers;
 
             //обработка вывода лога в консоль
@@ -147,12 +150,20 @@ namespace BlockChainVotingsAndroid
 
         }
 
+        private void CheckBoxLocalIP_Click(object sender, EventArgs e)
+        {
+            CheckBox checkBoxLocalIP = FindViewById<CheckBox>(Resource.Id.checkBoxUseLanLocalIP);
+
+            VotingsUser.UseLanLocalIP = checkBoxLocalIP.Checked;
+            VotingsUser.ChangeSetting("useLanLocalIP", checkBoxLocalIP.Checked.ToString());
+        }
+
         private void CheckBoxDiscovery_Click(object sender, EventArgs e)
         {
             CheckBox checkBoxDiscovery = FindViewById<CheckBox>(Resource.Id.checkBoxPeerDiscovery);
 
             VotingsUser.PeerDiscovery = checkBoxDiscovery.Checked;
-            VotingsUser.ChangeSetting("createOwnBlocks", checkBoxDiscovery.Checked.ToString());
+            VotingsUser.ChangeSetting("peerDiscovery", checkBoxDiscovery.Checked.ToString());
         }
 
         private void EditTextTrackers_TextChanged(object sender, EventArgs e)

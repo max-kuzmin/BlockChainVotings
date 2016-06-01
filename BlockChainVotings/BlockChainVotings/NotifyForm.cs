@@ -46,7 +46,7 @@ namespace BlockChainVotings
 
         private void materialRaisedButtonShow_Click(object sender, EventArgs e)
         {
-            if (ButtonPressed!=null)
+            if (ButtonPressed != null)
             {
                 ButtonPressed(this, new EventArgs());
                 Close();
