@@ -139,7 +139,7 @@ namespace BlockChainVotings
 
 
                 //проверка на существование транзакции с таким же хешем
-                if (db.GetTransaction(transaction.Hash) == null && !pendingTransactions.Keys.Any(tr => tr.Hash == transaction.Hash))
+                if (!pendingTransactions.Keys.Any(tr => tr.Hash == transaction.Hash))
                 {
                     if (CheckTransaction(transaction, e.SenderAddress))
                     {
@@ -219,7 +219,7 @@ namespace BlockChainVotings
             foreach (var block in message.Blocks)
             {
                 //проверка на существование блока с таким же хешем
-                if (db.GetBlock(block.Hash) == null && !pendingBlocks.Keys.Any(bl => bl.Hash == block.Hash))
+                if (!pendingBlocks.Keys.Any(bl => bl.Hash == block.Hash))
                 {
                     if (CheckBlock(block, e.SenderAddress))
                     {
@@ -273,6 +273,8 @@ namespace BlockChainVotings
 
         public bool CheckBlock(Block block, EndPoint peerAddress = null)
         {
+
+            if (db.GetBlock(block.Hash) != null) return false;
 
             var prevBlock = db.GetBlock(block.PreviousHash);
             var creator = db.GetUserCreation(block.CreatorHash);
@@ -436,6 +438,8 @@ namespace BlockChainVotings
         public bool CheckTransaction(Transaction transaction, EndPoint peerAddress = null)
         {
 
+            if (db.GetTransaction(transaction.Hash) != null) return false;
+
             bool needWait = false;
 
 
@@ -582,7 +586,7 @@ namespace BlockChainVotings
                 //если копия уже в блоке то выход
                 if (existsVote.Status == TransactionStatus.InBlock) return false;
                 //если копия транзакции старее и при этом свободна, то выход
-                else if (existsVote.Date0 < transaction.Date0 && existsVote.Status == TransactionStatus.Free) return false;
+                else if (existsVote.Date0 <= transaction.Date0 && existsVote.Status == TransactionStatus.Free) return false;
                 //иначе удаляем сущесвующую транзакцию из базы 
                 else
                 {
@@ -621,7 +625,7 @@ namespace BlockChainVotings
                 //если копия уже в блоке то выход
                 if (existsUser.Status == TransactionStatus.InBlock) return false;
                 //если копия транзакции старее и при этом свободна, то выход
-                else if (existsUser.Date0 < transaction.Date0 && existsUser.Status == TransactionStatus.Free) return false;
+                else if (existsUser.Date0 <= transaction.Date0 && existsUser.Status == TransactionStatus.Free) return false;
                 //иначе удаляем сущесвующую транзакцию из базы 
                 else
                 {
@@ -682,7 +686,7 @@ namespace BlockChainVotings
                 //если копия уже в блоке то выход
                 if (existsBan.Status == TransactionStatus.InBlock) return false;
                 //если копия транзакции старее и при этом свободна, то выход
-                else if (existsBan.Date0 < transaction.Date0 && existsBan.Status == TransactionStatus.Free) return false;
+                else if (existsBan.Date0 <= transaction.Date0 && existsBan.Status == TransactionStatus.Free) return false;
                 //иначе удаляем сущесвующую транзакцию из базы 
                 else
                 {
@@ -751,7 +755,7 @@ namespace BlockChainVotings
                 //если копия уже в блоке то выход
                 if (existsVoting.Status == TransactionStatus.InBlock) return false;
                 //если копия транзакции старее и при этом свободна, то выход
-                else if (existsVoting.Date0 < transaction.Date0 && existsVoting.Status == TransactionStatus.Free) return false;
+                else if (existsVoting.Date0 <= transaction.Date0 && existsVoting.Status == TransactionStatus.Free) return false;
                 //иначе удаляем сущесвующую транзакцию из базы 
                 else
                 {

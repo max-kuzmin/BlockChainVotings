@@ -390,8 +390,15 @@ namespace BlockChainVotingsAndroid
                         tracker.SendMessageToPeer(message, this);
                 }
 
-                Connection.Dispose();
-                Connection = null;
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        Connection?.Dispose();
+                        Connection = null;
+                    }
+                    catch { }
+                });
             }
             catch { }
 

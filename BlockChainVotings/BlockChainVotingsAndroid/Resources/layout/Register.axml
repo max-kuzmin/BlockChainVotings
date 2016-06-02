@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewPublicKeyReg"
-        android:layout_margin="10.0dp" />
+        android:layout_margin="10.0dp"
+        android:textStyle="italic" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewPrivateKeyReg"
-        android:layout_margin="10.0dp" />
+        android:layout_margin="10.0dp"
+        android:textStyle="italic" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewPassReg"
-        android:layout_margin="10.0dp" />
+        android:layout_margin="10.0dp"
+        android:textStyle="italic" />
     <EditText
         android:inputType="textPassword"
         android:layout_width="match_parent"
@@ -55,7 +58,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewPass2Reg"
-        android:layout_margin="10.0dp" />
+        android:layout_margin="10.0dp"
+        android:textStyle="italic" />
     <EditText
         android:inputType="textPassword"
         android:layout_width="match_parent"

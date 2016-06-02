@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 
 namespace BlockChainVotingsAndroid
 {
-    [Activity(Label = "BlockChainVotingsAndroid", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(/*Label = "BlockChainVotingsAndroid",*/ MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
 
@@ -28,10 +28,11 @@ namespace BlockChainVotingsAndroid
             this.SetTitle(Resource.String.blockChainVoting);
 
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+            //SetTheme(Android.Resource.Style.ThemeHoloLight);
 
             if (VotingsUser.PrivateKey != null && VotingsUser.PublicKey != null)
             {
-                CreateVotingSettingTabs();
+                CreateVotingSettingStatisticTabs();
             }
             else
             {
@@ -91,7 +92,7 @@ namespace BlockChainVotingsAndroid
             buttonReg.Click += ButtonReg_Click;
         }
 
-        private void CreateVotingSettingTabs()
+        private void CreateVotingSettingStatisticTabs()
         {
             ActionBar.RemoveAllTabs();
 
@@ -99,12 +100,17 @@ namespace BlockChainVotingsAndroid
             tabVoting.SetText(Resource.String.voting);
             tabVoting.TabSelected += TabVoting_TabSelected;
 
+            var tabStatistics = ActionBar.NewTab();
+            tabStatistics.SetText(Resource.String.statistics);
+            tabStatistics.TabSelected += TabStatistics_TabSelected;
+
             var tabSetting = ActionBar.NewTab();
             tabSetting.SetText(Resource.String.setting);
             tabSetting.TabSelected += TabSetting_TabSelected;
 
             tabVoting.Select();
             ActionBar.AddTab(tabVoting);
+            ActionBar.AddTab(tabStatistics);
             ActionBar.AddTab(tabSetting);
 
 
@@ -113,8 +119,80 @@ namespace BlockChainVotingsAndroid
                 blockChain.CheckRoot();
                 CommonHelpers.RootChecked = true;
                 blockChain.Start();
+
+
+                //blockChain.NewVoting += (s, a) =>
+                //{
+                //    var notificationManager =
+                //        GetSystemService(NotificationService) as NotificationManager;
+
+                //    PendingIntent contentIntent =
+                //        PendingIntent.GetActivity(this, 0,
+                //        new Intent(this, typeof(MainActivity)), 0);
+
+                //    var builder = new Notification.Builder(this);
+                //    builder.SetAutoCancel(true);
+                //    builder.SetContentTitle(Resources.GetString(Resource.String.newVoting));
+                //    builder.SetContentText(blockChain.GetVotingName(a.Data));
+                //    builder.SetSmallIcon(Resource.Drawable.Icon);
+                //    builder.SetContentIntent(contentIntent);
+                //    var notification = builder.Build();
+
+                //    notificationManager.Notify(1, notification);
+                //};
             }
 
+        }
+
+        private void TabStatistics_TabSelected(object sender, ActionBar.TabEventArgs e)
+        {
+            SetContentView(Resource.Layout.Statistics);
+
+            TextView textViewTransactions = FindViewById<TextView>(Resource.Id.textViewTransactions);
+            TextView textViewBlocks = FindViewById<TextView>(Resource.Id.textViewBlocks);
+            TextView textViewUsers = FindViewById<TextView>(Resource.Id.textViewUsers);
+            TextView textViewVotings = FindViewById<TextView>(Resource.Id.textViewVotings);
+            TextView textViewPeers = FindViewById<TextView>(Resource.Id.textViewPeers);
+            TextView textViewTrackers = FindViewById<TextView>(Resource.Id.textViewTrackers);
+
+
+            blockChain.NewTransaction += (s, a) =>
+            {
+                textViewTransactions.Text = a.Data.ToString();
+            };
+
+            blockChain.NewBlock += (s, a) =>
+            {
+                textViewBlocks.Text = a.Data.ToString();
+            };
+
+            blockChain.NewUser += (s, a) =>
+            {
+                textViewUsers.Text = a.Data.ToString();
+            };
+
+            blockChain.NewVoting += (s, a) =>
+            {
+                textViewVotings.Text = blockChain.GetVotings().Count.ToString();
+            };
+
+            CommonHelpers.PeersCountChanged += (s, a) =>
+            {
+                textViewPeers.Text = a.Data.ToString();
+            };
+
+            CommonHelpers.TrackersCountChanged += (s, a) =>
+            {
+                textViewTrackers.Text = a.Data.ToString();
+            };
+
+
+            textViewTransactions.Text = blockChain.GetTransactionsCount().ToString();
+            textViewBlocks.Text = blockChain.GetBlocksCount().ToString();
+            textViewUsers.Text = blockChain.GetUsersCount().ToString();
+            textViewVotings.Text = blockChain.GetVotings().Count.ToString();
+            textViewPeers.Text = blockChain.PeersCount.ToString();
+            textViewTrackers.Text = blockChain.TrackersCount.ToString();
         }
 
         private void TabSetting_TabSelected(object sender, ActionBar.TabEventArgs e)
@@ -255,7 +333,7 @@ namespace BlockChainVotingsAndroid
 
                 Toast.MakeText(this, Resource.String.voteComplete, ToastLength.Long);
 
-                CreateVotingSettingTabs();
+                CreateVotingSettingStatisticTabs();
             }
         }
 
@@ -339,7 +417,7 @@ namespace BlockChainVotingsAndroid
 
             if (VotingsUser.Login(editTextPass.Text))
             {
-                CreateVotingSettingTabs();
+                CreateVotingSettingStatisticTabs();
             }
             else
             {
@@ -379,7 +457,7 @@ namespace BlockChainVotingsAndroid
 
                 if (VotingsUser.Login(editTextPass1.Text))
                 {
-                    CreateVotingSettingTabs();
+                    CreateVotingSettingStatisticTabs();
                 }
             }
 

@@ -29,4 +29,13 @@
   <string name="voteComplete">Вы успешно проголосовали</string>
   <string name="user">пользователь</string>
   <string name="useLanLocalIP">Локальный IP</string>
+  <string name="transactions">Транзакции</string>
+  <string name="blocks">Блоки</string>
+  <string name="users">Пользователи</string>
+  <string name="votings">Голосования</string>
+  <string name="peers">Пиры</string>
+  <string name="statistics">Статистика</string>
+
+  <string name="newVoting">Новое голосование</string>
+  
 </resources>
