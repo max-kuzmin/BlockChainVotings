@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewTrackers"
-        android:layout_margin="10.0dp" />
+        android:layout_margin="10.0dp"
+        android:textStyle="italic" />
     <EditText
         android:inputType="textMultiLine"
         android:layout_width="match_parent"
@@ -23,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewNetConnection"
-        android:layout_margin="10.0dp" />
+        android:layout_margin="10.0dp"
+        android:textStyle="italic" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -49,7 +51,8 @@
         android:id="@+id/checkBoxCreateBlocks"
         android:layout_marginLeft="10.0dp"
         android:layout_marginRight="10.0dp"
-        android:layout_marginTop="10.0dp" />
+        android:layout_marginTop="10.0dp"
+        android:textStyle="italic" />
     <CheckBox
         android:text="@string/peerDiscovery"
         android:layout_width="match_parent"
@@ -57,13 +60,15 @@
         android:id="@+id/checkBoxPeerDiscovery"
         android:layout_marginLeft="10.0dp"
         android:layout_marginRight="10.0dp"
-        android:layout_marginTop="10.0dp" />
+        android:layout_marginTop="10.0dp"
+        android:textStyle="italic" />
     <CheckBox
         android:text="@string/useLanLocalIP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/checkBoxUseLanLocalIP"
-        android:layout_margin="10dp" />
+        android:layout_margin="10dp"
+        android:textStyle="italic" />
     <ScrollView
         android:id="@+id/scrollVIewConsole"
         android:layout_width="wrap_content"

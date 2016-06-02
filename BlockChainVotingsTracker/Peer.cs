@@ -51,8 +51,10 @@ namespace BlockChainVotingsTracker
 
             Thread.Sleep(CommonHelpers.MessagesInterval);
 
-
-            RequestPeerForHash();
+            if (Status == PeerStatus.NoHashRecieved)
+            {
+                RequestPeerForHash();
+            }
         }
 
 
@@ -82,20 +84,16 @@ namespace BlockChainVotingsTracker
             if (Address.Equals(incomingObject.SenderAddress))
             {
                 Peer reciever = ConnectedPeers.FirstOrDefault(peer => peer.Address.Equals(incomingObject.RecieverAddress));
-                if (reciever != null && reciever.ConnectedPeers.Contains(this))
+                try
                 {
-                    try
+                    if (reciever != null && reciever.ConnectedPeers.Contains(this))
                     {
                         reciever.Connection.SendObject(incomingObject.GetType().Name, incomingObject);
                     }
-                    catch
-                    {
-                        reciever.OnError();
-                    }
                 }
-                else
+                catch
                 {
-                    OnConnectedPeerError(incomingObject.RecieverAddress);
+                    reciever.OnError();
                 }
             }
 
@@ -109,19 +107,10 @@ namespace BlockChainVotingsTracker
             {
                 Disconnect();
             }
-        }
-
-        public void OnConnectedPeerError(EndPoint address)
-        {
-            var message = new PeerDisconnectMessage(address);
-            try
-            {
-                Connection.SendObject(message.GetType().Name, message);
-            }
-            catch
-            {
-                OnError();
-            }
+            //else
+            //{
+            //    SetupConnection(Connection);
+            //}
         }
 
 
@@ -246,12 +235,15 @@ namespace BlockChainVotingsTracker
                 }
             }
 
-            try
+            Task.Run(() =>
             {
-                Connection.Dispose();
-                Connection = null;
-            }
-            catch { }
+                try
+                {
+                    Connection?.Dispose();
+                    Connection = null;
+                }
+                catch { }
+            });
 
             Status = PeerStatus.Disconnected;
 

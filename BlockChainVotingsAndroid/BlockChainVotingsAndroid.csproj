@@ -116,6 +116,9 @@
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Setting.axml" />
     <AndroidResource Include="Resources\layout\Voting.axml" />
+    <AndroidResource Include="Resources\layout\Statistics.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml">

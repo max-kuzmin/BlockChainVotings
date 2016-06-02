@@ -57,7 +57,7 @@ namespace BlockChainVotings
         {
             if (Status == TrackerStatus.Connected)
             {
-                NetworkComms.Logger.Warn("Sent message of type " + message.Type.ToString());
+                NetworkComms.Logger.Warn("Sent message: " + message.Type.ToString());
 
                 var shellMessage = new ToPeerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true), peer.Address, message);
                 try
@@ -171,7 +171,7 @@ namespace BlockChainVotings
         private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
         {
 
-            NetworkComms.Logger.Warn("Message: " + incomingObject.Message.Type.ToString());
+            NetworkComms.Logger.Warn("Recieved message: " + incomingObject.Message.Type.ToString());
 
             if (incomingObject.RecieverAddress.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true)))
             {
@@ -226,11 +226,15 @@ namespace BlockChainVotings
 
             }
 
-            try { 
-                Connection.Dispose();
-                Connection = null;
-            }
-            catch { }
+            Task.Run(() =>
+            {
+                try
+                {
+                    Connection?.Dispose();
+                    Connection = null;
+                }
+                catch { }
+            });
 
             Status = TrackerStatus.Disconnected;
 

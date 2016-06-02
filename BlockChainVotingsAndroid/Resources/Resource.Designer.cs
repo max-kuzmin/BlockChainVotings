@@ -78,11 +78,11 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f050013
 			public const int buttonStop = 2131034131;
 			
-			// aapt resource value: 0x7f05001f
-			public const int buttonVote = 2131034143;
+			// aapt resource value: 0x7f050026
+			public const int buttonVote = 2131034150;
 			
-			// aapt resource value: 0x7f05001e
-			public const int checkBoxAgree = 2131034142;
+			// aapt resource value: 0x7f050025
+			public const int checkBoxAgree = 2131034149;
 			
 			// aapt resource value: 0x7f050014
 			public const int checkBoxCreateBlocks = 2131034132;
@@ -120,17 +120,23 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f050017
 			public const int scrollVIewConsole = 2131034135;
 			
-			// aapt resource value: 0x7f05001d
-			public const int spinnerCandidates = 2131034141;
+			// aapt resource value: 0x7f050024
+			public const int spinnerCandidates = 2131034148;
+			
+			// aapt resource value: 0x7f050022
+			public const int spinnerVoting = 2131034146;
+			
+			// aapt resource value: 0x7f050019
+			public const int textView1 = 2131034137;
 			
 			// aapt resource value: 0x7f05001b
-			public const int spinnerVoting = 2131034139;
+			public const int textViewBlocks = 2131034139;
 			
 			// aapt resource value: 0x7f050018
 			public const int textViewConsole = 2131034136;
 			
-			// aapt resource value: 0x7f050019
-			public const int textViewHello = 2131034137;
+			// aapt resource value: 0x7f050020
+			public const int textViewHello = 2131034144;
 			
 			// aapt resource value: 0x7f050010
 			public const int textViewNetConnection = 2131034128;
@@ -144,6 +150,9 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f050009
 			public const int textViewPassReg = 2131034121;
 			
+			// aapt resource value: 0x7f05001f
+			public const int textViewPeers = 2131034143;
+			
 			// aapt resource value: 0x7f050007
 			public const int textViewPrivateKeyReg = 2131034119;
 			
@@ -153,14 +162,26 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f050005
 			public const int textViewPublicKeyReg = 2131034117;
 			
-			// aapt resource value: 0x7f05001c
-			public const int textViewSelectCandidate = 2131034140;
+			// aapt resource value: 0x7f050023
+			public const int textViewSelectCandidate = 2131034147;
 			
-			// aapt resource value: 0x7f05001a
-			public const int textViewSelectVoting = 2131034138;
+			// aapt resource value: 0x7f050021
+			public const int textViewSelectVoting = 2131034145;
 			
 			// aapt resource value: 0x7f05000e
 			public const int textViewTrackers = 2131034126;
+			
+			// aapt resource value: 0x7f05001a
+			public const int textViewTransactions = 2131034138;
+			
+			// aapt resource value: 0x7f05001c
+			public const int textViewUsers = 2131034140;
+			
+			// aapt resource value: 0x7f05001d
+			public const int textViewVotings = 2131034141;
+			
+			// aapt resource value: 0x7f05001e
+			public const int view1 = 2131034142;
 			
 			static Id()
 			{
@@ -185,7 +206,10 @@ namespace BlockChainVotingsAndroid
 			public const int Setting = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int Voting = 2130903043;
+			public const int Statistics = 2130903043;
+			
+			// aapt resource value: 0x7f030004
+			public const int Voting = 2130903044;
 			
 			static Layout()
 			{
@@ -212,6 +236,9 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f04000a
 			public const int blockChainVoting = 2130968586;
 			
+			// aapt resource value: 0x7f04001f
+			public const int blocks = 2130968607;
+			
 			// aapt resource value: 0x7f04000e
 			public const int console = 2130968590;
 			
@@ -230,6 +257,9 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f04000d
 			public const int netConnection = 2130968589;
 			
+			// aapt resource value: 0x7f040024
+			public const int newVoting = 2130968612;
+			
 			// aapt resource value: 0x7f040004
 			public const int password = 2130968580;
 			
@@ -238,6 +268,9 @@ namespace BlockChainVotingsAndroid
 			
 			// aapt resource value: 0x7f040019
 			public const int peerDiscovery = 2130968601;
+			
+			// aapt resource value: 0x7f040022
+			public const int peers = 2130968610;
 			
 			// aapt resource value: 0x7f040003
 			public const int privateKey = 2130968579;
@@ -263,6 +296,9 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f04000b
 			public const int start = 2130968587;
 			
+			// aapt resource value: 0x7f040023
+			public const int statistics = 2130968611;
+			
 			// aapt resource value: 0x7f04000c
 			public const int stop = 2130968588;
 			
@@ -275,11 +311,17 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f040012
 			public const int trackers = 2130968594;
 			
+			// aapt resource value: 0x7f04001e
+			public const int transactions = 2130968606;
+			
 			// aapt resource value: 0x7f04001d
 			public const int useLanLocalIP = 2130968605;
 			
 			// aapt resource value: 0x7f04001c
 			public const int user = 2130968604;
+			
+			// aapt resource value: 0x7f040020
+			public const int users = 2130968608;
 			
 			// aapt resource value: 0x7f040018
 			public const int vote = 2130968600;
@@ -289,6 +331,9 @@ namespace BlockChainVotingsAndroid
 			
 			// aapt resource value: 0x7f040010
 			public const int voting = 2130968592;
+			
+			// aapt resource value: 0x7f040021
+			public const int votings = 2130968609;
 			
 			static String()
 			{

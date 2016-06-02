@@ -44,7 +44,6 @@ namespace BlockChainVotingsTracker
             {
                 var peer = new Peer(connection, Peers, t);
 
-
                 Peers.Add(peer);
             }
             else

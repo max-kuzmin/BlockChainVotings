@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewPublicKeyLogin"
-        android:layout_margin="10.0dp" />
+        android:layout_margin="10.0dp"
+        android:textStyle="italic" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewPassLogin"
-        android:layout_margin="10.0dp" />
+        android:layout_margin="10.0dp"
+        android:textStyle="italic" />
     <EditText
         android:inputType="textPassword"
         android:layout_width="match_parent"
