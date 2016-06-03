@@ -1,4 +1,5 @@
-﻿using NetworkCommsDotNet;
+﻿using Java.Lang;
+using NetworkCommsDotNet;
 using NetworkCommsDotNet.Tools;
 using Newtonsoft.Json.Linq;
 using System;
@@ -40,7 +41,7 @@ namespace BlockChainVotingsAndroid
         {
 
             NetworkComms.DisableLogging();
-            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "BlockChainVotings_log.txt");
+            LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleOnly);
             NetworkComms.EnableLogging(logger);
 
 
@@ -132,6 +133,7 @@ namespace BlockChainVotingsAndroid
 
         private void OnTransactionsMessage(object sender, MessageEventArgs e)
         {
+            Thread.Sleep(10);
             var message = e.Message as TransactionsMessage;
 
             foreach (var transaction in message.Transactions)
@@ -513,7 +515,6 @@ namespace BlockChainVotingsAndroid
                 db.PutTransaction(transaction);
 
                 NetworkComms.Logger.Warn("Added transaction " + transaction.Type.ToString() + " " + transaction.Hash);
-
 
                 NewTransaction?.Invoke(this, new IntEventArgs(db.TransactionsCount()));
 

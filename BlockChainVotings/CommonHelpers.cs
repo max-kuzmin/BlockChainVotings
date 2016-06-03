@@ -7,7 +7,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
@@ -17,6 +16,7 @@ using Virgil.Crypto;
 using Virgil.Crypto.Foundation;
 
 namespace BlockChainVotings
+
 {
     public static class CommonHelpers
     {
@@ -29,6 +29,8 @@ namespace BlockChainVotings
 
         static TimeSpan? dateDelta;
         public static int TransactionsInBlock { get { return 10; } }
+
+
 
 
         static public event EventHandler<IntEventArgs> PeersCountChanged;
@@ -212,6 +214,7 @@ namespace BlockChainVotings
                     break;
             }
         }
+
 
 
     }

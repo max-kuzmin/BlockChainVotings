@@ -72,6 +72,7 @@
             this.textBoxTrackers = new System.Windows.Forms.TextBox();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.panelFixer = new System.Windows.Forms.Panel();
             this.materialTabControl1.SuspendLayout();
             this.tabPageMain.SuspendLayout();
             this.tabPageOptions.SuspendLayout();
@@ -673,6 +674,13 @@
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
+            // panelFixer
+            // 
+            this.panelFixer.Location = new System.Drawing.Point(-24, 57);
+            this.panelFixer.Name = "panelFixer";
+            this.panelFixer.Size = new System.Drawing.Size(1549, 26);
+            this.panelFixer.TabIndex = 16;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -680,6 +688,7 @@
             this.ClientSize = new System.Drawing.Size(829, 565);
             this.Controls.Add(this.materialTabSelector1);
             this.Controls.Add(this.materialTabControl1);
+            this.Controls.Add(this.panelFixer);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(829, 545);
@@ -741,6 +750,7 @@
         private MaterialSkin.Controls.MaterialLabel materialLabelVotings;
         private MaterialSkin.Controls.MaterialCheckBox materialCheckBoxPeerDiscovery;
         private MaterialSkin.Controls.MaterialCheckBox materialCheckBoxUseLanLocalIP;
+        private System.Windows.Forms.Panel panelFixer;
     }
 }
 

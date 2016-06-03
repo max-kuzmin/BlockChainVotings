@@ -161,17 +161,14 @@ namespace BlockChainVotingsAndroid
 
         private void ConnectWithTracker()
         {
-
             //удаляем старую подписку на события
             tracker.OnTrackerDelete -= RemoveTracker;
             tracker.OnDisconnectPeer -= OnDisconnectPeerWithTracker;
             tracker.OnPeerHashMessage -= OnPeerHashMessageWithTracker;
             tracker.OnRequestPeersMessage -= OnRequestPeersMessageWithTracker;
 
-
             //при удалении трекера из списка отключаем пир
             tracker.OnTrackerDelete += RemoveTracker;
-
             //подписка на сообщения с трекера
             tracker.OnDisconnectPeer += OnDisconnectPeerWithTracker;
             tracker.OnPeerHashMessage += OnPeerHashMessageWithTracker;

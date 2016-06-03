@@ -257,8 +257,11 @@ namespace BlockChainVotingsAndroid
 			// aapt resource value: 0x7f04000d
 			public const int netConnection = 2130968589;
 			
+			// aapt resource value: 0x7f040025
+			public const int newVoting = 2130968613;
+			
 			// aapt resource value: 0x7f040024
-			public const int newVoting = 2130968612;
+			public const int noCandidates = 2130968612;
 			
 			// aapt resource value: 0x7f040004
 			public const int password = 2130968580;

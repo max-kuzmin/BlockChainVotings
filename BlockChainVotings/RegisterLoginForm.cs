@@ -24,6 +24,7 @@ namespace BlockChainVotings
 
             MaterialSkinManager.Instance.AddFormToManage(this);
 
+            panelFixer.BackColor = MaterialSkinManager.Instance.ColorScheme.PrimaryColor;
 
             this.Text = Properties.Resources.loginIntoNet;
             labelPassLogin.Text = Properties.Resources.pass;

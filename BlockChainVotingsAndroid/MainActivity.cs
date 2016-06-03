@@ -18,8 +18,8 @@ namespace BlockChainVotingsAndroid
     public class MainActivity : Activity
     {
 
-        static BlockChainVotings blockChain = new BlockChainVotings();
-
+        //public BlockChainServiceBinder ServiceBinder;
+        ConsoleToTextViewWriter writer = null;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -29,6 +29,13 @@ namespace BlockChainVotingsAndroid
 
             ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
             //SetTheme(Android.Resource.Style.ThemeHoloLight);
+
+            writer = new ConsoleToTextViewWriter(RunOnUiThread);
+            Console.SetOut(writer);
+
+            StartService(new Intent(this, typeof(BlockChainService)));
+            //BindService(new Intent(this, typeof(BlockChainService)), new BlockChainServiceConnection(this), Bind.Important);
+
 
             if (VotingsUser.PrivateKey != null && VotingsUser.PublicKey != null)
             {
@@ -94,6 +101,10 @@ namespace BlockChainVotingsAndroid
 
         private void CreateVotingSettingStatisticTabs()
         {
+
+            InitBlockChain();
+
+
             ActionBar.RemoveAllTabs();
 
             var tabVoting = ActionBar.NewTab();
@@ -113,35 +124,40 @@ namespace BlockChainVotingsAndroid
             ActionBar.AddTab(tabStatistics);
             ActionBar.AddTab(tabSetting);
 
+        }
 
-            if (!CommonHelpers.RootChecked)
+        private void InitBlockChain()
+        {
+            if (BlockChainService.BlockChain == null)
             {
-                blockChain.CheckRoot();
-                CommonHelpers.RootChecked = true;
-                blockChain.Start();
+                BlockChainService.BlockChain = new BlockChainVotings();
 
+                BlockChainService.BlockChain.CheckRoot();
 
-                //blockChain.NewVoting += (s, a) =>
-                //{
-                //    var notificationManager =
-                //        GetSystemService(NotificationService) as NotificationManager;
+                Task.Run(() =>
+                {
+                    BlockChainService.BlockChain.Start();
+                });
 
-                //    PendingIntent contentIntent =
-                //        PendingIntent.GetActivity(this, 0,
-                //        new Intent(this, typeof(MainActivity)), 0);
+                BlockChainService.BlockChain.NewVoting += (s, a) =>
+                {
+                    RunOnUiThread(() =>
+                    {
+                        var notificationManager = GetSystemService(NotificationService) as NotificationManager;
+                        PendingIntent contentIntent = PendingIntent.GetActivity(this, 0, new Intent(this, typeof(MainActivity)), 0);
 
-                //    var builder = new Notification.Builder(this);
-                //    builder.SetAutoCancel(true);
-                //    builder.SetContentTitle(Resources.GetString(Resource.String.newVoting));
-                //    builder.SetContentText(blockChain.GetVotingName(a.Data));
-                //    builder.SetSmallIcon(Resource.Drawable.Icon);
-                //    builder.SetContentIntent(contentIntent);
-                //    var notification = builder.Build();
+                        var builder = new Notification.Builder(this);
+                        builder.SetAutoCancel(true);
+                        builder.SetContentTitle(Resources.GetString(Resource.String.newVoting));
+                        builder.SetContentText(BlockChainService.BlockChain.GetVotingName(a.Data));
+                        builder.SetSmallIcon(Resource.Drawable.Icon);
+                        builder.SetContentIntent(contentIntent);
+                        var notification = builder.Build();
 
-                //    notificationManager.Notify(1, notification);
-                //};
+                        notificationManager.Notify(1, notification);
+                    });
+                };
             }
-
         }
 
         private void TabStatistics_TabSelected(object sender, ActionBar.TabEventArgs e)
@@ -156,43 +172,61 @@ namespace BlockChainVotingsAndroid
             TextView textViewTrackers = FindViewById<TextView>(Resource.Id.textViewTrackers);
 
 
-            blockChain.NewTransaction += (s, a) =>
+            BlockChainService.BlockChain.NewTransaction += (s, a) =>
             {
-                textViewTransactions.Text = a.Data.ToString();
+                RunOnUiThread(() =>
+                {
+                    textViewTransactions.Text = a.Data.ToString();
+                });
             };
 
-            blockChain.NewBlock += (s, a) =>
+            BlockChainService.BlockChain.NewBlock += (s, a) =>
             {
-                textViewBlocks.Text = a.Data.ToString();
+                RunOnUiThread(() =>
+                {
+                    textViewBlocks.Text = a.Data.ToString();
+                });
             };
 
-            blockChain.NewUser += (s, a) =>
+            BlockChainService.BlockChain.NewUser += (s, a) =>
             {
-                textViewUsers.Text = a.Data.ToString();
+                RunOnUiThread(() =>
+                {
+                    textViewUsers.Text = a.Data.ToString();
+                });
             };
 
-            blockChain.NewVoting += (s, a) =>
+            BlockChainService.BlockChain.NewVoting += (s, a) =>
             {
-                textViewVotings.Text = blockChain.GetVotings().Count.ToString();
+                RunOnUiThread(() =>
+                {
+                    textViewVotings.Text = BlockChainService.BlockChain.GetVotings().Count.ToString();
+                });
             };
 
             CommonHelpers.PeersCountChanged += (s, a) =>
             {
-                textViewPeers.Text = a.Data.ToString();
+                RunOnUiThread(() =>
+                {
+                    textViewPeers.Text = a.Data.ToString();
+                });
             };
 
             CommonHelpers.TrackersCountChanged += (s, a) =>
             {
-                textViewTrackers.Text = a.Data.ToString();
+                RunOnUiThread(() =>
+                {
+                    textViewTrackers.Text = a.Data.ToString();
+                });
             };
 
 
-            textViewTransactions.Text = blockChain.GetTransactionsCount().ToString();
-            textViewBlocks.Text = blockChain.GetBlocksCount().ToString();
-            textViewUsers.Text = blockChain.GetUsersCount().ToString();
-            textViewVotings.Text = blockChain.GetVotings().Count.ToString();
-            textViewPeers.Text = blockChain.PeersCount.ToString();
-            textViewTrackers.Text = blockChain.TrackersCount.ToString();
+            textViewTransactions.Text = BlockChainService.BlockChain.GetTransactionsCount().ToString();
+            textViewBlocks.Text = BlockChainService.BlockChain.GetBlocksCount().ToString();
+            textViewUsers.Text = BlockChainService.BlockChain.GetUsersCount().ToString();
+            textViewVotings.Text = BlockChainService.BlockChain.GetVotings().Count.ToString();
+            textViewPeers.Text = BlockChainService.BlockChain.PeersCount.ToString();
+            textViewTrackers.Text = BlockChainService.BlockChain.TrackersCount.ToString();
         }
 
         private void TabSetting_TabSelected(object sender, ActionBar.TabEventArgs e)
@@ -206,7 +240,7 @@ namespace BlockChainVotingsAndroid
             CheckBox checkBoxLocalIP = FindViewById<CheckBox>(Resource.Id.checkBoxUseLanLocalIP);
             EditText editTextTrackers = FindViewById<EditText>(Resource.Id.editTextTrackers);
 
-            buttonStart.Enabled = !(blockChain.Started);
+            buttonStart.Enabled = !(BlockChainService.BlockChain.Started);
 
             buttonStart.Click += ButtonStart_Click;
             buttonStop.Click += ButtonStop_Click;
@@ -223,8 +257,7 @@ namespace BlockChainVotingsAndroid
             //обработка вывода лога в консоль
             TextView textViewConsole = FindViewById<TextView>(Resource.Id.textViewConsole);
             textViewConsole.Text = ConsoleToTextViewWriter.Text;
-            ConsoleToTextViewWriter writer = new ConsoleToTextViewWriter(textViewConsole, RunOnUiThread);
-            Console.SetOut(writer);
+            writer.textView = textViewConsole;
 
         }
 
@@ -272,7 +305,7 @@ namespace BlockChainVotingsAndroid
 
             //установка имени
             TextView textViewHello = FindViewById<TextView>(Resource.Id.textViewHello);
-            string name = blockChain.GetMyName();
+            string name = BlockChainService.BlockChain.GetMyName();
             if (name == null)
             {
                 textViewHello.Text = Resources.GetString(Resource.String.hello) + ", " + Resources.GetString(Resource.String.user);
@@ -282,12 +315,15 @@ namespace BlockChainVotingsAndroid
                 textViewHello.Text = Resources.GetString(Resource.String.hello) + ", " + name;
             }
 
-            blockChain.NewTransaction += (s, ee) =>
+            BlockChainService.BlockChain.NewTransaction += (s, ee) =>
              {
-                 string name2 = blockChain.GetMyName();
+                 string name2 = BlockChainService.BlockChain.GetMyName();
                  if (name2 != null)
                  {
-                     textViewHello.Text = Resources.GetString(Resource.String.hello) + ", " + name2;
+                     RunOnUiThread(() =>
+                     {
+                         textViewHello.Text = Resources.GetString(Resource.String.hello) + ", " + name2;
+                     });
                  }
              };
 
@@ -297,7 +333,7 @@ namespace BlockChainVotingsAndroid
             //заполняем голосования
             Spinner votingsSpiner = FindViewById<Spinner>(Resource.Id.spinnerVoting);
 
-            var transactions = blockChain.GetOpenedVotings();
+            var transactions = BlockChainService.BlockChain.GetOpenedVotings();
             var list = new List<SpinerItem>();
 
             foreach (var item in transactions)
@@ -329,9 +365,14 @@ namespace BlockChainVotingsAndroid
                 var voting = (votingsSpiner.SelectedItem as SpinerItem).Value;
                 var candidate = (candidatesSpiner.SelectedItem as SpinerItem).Value;
 
-                blockChain.CreateVote(candidate.RecieverHash, voting.Hash);
+                Task.Run(() =>
+                {
+                    BlockChainService.BlockChain.CreateVote(candidate.RecieverHash, voting.Hash);
+                });
 
-                Toast.MakeText(this, Resource.String.voteComplete, ToastLength.Long);
+                var toast = Toast.MakeText(this, Resource.String.voteComplete, ToastLength.Long);
+                toast.SetGravity(GravityFlags.Center, 0, 0);
+                toast.Show();
 
                 CreateVotingSettingStatisticTabs();
             }
@@ -348,21 +389,27 @@ namespace BlockChainVotingsAndroid
             Spinner votingsSpiner = FindViewById<Spinner>(Resource.Id.spinnerVoting);
 
             var voting = (votingsSpiner.Adapter.GetItem(e.Position) as SpinerItem).Value;
-            var transactions = blockChain.GetCandidates(voting);
+            var transactions = BlockChainService.BlockChain.GetCandidates(voting);
             var list = new List<SpinerItem>();
 
             //пустая строка
-            list.Add(new SpinerItem("", null));
-
-            foreach (var item in transactions)
+            if (transactions == null)
             {
-                try
+                list.Add(new SpinerItem(Resources.GetString(Resource.String.noCandidates), null));
+            }
+            else
+            {
+                list.Add(new SpinerItem("-", null));
+                foreach (var item in transactions)
                 {
-                    var info = JObject.Parse(item.Info);
-                    string line = info["name"] + ", " + Resources.GetString(Resource.String.snils) + " " + info["id"];
-                    list.Add(new SpinerItem(line, item));
+                    try
+                    {
+                        var info = JObject.Parse(item.Info);
+                        string line = info["name"] + ", " + Resources.GetString(Resource.String.snils) + " " + info["id"];
+                        list.Add(new SpinerItem(line, item));
+                    }
+                    catch { }
                 }
-                catch { }
             }
 
             var arrayAdapter = new ArrayAdapter<SpinerItem>(this, Android.Resource.Layout.SimpleSpinnerDropDownItem, list);
@@ -394,7 +441,7 @@ namespace BlockChainVotingsAndroid
         {
             Button buttonStart = FindViewById<Button>(Resource.Id.buttonStart);
 
-            Task.Run(() => blockChain.Stop());
+            Task.Run(() => BlockChainService.BlockChain.Stop());
 
             buttonStart.Enabled = true;
         }
@@ -403,10 +450,10 @@ namespace BlockChainVotingsAndroid
         {
             Button buttonStart = FindViewById<Button>(Resource.Id.buttonStart);
 
-            Task.Run(() => blockChain.Start());
+            Task.Run(() => BlockChainService.BlockChain.Start());
 
             buttonStart.Enabled = false;
-            blockChain.Started = true;
+            BlockChainService.BlockChain.Started = true;
         }
 
         private void ButtonLogin_Click(object sender, EventArgs e)

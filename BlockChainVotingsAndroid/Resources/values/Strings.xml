@@ -35,7 +35,7 @@
   <string name="votings">Голосования</string>
   <string name="peers">Пиры</string>
   <string name="statistics">Статистика</string>
-
+  <string name="noCandidates">Дождитесь синхронизации БД</string>
   <string name="newVoting">Новое голосование</string>
   
 </resources>

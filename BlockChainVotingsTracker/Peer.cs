@@ -66,6 +66,7 @@ namespace BlockChainVotingsTracker
             this.allPeers = allPeers;
 
             this.Status = PeerStatus.NoHashRecieved;
+            ErrorsCount = 0;
 
             this.t = t;
             t.Elapsed += CheckConnection;
