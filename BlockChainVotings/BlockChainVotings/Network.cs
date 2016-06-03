@@ -34,7 +34,6 @@ namespace BlockChainVotings
         public Network()
         {
 
-
             Trackers = new List<Tracker>();
             Peers = new List<Peer>();
 

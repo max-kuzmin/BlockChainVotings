@@ -12,6 +12,7 @@ using System.Net.Sockets;
 using System.Net.NetworkInformation;
 using NetworkCommsDotNet.Connections.TCP;
 using System.Timers;
+using System.IO;
 
 namespace BlockChainVotingsTracker
 {
@@ -30,6 +31,8 @@ namespace BlockChainVotingsTracker
             t = new Timer(CommonHelpers.CheckAliveInterval);
 
             NetworkComms.DisableLogging();
+            if (File.Exists("BlockChainVotingsTracker_log.txt"))
+                File.Delete("BlockChainVotingsTracker_log.txt");
             LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "BlockChainVotingsTracker_log.txt");
             NetworkComms.EnableLogging(logger);
 

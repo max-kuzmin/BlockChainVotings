@@ -46,6 +46,7 @@
             this.textBoxPassLogin = new MaterialSkin.Controls.MaterialSingleLineTextField();
             this.labelPublicKeyLogin = new MaterialSkin.Controls.MaterialLabel();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
+            this.panelFixer = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPageRegister.SuspendLayout();
             this.tabPageLogin.SuspendLayout();
@@ -55,7 +56,7 @@
             // 
             this.buttonRegister.Depth = 0;
             this.buttonRegister.Location = new System.Drawing.Point(113, 393);
-            this.buttonRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRegister.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonRegister.Name = "buttonRegister";
             this.buttonRegister.Size = new System.Drawing.Size(261, 34);
@@ -70,7 +71,7 @@
             this.textBoxPasswordRegister.Depth = 0;
             this.textBoxPasswordRegister.Hint = "";
             this.textBoxPasswordRegister.Location = new System.Drawing.Point(71, 240);
-            this.textBoxPasswordRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPasswordRegister.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPasswordRegister.MaxLength = 32767;
             this.textBoxPasswordRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPasswordRegister.Name = "textBoxPasswordRegister";
@@ -118,7 +119,7 @@
             this.textBoxPrivateKeyRegister.Depth = 0;
             this.textBoxPrivateKeyRegister.Hint = "";
             this.textBoxPrivateKeyRegister.Location = new System.Drawing.Point(71, 148);
-            this.textBoxPrivateKeyRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPrivateKeyRegister.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPrivateKeyRegister.MaxLength = 32767;
             this.textBoxPrivateKeyRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPrivateKeyRegister.Name = "textBoxPrivateKeyRegister";
@@ -139,7 +140,7 @@
             this.textBoxPublicKeyRegister.ForeColor = System.Drawing.SystemColors.WindowText;
             this.textBoxPublicKeyRegister.Hint = "";
             this.textBoxPublicKeyRegister.Location = new System.Drawing.Point(71, 59);
-            this.textBoxPublicKeyRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPublicKeyRegister.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPublicKeyRegister.MaxLength = 32767;
             this.textBoxPublicKeyRegister.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPublicKeyRegister.Name = "textBoxPublicKeyRegister";
@@ -173,7 +174,7 @@
             this.tabControl1.Controls.Add(this.tabPageLogin);
             this.tabControl1.Depth = 0;
             this.tabControl1.Location = new System.Drawing.Point(8, 117);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.MouseState = MaterialSkin.MouseState.HOVER;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -193,9 +194,9 @@
             this.tabPageRegister.Controls.Add(this.labelPublicKeyRegister);
             this.tabPageRegister.Controls.Add(this.textBoxPrivateKeyRegister);
             this.tabPageRegister.Location = new System.Drawing.Point(4, 25);
-            this.tabPageRegister.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageRegister.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageRegister.Name = "tabPageRegister";
-            this.tabPageRegister.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageRegister.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageRegister.Size = new System.Drawing.Size(513, 451);
             this.tabPageRegister.TabIndex = 0;
             this.tabPageRegister.Text = "Register";
@@ -220,7 +221,7 @@
             this.textBoxPasswordRegister2.Depth = 0;
             this.textBoxPasswordRegister2.Hint = "";
             this.textBoxPasswordRegister2.Location = new System.Drawing.Point(71, 331);
-            this.textBoxPasswordRegister2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPasswordRegister2.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPasswordRegister2.MaxLength = 32767;
             this.textBoxPasswordRegister2.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPasswordRegister2.Name = "textBoxPasswordRegister2";
@@ -243,9 +244,9 @@
             this.tabPageLogin.Controls.Add(this.textBoxPassLogin);
             this.tabPageLogin.Controls.Add(this.labelPublicKeyLogin);
             this.tabPageLogin.Location = new System.Drawing.Point(4, 25);
-            this.tabPageLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageLogin.Margin = new System.Windows.Forms.Padding(4);
             this.tabPageLogin.Name = "tabPageLogin";
-            this.tabPageLogin.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPageLogin.Padding = new System.Windows.Forms.Padding(4);
             this.tabPageLogin.Size = new System.Drawing.Size(513, 451);
             this.tabPageLogin.TabIndex = 1;
             this.tabPageLogin.Text = "Login";
@@ -258,7 +259,7 @@
             this.textBoxPublicKeyLogin.ForeColor = System.Drawing.SystemColors.WindowText;
             this.textBoxPublicKeyLogin.Hint = "";
             this.textBoxPublicKeyLogin.Location = new System.Drawing.Point(71, 126);
-            this.textBoxPublicKeyLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPublicKeyLogin.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPublicKeyLogin.MaxLength = 32767;
             this.textBoxPublicKeyLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPublicKeyLogin.Name = "textBoxPublicKeyLogin";
@@ -289,7 +290,7 @@
             // 
             this.buttonLogin.Depth = 0;
             this.buttonLogin.Location = new System.Drawing.Point(156, 351);
-            this.buttonLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonLogin.Margin = new System.Windows.Forms.Padding(4);
             this.buttonLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(189, 34);
@@ -304,7 +305,7 @@
             this.textBoxPassLogin.Depth = 0;
             this.textBoxPassLogin.Hint = "";
             this.textBoxPassLogin.Location = new System.Drawing.Point(71, 219);
-            this.textBoxPassLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxPassLogin.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxPassLogin.MaxLength = 32767;
             this.textBoxPassLogin.MouseState = MaterialSkin.MouseState.HOVER;
             this.textBoxPassLogin.Name = "textBoxPassLogin";
@@ -345,6 +346,13 @@
             this.materialTabSelector1.TabIndex = 11;
             this.materialTabSelector1.Text = "materialTabSelector1";
             // 
+            // panelFixer
+            // 
+            this.panelFixer.Location = new System.Drawing.Point(-5, 60);
+            this.panelFixer.Name = "panelFixer";
+            this.panelFixer.Size = new System.Drawing.Size(914, 22);
+            this.panelFixer.TabIndex = 17;
+            // 
             // RegisterLoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -352,7 +360,8 @@
             this.ClientSize = new System.Drawing.Size(537, 610);
             this.Controls.Add(this.materialTabSelector1);
             this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Controls.Add(this.panelFixer);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "RegisterLoginForm";
             this.Sizable = false;
@@ -387,5 +396,6 @@
         private MaterialSkin.Controls.MaterialTabSelector materialTabSelector1;
         private MaterialSkin.Controls.MaterialRaisedButton buttonRegister;
         private MaterialSkin.Controls.MaterialRaisedButton buttonLogin;
+        private System.Windows.Forms.Panel panelFixer;
     }
 }

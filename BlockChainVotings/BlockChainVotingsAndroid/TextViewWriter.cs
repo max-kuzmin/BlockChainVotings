@@ -6,19 +6,47 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.Widget;
 using Android.App;
+using System.Timers;
 
 namespace BlockChainVotingsAndroid
 {
-    public class ConsoleToTextViewWriter : TextWriter
+    public class ConsoleToTextViewWriter : TextWriter, IDisposable
     {
-        TextView textView = null;
+        public TextView textView = null;
         Action<Action> runOnUi;
+        Timer t;
 
-        public ConsoleToTextViewWriter(TextView textView, Action<Action> runOnUiThread)
+        public ConsoleToTextViewWriter(Action<Action> runOnUiThread)
         {
-            this.textView = textView;
             this.runOnUi = runOnUiThread;
+
+            t = new Timer();
+            t.Elapsed += T_Elapsed;
+            t.Interval = CommonHelpers.MessagesInterval;
+            t.Start();
         }
+
+        private void T_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (textView != null)
+                try
+                {
+                    runOnUi(new Action(() =>
+                    {
+                        if (Text.Length > 10000)
+                        {
+                            Text = Text.Substring(Text.Length - 10000);
+                            textView.Text = Text;
+                        }
+                        else
+                        {
+                            textView.Text = Text;
+                        }
+                    }));
+                }
+                catch { }
+        }
+
 
         public static string Text = "";
         string line = "";
@@ -34,14 +62,6 @@ namespace BlockChainVotingsAndroid
                 if (!line.Contains("Trace]"))
                 {
                     Text += line;
-                    try
-                    {
-                        runOnUi(new Action(() =>
-                        {
-                            textView.Text = Text;
-                        }));
-                    }
-                    catch { }
                 }
                 line = "";
             }
@@ -50,6 +70,15 @@ namespace BlockChainVotingsAndroid
         public override Encoding Encoding
         {
             get { return Encoding.UTF8; }
+        }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            t.Stop();
+            t.Dispose();
         }
     }
 }

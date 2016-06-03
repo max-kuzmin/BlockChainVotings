@@ -28,8 +28,6 @@ namespace BlockChainVotingsAndroid
         static TimeSpan? dateDelta;
         public static int TransactionsInBlock { get { return 10; } }
 
-        static public bool RootChecked = false;
-
 
         static public event EventHandler<IntEventArgs> PeersCountChanged;
         static public event EventHandler<IntEventArgs> TrackersCountChanged;
@@ -81,8 +79,6 @@ namespace BlockChainVotingsAndroid
             else
                 return new IPEndPoint(wanLocalAddr, port);
         }
-
-
 
         static public void LogPeers(List<Peer> peers)
         {

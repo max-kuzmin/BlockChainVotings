@@ -183,7 +183,7 @@ namespace BlockChainVotingsAndroid
         private void AddPeer(EndPoint address, Tracker tracker = null, bool withTracker = false)
         {
             if (!(Peers.Any(peer => peer.Address.Equals(address)))
-                && !(address.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort))))
+                && !(address.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true))))
             {
                 var peer = new Peer(address, Peers, tracker);
                 Peers.Add(peer);
@@ -369,9 +369,6 @@ namespace BlockChainVotingsAndroid
             ConnectToPeers();
             t.Start();
         }
-
-
-
 
 
     }

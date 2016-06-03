@@ -26,6 +26,8 @@ namespace BlockChainVotings
 
             MaterialSkinManager.Instance.ROBOTO_MEDIUM_9 = new Font("Arial", 9);
 
+            panelFixer.BackColor = MaterialSkinManager.Instance.ColorScheme.PrimaryColor;
+
             this.Text = Properties.Resources.votingSoftware;
             materialLabelAbout.Text = Properties.Resources.about;
             materialLabelBlocks.Text = Properties.Resources.blocks;

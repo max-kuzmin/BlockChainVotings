@@ -3,9 +3,11 @@ using NetworkCommsDotNet.Tools;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using Virgil.Crypto;
@@ -19,7 +21,7 @@ namespace BlockChainVotings
 
         public bool Started = false;
 
-        Timer t;
+        System.Timers.Timer t;
 
         //блоки и транзакции, для проверки которых требуются дополнительные загрузки
         Dictionary<Block, DateTime> pendingBlocks;
@@ -37,6 +39,8 @@ namespace BlockChainVotings
         {
 
             NetworkComms.DisableLogging();
+            if (File.Exists("BlockChainVotings_log.txt"))
+                File.Delete("BlockChainVotings_log.txt");
             LiteLogger logger = new LiteLogger(LiteLogger.LogMode.ConsoleAndLogFile, "BlockChainVotings_log.txt");
             NetworkComms.EnableLogging(logger);
 
@@ -46,7 +50,7 @@ namespace BlockChainVotings
 
             db.ConnectToDBAsync();
 
-            t = new Timer(CommonHelpers.PeersCheckInterval * 10);
+            t = new System.Timers.Timer(CommonHelpers.PeersCheckInterval * 10);
 
             pendingBlocks = new Dictionary<Block, DateTime>();
             pendingTransactions = new Dictionary<Transaction, DateTime>();
@@ -129,6 +133,7 @@ namespace BlockChainVotings
 
         private void OnTransactionsMessage(object sender, MessageEventArgs e)
         {
+            Thread.Sleep(10);
             var message = e.Message as TransactionsMessage;
 
             foreach (var transaction in message.Transactions)

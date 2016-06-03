@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,7 +59,7 @@ namespace BlockChainVotingsAndroid
             {
                 NetworkComms.Logger.Warn("Sent message: " + message.Type.ToString());
 
-                var shellMessage = new ToPeerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), peer.Address, message);
+                var shellMessage = new ToPeerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true), peer.Address, message);
                 try
                 {
                     Connection.SendObject(shellMessage.GetType().Name, shellMessage);
@@ -78,7 +77,7 @@ namespace BlockChainVotingsAndroid
         {
             if (Status == TrackerStatus.Connected)
             {
-                var message = new ConnectToPeerWithTrackerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort), peerToConnect.Address);
+                var message = new ConnectToPeerWithTrackerMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true), peerToConnect.Address);
                 try
                 {
                     Connection.SendObject(message.GetType().Name, message);
@@ -97,7 +96,6 @@ namespace BlockChainVotingsAndroid
         {
             if (Status == TrackerStatus.Disconnected)
             {
-
                 try
                 {
                     ConnectionInfo connInfo = new ConnectionInfo(Address);
@@ -138,7 +136,6 @@ namespace BlockChainVotingsAndroid
                 }
                 catch
                 {
-
                     ErrorsCount++;
                     Status = TrackerStatus.Disconnected;
 
@@ -176,7 +173,7 @@ namespace BlockChainVotingsAndroid
 
             NetworkComms.Logger.Warn("Recieved message: " + incomingObject.Message.Type.ToString());
 
-            if (incomingObject.RecieverAddress.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort)))
+            if (incomingObject.RecieverAddress.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true)))
             {
                 var eventArgs = new MessageEventArgs(incomingObject.Message, null, incomingObject.SenderAddress);
 
@@ -215,10 +212,12 @@ namespace BlockChainVotingsAndroid
         {
             allTrackers.Remove(this);
 
+            OnTrackerDelete?.Invoke(this, new EventArgs());
+
             if (Status == TrackerStatus.Connected)
             {
 
-                var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort));
+                var message = new PeerDisconnectMessage(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true));
                 try
                 {
                     Connection.SendObject(message.GetType().Name, message);
@@ -237,10 +236,7 @@ namespace BlockChainVotingsAndroid
                 catch { }
             });
 
-
             Status = TrackerStatus.Disconnected;
-
-            OnTrackerDelete?.Invoke(this, new EventArgs());
 
             CommonHelpers.LogTrackers(allTrackers);
         }
