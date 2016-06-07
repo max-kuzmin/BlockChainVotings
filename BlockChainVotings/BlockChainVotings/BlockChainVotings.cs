@@ -19,7 +19,10 @@ namespace BlockChainVotings
         VotingsDB db;
         Network net;
 
-        public bool Started = false;
+        public bool Started
+        {
+            get { return net.Started; }
+        }
 
         System.Timers.Timer t;
 
@@ -72,16 +75,6 @@ namespace BlockChainVotings
 
             net.Connect();
 
-            //Task.Run(() =>
-            //{
-            //    System.Threading.Thread.Sleep(CommonHelpers.WaitAfterStartInterval);
-            //RequestLastBlock();
-            //RequestLastFreeTransactions();
-
-            //});
-
-
-            Started = true;
 
 
         }
@@ -98,7 +91,6 @@ namespace BlockChainVotings
 
             net.Disconnect();
 
-            Started = false;
         }
 
         private void CheckDeleteOldPendingItems(object sender, ElapsedEventArgs e)
@@ -237,7 +229,7 @@ namespace BlockChainVotings
         }
 
 
-        public void RequestBlock(string hash, EndPoint peerAddress = null)
+        private void RequestBlock(string hash, EndPoint peerAddress = null)
         {
             var list = new List<string>();
             list.Add(hash);
@@ -264,7 +256,7 @@ namespace BlockChainVotings
             }
         }
 
-        public void RequestTransaction(string hash, EndPoint peerAddress = null)
+        private void RequestTransaction(string hash, EndPoint peerAddress = null)
         {
             var list = new List<string>();
             list.Add(hash);
@@ -276,7 +268,7 @@ namespace BlockChainVotings
                 net.SendMessageToPeer(message, peerAddress);
         }
 
-        public bool CheckBlock(Block block, EndPoint peerAddress = null)
+        private bool CheckBlock(Block block, EndPoint peerAddress = null)
         {
 
             if (db.GetBlock(block.Hash) != null) return false;
@@ -440,7 +432,7 @@ namespace BlockChainVotings
             else return GetLastBlockFromPending(nextBlock);
         }
 
-        public bool CheckTransaction(Transaction transaction, EndPoint peerAddress = null)
+        private bool CheckTransaction(Transaction transaction, EndPoint peerAddress = null)
         {
 
             if (db.GetTransaction(transaction.Hash) != null) return false;
@@ -623,7 +615,7 @@ namespace BlockChainVotings
             if (transaction.Date0 < db.GetTransaction(transaction.PreviousHash).Date0) return false;
 
 
-            var existsUser = db.GetSameUser(transaction.PreviousHash);
+            var existsUser = db.GetSameUser(transaction);
             //проверка существования копий транзакции
             if (existsUser != null)
             {
@@ -848,7 +840,7 @@ namespace BlockChainVotings
 
         }
 
-        public void MakeBlock()
+        private void MakeBlock()
         {
 
             var transactions = db.GetFreeTransactions(CommonHelpers.TransactionsInBlock);
@@ -1021,7 +1013,7 @@ namespace BlockChainVotings
         }
 
 
-        public int UserAsCandiddateCount(string userHash)
+        public int GetUserAsCandiddateCount(string userHash)
         {
             return db.UserAsCandidateCount(userHash);
         }

@@ -179,9 +179,9 @@ namespace BlockChainVotings
         }
 
 
-        public Transaction GetSameUser(string userPreviousHash)
+        public Transaction GetSameUser(Transaction user)
         {
-            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.CreateUser && tr.PreviousHash == userPreviousHash);
+            var query = dbAsync.Table<Transaction>().Where(tr => tr.Type == TransactionType.CreateUser && tr.PreviousHash == user.PreviousHash && tr.Hash != user.Hash);
             var elems = query.FirstOrDefaultAsync();
             elems.Wait();
             return elems.Result;
