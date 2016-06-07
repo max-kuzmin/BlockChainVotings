@@ -19,6 +19,7 @@ namespace BlockChainVotingsAndroid
         public List<Peer> Peers { get; private set; }
         public List<Tracker> Trackers { get; private set; }
 
+		public bool Started { get; private set; }
 
         int normalPeersCount = 10;
 
@@ -336,10 +337,14 @@ namespace BlockChainVotingsAndroid
             NetworkComms.Shutdown();
 
             NetworkComms.Logger.Warn("===== Client stopped =====");
+
+			Started = false;
         }
 
         public void Connect()
         {
+			Started = true;
+
             ParseTrackers();
 
             try

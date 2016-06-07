@@ -181,29 +181,5 @@ namespace BlockChainVotingsAndroid
         }
 
 
-        static Transaction ChangeRootUserTransation()
-        {
-            //var tr = new Transaction();
-            //tr.Type = TransactionType.ChangeRootUser;
-            //return tr;
-
-            throw new NotImplementedException();
-        }
-
-
-        ////
-
-        //[ProtoBeforeSerialization]
-        //private void Serialize()
-        //{
-        //    Date = Date0.Ticks;
-        //}
-
-        //[ProtoAfterDeserialization]
-        //private void Deserialize()
-        //{
-        //    //Date0 = new DateTime(Date);
-        //    InBlock = false;
-        //}
     }
 }

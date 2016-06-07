@@ -18,7 +18,10 @@ namespace BlockChainVotingsAndroid
         VotingsDB db;
         Network net;
 
-        public bool Started = false;
+        public bool Started
+        {
+            get { return net.Started; }
+        }
 
         Timer t;
 
@@ -72,16 +75,6 @@ namespace BlockChainVotingsAndroid
 
             net.Connect();
 
-            //Task.Run(() =>
-            //{
-            //    System.Threading.Thread.Sleep(CommonHelpers.WaitAfterStartInterval);
-            //RequestLastBlock();
-            //RequestLastFreeTransactions();
-
-            //});
-
-
-            Started = true;
 
 
         }
@@ -98,7 +91,6 @@ namespace BlockChainVotingsAndroid
 
             net.Disconnect();
 
-            Started = false;
         }
 
         private void CheckDeleteOldPendingItems(object sender, ElapsedEventArgs e)

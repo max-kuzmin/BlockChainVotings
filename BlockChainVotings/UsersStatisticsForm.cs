@@ -133,7 +133,7 @@ namespace BlockChainVotings
                 labelNumVotesVal.Text = votings.Count.ToString();
                 labelHashVal.Text = userHash;
                 labelActivityVal.Text = lastVote == null ? "-" : lastVote.Date0.ToString();
-                materialLabelAsCandidateVal.Text = blockChain.UserAsCandiddateCount(userHash).ToString();
+                materialLabelAsCandidateVal.Text = blockChain.GetUserAsCandiddateCount(userHash).ToString();
 
                 if (ban == null)
                     labelStatusVal.Text = Properties.Resources.active;

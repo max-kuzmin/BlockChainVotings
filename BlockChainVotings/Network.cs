@@ -19,6 +19,7 @@ namespace BlockChainVotings
         public List<Peer> Peers { get; private set; }
         public List<Tracker> Trackers { get; private set; }
 
+        public bool Started { get; private set; }
 
         int normalPeersCount = 10;
 
@@ -226,7 +227,7 @@ namespace BlockChainVotings
             }
         }
 
-        public void RequestPeers()
+        private void RequestPeers()
         {
             //считаем сколько нужно пиров
             int needPeersCount = normalPeersCount - Peers.Where(peer => peer.Status == PeerStatus.Connected).Count();
@@ -336,10 +337,14 @@ namespace BlockChainVotings
             NetworkComms.Shutdown();
 
             NetworkComms.Logger.Warn("===== Client stopped =====");
+
+            Started = false;
         }
 
         public void Connect()
         {
+            Started = true;
+
             ParseTrackers();
 
             try

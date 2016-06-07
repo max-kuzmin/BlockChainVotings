@@ -43,7 +43,7 @@ namespace BlockChainVotingsTracker
         {
             var existPeer = Peers.FirstOrDefault(p => p.Address.Equals(connection.ConnectionInfo.RemoteEndPoint));
 
-            if (existPeer == null)
+            if (existPeer == null && (connection.ConnectionInfo.RemoteEndPoint as IPEndPoint).Port != CommonHelpers.TrackerPort)
             {
                 var peer = new Peer(connection, Peers, t);
 
