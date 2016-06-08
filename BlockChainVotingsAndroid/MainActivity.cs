@@ -453,7 +453,6 @@ namespace BlockChainVotingsAndroid
             Task.Run(() => BlockChainService.BlockChain.Start());
 
             buttonStart.Enabled = false;
-            BlockChainService.BlockChain.Started = true;
         }
 
         private void ButtonLogin_Click(object sender, EventArgs e)
