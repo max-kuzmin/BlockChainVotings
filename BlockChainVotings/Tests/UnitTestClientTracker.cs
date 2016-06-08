@@ -19,7 +19,6 @@ namespace Tests
             NetworkComms.Shutdown();
 
             int myPort = CommonHelpers.PeerPort + 2;
-            string hash = "hash1";
             VotingsUser.PeerDiscovery = true;
 
             Tracker tracker1 = null;

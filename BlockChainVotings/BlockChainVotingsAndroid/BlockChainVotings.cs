@@ -615,7 +615,7 @@ namespace BlockChainVotingsAndroid
             if (transaction.Date0 < db.GetTransaction(transaction.PreviousHash).Date0) return false;
 
 
-            var existsUser = db.GetSameUser(transaction.PreviousHash);
+            var existsUser = db.GetSameUser(transaction);
             //проверка существования копий транзакции
             if (existsUser != null)
             {
