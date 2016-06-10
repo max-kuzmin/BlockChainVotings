@@ -560,7 +560,7 @@ namespace SQLite
 		/// The fully escaped SQL.
 		/// </param>
 		/// <param name="args">
-		/// Arguments to substitute for the occurences of '?' in the command text.
+		/// Arguments to substitute for the occurrences of '?' in the command text.
 		/// </param>
 		/// <returns>
 		/// A <see cref="SQLiteCommand"/>
@@ -590,7 +590,7 @@ namespace SQLite
 		/// The fully escaped SQL.
 		/// </param>
 		/// <param name="args">
-		/// Arguments to substitute for the occurences of '?' in the query.
+		/// Arguments to substitute for the occurrences of '?' in the query.
 		/// </param>
 		/// <returns>
 		/// The number of rows modified in the database as a result of this execution.
@@ -651,7 +651,7 @@ namespace SQLite
 		/// The fully escaped SQL.
 		/// </param>
 		/// <param name="args">
-		/// Arguments to substitute for the occurences of '?' in the query.
+		/// Arguments to substitute for the occurrences of '?' in the query.
 		/// </param>
 		/// <returns>
 		/// An enumerable with one result for each row returned by the query.
@@ -672,7 +672,7 @@ namespace SQLite
 		/// The fully escaped SQL.
 		/// </param>
 		/// <param name="args">
-		/// Arguments to substitute for the occurences of '?' in the query.
+		/// Arguments to substitute for the occurrences of '?' in the query.
 		/// </param>
 		/// <returns>
 		/// An enumerable with one result for each row returned by the query.
@@ -700,7 +700,7 @@ namespace SQLite
 		/// The fully escaped SQL.
 		/// </param>
 		/// <param name="args">
-		/// Arguments to substitute for the occurences of '?' in the query.
+		/// Arguments to substitute for the occurrences of '?' in the query.
 		/// </param>
 		/// <returns>
 		/// An enumerable with one result for each row returned by the query.
@@ -726,7 +726,7 @@ namespace SQLite
 		/// The fully escaped SQL.
 		/// </param>
 		/// <param name="args">
-		/// Arguments to substitute for the occurences of '?' in the query.
+		/// Arguments to substitute for the occurrences of '?' in the query.
 		/// </param>
 		/// <returns>
 		/// An enumerable with one result for each row returned by the query.

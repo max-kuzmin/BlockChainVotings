@@ -188,7 +188,7 @@ namespace BlockChainVotingsAndroid
         private void RemoveTracker(object sender, EventArgs e)
         {
 
-            //если отключено обнаружение, то удаляем пир, поскльку без трекера он не может подключиться
+            //если отключено обнаружение, то удаляем пир, поскольку без трекера он не может подключиться
             if (!VotingsUser.PeerDiscovery)
             {
                 DisconnectAny();

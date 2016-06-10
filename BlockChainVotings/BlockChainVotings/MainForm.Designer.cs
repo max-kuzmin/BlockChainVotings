@@ -192,7 +192,7 @@
             this.materialLabelAvaliableVotings.Name = "materialLabelAvaliableVotings";
             this.materialLabelAvaliableVotings.Size = new System.Drawing.Size(301, 28);
             this.materialLabelAvaliableVotings.TabIndex = 21;
-            this.materialLabelAvaliableVotings.Text = "Avaliable votings";
+            this.materialLabelAvaliableVotings.Text = "Available votings";
             this.materialLabelAvaliableVotings.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // materialDivider3
@@ -349,7 +349,7 @@
             this.materialLabelConnectedTrackers.Name = "materialLabelConnectedTrackers";
             this.materialLabelConnectedTrackers.Size = new System.Drawing.Size(143, 19);
             this.materialLabelConnectedTrackers.TabIndex = 8;
-            this.materialLabelConnectedTrackers.Text = "Conected trackers";
+            this.materialLabelConnectedTrackers.Text = "Connected trackers";
             // 
             // materialLabelUsersVal
             // 

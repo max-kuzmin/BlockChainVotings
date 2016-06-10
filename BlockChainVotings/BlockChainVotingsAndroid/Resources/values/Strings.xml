@@ -9,7 +9,7 @@
   <string name="login">Вход</string>
   <string name="toRegister">Зарегистрироваться</string>
   <string name="toLogin">Войти</string>
-  <string name="blockChainVoting">Система элеткронных голосований</string>
+  <string name="blockChainVoting">Система электронных голосований</string>
   <string name="start">Старт</string>
   <string name="stop">Стоп</string>
   <string name="netConnection">Подключение к сети</string>
@@ -25,7 +25,7 @@
   <string name="agree">Согласен</string>
   <string name="vote">Голосовать</string>
   <string name="peerDiscovery">Обнаружение пиров</string>
-  <string name="hello">Здравсвуйте</string>
+  <string name="hello">Здравствуйте</string>
   <string name="voteComplete">Вы успешно проголосовали</string>
   <string name="user">пользователь</string>
   <string name="useLanLocalIP">Локальный IP</string>

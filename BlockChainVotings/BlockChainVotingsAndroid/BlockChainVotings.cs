@@ -351,7 +351,7 @@ namespace BlockChainVotingsAndroid
                 var lastBlockInChain = GetLastBlockFromPending(block);
                 var lastBlockInDB = db.GetLastBlock();
 
-                //если цепочка нового блока длинее или цепочки равны, но дата нового блока раньше
+                //если цепочка нового блока длиннее или цепочки равны, но дата нового блока раньше
                 if ((lastBlockInChain.Number > lastBlockInDB.Number) ||
                     (lastBlockInChain.Number == lastBlockInDB.Number && block.Date0 < blockCopyInDB.Date0))
                 {
@@ -369,7 +369,7 @@ namespace BlockChainVotingsAndroid
 
                     //добавляем блок обратно в ожидающие
                     pendingBlocks.Add(block, CommonHelpers.GetTime());
-                    //запускаем проверку последнего ожидаещего блока из цепочки (он снова загрузит нужные транзакции)
+                    //запускаем проверку последнего ожидающего блока из цепочки (он снова загрузит нужные транзакции)
                     CheckBlock(lastBlockInChain);
 
                 }
@@ -584,7 +584,7 @@ namespace BlockChainVotingsAndroid
                 if (existsVote.Status == TransactionStatus.InBlock) return false;
                 //если копия транзакции старее и при этом свободна, то выход
                 else if (existsVote.Date0 <= transaction.Date0 && existsVote.Status == TransactionStatus.Free) return false;
-                //иначе удаляем сущесвующую транзакцию из базы 
+                //иначе удаляем существующую транзакцию из базы 
                 else
                 {
                     db.DeleteTransaction(existsVote);
@@ -623,7 +623,7 @@ namespace BlockChainVotingsAndroid
                 if (existsUser.Status == TransactionStatus.InBlock) return false;
                 //если копия транзакции старее и при этом свободна, то выход
                 else if (existsUser.Date0 <= transaction.Date0 && existsUser.Status == TransactionStatus.Free) return false;
-                //иначе удаляем сущесвующую транзакцию из базы 
+                //иначе удаляем существующую транзакцию из базы 
                 else
                 {
                     db.DeleteTransaction(existsUser);
@@ -684,7 +684,7 @@ namespace BlockChainVotingsAndroid
                 if (existsBan.Status == TransactionStatus.InBlock) return false;
                 //если копия транзакции старее и при этом свободна, то выход
                 else if (existsBan.Date0 <= transaction.Date0 && existsBan.Status == TransactionStatus.Free) return false;
-                //иначе удаляем сущесвующую транзакцию из базы 
+                //иначе удаляем существующую транзакцию из базы 
                 else
                 {
                     db.DeleteTransaction(existsBan);
@@ -753,7 +753,7 @@ namespace BlockChainVotingsAndroid
                 if (existsVoting.Status == TransactionStatus.InBlock) return false;
                 //если копия транзакции старее и при этом свободна, то выход
                 else if (existsVoting.Date0 <= transaction.Date0 && existsVoting.Status == TransactionStatus.Free) return false;
-                //иначе удаляем сущесвующую транзакцию из базы 
+                //иначе удаляем существующую транзакцию из базы 
                 else
                 {
                     db.DeleteTransaction(existsVoting);
