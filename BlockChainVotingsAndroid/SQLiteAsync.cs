@@ -462,7 +462,7 @@ namespace SQLite
 		/// <summary>
 		/// Call this method when the application is suspended.
 		/// </summary>
-		/// <remarks>Behaviour here is to close any open connections.</remarks>
+		/// <remarks>Behavior here is to close any open connections.</remarks>
 		public void ApplicationSuspended ()
 		{
 			Reset ();

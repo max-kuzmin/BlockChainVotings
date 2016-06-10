@@ -199,7 +199,7 @@ namespace BlockChainVotingsTracker
 
         private void RequestPeerForHash()
         {
-            //отправить пусой хеш и ожидать его хеш
+            //отправить пустой хеш и ожидать его хеш
             var message = new PeerHashMessage(string.Empty, true);
 
             try
@@ -224,7 +224,7 @@ namespace BlockChainVotingsTracker
                 //удалить это пир из списка того пира
                 peer.ConnectedPeers.Remove(this);
 
-                //отправить тому пиру сообщение об оключении
+                //отправить тому пиру сообщение об отключении
                 var message = new PeerDisconnectMessage(Address);
                 try
                 {

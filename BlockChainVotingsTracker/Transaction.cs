@@ -43,7 +43,7 @@ namespace BlockChainVotingsTracker
 
 
 
-        //поле для нахождения несвязаных в блоки транзакций
+        //поле для нахождения несвязанных в блоки транзакций
         [ProtoMember(39)]
         public TransactionStatus Status { get; set; }
 

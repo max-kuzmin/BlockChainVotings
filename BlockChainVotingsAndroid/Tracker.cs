@@ -171,7 +171,7 @@ namespace BlockChainVotingsAndroid
         private void OnToPeerMessage(PacketHeader packetHeader, Connection connection, ToPeerMessage incomingObject)
         {
 
-            NetworkComms.Logger.Warn("Recieved message: " + incomingObject.Message.Type.ToString());
+            NetworkComms.Logger.Warn("Received message: " + incomingObject.Message.Type.ToString());
 
             if (incomingObject.RecieverAddress.Equals(CommonHelpers.GetLocalEndPoint(CommonHelpers.PeerPort, true)))
             {

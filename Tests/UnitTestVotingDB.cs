@@ -62,7 +62,7 @@ namespace Tests
             db0.InsertAsync(ban).Wait();
 
 
-            //тестоввый блок
+            //тестовый блок
             var trs = new List<Transaction>();
             trs.Add(ban);
             trs.Add(vote);
@@ -78,7 +78,7 @@ namespace Tests
         [TestMethod]
         public void TestMethodTransactions()
         {
-            //проверка поиска траназкций
+            //проверка поиска транзакций
             db0.DeleteAsync(ban).Wait();
             Assert.IsTrue(db.SearchUsers(userName).Count == 1);
             Assert.IsTrue(db.SearchUsers(VotingsUser.PublicKey).Count == 1);
