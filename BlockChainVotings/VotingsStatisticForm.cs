@@ -2,6 +2,7 @@
 using MaterialSkin.Controls;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -101,6 +102,8 @@ namespace BlockChainVotings
                     sum += user.Value;
                 }
 
+                listViewCandidates.ListViewItemSorter = new CandidatesComparer();
+                listViewCandidates.Sort();
 
                 string[] strSum = new string[4];
 
@@ -114,15 +117,15 @@ namespace BlockChainVotings
             }
 
 
-            if (int.Parse(listViewCandidates.Items[0].SubItems[3].Text) > int.Parse(listViewCandidates.Items[1].SubItems[3].Text))
+            if (int.Parse(listViewCandidates.Items[1].SubItems[3].Text) > int.Parse(listViewCandidates.Items[2].SubItems[3].Text))
             {
 
-                int persent = (int)(int.Parse(listViewCandidates.Items[0].SubItems[3].Text) / (double)sum * 100d);
+                int persent = (int)(int.Parse(listViewCandidates.Items[1].SubItems[3].Text) / (double)sum * 100d);
 
-                labelCandidateName.Text = listViewCandidates.Items[0].SubItems[1].Text + ",\n" + Properties.Resources.userID + " ";
-                labelCandidateName.Text += listViewCandidates.Items[0].SubItems[2].Text + ",\n" + listViewCandidates.Items[0].SubItems[0].Text;
+                labelCandidateName.Text = listViewCandidates.Items[1].SubItems[1].Text + ",\n" + Properties.Resources.userID + " ";
+                labelCandidateName.Text += listViewCandidates.Items[1].SubItems[2].Text + ",\n" + listViewCandidates.Items[1].SubItems[0].Text;
 
-                materialLabelResult.Text = listViewCandidates.Items[0].SubItems[3].Text + " " + Properties.Resources.votes + ", " + persent + "%";
+                materialLabelResult.Text = listViewCandidates.Items[1].SubItems[3].Text + " " + Properties.Resources.votes + ", " + persent + "%";
             }
             else
             {
@@ -173,5 +176,20 @@ namespace BlockChainVotings
         }
 
 
+    }
+
+
+
+    class CandidatesComparer : IComparer
+    {
+        public int Compare(object xx, object yy)
+        {
+            ListViewItem x = xx as ListViewItem;
+            ListViewItem y = yy as ListViewItem;
+
+            if (int.Parse(x.SubItems[3].Text) > int.Parse(y.SubItems[3].Text)) return -1;
+            else if (int.Parse(y.SubItems[3].Text) > int.Parse(y.SubItems[3].Text)) return 0;
+            else return 1;
+        }
     }
 }
